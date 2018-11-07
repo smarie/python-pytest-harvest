@@ -1,0 +1,98 @@
+language: python
+
+cache: pip
+
+python:
+#  - "2.6"
+  - "2.7"
+#  - "3.2"
+#  - "3.3"
+#  - "3.4"
+  - "3.5"
+#  - "3.5-dev" # 3.5 development branch
+  - "3.6"
+#  - "3.6-dev" # 3.6 development branch
+  - "3.7"
+#  - "3.7-dev" # 3.7 development branch
+#  - "nightly" # currently points to 3.7-dev
+# PyPy versions
+#  - "pypy"  # PyPy2 2.5.0
+#  - "pypy3" # Pypy3 2.4.0
+#  - "pypy-5.3.1"
+#
+
+env:
+  global:
+  - GH_REF: git@github.com:smarie/python-pytest-harvest.git
+
+before_install:
+  - sudo apt-get install pandoc
+  - sudo apt-get install ant
+  - sudo apt-get install ant-optional
+
+install:
+  - pip install -r ci_tools/requirements-setup.txt
+  - pip install -r ci_tools/requirements-test.txt
+  - pip install -r ci_tools/requirements-report.txt
+  - pip install -r ci_tools/requirements-doc.txt
+  - pip install codecov    # https://github.com/codecov/example-python. This is specific to travis integration
+# - pip install coveralls  # this is an alternative to codecov
+
+script:
+#  - coverage run tests.py
+  - pip install .
+  - python -c "import os; os.chdir('..'); import pytest_harvest"
+# ***tests***
+#  - coverage run tests.py
+#  - pytest --junitxml=reports/junit/junit.xml --html=reports/junit/report.html --cov-report term-missing --cov=./pytest_harvest -v pytest_harvest/tests/
+# now done in a dedicated script to capture exit code 1 and transform it to 0
+  - chmod a+x ./ci_tools/run_tests.sh
+  - sh ./ci_tools/run_tests.sh
+
+after_success:
+# ***reporting***
+#  - junit2html junit.xml testrun.html  output is really not nice
+  - ant -f ci_tools/generate-junit-html.xml  # generates the html for the test results. Actually we dont use it anymore
+  - python ci_tools/generate-junit-badge.py  # generates the badge for the test results
+  - codecov
+  - pylint pytest_harvest  # note that at the moment the report is simply lost, we dont transform the result into anything
+# ***documentation***
+  - mkdocs build -f docs/mkdocs.yml
+  - mv reports/junit site/
+  # mkdocs gh-deploy requires special care :
+  # ---grant the possibility to push on the repo---
+  - openssl aes-256-cbc -K $encrypted_2897aec94c69_key -iv $encrypted_2897aec94c69_iv -in ci_tools/github_travis_rsa.enc -out ci_tools/github_travis_rsa -d
+  # If the output file does not exist, that is because the secret is invalid. This can happen in forked repos so do not fail the build
+  - |
+    if [ -s "ci_tools/github_travis_rsa" ]; then
+      chmod 600 ci_tools/github_travis_rsa
+      eval `ssh-agent -s`  # launch the authentication agent
+      ssh-add ci_tools/github_travis_rsa  # register the key
+      git config user.name "Automatic Publish"
+      git config user.email "sylvain.marie@schneider-electric.com"
+      git remote add gh-remote "${GH_REF}";
+      git fetch gh-remote && git fetch gh-remote gh-pages:gh-pages;
+      # push but only if this is not a build triggered by a pull request
+      # note: here we use the --dirty flag so that mkdocs does not clean the additional reports that we copied in the site
+      if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_PYTHON_VERSION}" = "3.5" ]; then echo "Pushing to github"; PYTHONPATH=pytest_harvest/ mkdocs gh-deploy -v --dirty -f docs/mkdocs.yml --remote-name gh-remote; git push gh-remote gh-pages; fi;
+    else
+      echo "File 'ci_tools/github_travis_rsa' has not been created, please check your encrypted repo token in .travis.yml, on the line starting with 'openssl aes-256-cbc...'"
+    fi
+
+deploy:
+  provider: pypi
+  user: "smarie"
+  password:
+    secure: "q693g+4gKp4rzD1FuqCIxO20Tpj50m7R8TGlH+IeDEF3ecFK5AyCRKhK1ag6RpQWDMWJe1ouRU6/js8vy68c8QE9rjfS3OtaQgyY1/F87KXyUxBJPz5XypXLbs7Q25DjysE8i5LTmlO+Xls1jQcRF5j5Vm5Iw7tF4JApkSvvcLkaanA4IArg3KOWS0qVy31xTfmRofJC2XKjjTZqHSWjcENpfzaLDEv8RWRIzBtqwdrSsqeVpv3xPrkAQY4YLBy/u4sS+yZJBx9t3z94tK5QxKi5nx2uBBe13dhVs2Q+DviMoZVxeRgQJU34NiBPq81lZlaIOqew52tFNF+GVtgpUTriI4Auhw4OACdExrjClCNoUR4NBFXlKBEQxYYjs2FQx00wDMuzgbK5i7H2xQlPGbLafuuzy7Lc00svfqGw17k8TWqVW3n9RpIqP6qnukm2O+gl6RF0UUCScx74GCHnuoT2i4VJ40qoJfhrOpkVEL4L7/nID18RQ5TSJKkH7cCJvMsVwMEjNYcTg2JBTYr0rymG47L3QZ2ppjdwBtvfoYqwsufh/ViC2gwn7l+Q4WdHUWS/sK4+qvAszOGStjdmxYRuVur9Nsuh69ck3zoquQqnWqjkI3zRl+oCWThmuAdMsT9t+6aCkgP1xlZaQLNSkklg1BUSFEanoKqGFBdo/mk="
+  on:
+    tags: true
+    python: 3.5  #only one of the builds have to be deployed
+#  server: https://test.pypi.org/legacy/
+  distributions: "sdist bdist_wheel"
+
+matrix:
+    fast_finish: true
+
+notifications:
+  email:
+    on_success: never  # options: [always|never|change] default: always
