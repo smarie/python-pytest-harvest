@@ -8,9 +8,7 @@ import six
 
 THIS_DIR = dirname(__file__)
 tests_raw_folder = join(THIS_DIR, pardir, 'tests_raw')
-tests_raw_directories = list(os.walk(tests_raw_folder))
-assert len(tests_raw_directories) == 1
-test_files = tests_raw_directories[0][2]
+test_files = [f for f in os.listdir(tests_raw_folder) if not f[0].startswith('_')]
 
 
 META_REGEX = re.compile(
