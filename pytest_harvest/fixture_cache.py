@@ -1,7 +1,7 @@
 from collections import OrderedDict
 from inspect import isgeneratorfunction
 
-from pytest_steps.decorator_hack import my_decorate
+from pytest_harvest.decorator_hack import my_decorate
 
 
 try:  # python 3+
