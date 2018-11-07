@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="0" name="pytest" skips="0" tests="1" time="0.157"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="22" name="test_run_all_tests[test_fixture_cache.py]" time="0.08827924728393555"><system-out>
+<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="0" name="pytest" skips="0" tests="1" time="0.160"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="22" name="test_run_all_tests[test_fixture_cache.py]" time="0.08963322639465332"><system-out>
 Testing that running pytest on file test_fixture_cache.py results in {&apos;passed&apos;: 2}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.7.1, py-1.5.4, pluggy-0.7.1
