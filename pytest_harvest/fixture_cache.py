@@ -1,0 +1,159 @@
+from collections import OrderedDict
+from inspect import isgeneratorfunction
+
+from pytest_steps.decorator_hack import my_decorate
+
+
+try:  # python 3+
+    from typing import Union, Any, Dict
+except ImportError:
+    pass
+
+
+try:
+    from pytest_steps.steps_generator import get_underlying_fixture
+except ImportError:
+    def get_underlying_fixture(x):
+        return x
+
+
+def saved_fixture(store,     # type: Union[str, Dict[str, Any]]
+                  key=None  # type: str
+                  ):
+    """
+    Decorates a fixture so that it is saved in `store`. `store` can be a dict-like variable or a string
+    representing a fixture name to a dict-like session-scoped fixture (TODO)
+
+    After executing all tests, <store> will contain a new item under key <name>. This item is a dictionary
+    <test_id>: <fixture_value> for each test node.
+
+    ```python
+    from random import random
+
+    @saved_fixture('storage')
+    @pytest.fixture
+    def dummy():
+         return random()
+    ```
+
+    :param store: a dict-like object or a fixture name corresponding to a dict-like object. in this dictionary, a new
+        entry will be added for the fixture. This entry will contain a dictionary <test_id>: <fixture_value> for each
+        test node.
+    :param key: the name associated with the stored fixture in the store. By default this is the fixture name.
+    :return: a fixture that will be stored
+    """
+    # trick to support both with-args and without args usage
+    return _saved_fixture(store, key)
+
+
+def _saved_fixture(*args, **kwargs):
+    """ Inner decorator creation method to support no-arg calls """
+    if len(args) == 1 and callable(args[0]):
+        # called without arguments, directly decorates a function
+        # Note: since store is currently mandatory, this never happens.
+        # But we keep it in case of signature change
+        f = args[0]
+        return make_saved_fixture(f)
+    else:
+        # return a function decorator
+        def _decorator(f):
+            return make_saved_fixture(f, *args, **kwargs)
+        return _decorator
+
+
+def get_fixture_name(fixture_fun):
+    """
+    Internal utility to retrieve the fixture name corresponding to the given fixture function.
+    Indeed there is currently no pytest API to do this.
+
+    :param fixture_fun:
+    :return:
+    """
+    custom_fixture_name = getattr(fixture_fun._pytestfixturefunction, 'name', None)
+    if custom_fixture_name is not None:
+        # there is a custom fixture name
+        return custom_fixture_name
+    else:
+        obj__name = getattr(fixture_fun, '__name__', None)
+        if obj__name is not None:
+            # a function, probably
+            return obj__name
+        else:
+            # a callable object probably
+            return str(fixture_fun)
+
+
+def make_saved_fixture(fixture_fun,
+                       store,  # type: Union[str, Dict[str, Any]]
+                       key=None  # type: str
+                       ):
+    """
+    Manual decorator to decorate a fixture so that it is saved in a storage.
+
+    ```python
+    def f():
+        return "dummy"
+
+    # manually make a fixture from f
+    f = pytest.fixture(f)
+
+    # manually declare that it should be saved
+    f = make_saved_fixture(f)
+    ```
+
+    See `@saved_fixture` decorator for parameter details.
+    """
+
+    # Check that this is a fixture
+    if not hasattr(fixture_fun, '_pytestfixturefunction'):
+        raise ValueError("'%s' is not a valid @pytest.fixture." % fixture_fun)
+
+    # Check that fixture_fun has function scope
+    fixture_name = get_fixture_name(fixture_fun)
+    fixture_scope = fixture_fun._pytestfixturefunction.scope
+    if fixture_scope != 'function':
+        raise ValueError("'%s' fixture has wrong scope '%s'. Only function-scoped fixtures can be stored as of today"
+                         "" % (fixture_name, fixture_scope))
+
+    # Name to use for storage
+    key = key or fixture_name
+    if key in store.keys():
+        raise ValueError("Key '%s' already exists in store object. Please make sure that your store object is "
+                         "properly initialized as an empty dict-like object, and/or provide a different custom `name` "
+                         "if two stored fixtures share the same storage key name.")
+
+    # Init storage
+    store[key] = OrderedDict()
+
+    # Wrap in the correct mode (generator or not)
+    if not isgeneratorfunction(fixture_fun):
+        def fixture_wrapper(f, request, *args, **kwargs):
+            """Wraps a fixture so as to store it before it is returned"""
+            if request.node.nodeid in store[key]:
+                raise KeyError("Internal Error - This fixture '%s' was already "
+                               "stored for test id '%s'" % (key, request.node.nodeid))
+
+            fixture_value = f(*args, **kwargs)                                       # Get the fixture
+            store[key][request.node.nodeid] = get_underlying_fixture(fixture_value)  # Store it
+            return fixture_value                                                     # Return it
+
+    else:
+        def fixture_wrapper(f, request, *args, **kwargs):
+            """Wraps a fixture so as to store it before it is returned (generator mode)"""
+            gen = f(*args, **kwargs)
+            if request.node.nodeid in store[key]:
+                raise KeyError("Internal Error - This fixture '%s' was already "
+                               "stored for test id '%s'" % (key, request.node.nodeid))
+
+            fixture_value = next(gen)                                                # Get the fixture
+            store[key][request.node.nodeid] = get_underlying_fixture(fixture_value)  # Store it
+            yield fixture_value                                                      # Return it
+
+            # Make sure to terminate the underlying generator
+            try:
+                next(gen)
+            except StopIteration:
+                pass
+
+    stored_fixture_function = my_decorate(fixture_fun, fixture_wrapper, additional_args=('request', ))
+    return stored_fixture_function
