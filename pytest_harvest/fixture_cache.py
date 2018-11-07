@@ -17,7 +17,7 @@ except ImportError:
         return x
 
 
-def saved_fixture(store,     # type: Union[str, Dict[str, Any]]
+def saved_fixture(store,    # type: Union[str, Dict[str, Any]]
                   key=None  # type: str
                   ):
     """
@@ -84,7 +84,7 @@ def get_fixture_name(fixture_fun):
 
 
 def make_saved_fixture(fixture_fun,
-                       store,  # type: Union[str, Dict[str, Any]]
+                       store,    # type: Union[str, Dict[str, Any]]
                        key=None  # type: str
                        ):
     """
@@ -117,36 +117,58 @@ def make_saved_fixture(fixture_fun,
 
     # Name to use for storage
     key = key or fixture_name
-    if key in store.keys():
-        raise ValueError("Key '%s' already exists in store object. Please make sure that your store object is "
-                         "properly initialized as an empty dict-like object, and/or provide a different custom `name` "
-                         "if two stored fixtures share the same storage key name.")
 
-    # Init storage
-    store[key] = OrderedDict()
+    # is the store a fixture or an object ?
+    store_is_a_fixture = isinstance(store, str)
 
-    # Wrap in the correct mode (generator or not)
+    # if the store object is already available, we can ensure that it is initialized. Otherwise trust pytest for that
+    if not store_is_a_fixture:
+        if key in store.keys():
+            raise ValueError("Key '%s' already exists in store object. Please make sure that your store object is "
+                             "properly initialized as an empty dict-like object, and/or provide a different custom "
+                             "`name` if two stored fixtures share the same storage key name.")
+
+    # Note: we can not init the storage[key] entry here because when storage is a fixture, it does not yet exist.
+
+    def _init_and_check(request, store):
+        # Init storage if needed
+        if key not in store:
+            store[key] = OrderedDict()
+        # Check that the node id is unique
+        if request.node.nodeid in store[key]:
+            raise KeyError("Internal Error - This fixture '%s' was already "
+                           "stored for test id '%s'" % (key, request.node.nodeid))
+
+    # Wrap the fixture in the correct mode (generator or not)
     if not isgeneratorfunction(fixture_fun):
         def fixture_wrapper(f, request, *args, **kwargs):
             """Wraps a fixture so as to store it before it is returned"""
-            if request.node.nodeid in store[key]:
-                raise KeyError("Internal Error - This fixture '%s' was already "
-                               "stored for test id '%s'" % (key, request.node.nodeid))
-
+            # get the actual store object
+            if store_is_a_fixture:
+                store_ = args[0]
+                args = args[1:]
+            else:
+                # use the variable from outer scope (from `make_saved_fixture`)
+                store_ = store
+            _init_and_check(request, store_)
             fixture_value = f(*args, **kwargs)                                       # Get the fixture
-            store[key][request.node.nodeid] = get_underlying_fixture(fixture_value)  # Store it
+            store_[key][request.node.nodeid] = get_underlying_fixture(fixture_value)  # Store it
             return fixture_value                                                     # Return it
 
     else:
         def fixture_wrapper(f, request, *args, **kwargs):
             """Wraps a fixture so as to store it before it is returned (generator mode)"""
+            # get the actual store object
+            if store_is_a_fixture:
+                store_ = args[0]
+                args = args[1:]
+            else:
+                # use the variable from outer scope (from `make_saved_fixture`)
+                store_ = store
+            _init_and_check(request, store_)
             gen = f(*args, **kwargs)
-            if request.node.nodeid in store[key]:
-                raise KeyError("Internal Error - This fixture '%s' was already "
-                               "stored for test id '%s'" % (key, request.node.nodeid))
-
             fixture_value = next(gen)                                                # Get the fixture
-            store[key][request.node.nodeid] = get_underlying_fixture(fixture_value)  # Store it
+            store_[key][request.node.nodeid] = get_underlying_fixture(fixture_value)  # Store it
             yield fixture_value                                                      # Return it
 
             # Make sure to terminate the underlying generator
@@ -155,5 +177,10 @@ def make_saved_fixture(fixture_fun,
             except StopIteration:
                 pass
 
-    stored_fixture_function = my_decorate(fixture_fun, fixture_wrapper, additional_args=('request', ))
+    if store_is_a_fixture:
+        # add 'store' as second positional argument
+        stored_fixture_function = my_decorate(fixture_fun, fixture_wrapper, additional_args=('request', store))
+    else:
+        stored_fixture_function = my_decorate(fixture_fun, fixture_wrapper, additional_args=('request', ))
+
     return stored_fixture_function
