@@ -34,6 +34,8 @@ before_install:
   - sudo apt-get install ant-optional
 
 install:
+  - pip uninstall pluggy
+  - pip install pluggy
   - python ci_tools/pip_install.py ci_tools/requirements-setup.txt
   - python ci_tools/pip_install.py ci_tools/requirements-test.txt
   - python ci_tools/pip_install.py ci_tools/requirements-report.txt
