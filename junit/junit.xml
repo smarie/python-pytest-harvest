@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="0" name="pytest" skips="0" tests="3" time="0.315"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="20" name="test_run_all_tests[test_saved_fixture_in_fixture.py]" time="0.09075689315795898"><system-out>
+Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
+============================= test session starts ==============================
+platform linux -- Python 3.5.6, pytest-3.7.1, py-1.5.4, pluggy-0.7.1
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests0, inifile:
+plugins: metadata-1.7.0, html-1.16.0, cov-2.5.0
+collected 2 items
+
+test_run_all_tests.py ..                                                 [100%]
+
+=========================== 2 passed in 0.02 seconds ===========================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="20" name="test_run_all_tests[test_get_session_results.py]" time="0.06536078453063965"><system-out>
+Testing that running pytest on file test_get_session_results.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
+============================= test session starts ==============================
+platform linux -- Python 3.5.6, pytest-3.7.1, py-1.5.4, pluggy-0.7.1
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests1, inifile:
+plugins: metadata-1.7.0, html-1.16.0, cov-2.5.0
+collected 2 items
+
+test_run_all_tests.py ..                                                 [100%]
+
+=========================== 2 passed in 0.02 seconds ===========================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="20" name="test_run_all_tests[test_saved_fixture_in_global_var.py]" time="0.06967592239379883"><system-out>
+Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
+============================= test session starts ==============================
+platform linux -- Python 3.5.6, pytest-3.7.1, py-1.5.4, pluggy-0.7.1
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests2, inifile:
+plugins: metadata-1.7.0, html-1.16.0, cov-2.5.0
+collected 2 items
+
+test_run_all_tests.py ..                                                 [100%]
+
+=========================== 2 passed in 0.02 seconds ===========================
+</system-out></testcase></testsuite>
