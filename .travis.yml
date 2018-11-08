@@ -25,8 +25,8 @@ env:
   global:
   - GH_REF: git@github.com:smarie/python-pytest-harvest.git
   matrix:
-  - PYTEST_VERSION=<3
-  - PYTEST_VERSION=<4
+  - PYTEST_VERSION="<3"
+  - PYTEST_VERSION="<4"
 
 before_install:
   - sudo apt-get install pandoc
