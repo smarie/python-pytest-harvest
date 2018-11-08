@@ -19,7 +19,7 @@ def install(packages):
     all_pkgs_str = " ".join(all_pkgs)
     print("INSTALLING: pip install " + all_pkgs_str)
     # This old method does not exist in latest pip:     # pip.main(['install'] + packages)
-    subprocess.check_call(["python", '-m', 'pip', 'install'] + packages) # install pkg
+    subprocess.check_call(['pip', 'install'] + packages) # install pkg
 
 
 env_var_regexp = re.compile(".*\$(\S+).*")
@@ -34,7 +34,7 @@ if __name__ == '__main__':
         all_pkgs = []
         for line in f.readlines():
             # First remove any comment on that line
-            splitted = line.split('#', maxsplit=1)
+            splitted = line.split('#', 1)  # (maxsplit=1) but python 2 does not support it :)
             splitted = splitted[0].strip().rstrip()
             if splitted != '':
                 # the replace env vars
