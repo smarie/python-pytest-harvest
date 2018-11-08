@@ -235,7 +235,7 @@ function filter_table(elem) {
 }
 </script>
     <h1>report.html</h1>
-    <p>Report generated on 08-Nov-2018 at 17:06:03 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
+    <p>Report generated on 08-Nov-2018 at 17:09:18 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -246,13 +246,13 @@ function filter_table(elem) {
         <td>/usr/lib/jvm/java-8-oracle</td></tr>
       <tr>
         <td>Packages</td>
-        <td>{&apos;pytest&apos;: &apos;3.0.0&apos;, &apos;py&apos;: &apos;1.5.4&apos;, &apos;pluggy&apos;: &apos;0.3.1&apos;}</td></tr>
+        <td>{&apos;pytest&apos;: &apos;3.0.0&apos;, &apos;pluggy&apos;: &apos;0.3.1&apos;, &apos;py&apos;: &apos;1.5.4&apos;}</td></tr>
       <tr>
         <td>Platform</td>
         <td>Linux-4.4.0-101-generic-x86_64-with-debian-jessie-sid</td></tr>
       <tr>
         <td>Plugins</td>
-        <td>{&apos;metadata&apos;: &apos;1.7.0&apos;, &apos;logging&apos;: &apos;2015.11.4&apos;, &apos;html&apos;: &apos;1.19.0&apos;, &apos;cov&apos;: &apos;2.6.0&apos;}</td></tr>
+        <td>{&apos;cov&apos;: &apos;2.6.0&apos;, &apos;html&apos;: &apos;1.19.0&apos;, &apos;metadata&apos;: &apos;1.7.0&apos;, &apos;logging&apos;: &apos;2015.11.4&apos;}</td></tr>
       <tr>
         <td>Python</td>
         <td>3.5.6</td></tr>
@@ -261,28 +261,28 @@ function filter_table(elem) {
         <td>master</td></tr>
       <tr>
         <td>TRAVIS_BUILD_ID</td>
-        <td>452490419</td></tr>
+        <td>452492304</td></tr>
       <tr>
         <td>TRAVIS_BUILD_NUMBER</td>
-        <td>12</td></tr>
+        <td>13</td></tr>
       <tr>
         <td>TRAVIS_COMMIT</td>
-        <td>2ab991422385ba09d5fa47d608e0d16bf8a73324</td></tr>
+        <td>bc62faf4592ff5f9f3edce6d18c1d78fef6096c2</td></tr>
       <tr>
         <td>TRAVIS_COMMIT_MESSAGE</td>
-        <td>fixed pip install script (was not working for recent pips)</td></tr>
+        <td>Still fixing pip install script for CI</td></tr>
       <tr>
         <td>TRAVIS_COMMIT_RANGE</td>
-        <td>882d5aa2f988...2ab991422385</td></tr>
+        <td>2ab991422385...bc62faf4592f</td></tr>
       <tr>
         <td>TRAVIS_EVENT_TYPE</td>
         <td>push</td></tr>
       <tr>
         <td>TRAVIS_JOB_ID</td>
-        <td>452490439</td></tr>
+        <td>452492309</td></tr>
       <tr>
         <td>TRAVIS_JOB_NUMBER</td>
-        <td>12.5</td></tr>
+        <td>13.5</td></tr>
       <tr>
         <td>TRAVIS_OS_NAME</td>
         <td>linux</td></tr>
@@ -296,7 +296,7 @@ function filter_table(elem) {
         <td>TRAVIS_SUDO</td>
         <td>true</td></tr></table>
     <h2>Summary</h2>
-    <p>2 tests ran in 0.17 seconds. </p>
+    <p>2 tests ran in 0.18 seconds. </p>
     <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">2 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
@@ -312,12 +312,12 @@ function filter_table(elem) {
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_saved_fixture_in_fixture.py]</td>
-          <td class="col-duration">0.05</td>
+          <td class="col-duration">0.06</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&#x27;failed&#x27;: 0, &#x27;passed&#x27;: 2}
+Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&#x27;passed&#x27;: 2, &#x27;failed&#x27;: 0}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.0.0, py-1.5.4, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests0, inifile: 
@@ -337,7 +337,7 @@ test_run_all_tests.py ..
         <tr>
           <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&#x27;failed&#x27;: 0, &#x27;passed&#x27;: 2}
+Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&#x27;passed&#x27;: 2, &#x27;failed&#x27;: 0}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.0.0, py-1.5.4, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1, inifile: 
@@ -346,5 +346,5 @@ collected 2 items
 
 test_run_all_tests.py ..
 
-=========================== 2 passed in 0.02 seconds ===========================
+=========================== 2 passed in 0.01 seconds ===========================
 </div></td></tr></tbody></table></body></html>
