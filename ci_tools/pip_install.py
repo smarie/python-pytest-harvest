@@ -7,15 +7,19 @@ import os
 
 import re
 import sys
-import pip
+import subprocess
 
 
 def install(packages):
-    # for package in packages:
-    #     pip.main(['install', package])
+    """
+    Installs all packages provided at once
+    :param packages:
+    :return:
+    """
     all_pkgs_str = " ".join(all_pkgs)
     print("INSTALLING: pip install " + all_pkgs_str)
-    pip.main(['install'] + packages)
+    # This old method does not exist in latest pip:     # pip.main(['install'] + packages)
+    subprocess.check_call(["python", '-m', 'pip', 'install'] + packages) # install pkg
 
 
 env_var_regexp = re.compile(".*\$(\S+).*")
