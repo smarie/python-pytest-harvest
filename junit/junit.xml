@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="2" name="pytest" skips="0" tests="2" time="0.338"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="20" name="test_run_all_tests[test_saved_fixture_in_fixture.py]" time="0.0933523178100586"><failure message="AssertionError: assert {&apos;error&apos;: 1, &apos;failed&apos;: 0, &apos;passed&apos;: 2, &apos;skipped&apos;: 0, ...} == {&apos;error&apos;: 0, &apos;failed&apos;: 0, &apos;passed&apos;: 2, &apos;skipped&apos;: 0, ...}">test_to_run = &apos;test_saved_fixture_in_fixture.py&apos;
+<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="2" name="pytest" skips="0" tests="2" time="0.375"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="20" name="test_run_all_tests[test_saved_fixture_in_fixture.py]" time="0.096466064453125"><failure message="AssertionError: assert {&apos;error&apos;: 1, &apos;failed&apos;: 0, &apos;passed&apos;: 2, &apos;skipped&apos;: 0, ...} == {&apos;error&apos;: 0, &apos;failed&apos;: 0, &apos;passed&apos;: 2, &apos;skipped&apos;: 0, ...}">test_to_run = &apos;test_saved_fixture_in_fixture.py&apos;
 testdir = &lt;Testdir local(&apos;/tmp/pytest-of-travis/pytest-0/test_run_all_tests0&apos;)&gt;
 
     @pytest.mark.parametrize(&apos;test_to_run&apos;, test_files, ids=str)
@@ -48,7 +48,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     result.assert_outcomes(**asserts_dct)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = &lt;_pytest.pytester.RunResult object at 0x7fc468dc3470&gt;, passed = 2
+self = &lt;_pytest.pytester.RunResult object at 0x7fd97ae010b8&gt;, passed = 2
 skipped = 0, failed = 0, error = 0, xpassed = 0, xfailed = 0
 
     def assert_outcomes(
@@ -79,7 +79,7 @@ skipped = 0, failed = 0, error = 0, xpassed = 0, xfailed = 0
 E       AssertionError: assert {&apos;error&apos;: 1, &apos;failed&apos;: 0, &apos;passed&apos;: 2, &apos;skipped&apos;: 0, ...} == {&apos;error&apos;: 0, &apos;failed&apos;: 0, &apos;passed&apos;: 2, &apos;skipped&apos;: 0, ...}
 
 /home/travis/virtualenv/python3.5.6/lib/python3.5/site-packages/_pytest/pytester.py:444: AssertionError</failure><system-out>
-Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
+Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.10.0, py-1.5.4, pluggy-0.7.1
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests0, inifile:
@@ -89,14 +89,14 @@ collected 2 items
 test_run_all_tests.py ..E                                                [100%]
 
 ==================================== ERRORS ====================================
-______________ ERROR at teardown of test_foo[0.01393624316937192] ______________
+______________ ERROR at teardown of test_foo[0.8119823674862124] _______________
 
 &gt;   request.addfinalizer(lambda: final_test(request))
 
 test_run_all_tests.py:53: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-request = &lt;SubRequest &apos;store&apos; for &lt;Function &apos;test_foo[0.7624912407386422]&apos;&gt;&gt;
+request = &lt;SubRequest &apos;store&apos; for &lt;Function &apos;test_foo[0.29561907422490663]&apos;&gt;&gt;
 
     def final_test(request):
         &quot;&quot;&quot;This is the &quot;test&quot; that will be called when session ends. We check that the STORE contains everything&quot;&quot;&quot;
@@ -109,10 +109,10 @@ E       AssertionError: assert &apos;my_fix&apos; in OrderedDict()
 
 test_run_all_tests.py:40: AssertionError
 ----------------------------- Captured stdout call -----------------------------
-0.01393624316937192
+0.8119823674862124
 ====================== 2 passed, 1 error in 0.04 seconds =======================
-Error while asserting that test_saved_fixture_in_fixture.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="20" name="test_run_all_tests[test_saved_fixture_in_global_var.py]" time="0.07766366004943848"><failure message="AssertionError: assert {&apos;error&apos;: 1, &apos;failed&apos;: 0, &apos;passed&apos;: 2, &apos;skipped&apos;: 0, ...} == {&apos;error&apos;: 0, &apos;failed&apos;: 0, &apos;passed&apos;: 2, &apos;skipped&apos;: 0, ...}">test_to_run = &apos;test_saved_fixture_in_global_var.py&apos;
+Error while asserting that test_saved_fixture_in_fixture.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0}
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="20" name="test_run_all_tests[test_saved_fixture_in_global_var.py]" time="0.08227419853210449"><failure message="AssertionError: assert {&apos;error&apos;: 1, &apos;failed&apos;: 0, &apos;passed&apos;: 2, &apos;skipped&apos;: 0, ...} == {&apos;error&apos;: 0, &apos;failed&apos;: 0, &apos;passed&apos;: 2, &apos;skipped&apos;: 0, ...}">test_to_run = &apos;test_saved_fixture_in_global_var.py&apos;
 testdir = &lt;Testdir local(&apos;/tmp/pytest-of-travis/pytest-0/test_run_all_tests1&apos;)&gt;
 
     @pytest.mark.parametrize(&apos;test_to_run&apos;, test_files, ids=str)
@@ -162,7 +162,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     result.assert_outcomes(**asserts_dct)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = &lt;_pytest.pytester.RunResult object at 0x7fc46896a160&gt;, passed = 2
+self = &lt;_pytest.pytester.RunResult object at 0x7fd97a911400&gt;, passed = 2
 skipped = 0, failed = 0, error = 0, xpassed = 0, xfailed = 0
 
     def assert_outcomes(
@@ -193,7 +193,7 @@ skipped = 0, failed = 0, error = 0, xpassed = 0, xfailed = 0
 E       AssertionError: assert {&apos;error&apos;: 1, &apos;failed&apos;: 0, &apos;passed&apos;: 2, &apos;skipped&apos;: 0, ...} == {&apos;error&apos;: 0, &apos;failed&apos;: 0, &apos;passed&apos;: 2, &apos;skipped&apos;: 0, ...}
 
 /home/travis/virtualenv/python3.5.6/lib/python3.5/site-packages/_pytest/pytester.py:444: AssertionError</failure><system-out>
-Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
+Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.10.0, py-1.5.4, pluggy-0.7.1
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests1, inifile:
@@ -203,14 +203,14 @@ collected 2 items
 test_run_all_tests.py ..E                                                [100%]
 
 ==================================== ERRORS ====================================
-______________ ERROR at teardown of test_foo[0.5722537765537669] _______________
+______________ ERROR at teardown of test_foo[0.2350070238103812] _______________
 
 &gt;   request.addfinalizer(lambda: final_test(request))
 
 test_run_all_tests.py:49: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-request = &lt;SubRequest &apos;register_final_test&apos; for &lt;Function &apos;test_foo[0.17459566746596233]&apos;&gt;&gt;
+request = &lt;SubRequest &apos;register_final_test&apos; for &lt;Function &apos;test_foo[0.7707167886463046]&apos;&gt;&gt;
 
     def final_test(request):
         &quot;&quot;&quot;This is the &quot;test&quot; that will be called when session ends. We check that the STORE contains everything&quot;&quot;&quot;
@@ -219,7 +219,7 @@ E       AssertionError: assert &apos;my_fix&apos; in OrderedDict()
 
 test_run_all_tests.py:40: AssertionError
 ----------------------------- Captured stdout call -----------------------------
-0.5722537765537669
+0.2350070238103812
 ====================== 2 passed, 1 error in 0.03 seconds =======================
-Error while asserting that test_saved_fixture_in_global_var.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
+Error while asserting that test_saved_fixture_in_global_var.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0}
 </system-out></testcase></testsuite>
