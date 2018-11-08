@@ -29,7 +29,6 @@ env:
   - PYTEST_VERSION="<4"
 
 before_install:
-  - sudo apt-get remove pytest
   - sudo apt-get install pandoc
   - sudo apt-get install ant
   - sudo apt-get install ant-optional
