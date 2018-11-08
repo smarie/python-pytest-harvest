@@ -20,8 +20,8 @@ unique_numbers = [random(), random()]
 STORE = OrderedDict()
 
 
-@saved_fixture(STORE)
 @pytest.fixture(params=unique_numbers)
+@saved_fixture(STORE)
 def my_fix(request):
     """Our saved fixture, that will be saved in the global store"""
     return request.param
@@ -38,6 +38,7 @@ def test_foo(my_fix):
 def final_test(request):
     """This is the "test" that will be called when session ends. We check that the STORE contains everything"""
     assert 'my_fix' in STORE
+    assert len(STORE['my_fix']) == 2
     assert list(STORE['my_fix'].keys()) == [item.nodeid for item in request.session.items
                                             if this_file_name in item.nodeid]
     assert list(STORE['my_fix'].values()) == unique_numbers

@@ -16,8 +16,8 @@ this_file_name = os.path.split(__file__)[1]
 unique_numbers = [random(), random()]
 
 
-@saved_fixture('store')
 @pytest.fixture(params=unique_numbers)
+@saved_fixture('store')
 def my_fix(request):
     """Our saved fixture, that will be saved in the store fixture"""
     return request.param
@@ -38,6 +38,7 @@ def final_test(request):
     store = get_fixture_value(request, 'store')
 
     assert 'my_fix' in store
+    assert len(store['my_fix']) == 2
     assert list(store['my_fix'].keys()) == [item.nodeid for item in request.session.items
                                             if this_file_name in item.nodeid]
     assert list(store['my_fix'].values()) == unique_numbers
