@@ -1,8 +1,8 @@
 # requirements needed to generate the reports
 pytest$PYTEST_VERSION
-pytest-html==1.16
-requests
-xunitparser
-pytest-cov==2.5
-coverage
-pylint
+#pytest-html==1.16
+#requests
+#xunitparser
+#pytest-cov==2.5
+#coverage
+#pylint
