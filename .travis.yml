@@ -42,6 +42,7 @@ install:
   - python ci_tools/pip_install.py ci_tools/requirements-doc.txt
   - pip install codecov    # https://github.com/codecov/example-python. This is specific to travis integration
 # - pip install coveralls  # this is an alternative to codecov
+  - pip list
 
 script:
 #  - coverage run tests.py
