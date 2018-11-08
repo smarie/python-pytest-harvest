@@ -1,5 +1,5 @@
 # requirements needed to execute setup.py (whatever the goal)
-pytest==$PYTEST_VERSION
+pytest$PYTEST_VERSION
 pytest-runner
 setuptools_scm
 pandoc
