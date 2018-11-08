@@ -274,9 +274,29 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#collecting-tests-status-and-parameters" title="Collecting tests status and parameters" class="md-nav__link">
+    Collecting tests status and parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#storing-fixture-values" title="Storing fixture values" class="md-nav__link">
     Storing fixture values
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#storing-in-a-variable" title="Storing in a variable" class="md-nav__link">
+    Storing in a variable
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -392,9 +412,29 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#collecting-tests-status-and-parameters" title="Collecting tests status and parameters" class="md-nav__link">
+    Collecting tests status and parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#storing-fixture-values" title="Storing fixture values" class="md-nav__link">
     Storing fixture values
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#storing-in-a-variable" title="Storing in a variable" class="md-nav__link">
+    Storing in a variable
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -473,16 +513,20 @@
                 <h1 id="pytest-harvest">pytest-harvest<a class="headerlink" href="#pytest-harvest" title="Permanent link">&para;</a></h1>
 <p><em>Store data created during your <code>pytest</code> tests execution, and retrieve it at the end of the session, e.g. for applicative benchmarking purposes.</em></p>
 <p><a href="https://travis-ci.org/smarie/python-pytest-harvest"><img alt="Build Status" src="https://travis-ci.org/smarie/python-pytest-harvest.svg?branch=master" /></a> <a href="https://smarie.github.io/python-pytest-harvest/junit/report.html"><img alt="Tests Status" src="https://smarie.github.io/python-pytest-harvest/junit/junit-badge.svg?dummy=8484744" /></a> <a href="https://codecov.io/gh/smarie/python-pytest-harvest"><img alt="codecov" src="https://codecov.io/gh/smarie/python-pytest-harvest/branch/master/graph/badge.svg" /></a> <a href="https://smarie.github.io/python-pytest-harvest/"><img alt="Documentation" src="https://img.shields.io/badge/docs-latest-blue.svg" /></a> <a href="https://pypi.python.org/pypi/pytest_harvest/"><img alt="PyPI" src="https://img.shields.io/badge/PyPI-pytest_harvest-blue.svg" /></a></p>
-<p><code>pytest</code> is a great tool to write test logic once and then generate multiple tests from parameters. Its fixture mechanism provides a cool way to inject dependencies in your tests. As opposed to parameters (from <code>@pytest.mark.parametrize</code>), <code>pytest</code> purposedly <strong>does not store</strong> fixtures created during test execution, because in general that would just be a waste of memory. However for specific use-cases, users might wish to store them so as to access their values at the end of the session.</p>
-<p>A very good example is if you use <code>pytest</code> to build data science benchmarks by running some algorithm against multiple cases. In that case you might be interested to</p>
+<p><code>pytest</code> is a great tool to write test logic once and then generate multiple tests from <em>parameters</em>. Its <em>fixture</em> mechanism provides a cool way to inject dependencies in your tests.</p>
+<p>At the end of a test session, you can already <strong>collect various data</strong> about the tests that have been run. However as opposed to <em>parameters</em> (<code>@pytest.mark.parametrize</code>), <code>pytest</code> purposedly does not keep <em>fixtures</em> (<code>@pytest.fixture</code>) in memory, because in general that would just be a waste of memory. Therefore you are currently <strong>not able to retrieve fixture values at the end of the session</strong>.</p>
+<p><code>pytest-harvest</code> allows you to very easily declare that a fixture should be stored in memory until the end of the session. This unlocks many new usages ; one of them proposed in this library is to create <strong>special "result bag" fixtures</strong> to collect interesting items from your tests.</p>
+<p>For example you can now create <strong>applicative benchmarks</strong>. For example if you have a new data science algorithm and wish to run it against several datasets, you can </p>
 <ul>
-<li>store accuracy values in each test run</li>
-<li>retrieve all of them at the end of the session for reporting.</li>
+<li>create a <em>test</em> that applies the algorithm on a given dataset</li>
+<li><em>parametrize</em> it so that it runs against several datasets (<a href="https://smarie.github.io/python-pytest-cases/">pytest-cases</a> might help you)</li>
+<li><strong>NEW</strong> store accuracy values in each test run thanks to a "result bag" <em>fixture</em></li>
+<li><strong>NEW</strong> retrieve all accuracy values at the end of the <em>session</em> for reporting.</li>
 </ul>
-<p><code>pytest-harvest</code> has been designed just for that. Note: you can learn more about how to design such a benchmark in <a href="https://smarie.github.io/pytest-patterns/">pytest-patterns</a></p>
+<p>Note: you can learn more about how to design such a benchmark in <a href="https://smarie.github.io/pytest-patterns/">pytest-patterns</a> (coming soon)</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><code>pytest-harvest</code> has not yet been tested with pytest-xdist. See <a href="https://github.com/smarie/python-pytest-harvest/issues/1">#7</a></p>
+<p><code>pytest-harvest</code> has not yet been tested with pytest-xdist. See <a href="https://github.com/smarie/python-pytest-harvest/issues/1">#1</a></p>
 </div>
 <h2 id="installing">Installing<a class="headerlink" href="#installing" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span>&gt; pip install pytest_harvest
@@ -490,8 +534,58 @@
 
 
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<h3 id="collecting-tests-status-and-parameters">Collecting tests status and parameters<a class="headerlink" href="#collecting-tests-status-and-parameters" title="Permanent link">&para;</a></h3>
+<p>Pytest already stores many information out of the box concerning tests that have run. You can easily retrieve them thanks to the <code>get_session_synthesis_dct(session)</code> utility function. For example let's assume you have this test:</p>
+<div class="codehilite"><pre><span></span><span class="nd">@pytest.mark.parametrize</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;world&#39;</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_foo</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">get_session_synthesis_dct</span>
+<span class="n">dct</span> <span class="o">=</span> <span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">)</span>
+</pre></div>
+
+
 <h3 id="storing-fixture-values">Storing fixture values<a class="headerlink" href="#storing-fixture-values" title="Permanent link">&para;</a></h3>
-<p><strong>TODO</strong></p>
+<p>You can either choose to store fixtures in a plain old variable, or in a session-scoped fixture. Both can be achieved using the same decorator <code>@saved_fixture(store)</code>.</p>
+<h4 id="storing-in-a-variable">Storing in a variable<a class="headerlink" href="#storing-in-a-variable" title="Permanent link">&para;</a></h4>
+<p>Let's create a store. It should be a dict-like object:</p>
+<div class="codehilite"><pre><span></span><span class="c1"># Create a global store</span>
+<span class="n">STORE</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+</pre></div>
+
+
+<p>In order to store fixture values in this object, simply decorate them with <code>@saved_fixture(store)</code>:</p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">saved_fixture</span>
+
+<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="nd">@saved_fixture</span><span class="p">(</span><span class="n">STORE</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_fix</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Each returned fixture value will be saved in the global store&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span>
+</pre></div>
+
+
+<p>Then you can have a look at the storage at the end of the pytest session with any of the standard means that pytest proposes to be called at session teardown or reporting stage. For example you can do it using a session-scoped fixture:</p>
+<div class="codehilite"><pre><span></span><span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;session&#39;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">register_final_test</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">STORE</span><span class="p">[</span><span class="s1">&#39;my_fix&#39;</span><span class="p">]))</span>
+</pre></div>
+
+
+<p>or inside the "session end" hook in <code>conftest.py</code>:</p>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">exitstatus</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">STORE</span><span class="p">[</span><span class="s1">&#39;my_fix&#39;</span><span class="p">]))</span>
+</pre></div>
+
+
+<p>The result is an ordered dictionary where the keys are the test node ids, and the values are the fixture values:</p>
+<div class="codehilite"><pre><span></span><span class="o">{</span><span class="s1">&#39;pytest_harvest/tests_raw/test_saved_fixture_in_global_var.py::test_foo[1]&#39;</span>: <span class="m">1</span>, <span class="s1">&#39;pytest_harvest/tests_raw/test_saved_fixture_in_global_var.py::test_foo[2]&#39;</span>: <span class="m">2</span><span class="o">}</span>
+</pre></div>
+
+
 <h3 id="collecting-test-artifacts">Collecting test artifacts<a class="headerlink" href="#collecting-test-artifacts" title="Permanent link">&para;</a></h3>
 <p>Since the word "test results" might be misleading here (one could think about the standard success/failure results) we talk about test artifacts: we wish to collect objects that are created <strong>within</strong> the tests.</p>
 <p><strong>TODO</strong></p>
