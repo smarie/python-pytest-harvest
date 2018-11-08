@@ -1,4 +1,5 @@
 # requirements needed to generate the reports
+pytest==$PYTEST_VERSION
 pytest-html
 requests
 xunitparser
