@@ -235,7 +235,7 @@ function filter_table(elem) {
 }
 </script>
     <h1>report.html</h1>
-    <p>Report generated on 09-Nov-2018 at 13:05:18 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
+    <p>Report generated on 09-Nov-2018 at 16:12:23 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -246,13 +246,13 @@ function filter_table(elem) {
         <td>/usr/lib/jvm/java-8-oracle</td></tr>
       <tr>
         <td>Packages</td>
-        <td>{&apos;py&apos;: &apos;1.6.0&apos;, &apos;pytest&apos;: &apos;3.8.1&apos;, &apos;pluggy&apos;: &apos;0.7.1&apos;}</td></tr>
+        <td>{&apos;py&apos;: &apos;1.6.0&apos;, &apos;pluggy&apos;: &apos;0.7.1&apos;, &apos;pytest&apos;: &apos;3.8.1&apos;}</td></tr>
       <tr>
         <td>Platform</td>
         <td>Linux-4.4.0-101-generic-x86_64-with-debian-jessie-sid</td></tr>
       <tr>
         <td>Plugins</td>
-        <td>{&apos;metadata&apos;: &apos;1.7.0&apos;, &apos;cov&apos;: &apos;2.6.0&apos;, &apos;html&apos;: &apos;1.19.0&apos;}</td></tr>
+        <td>{&apos;html&apos;: &apos;1.19.0&apos;, &apos;harvest&apos;: &apos;0.1.dev40+g8616be7&apos;, &apos;cov&apos;: &apos;2.6.0&apos;, &apos;metadata&apos;: &apos;1.7.0&apos;}</td></tr>
       <tr>
         <td>Python</td>
         <td>3.5.6</td></tr>
@@ -261,28 +261,28 @@ function filter_table(elem) {
         <td>master</td></tr>
       <tr>
         <td>TRAVIS_BUILD_ID</td>
-        <td>452864393</td></tr>
+        <td>452948378</td></tr>
       <tr>
         <td>TRAVIS_BUILD_NUMBER</td>
-        <td>30</td></tr>
+        <td>31</td></tr>
       <tr>
         <td>TRAVIS_COMMIT</td>
-        <td>e2df1c72a232ad29e44128bafb4590b05145434e</td></tr>
+        <td>8616be73e151849a940a54a655ffeb6052028af3</td></tr>
       <tr>
         <td>TRAVIS_COMMIT_MESSAGE</td>
-        <td>Improved test coverage: added yield (generator-mode) fixtures</td></tr>
+        <td>Improved `get_session_synthesis_dct` so that it now contains the test status and duration. For this the library needs to register a pytest hook, so we have to add a setuptools entrypoint to declare that it is a pytest plugin.</td></tr>
       <tr>
         <td>TRAVIS_COMMIT_RANGE</td>
-        <td>c79b4361b338...e2df1c72a232</td></tr>
+        <td>e2df1c72a232...8616be73e151</td></tr>
       <tr>
         <td>TRAVIS_EVENT_TYPE</td>
         <td>push</td></tr>
       <tr>
         <td>TRAVIS_JOB_ID</td>
-        <td>452864398</td></tr>
+        <td>452948383</td></tr>
       <tr>
         <td>TRAVIS_JOB_NUMBER</td>
-        <td>30.5</td></tr>
+        <td>31.5</td></tr>
       <tr>
         <td>TRAVIS_OS_NAME</td>
         <td>linux</td></tr>
@@ -296,7 +296,7 @@ function filter_table(elem) {
         <td>TRAVIS_SUDO</td>
         <td>true</td></tr></table>
     <h2>Summary</h2>
-    <p>3 tests ran in 0.28 seconds. </p>
+    <p>3 tests ran in 0.33 seconds. </p>
     <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">3 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
@@ -317,11 +317,11 @@ function filter_table(elem) {
         <tr>
           <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&#x27;passed&#x27;: 2, &#x27;failed&#x27;: 0}
+Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&#x27;failed&#x27;: 0, &#x27;passed&#x27;: 2}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests0, inifile:
-plugins: metadata-1.7.0, html-1.19.0, cov-2.6.0
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.1.dev40+g8616be7, cov-2.6.0
 collected 2 items
 
 test_run_all_tests.py ..                                                 [100%]
@@ -332,21 +332,92 @@ test_run_all_tests.py ..                                                 [100%]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_get_session_results.py]</td>
-          <td class="col-duration">0.05</td>
+          <td class="col-duration">0.09</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_get_session_results.py results in {&#x27;passed&#x27;: 2, &#x27;failed&#x27;: 0}
+Testing that running pytest on file test_get_session_results.py results in {&#x27;failed&#x27;: 1, &#x27;passed&#x27;: 4, &#x27;skipped&#x27;: 1}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests1, inifile:
-plugins: metadata-1.7.0, html-1.19.0, cov-2.6.0
-collected 2 items
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.1.dev40+g8616be7, cov-2.6.0
+collected 6 items
 
-test_run_all_tests.py ..                                                 [100%]
+test_run_all_tests.py ....sF                                             [100%]
 
-=========================== 2 passed in 0.02 seconds ===========================
+=================================== FAILURES ===================================
+_________________________________ test_failing _________________________________
+
+    def test_failing():
+&gt;       pytest.fail(&quot;oh&quot;)
+E       Failed: oh
+
+test_run_all_tests.py:42: Failed
+--------------------------- Captured stdout teardown ---------------------------
+{&#x27;test_run_all_tests.py::test_failing&#x27;: {&#x27;pytest_duration&#x27;: 0.00039887428283691406,
+                                         &#x27;pytest_obj&#x27;: &lt;function test_failing at 0x7fcc2a9016a8&gt;,
+                                         &#x27;pytest_params&#x27;: {},
+                                         &#x27;pytest_status&#x27;: &#x27;failed&#x27;,
+                                         &#x27;pytest_status_details&#x27;: {&#x27;call&#x27;: (&#x27;failed&#x27;,
+                                                                            0.00039887428283691406),
+                                                                   &#x27;setup&#x27;: (&#x27;passed&#x27;,
+                                                                             0.0002944469451904297)}},
+ &#x27;test_run_all_tests.py::test_foo[1-hello]&#x27;: {&#x27;pytest_duration&#x27;: 0.0002658367156982422,
+                                              &#x27;pytest_obj&#x27;: &lt;function test_foo at 0x7fcc2a901620&gt;,
+                                              &#x27;pytest_params&#x27;: {&#x27;a_number_str&#x27;: 1,
+                                                                &#x27;p&#x27;: &#x27;hello&#x27;},
+                                              &#x27;pytest_status&#x27;: &#x27;passed&#x27;,
+                                              &#x27;pytest_status_details&#x27;: {&#x27;call&#x27;: (&#x27;passed&#x27;,
+                                                                                 0.0002658367156982422),
+                                                                        &#x27;setup&#x27;: (&#x27;passed&#x27;,
+                                                                                  0.0007672309875488281),
+                                                                        &#x27;teardown&#x27;: (&#x27;passed&#x27;,
+                                                                                     0.00029397010803222656)}},
+ &#x27;test_run_all_tests.py::test_foo[1-world]&#x27;: {&#x27;pytest_duration&#x27;: 0.0002582073211669922,
+                                              &#x27;pytest_obj&#x27;: &lt;function test_foo at 0x7fcc2a901620&gt;,
+                                              &#x27;pytest_params&#x27;: {&#x27;a_number_str&#x27;: 1,
+                                                                &#x27;p&#x27;: &#x27;world&#x27;},
+                                              &#x27;pytest_status&#x27;: &#x27;passed&#x27;,
+                                              &#x27;pytest_status_details&#x27;: {&#x27;call&#x27;: (&#x27;passed&#x27;,
+                                                                                 0.0002582073211669922),
+                                                                        &#x27;setup&#x27;: (&#x27;passed&#x27;,
+                                                                                  0.0005090236663818359),
+                                                                        &#x27;teardown&#x27;: (&#x27;passed&#x27;,
+                                                                                     0.0002799034118652344)}},
+ &#x27;test_run_all_tests.py::test_foo[2-hello]&#x27;: {&#x27;pytest_duration&#x27;: 0.0002434253692626953,
+                                              &#x27;pytest_obj&#x27;: &lt;function test_foo at 0x7fcc2a901620&gt;,
+                                              &#x27;pytest_params&#x27;: {&#x27;a_number_str&#x27;: 2,
+                                                                &#x27;p&#x27;: &#x27;hello&#x27;},
+                                              &#x27;pytest_status&#x27;: &#x27;passed&#x27;,
+                                              &#x27;pytest_status_details&#x27;: {&#x27;call&#x27;: (&#x27;passed&#x27;,
+                                                                                 0.0002434253692626953),
+                                                                        &#x27;setup&#x27;: (&#x27;passed&#x27;,
+                                                                                  0.0005562305450439453),
+                                                                        &#x27;teardown&#x27;: (&#x27;passed&#x27;,
+                                                                                     0.00027632713317871094)}},
+ &#x27;test_run_all_tests.py::test_foo[2-world]&#x27;: {&#x27;pytest_duration&#x27;: 0.00024390220642089844,
+                                              &#x27;pytest_obj&#x27;: &lt;function test_foo at 0x7fcc2a901620&gt;,
+                                              &#x27;pytest_params&#x27;: {&#x27;a_number_str&#x27;: 2,
+                                                                &#x27;p&#x27;: &#x27;world&#x27;},
+                                              &#x27;pytest_status&#x27;: &#x27;passed&#x27;,
+                                              &#x27;pytest_status_details&#x27;: {&#x27;call&#x27;: (&#x27;passed&#x27;,
+                                                                                 0.00024390220642089844),
+                                                                        &#x27;setup&#x27;: (&#x27;passed&#x27;,
+                                                                                  0.0005090236663818359),
+                                                                        &#x27;teardown&#x27;: (&#x27;passed&#x27;,
+                                                                                     0.0002753734588623047)}},
+ &#x27;test_run_all_tests.py::test_skipped&#x27;: {&#x27;pytest_duration&#x27;: 0.00047898292541503906,
+                                         &#x27;pytest_obj&#x27;: &lt;function test_skipped at 0x7fcc2a901048&gt;,
+                                         &#x27;pytest_params&#x27;: {},
+                                         &#x27;pytest_status&#x27;: &#x27;skipped&#x27;,
+                                         &#x27;pytest_status_details&#x27;: {&#x27;call&#x27;: (&#x27;skipped&#x27;,
+                                                                            0.00047898292541503906),
+                                                                   &#x27;setup&#x27;: (&#x27;passed&#x27;,
+                                                                             0.0003478527069091797),
+                                                                   &#x27;teardown&#x27;: (&#x27;passed&#x27;,
+                                                                                0.00023221969604492188)}}}
+================ 1 failed, 4 passed, 1 skipped in 0.06 seconds =================
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -357,11 +428,11 @@ test_run_all_tests.py ..                                                 [100%]
         <tr>
           <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&#x27;passed&#x27;: 2, &#x27;failed&#x27;: 0}
+Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&#x27;failed&#x27;: 0, &#x27;passed&#x27;: 2}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests2, inifile:
-plugins: metadata-1.7.0, html-1.19.0, cov-2.6.0
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.1.dev40+g8616be7, cov-2.6.0
 collected 2 items
 
 test_run_all_tests.py ..                                                 [100%]
