@@ -20,7 +20,13 @@ fixture_params = [1, 2]
 
 @pytest.fixture(params=fixture_params)
 def a_number_str(request):
-    return str(request.param)
+    return "my_fix #%s" % request.param
+
+
+# unparametrized fixture
+@pytest.fixture
+def dummy():
+    return "hey there !"
 
 
 # parametrized test
@@ -28,7 +34,7 @@ test_params = ['hello', 'world']
 
 
 @pytest.mark.parametrize('p', test_params, ids=str)
-def test_foo(p, a_number_str):
+def test_foo(p, a_number_str, dummy):
     print(p + a_number_str)
 
 
@@ -50,7 +56,7 @@ def make_synthesis(request):
     synth_dct = get_session_synthesis_dct(request.session)
 
     from pprint import pprint
-    pprint({k: dict(v) for k, v in synth_dct.items()})
+    pprint(dict(synth_dct))
 
     # asserts
     these_tests = [item.nodeid for item in request.session.items if this_file_name in item.nodeid]

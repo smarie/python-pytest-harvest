@@ -22,7 +22,7 @@ unique_numbers = [random(), random()]
 def my_fix(request):
     """Our saved fixture, that will be saved in the store fixture"""
     # convert the parameter to a string so that the fixture is different from the parameter
-    return str(request.param)
+    return "my_fix #%s" % request.param
 
 
 def test_foo(my_fix):
@@ -48,4 +48,4 @@ def store(request):
     assert len(store['my_fix']) == 2
     assert list(store['my_fix'].keys()) == [item.nodeid for item in request.session.items
                                             if this_file_name in item.nodeid]
-    assert list(store['my_fix'].values()) == [str(n) for n in unique_numbers]
+    assert list(store['my_fix'].values()) == [("my_fix #%s" % n) for n in unique_numbers]
