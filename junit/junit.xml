@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="0" name="pytest" skips="0" tests="3" time="0.206"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="20" name="test_run_all_tests[test_saved_fixture_in_fixture.py]" time="0.052419185638427734"><system-out>
+<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="0" name="pytest" skips="0" tests="3" time="0.183"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="20" name="test_run_all_tests[test_saved_fixture_in_fixture.py]" time="0.046894073486328125"><system-out>
 Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
@@ -8,8 +8,8 @@ collected 2 items
 
 test_run_all_tests.py ..
 
-=========================== 2 passed in 0.02 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="20" name="test_run_all_tests[test_get_session_results.py]" time="0.03809547424316406"><system-out>
+=========================== 2 passed in 0.01 seconds ===========================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="20" name="test_run_all_tests[test_get_session_results.py]" time="0.036055564880371094"><system-out>
 Testing that running pytest on file test_get_session_results.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
@@ -20,7 +20,7 @@ collected 2 items
 test_run_all_tests.py ..
 
 =========================== 2 passed in 0.01 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="20" name="test_run_all_tests[test_saved_fixture_in_global_var.py]" time="0.048688411712646484"><system-out>
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="20" name="test_run_all_tests[test_saved_fixture_in_global_var.py]" time="0.04222702980041504"><system-out>
 Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
@@ -30,5 +30,5 @@ collected 2 items
 
 test_run_all_tests.py ..
 
-=========================== 2 passed in 0.01 seconds ===========================
+=========================== 2 passed in 0.02 seconds ===========================
 </system-out></testcase></testsuite>
