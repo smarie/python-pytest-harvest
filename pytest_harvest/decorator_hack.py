@@ -25,14 +25,36 @@ class MyFunctionMaker(FunctionMaker):
     Overrides FunctionMaker so that additional arguments can be inserted in the resulting signature.
     """
 
+    def refresh_signature(self):
+        """Update self.signature and self.shortsignature based on self.args,
+        self.varargs, self.varkw"""
+        allargs = list(self.args)
+        allshortargs = list(self.args)
+        if self.varargs:
+            allargs.append('*' + self.varargs)
+            allshortargs.append('*' + self.varargs)
+        elif self.kwonlyargs:
+            allargs.append('*')  # single star syntax
+        for a in self.kwonlyargs:
+            allargs.append('%s=None' % a)
+            allshortargs.append('%s=%s' % (a, a))
+        if self.varkw:
+            allargs.append('**' + self.varkw)
+            allshortargs.append('**' + self.varkw)
+        self.signature = ', '.join(allargs)
+        self.shortsignature = ', '.join(allshortargs)
+
     @classmethod
     def create(cls, obj, body, evaldict, defaults=None,
-               doc=None, module=None, addsource=True, add_args=None, **attrs):
+               doc=None, module=None, addsource=True, add_args=(), **attrs):
         """
         Create a function from the strings name, signature and body.
         evaldict is the evaluation dictionary. If addsource is true an
         attribute __source__ is added to the result. The attributes attrs
         are added, if any.
+
+        If add_args is not empty, these arguments will be prepended to the
+        positional arguments.
         """
         if isinstance(obj, str):  # "name(signature)"
             name, rest = obj.strip().split('(', 1)
@@ -51,41 +73,31 @@ class MyFunctionMaker(FunctionMaker):
         else:
             body = 'def %(name)s(%(signature)s):\n' + ibody
 
-        # --- HACK part 1 -----
-        if add_args is not None:
-            for arg in add_args:
-                if arg not in self.args:
-                    self.args = [arg] + self.args
-                else:
-                    # the argument already exists in the wrapped function, no problem.
-                    pass
+            # Handle possible signature changes
+            sig_modded = False
+            if len(add_args) > 0:
+                # prepend them as positional args - hence the reversed()
+                for arg in reversed(add_args):
+                    if arg not in self.args:
+                        self.args = [arg] + self.args
+                        sig_modded = True
+                    else:
+                        # the argument already exists in the wrapped
+                        # function, nothing to do.
+                        pass
+            if sig_modded:
+                self.refresh_signature()
 
-            # update signatures (this is a copy of the init code)
-            allargs = list(self.args)
-            allshortargs = list(self.args)
-            if self.varargs:
-                allargs.append('*' + self.varargs)
-                allshortargs.append('*' + self.varargs)
-            elif self.kwonlyargs:
-                allargs.append('*')  # single star syntax
-            for a in self.kwonlyargs:
-                allargs.append('%s=None' % a)
-                allshortargs.append('%s=%s' % (a, a))
-            if self.varkw:
-                allargs.append('**' + self.varkw)
-                allshortargs.append('**' + self.varkw)
-            self.signature = ', '.join(allargs)
-            self.shortsignature = ', '.join(allshortargs)
-        # ---------------------------
+            # make the function
+            func = self.make(body, evaldict, addsource, **attrs)
 
-        func = self.make(body, evaldict, addsource, **attrs)
+            if sig_modded:
+                # delete this annotation otherwise inspect.signature
+                # will wrongly return the signature of func.__wrapped__
+                # instead of the signature of func
+                del func.__wrapped__
 
-        # ----- HACK part 2
-        if add_args is not None:
-            # delete this annotation otherwise the inspect.signature method relies on the wrapped object's signature
-            del func.__wrapped__
-
-        return func
+            return func
 
 
 def _extract_additional_args(f_sig, add_args_names, args, kwargs):
@@ -168,10 +180,26 @@ def _wrap_caller_for_additional_args(func, caller, additional_args):
 
 def my_decorate(func, caller, extras=(), additional_args=()):
     """
-    A clone of 'decorate' with the possibility to add additional args to the function signature,
-    and with support for generator functions.
+    decorate(func, caller) decorates a function using a caller.
+    If the caller is a generator function, the resulting function
+    will be a generator function.
+
+    You can provide additional arguments with `additional_args`. In that case
+    the caller's signature should be
+
+        `caller(f, <additional_args_in_order>, *args, **kwargs)`.
+
+    `*args, **kwargs` will always contain the arguments required by the inner
+    function `f`. If `additional_args` contains argument names that are already
+    present in `func`, they will be present both in <additional_args_in_order>
+    AND in `*args, **kwargs` so that it remains easy for the `caller` both to
+    get the additional arguments' values directly, and to call `f` with the
+    right arguments.
     """
     if len(additional_args) > 0:
+        # wrap the caller so as to handle all cases
+        # (if some additional args are already present in the signature or not)
+        # so as to ensure a consistent caller signature
         caller = _wrap_caller_for_additional_args(func, caller, additional_args)
 
     evaldict = dict(_call_=caller, _func_=func)
@@ -181,25 +209,23 @@ def my_decorate(func, caller, extras=(), additional_args=()):
         evaldict[ex] = extra
         es += ex + ', '
 
-    if not ('3.5' <= sys.version < '3.6'):
-        create_generator = isgeneratorfunction(caller)
+    if '3.5' <= sys.version < '3.6':
+        # with Python 3.5 isgeneratorfunction returns True for all coroutines
+        # however we know that it is NOT possible to have a generator
+        # coroutine in python 3.5: PEP525 was not there yet
+        generatorcaller = isgeneratorfunction(
+            caller) and not iscoroutinefunction(caller)
     else:
-        # With Python 3.5: apparently isgeneratorfunction returns
-        # True for all coroutines
-
-        # However we know that it is NOT possible to have a generator
-        # coroutine in python 3.5: PEP525 was not there yet.
-        create_generator = isgeneratorfunction(caller) and not iscoroutinefunction(caller)
-
-    if create_generator:
+        generatorcaller = isgeneratorfunction(caller)
+    if generatorcaller:
         fun = MyFunctionMaker.create(
             func, "for res in _call_(_func_, %s%%(shortsignature)s):\n"
-                  "    yield res" % es,
-            evaldict, add_args=reversed(additional_args or ()), __wrapped__=func)
+                  "    yield res" % es, evaldict,
+            add_args=additional_args, __wrapped__=func)
     else:
         fun = MyFunctionMaker.create(
             func, "return _call_(_func_, %s%%(shortsignature)s)" % es,
-            evaldict, add_args=reversed(additional_args), __wrapped__=func)
+            evaldict, add_args=additional_args, __wrapped__=func)
     if hasattr(func, '__qualname__'):
         fun.__qualname__ = func.__qualname__
     return fun
