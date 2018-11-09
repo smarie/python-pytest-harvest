@@ -6,9 +6,10 @@ from os.path import join, dirname, pardir
 import pytest
 import six
 
+# Make the list of all tests that we will have to execute (each in an independent pytest runner)
 THIS_DIR = dirname(__file__)
 tests_raw_folder = join(THIS_DIR, pardir, 'tests_raw')
-test_files = [f for f in os.listdir(tests_raw_folder) if not f[0].startswith('_')]
+test_files = [f for f in os.listdir(tests_raw_folder) if f.startswith('test')]
 
 
 META_REGEX = re.compile(
