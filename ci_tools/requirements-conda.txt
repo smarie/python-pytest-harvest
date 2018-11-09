@@ -9,16 +9,16 @@ decorator
 
 # --- to run the tests
 pytest$PYTEST_VERSION
-pytest-logging  # ==2015.11.4
+# (pip) pytest-logging  # ==2015.11.4
 
 # --- to generate the reports (see scripts in ci_tools, called by .travis)
 pytest-html  # ==1.16
 requests
-xunitparser
+# (pip) xunitparser
 pytest-cov  # ==2.5
 coverage
 pylint
 
 # --- to generate the doc (see .travis)
-mkdocs-material==2.7.3
-mkdocs==0.17.3  # this is to prevent a version non-compliant with mkdocs-material to be installed.
+# (pip) mkdocs-material==2.7.3
+# (pip) mkdocs==0.17.3  # this is to prevent a version non-compliant with mkdocs-material to be installed.
