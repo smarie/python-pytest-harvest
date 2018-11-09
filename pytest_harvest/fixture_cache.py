@@ -61,30 +61,27 @@ def _saved_fixture(*args, **kwargs):
         return _decorator
 
 
-def get_fixture_name(fixture_fun):
-    """
-    Internal utility to retrieve the fixture name corresponding to the given fixture function (or any non-fixture function, too).
-    Indeed there is currently no pytest API to do this.
-
-    :param fixture_fun:
-    :return:
-    """
-    if hasattr(fixture_fun, '_pytestfixturefunction'):
-        custom_fixture_name = getattr(fixture_fun._pytestfixturefunction, 'name', None)
-    else:
-        custom_fixture_name = None
-
-    if custom_fixture_name is not None:
-        # there is a custom fixture name
-        return custom_fixture_name
-    else:
-        obj__name = getattr(fixture_fun, '__name__', None)
-        if obj__name is not None:
-            # a function, probably
-            return obj__name
-        else:
-            # a callable object probably
-            return str(fixture_fun)
+# def get_fixture_name(fixture_fun):
+#     """
+#     Internal utility to retrieve the fixture name corresponding to the given fixture function .
+#     Indeed there is currently no pytest API to do this.
+#
+#     :param fixture_fun:
+#     :return:
+#     """
+#     custom_fixture_name = getattr(fixture_fun._pytestfixturefunction, 'name', None)
+#
+#     if custom_fixture_name is not None:
+#         # there is a custom fixture name
+#         return custom_fixture_name
+#     else:
+#         obj__name = getattr(fixture_fun, '__name__', None)
+#         if obj__name is not None:
+#             # a function, probably
+#             return obj__name
+#         else:
+#             # a callable object probably
+#             return str(fixture_fun)
 
 
 def make_saved_fixture(fixture_fun,
@@ -107,17 +104,6 @@ def make_saved_fixture(fixture_fun,
 
     See `@saved_fixture` decorator for parameter details.
     """
-
-    # # Check that this is a fixture
-    # if not hasattr(fixture_fun, '_pytestfixturefunction'):
-    #     raise ValueError("'%s' is not a valid @pytest.fixture." % fixture_fun)
-    #
-    # # Check that fixture_fun has function scope
-    # fixture_name = get_fixture_name(fixture_fun)
-    # fixture_scope = fixture_fun._pytestfixturefunction.scope
-    # if fixture_scope != 'function':
-    #     raise ValueError("'%s' fixture has wrong scope '%s'. Only function-scoped fixtures can be stored as of today"
-    #                      "" % (fixture_name, fixture_scope))
 
     # Simply get the function name
     fixture_name = getattr(fixture_fun, '__name__', None) or str(fixture_fun)

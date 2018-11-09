@@ -8,8 +8,7 @@ import pytest
 from collections import OrderedDict
 from random import random
 
-from pytest_harvest import saved_fixture
-
+from pytest_harvest import saved_fixture, get_session_synthesis_dct
 
 # init
 this_file_name = os.path.split(__file__)[1]
@@ -20,16 +19,31 @@ unique_numbers = [random(), random()]
 STORE = OrderedDict()
 
 
+# Create our saved fixture, that will be saved in the global store
+# -- 'normal' mode
 @pytest.fixture(params=unique_numbers)
 @saved_fixture(STORE)
 def my_fix(request):
-    """Our saved fixture, that will be saved in the global store"""
     return request.param
 
 
-def test_foo(my_fix):
+# -- 'generator' mode
+if int(pytest.__version__.split('.', 1)[0]) >= 3:
+    @pytest.fixture()
+    @saved_fixture(STORE)
+    def my_yield_fix():
+        yield 12
+else:
+    @pytest.yield_fixture()
+    @saved_fixture(STORE)
+    def my_yield_fix():
+        yield 12
+
+
+def test_foo(my_fix, my_yield_fix):
     """"""
     print(my_fix)
+    print(my_yield_fix)
 
 
 # -----------------------------------------
@@ -37,11 +51,13 @@ def test_foo(my_fix):
 
 def final_test(request):
     """This is the "test" that will be called when session ends. We check that the STORE contains everything"""
-    assert 'my_fix' in STORE
-    assert len(STORE['my_fix']) == 2
-    assert list(STORE['my_fix'].keys()) == [item.nodeid for item in request.session.items
-                                            if this_file_name in item.nodeid]
-    assert list(STORE['my_fix'].values()) == unique_numbers
+    for fixture_name, values in [('my_fix', unique_numbers),
+                                 ('my_yield_fix', [12, 12])]:
+        assert fixture_name in STORE
+        assert len(STORE[fixture_name]) == 2
+        assert list(STORE[fixture_name].keys()) == [item.nodeid for item in request.session.items
+                                                    if this_file_name in item.nodeid]
+        assert list(STORE[fixture_name].values()) == values
 
 
 @pytest.fixture(scope='session', autouse=True)
