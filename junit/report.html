@@ -325,7 +325,7 @@ function filter_table(elem) {
     not_found_message.hidden = !all_rows_hidden;
 }
 </script>
-    <p>Report generated on 09-Nov-2018 at 16:12:27</p>
+    <p>Report generated on 09-Nov-2018 at 17:53:00</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -335,8 +335,8 @@ function filter_table(elem) {
         <td>Python</td>
         <td>3.5.6</td></tr></table>
     <h2>Summary</h2>
-    <p>3 tests ran in 0.99 seconds. </p>
-    <p>(Un)check the boxes to filter the results.</p><input checked="true" data-test-result="passed" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">0 passed</span> <input checked="true" data-test-result="skipped" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span> <input checked="true" data-test-result="failed" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">3 failed</span> <input checked="true" data-test-result="error" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span> <input checked="true" data-test-result="xfailed" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span> <input checked="true" data-test-result="xpassed" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span> <input checked="true" data-test-result="rerun" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="rerun">0 rerun</span> 
+    <p>4 tests ran in 1.03 seconds. </p>
+    <p>(Un)check the boxes to filter the results.</p><input checked="true" data-test-result="passed" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">0 passed</span> <input checked="true" data-test-result="skipped" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span> <input checked="true" data-test-result="failed" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">4 failed</span> <input checked="true" data-test-result="error" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span> <input checked="true" data-test-result="xfailed" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span> <input checked="true" data-test-result="xpassed" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span> <input checked="true" data-test-result="rerun" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="rerun">0 rerun</span> 
     <h2>Results</h2>
     <table id="results-table">
       <thead id="results-table-head">
@@ -351,22 +351,22 @@ function filter_table(elem) {
         <tr>
           <td class="col-result">Failed</td>
           <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_saved_fixture_in_fixture.py]</td>
-          <td class="col-duration">0.16</td>
+          <td class="col-duration">0.13</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="5">
-            <div class="log">test_to_run = &#x27;test_saved_fixture_in_fixture.py&#x27;<br/>testdir = &lt;Testdir local(&#x27;/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests0&#x27;)&gt;<br/><br/>    @pytest.mark.parametrize(&#x27;test_to_run&#x27;, test_files, ids=str)<br/>    def test_run_all_tests(test_to_run, testdir):<br/>        &quot;&quot;&quot;<br/>        This is a meta-test. It is executed for each test file in the &#x27;tests_raw&#x27; folder.<br/>        For each of them, the file is retrieved and the expected test results are read from its first lines.<br/>        Then a dedicated pytest runner is run on this file, and the results are compared with the expected ones.<br/>    <br/>        See https://docs.pytest.org/en/latest/writing_plugins.html<br/>    <br/>        :param test_to_run:<br/>        :param testdir:<br/>        :return:<br/>        &quot;&quot;&quot;<br/>    <br/>        with open(join(tests_raw_folder, test_to_run)) as f:<br/>            # Create a temporary conftest.py file<br/>            # testdir.makeconftest(&quot;&quot;&quot;&quot;&quot;&quot;)<br/>    <br/>            # create a temporary pytest test file<br/>            test_file_contents = f.read()<br/>            testdir.makepyfile(test_file_contents)<br/>    <br/>            # Grab the expected things to check when this is executed<br/>            m = META_REGEX.match(test_file_contents)<br/>            assert m is not None<br/>            asserts_dct_str = m.groupdict()[&#x27;asserts_dct&#x27;]<br/>            asserts_dct = ast.literal_eval(asserts_dct_str)<br/>    <br/>            # Here we run pytest<br/>            print(&quot;\nTesting that running pytest on file %s results in %s&quot; % (test_to_run, str(asserts_dct)))<br/>            result = testdir.runpytest()  # (&quot;-q&quot;)<br/>    <br/>            # Here we check that everything is ok<br/>            try:<br/>                result.assert_outcomes(**asserts_dct)<br/>            except Exception as e:<br/>                print(&quot;Error while asserting that %s results in %s&quot; % (test_to_run, str(asserts_dct)))<br/>&gt;               six.raise_from(e, e)<br/><br/>/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:59: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/>&lt;string&gt;:3: in raise_from<br/>    ???<br/>/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:56: in test_run_all_tests<br/>    result.assert_outcomes(**asserts_dct)<br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;_pytest.pytester.RunResult object at 0x7fc1b1614d68&gt;, passed = 2<br/>skipped = 0, failed = 0<br/><br/>    def assert_outcomes(self, passed=0, skipped=0, failed=0):<br/>        &quot;&quot;&quot; assert that the specified outcomes appear with the respective<br/>            numbers (0 means it didn&#x27;t occur) in the text output from a test run.&quot;&quot;&quot;<br/>        d = self.parseoutcomes()<br/>&gt;       assert passed == d.get(&quot;passed&quot;, 0)<br/><span class="error">E       assert 2 == 0</span><br/><span class="error">E        +  where 0 = &lt;built-in method get of dict object at 0x7fc1b176aac8&gt;(&#x27;passed&#x27;, 0)</span><br/><span class="error">E        +    where &lt;built-in method get of dict object at 0x7fc1b176aac8&gt; = {&#x27;error&#x27;: 2, &#x27;seconds&#x27;: 5}.get</span><br/><br/>/home/travis/miniconda/envs/test-environment/lib/python3.5/site-packages/_pytest/pytester.py:370: AssertionError<br/>----------------------------- Captured stdout call -----------------------------<br/>
+            <div class="log">test_to_run = &#x27;test_saved_fixture_in_fixture.py&#x27;<br/>testdir = &lt;Testdir local(&#x27;/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests0&#x27;)&gt;<br/><br/>    @pytest.mark.parametrize(&#x27;test_to_run&#x27;, test_files, ids=str)<br/>    def test_run_all_tests(test_to_run, testdir):<br/>        &quot;&quot;&quot;<br/>        This is a meta-test. It is executed for each test file in the &#x27;tests_raw&#x27; folder.<br/>        For each of them, the file is retrieved and the expected test results are read from its first lines.<br/>        Then a dedicated pytest runner is run on this file, and the results are compared with the expected ones.<br/>    <br/>        See https://docs.pytest.org/en/latest/writing_plugins.html<br/>    <br/>        :param test_to_run:<br/>        :param testdir:<br/>        :return:<br/>        &quot;&quot;&quot;<br/>    <br/>        with open(join(tests_raw_folder, test_to_run)) as f:<br/>            # Create a temporary conftest.py file<br/>            # testdir.makeconftest(&quot;&quot;&quot;&quot;&quot;&quot;)<br/>    <br/>            # create a temporary pytest test file<br/>            test_file_contents = f.read()<br/>            testdir.makepyfile(test_file_contents)<br/>    <br/>            # Grab the expected things to check when this is executed<br/>            m = META_REGEX.match(test_file_contents)<br/>            assert m is not None<br/>            asserts_dct_str = m.groupdict()[&#x27;asserts_dct&#x27;]<br/>            asserts_dct = ast.literal_eval(asserts_dct_str)<br/>    <br/>            # Here we run pytest<br/>            print(&quot;\nTesting that running pytest on file %s results in %s&quot; % (test_to_run, str(asserts_dct)))<br/>            result = testdir.runpytest()  # (&quot;-q&quot;)<br/>    <br/>            # Here we check that everything is ok<br/>            try:<br/>                result.assert_outcomes(**asserts_dct)<br/>            except Exception as e:<br/>                print(&quot;Error while asserting that %s results in %s&quot; % (test_to_run, str(asserts_dct)))<br/>&gt;               six.raise_from(e, e)<br/><br/>/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:59: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/>&lt;string&gt;:3: in raise_from<br/>    ???<br/>/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:56: in test_run_all_tests<br/>    result.assert_outcomes(**asserts_dct)<br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;_pytest.pytester.RunResult object at 0x7f01354b2f28&gt;, passed = 2<br/>skipped = 0, failed = 0<br/><br/>    def assert_outcomes(self, passed=0, skipped=0, failed=0):<br/>        &quot;&quot;&quot; assert that the specified outcomes appear with the respective<br/>            numbers (0 means it didn&#x27;t occur) in the text output from a test run.&quot;&quot;&quot;<br/>        d = self.parseoutcomes()<br/>&gt;       assert passed == d.get(&quot;passed&quot;, 0)<br/><span class="error">E       assert 2 == 0</span><br/><span class="error">E        +  where 0 = &lt;built-in method get of dict object at 0x7f01354b43c8&gt;(&#x27;passed&#x27;, 0)</span><br/><span class="error">E        +    where &lt;built-in method get of dict object at 0x7f01354b43c8&gt; = {&#x27;error&#x27;: 2, &#x27;seconds&#x27;: 4}.get</span><br/><br/>/home/travis/miniconda/envs/test-environment/lib/python3.5/site-packages/_pytest/pytester.py:370: AssertionError<br/>----------------------------- Captured stdout call -----------------------------<br/>
 Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests0, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.1.dev40+g8616be7, cov-2.6.0
+plugins: logging-2015.11.4, html-1.9.0, harvest-0.5.0, cov-2.6.0
 collected 2 items
 
 test_run_all_tests.py EE
 
 ==================================== ERRORS ====================================
-________________ ERROR at setup of test_foo[0.1647257448192624] ________________
+________________ ERROR at setup of test_foo[0.8182538069956328] ________________
 pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
 
     @yield_fixture(scope=&apos;session&apos;, autouse=True)
@@ -384,9 +384,9 @@ pytest.fixture functions cannot use ``yield``. Instead write and return an inner
         assert len(store[&apos;my_fix&apos;]) == 2
         assert list(store[&apos;my_fix&apos;].keys()) == [item.nodeid for item in request.session.items
                                                 if this_file_name in item.nodeid]
-        assert list(store[&apos;my_fix&apos;].values()) == [str(n) for n in unique_numbers]
+        assert list(store[&apos;my_fix&apos;].values()) == [(&quot;my_fix #%s&quot; % n) for n in unique_numbers]
 /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests0/test_run_all_tests.py:36
-________________ ERROR at setup of test_foo[0.7370735380880378] ________________
+________________ ERROR at setup of test_foo[0.3482469683770151] ________________
 pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
 
     @yield_fixture(scope=&apos;session&apos;, autouse=True)
@@ -404,25 +404,119 @@ pytest.fixture functions cannot use ``yield``. Instead write and return an inner
         assert len(store[&apos;my_fix&apos;]) == 2
         assert list(store[&apos;my_fix&apos;].keys()) == [item.nodeid for item in request.session.items
                                                 if this_file_name in item.nodeid]
-        assert list(store[&apos;my_fix&apos;].values()) == [str(n) for n in unique_numbers]
+        assert list(store[&apos;my_fix&apos;].values()) == [(&quot;my_fix #%s&quot; % n) for n in unique_numbers]
 /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests0/test_run_all_tests.py:36
-=========================== 2 error in 0.05 seconds ============================
+=========================== 2 error in 0.04 seconds ============================
 Error while asserting that test_saved_fixture_in_fixture.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
 </div></td></tr></tbody>
       <tbody class="failed results-table-row">
         <tr>
           <td class="col-result">Failed</td>
-          <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_get_session_results.py]</td>
+          <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_results_bags.py]</td>
           <td class="col-duration">0.09</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="5">
-            <div class="log">test_to_run = &#x27;test_get_session_results.py&#x27;<br/>testdir = &lt;Testdir local(&#x27;/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1&#x27;)&gt;<br/><br/>    @pytest.mark.parametrize(&#x27;test_to_run&#x27;, test_files, ids=str)<br/>    def test_run_all_tests(test_to_run, testdir):<br/>        &quot;&quot;&quot;<br/>        This is a meta-test. It is executed for each test file in the &#x27;tests_raw&#x27; folder.<br/>        For each of them, the file is retrieved and the expected test results are read from its first lines.<br/>        Then a dedicated pytest runner is run on this file, and the results are compared with the expected ones.<br/>    <br/>        See https://docs.pytest.org/en/latest/writing_plugins.html<br/>    <br/>        :param test_to_run:<br/>        :param testdir:<br/>        :return:<br/>        &quot;&quot;&quot;<br/>    <br/>        with open(join(tests_raw_folder, test_to_run)) as f:<br/>            # Create a temporary conftest.py file<br/>            # testdir.makeconftest(&quot;&quot;&quot;&quot;&quot;&quot;)<br/>    <br/>            # create a temporary pytest test file<br/>            test_file_contents = f.read()<br/>            testdir.makepyfile(test_file_contents)<br/>    <br/>            # Grab the expected things to check when this is executed<br/>            m = META_REGEX.match(test_file_contents)<br/>            assert m is not None<br/>            asserts_dct_str = m.groupdict()[&#x27;asserts_dct&#x27;]<br/>            asserts_dct = ast.literal_eval(asserts_dct_str)<br/>    <br/>            # Here we run pytest<br/>            print(&quot;\nTesting that running pytest on file %s results in %s&quot; % (test_to_run, str(asserts_dct)))<br/>            result = testdir.runpytest()  # (&quot;-q&quot;)<br/>    <br/>            # Here we check that everything is ok<br/>            try:<br/>                result.assert_outcomes(**asserts_dct)<br/>            except Exception as e:<br/>                print(&quot;Error while asserting that %s results in %s&quot; % (test_to_run, str(asserts_dct)))<br/>&gt;               six.raise_from(e, e)<br/><br/>/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:59: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/>&lt;string&gt;:3: in raise_from<br/>    ???<br/>/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:56: in test_run_all_tests<br/>    result.assert_outcomes(**asserts_dct)<br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;_pytest.pytester.RunResult object at 0x7fc1b142cc18&gt;, passed = 4<br/>skipped = 1, failed = 1<br/><br/>    def assert_outcomes(self, passed=0, skipped=0, failed=0):<br/>        &quot;&quot;&quot; assert that the specified outcomes appear with the respective<br/>            numbers (0 means it didn&#x27;t occur) in the text output from a test run.&quot;&quot;&quot;<br/>        d = self.parseoutcomes()<br/>&gt;       assert passed == d.get(&quot;passed&quot;, 0)<br/><span class="error">E       assert 4 == 0</span><br/><span class="error">E        +  where 0 = &lt;built-in method get of dict object at 0x7fc1b1420508&gt;(&#x27;passed&#x27;, 0)</span><br/><span class="error">E        +    where &lt;built-in method get of dict object at 0x7fc1b1420508&gt; = {&#x27;error&#x27;: 6, &#x27;seconds&#x27;: 4}.get</span><br/><br/>/home/travis/miniconda/envs/test-environment/lib/python3.5/site-packages/_pytest/pytester.py:370: AssertionError<br/>----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_get_session_results.py results in {&apos;failed&apos;: 1, &apos;passed&apos;: 4, &apos;skipped&apos;: 1}
+            <div class="log">test_to_run = &#x27;test_results_bags.py&#x27;<br/>testdir = &lt;Testdir local(&#x27;/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1&#x27;)&gt;<br/><br/>    @pytest.mark.parametrize(&#x27;test_to_run&#x27;, test_files, ids=str)<br/>    def test_run_all_tests(test_to_run, testdir):<br/>        &quot;&quot;&quot;<br/>        This is a meta-test. It is executed for each test file in the &#x27;tests_raw&#x27; folder.<br/>        For each of them, the file is retrieved and the expected test results are read from its first lines.<br/>        Then a dedicated pytest runner is run on this file, and the results are compared with the expected ones.<br/>    <br/>        See https://docs.pytest.org/en/latest/writing_plugins.html<br/>    <br/>        :param test_to_run:<br/>        :param testdir:<br/>        :return:<br/>        &quot;&quot;&quot;<br/>    <br/>        with open(join(tests_raw_folder, test_to_run)) as f:<br/>            # Create a temporary conftest.py file<br/>            # testdir.makeconftest(&quot;&quot;&quot;&quot;&quot;&quot;)<br/>    <br/>            # create a temporary pytest test file<br/>            test_file_contents = f.read()<br/>            testdir.makepyfile(test_file_contents)<br/>    <br/>            # Grab the expected things to check when this is executed<br/>            m = META_REGEX.match(test_file_contents)<br/>            assert m is not None<br/>            asserts_dct_str = m.groupdict()[&#x27;asserts_dct&#x27;]<br/>            asserts_dct = ast.literal_eval(asserts_dct_str)<br/>    <br/>            # Here we run pytest<br/>            print(&quot;\nTesting that running pytest on file %s results in %s&quot; % (test_to_run, str(asserts_dct)))<br/>            result = testdir.runpytest()  # (&quot;-q&quot;)<br/>    <br/>            # Here we check that everything is ok<br/>            try:<br/>                result.assert_outcomes(**asserts_dct)<br/>            except Exception as e:<br/>                print(&quot;Error while asserting that %s results in %s&quot; % (test_to_run, str(asserts_dct)))<br/>&gt;               six.raise_from(e, e)<br/><br/>/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:59: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/>&lt;string&gt;:3: in raise_from<br/>    ???<br/>/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:56: in test_run_all_tests<br/>    result.assert_outcomes(**asserts_dct)<br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;_pytest.pytester.RunResult object at 0x7f01352d1748&gt;, passed = 6<br/>skipped = 0, failed = 0<br/><br/>    def assert_outcomes(self, passed=0, skipped=0, failed=0):<br/>        &quot;&quot;&quot; assert that the specified outcomes appear with the respective<br/>            numbers (0 means it didn&#x27;t occur) in the text output from a test run.&quot;&quot;&quot;<br/>        d = self.parseoutcomes()<br/>&gt;       assert passed == d.get(&quot;passed&quot;, 0)<br/><span class="error">E       assert 6 == 0</span><br/><span class="error">E        +  where 0 = &lt;built-in method get of dict object at 0x7f01352bd408&gt;(&#x27;passed&#x27;, 0)</span><br/><span class="error">E        +    where &lt;built-in method get of dict object at 0x7f01352bd408&gt; = {&#x27;error&#x27;: 6, &#x27;seconds&#x27;: 4}.get</span><br/><br/>/home/travis/miniconda/envs/test-environment/lib/python3.5/site-packages/_pytest/pytester.py:370: AssertionError<br/>----------------------------- Captured stdout call -----------------------------<br/>
+Testing that running pytest on file test_results_bags.py results in {&apos;failed&apos;: 0, &apos;skipped&apos;: 0, &apos;passed&apos;: 6}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.1.dev40+g8616be7, cov-2.6.0
+plugins: logging-2015.11.4, html-1.9.0, harvest-0.5.0, cov-2.6.0
+collected 6 items
+
+test_run_all_tests.py EEEEEE
+
+==================================== ERRORS ====================================
+___________________ ERROR at setup of test_my_app_bench[A-1] ___________________
+pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
+
+    @pytest.fixture(scope=&apos;session&apos;, autouse=True)
+    def store(request):
+        # setup: init the store
+        store = OrderedDict()
+        yield store
+        # teardown: here you can collect all
+        assert len(store[&apos;results_bag&apos;]) == 6
+        print(dict(store[&apos;results_bag&apos;]))
+/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1/test_run_all_tests.py:42
+___________________ ERROR at setup of test_my_app_bench[A-2] ___________________
+pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
+
+    @pytest.fixture(scope=&apos;session&apos;, autouse=True)
+    def store(request):
+        # setup: init the store
+        store = OrderedDict()
+        yield store
+        # teardown: here you can collect all
+        assert len(store[&apos;results_bag&apos;]) == 6
+        print(dict(store[&apos;results_bag&apos;]))
+/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1/test_run_all_tests.py:42
+___________________ ERROR at setup of test_my_app_bench[B-1] ___________________
+pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
+
+    @pytest.fixture(scope=&apos;session&apos;, autouse=True)
+    def store(request):
+        # setup: init the store
+        store = OrderedDict()
+        yield store
+        # teardown: here you can collect all
+        assert len(store[&apos;results_bag&apos;]) == 6
+        print(dict(store[&apos;results_bag&apos;]))
+/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1/test_run_all_tests.py:42
+___________________ ERROR at setup of test_my_app_bench[B-2] ___________________
+pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
+
+    @pytest.fixture(scope=&apos;session&apos;, autouse=True)
+    def store(request):
+        # setup: init the store
+        store = OrderedDict()
+        yield store
+        # teardown: here you can collect all
+        assert len(store[&apos;results_bag&apos;]) == 6
+        print(dict(store[&apos;results_bag&apos;]))
+/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1/test_run_all_tests.py:42
+___________________ ERROR at setup of test_my_app_bench[C-1] ___________________
+pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
+
+    @pytest.fixture(scope=&apos;session&apos;, autouse=True)
+    def store(request):
+        # setup: init the store
+        store = OrderedDict()
+        yield store
+        # teardown: here you can collect all
+        assert len(store[&apos;results_bag&apos;]) == 6
+        print(dict(store[&apos;results_bag&apos;]))
+/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1/test_run_all_tests.py:42
+___________________ ERROR at setup of test_my_app_bench[C-2] ___________________
+pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
+
+    @pytest.fixture(scope=&apos;session&apos;, autouse=True)
+    def store(request):
+        # setup: init the store
+        store = OrderedDict()
+        yield store
+        # teardown: here you can collect all
+        assert len(store[&apos;results_bag&apos;]) == 6
+        print(dict(store[&apos;results_bag&apos;]))
+/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1/test_run_all_tests.py:42
+=========================== 6 error in 0.04 seconds ============================
+Error while asserting that test_results_bags.py results in {&apos;failed&apos;: 0, &apos;skipped&apos;: 0, &apos;passed&apos;: 6}
+</div></td></tr></tbody>
+      <tbody class="failed results-table-row">
+        <tr>
+          <td class="col-result">Failed</td>
+          <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_get_session_results.py]</td>
+          <td class="col-duration">0.08</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="5">
+            <div class="log">test_to_run = &#x27;test_get_session_results.py&#x27;<br/>testdir = &lt;Testdir local(&#x27;/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2&#x27;)&gt;<br/><br/>    @pytest.mark.parametrize(&#x27;test_to_run&#x27;, test_files, ids=str)<br/>    def test_run_all_tests(test_to_run, testdir):<br/>        &quot;&quot;&quot;<br/>        This is a meta-test. It is executed for each test file in the &#x27;tests_raw&#x27; folder.<br/>        For each of them, the file is retrieved and the expected test results are read from its first lines.<br/>        Then a dedicated pytest runner is run on this file, and the results are compared with the expected ones.<br/>    <br/>        See https://docs.pytest.org/en/latest/writing_plugins.html<br/>    <br/>        :param test_to_run:<br/>        :param testdir:<br/>        :return:<br/>        &quot;&quot;&quot;<br/>    <br/>        with open(join(tests_raw_folder, test_to_run)) as f:<br/>            # Create a temporary conftest.py file<br/>            # testdir.makeconftest(&quot;&quot;&quot;&quot;&quot;&quot;)<br/>    <br/>            # create a temporary pytest test file<br/>            test_file_contents = f.read()<br/>            testdir.makepyfile(test_file_contents)<br/>    <br/>            # Grab the expected things to check when this is executed<br/>            m = META_REGEX.match(test_file_contents)<br/>            assert m is not None<br/>            asserts_dct_str = m.groupdict()[&#x27;asserts_dct&#x27;]<br/>            asserts_dct = ast.literal_eval(asserts_dct_str)<br/>    <br/>            # Here we run pytest<br/>            print(&quot;\nTesting that running pytest on file %s results in %s&quot; % (test_to_run, str(asserts_dct)))<br/>            result = testdir.runpytest()  # (&quot;-q&quot;)<br/>    <br/>            # Here we check that everything is ok<br/>            try:<br/>                result.assert_outcomes(**asserts_dct)<br/>            except Exception as e:<br/>                print(&quot;Error while asserting that %s results in %s&quot; % (test_to_run, str(asserts_dct)))<br/>&gt;               six.raise_from(e, e)<br/><br/>/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:59: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/>&lt;string&gt;:3: in raise_from<br/>    ???<br/>/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:56: in test_run_all_tests<br/>    result.assert_outcomes(**asserts_dct)<br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;_pytest.pytester.RunResult object at 0x7f013542aa20&gt;, passed = 4<br/>skipped = 1, failed = 1<br/><br/>    def assert_outcomes(self, passed=0, skipped=0, failed=0):<br/>        &quot;&quot;&quot; assert that the specified outcomes appear with the respective<br/>            numbers (0 means it didn&#x27;t occur) in the text output from a test run.&quot;&quot;&quot;<br/>        d = self.parseoutcomes()<br/>&gt;       assert passed == d.get(&quot;passed&quot;, 0)<br/><span class="error">E       assert 4 == 0</span><br/><span class="error">E        +  where 0 = &lt;built-in method get of dict object at 0x7f0135453a08&gt;(&#x27;passed&#x27;, 0)</span><br/><span class="error">E        +    where &lt;built-in method get of dict object at 0x7f0135453a08&gt; = {&#x27;error&#x27;: 6, &#x27;seconds&#x27;: 3}.get</span><br/><br/>/home/travis/miniconda/envs/test-environment/lib/python3.5/site-packages/_pytest/pytester.py:370: AssertionError<br/>----------------------------- Captured stdout call -----------------------------<br/>
+Testing that running pytest on file test_get_session_results.py results in {&apos;failed&apos;: 1, &apos;skipped&apos;: 1, &apos;passed&apos;: 4}
+============================= test session starts ==============================
+platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
+rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2, inifile: 
+plugins: logging-2015.11.4, html-1.9.0, harvest-0.5.0, cov-2.6.0
 collected 6 items
 
 test_run_all_tests.py EEEEEE
@@ -439,7 +533,7 @@ pytest.fixture functions cannot use ``yield``. Instead write and return an inner
         synth_dct = get_session_synthesis_dct(request.session)
     
         from pprint import pprint
-        pprint({k: dict(v) for k, v in synth_dct.items()})
+        pprint(dict(synth_dct))
     
         # asserts
         these_tests = [item.nodeid for item in request.session.items if this_file_name in item.nodeid]
@@ -478,7 +572,7 @@ pytest.fixture functions cannot use ``yield``. Instead write and return an inner
             assert set(node_synth_dct[&apos;pytest_params&apos;].keys()) == {&apos;p&apos;, &apos;a_number_str&apos;}
             assert node_synth_dct[&apos;pytest_params&apos;][&apos;a_number_str&apos;] == params[i][0]
             assert node_synth_dct[&apos;pytest_params&apos;][&apos;p&apos;] == params[i][1]
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1/test_run_all_tests.py:45
+/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2/test_run_all_tests.py:51
 _____________________ ERROR at setup of test_foo[1-world] ______________________
 pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
 
@@ -490,7 +584,7 @@ pytest.fixture functions cannot use ``yield``. Instead write and return an inner
         synth_dct = get_session_synthesis_dct(request.session)
     
         from pprint import pprint
-        pprint({k: dict(v) for k, v in synth_dct.items()})
+        pprint(dict(synth_dct))
     
         # asserts
         these_tests = [item.nodeid for item in request.session.items if this_file_name in item.nodeid]
@@ -529,7 +623,7 @@ pytest.fixture functions cannot use ``yield``. Instead write and return an inner
             assert set(node_synth_dct[&apos;pytest_params&apos;].keys()) == {&apos;p&apos;, &apos;a_number_str&apos;}
             assert node_synth_dct[&apos;pytest_params&apos;][&apos;a_number_str&apos;] == params[i][0]
             assert node_synth_dct[&apos;pytest_params&apos;][&apos;p&apos;] == params[i][1]
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1/test_run_all_tests.py:45
+/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2/test_run_all_tests.py:51
 _____________________ ERROR at setup of test_foo[2-hello] ______________________
 pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
 
@@ -541,7 +635,7 @@ pytest.fixture functions cannot use ``yield``. Instead write and return an inner
         synth_dct = get_session_synthesis_dct(request.session)
     
         from pprint import pprint
-        pprint({k: dict(v) for k, v in synth_dct.items()})
+        pprint(dict(synth_dct))
     
         # asserts
         these_tests = [item.nodeid for item in request.session.items if this_file_name in item.nodeid]
@@ -580,7 +674,7 @@ pytest.fixture functions cannot use ``yield``. Instead write and return an inner
             assert set(node_synth_dct[&apos;pytest_params&apos;].keys()) == {&apos;p&apos;, &apos;a_number_str&apos;}
             assert node_synth_dct[&apos;pytest_params&apos;][&apos;a_number_str&apos;] == params[i][0]
             assert node_synth_dct[&apos;pytest_params&apos;][&apos;p&apos;] == params[i][1]
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1/test_run_all_tests.py:45
+/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2/test_run_all_tests.py:51
 _____________________ ERROR at setup of test_foo[2-world] ______________________
 pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
 
@@ -592,7 +686,7 @@ pytest.fixture functions cannot use ``yield``. Instead write and return an inner
         synth_dct = get_session_synthesis_dct(request.session)
     
         from pprint import pprint
-        pprint({k: dict(v) for k, v in synth_dct.items()})
+        pprint(dict(synth_dct))
     
         # asserts
         these_tests = [item.nodeid for item in request.session.items if this_file_name in item.nodeid]
@@ -631,7 +725,7 @@ pytest.fixture functions cannot use ``yield``. Instead write and return an inner
             assert set(node_synth_dct[&apos;pytest_params&apos;].keys()) == {&apos;p&apos;, &apos;a_number_str&apos;}
             assert node_synth_dct[&apos;pytest_params&apos;][&apos;a_number_str&apos;] == params[i][0]
             assert node_synth_dct[&apos;pytest_params&apos;][&apos;p&apos;] == params[i][1]
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1/test_run_all_tests.py:45
+/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2/test_run_all_tests.py:51
 ________________________ ERROR at setup of test_skipped ________________________
 pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
 
@@ -643,7 +737,7 @@ pytest.fixture functions cannot use ``yield``. Instead write and return an inner
         synth_dct = get_session_synthesis_dct(request.session)
     
         from pprint import pprint
-        pprint({k: dict(v) for k, v in synth_dct.items()})
+        pprint(dict(synth_dct))
     
         # asserts
         these_tests = [item.nodeid for item in request.session.items if this_file_name in item.nodeid]
@@ -682,7 +776,7 @@ pytest.fixture functions cannot use ``yield``. Instead write and return an inner
             assert set(node_synth_dct[&apos;pytest_params&apos;].keys()) == {&apos;p&apos;, &apos;a_number_str&apos;}
             assert node_synth_dct[&apos;pytest_params&apos;][&apos;a_number_str&apos;] == params[i][0]
             assert node_synth_dct[&apos;pytest_params&apos;][&apos;p&apos;] == params[i][1]
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1/test_run_all_tests.py:45
+/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2/test_run_all_tests.py:51
 ________________________ ERROR at setup of test_failing ________________________
 pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
 
@@ -694,7 +788,7 @@ pytest.fixture functions cannot use ``yield``. Instead write and return an inner
         synth_dct = get_session_synthesis_dct(request.session)
     
         from pprint import pprint
-        pprint({k: dict(v) for k, v in synth_dct.items()})
+        pprint(dict(synth_dct))
     
         # asserts
         these_tests = [item.nodeid for item in request.session.items if this_file_name in item.nodeid]
@@ -733,32 +827,32 @@ pytest.fixture functions cannot use ``yield``. Instead write and return an inner
             assert set(node_synth_dct[&apos;pytest_params&apos;].keys()) == {&apos;p&apos;, &apos;a_number_str&apos;}
             assert node_synth_dct[&apos;pytest_params&apos;][&apos;a_number_str&apos;] == params[i][0]
             assert node_synth_dct[&apos;pytest_params&apos;][&apos;p&apos;] == params[i][1]
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1/test_run_all_tests.py:45
-=========================== 6 error in 0.04 seconds ============================
-Error while asserting that test_get_session_results.py results in {&apos;failed&apos;: 1, &apos;passed&apos;: 4, &apos;skipped&apos;: 1}
+/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2/test_run_all_tests.py:51
+=========================== 6 error in 0.03 seconds ============================
+Error while asserting that test_get_session_results.py results in {&apos;failed&apos;: 1, &apos;skipped&apos;: 1, &apos;passed&apos;: 4}
 </div></td></tr></tbody>
       <tbody class="failed results-table-row">
         <tr>
           <td class="col-result">Failed</td>
           <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_saved_fixture_in_global_var.py]</td>
-          <td class="col-duration">0.40</td>
+          <td class="col-duration">0.43</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="5">
-            <div class="log">test_to_run = &#x27;test_saved_fixture_in_global_var.py&#x27;<br/>testdir = &lt;Testdir local(&#x27;/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2&#x27;)&gt;<br/><br/>    @pytest.mark.parametrize(&#x27;test_to_run&#x27;, test_files, ids=str)<br/>    def test_run_all_tests(test_to_run, testdir):<br/>        &quot;&quot;&quot;<br/>        This is a meta-test. It is executed for each test file in the &#x27;tests_raw&#x27; folder.<br/>        For each of them, the file is retrieved and the expected test results are read from its first lines.<br/>        Then a dedicated pytest runner is run on this file, and the results are compared with the expected ones.<br/>    <br/>        See https://docs.pytest.org/en/latest/writing_plugins.html<br/>    <br/>        :param test_to_run:<br/>        :param testdir:<br/>        :return:<br/>        &quot;&quot;&quot;<br/>    <br/>        with open(join(tests_raw_folder, test_to_run)) as f:<br/>            # Create a temporary conftest.py file<br/>            # testdir.makeconftest(&quot;&quot;&quot;&quot;&quot;&quot;)<br/>    <br/>            # create a temporary pytest test file<br/>            test_file_contents = f.read()<br/>            testdir.makepyfile(test_file_contents)<br/>    <br/>            # Grab the expected things to check when this is executed<br/>            m = META_REGEX.match(test_file_contents)<br/>            assert m is not None<br/>            asserts_dct_str = m.groupdict()[&#x27;asserts_dct&#x27;]<br/>            asserts_dct = ast.literal_eval(asserts_dct_str)<br/>    <br/>            # Here we run pytest<br/>            print(&quot;\nTesting that running pytest on file %s results in %s&quot; % (test_to_run, str(asserts_dct)))<br/>            result = testdir.runpytest()  # (&quot;-q&quot;)<br/>    <br/>            # Here we check that everything is ok<br/>            try:<br/>                result.assert_outcomes(**asserts_dct)<br/>            except Exception as e:<br/>                print(&quot;Error while asserting that %s results in %s&quot; % (test_to_run, str(asserts_dct)))<br/>&gt;               six.raise_from(e, e)<br/><br/>/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:59: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/>&lt;string&gt;:3: in raise_from<br/>    ???<br/>/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:56: in test_run_all_tests<br/>    result.assert_outcomes(**asserts_dct)<br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;_pytest.pytester.RunResult object at 0x7fc1b1438860&gt;, passed = 2<br/>skipped = 0, failed = 0<br/><br/>    def assert_outcomes(self, passed=0, skipped=0, failed=0):<br/>        &quot;&quot;&quot; assert that the specified outcomes appear with the respective<br/>            numbers (0 means it didn&#x27;t occur) in the text output from a test run.&quot;&quot;&quot;<br/>        d = self.parseoutcomes()<br/>&gt;       assert passed == d.get(&quot;passed&quot;, 0)<br/><span class="error">E       assert 2 == 0</span><br/><span class="error">E        +  where 0 = &lt;built-in method get of dict object at 0x7fc1b1479648&gt;(&#x27;passed&#x27;, 0)</span><br/><span class="error">E        +    where &lt;built-in method get of dict object at 0x7fc1b1479648&gt; = {&#x27;error&#x27;: 3, &#x27;seconds&#x27;: 34}.get</span><br/><br/>/home/travis/miniconda/envs/test-environment/lib/python3.5/site-packages/_pytest/pytester.py:370: AssertionError<br/>----------------------------- Captured stdout call -----------------------------<br/>
+            <div class="log">test_to_run = &#x27;test_saved_fixture_in_global_var.py&#x27;<br/>testdir = &lt;Testdir local(&#x27;/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests3&#x27;)&gt;<br/><br/>    @pytest.mark.parametrize(&#x27;test_to_run&#x27;, test_files, ids=str)<br/>    def test_run_all_tests(test_to_run, testdir):<br/>        &quot;&quot;&quot;<br/>        This is a meta-test. It is executed for each test file in the &#x27;tests_raw&#x27; folder.<br/>        For each of them, the file is retrieved and the expected test results are read from its first lines.<br/>        Then a dedicated pytest runner is run on this file, and the results are compared with the expected ones.<br/>    <br/>        See https://docs.pytest.org/en/latest/writing_plugins.html<br/>    <br/>        :param test_to_run:<br/>        :param testdir:<br/>        :return:<br/>        &quot;&quot;&quot;<br/>    <br/>        with open(join(tests_raw_folder, test_to_run)) as f:<br/>            # Create a temporary conftest.py file<br/>            # testdir.makeconftest(&quot;&quot;&quot;&quot;&quot;&quot;)<br/>    <br/>            # create a temporary pytest test file<br/>            test_file_contents = f.read()<br/>            testdir.makepyfile(test_file_contents)<br/>    <br/>            # Grab the expected things to check when this is executed<br/>            m = META_REGEX.match(test_file_contents)<br/>            assert m is not None<br/>            asserts_dct_str = m.groupdict()[&#x27;asserts_dct&#x27;]<br/>            asserts_dct = ast.literal_eval(asserts_dct_str)<br/>    <br/>            # Here we run pytest<br/>            print(&quot;\nTesting that running pytest on file %s results in %s&quot; % (test_to_run, str(asserts_dct)))<br/>            result = testdir.runpytest()  # (&quot;-q&quot;)<br/>    <br/>            # Here we check that everything is ok<br/>            try:<br/>                result.assert_outcomes(**asserts_dct)<br/>            except Exception as e:<br/>                print(&quot;Error while asserting that %s results in %s&quot; % (test_to_run, str(asserts_dct)))<br/>&gt;               six.raise_from(e, e)<br/><br/>/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:59: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/>&lt;string&gt;:3: in raise_from<br/>    ???<br/>/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:56: in test_run_all_tests<br/>    result.assert_outcomes(**asserts_dct)<br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;_pytest.pytester.RunResult object at 0x7f0135235c18&gt;, passed = 2<br/>skipped = 0, failed = 0<br/><br/>    def assert_outcomes(self, passed=0, skipped=0, failed=0):<br/>        &quot;&quot;&quot; assert that the specified outcomes appear with the respective<br/>            numbers (0 means it didn&#x27;t occur) in the text output from a test run.&quot;&quot;&quot;<br/>        d = self.parseoutcomes()<br/>&gt;       assert passed == d.get(&quot;passed&quot;, 0)<br/><span class="error">E       assert 2 == 0</span><br/><span class="error">E        +  where 0 = &lt;built-in method get of dict object at 0x7f0135240088&gt;(&#x27;passed&#x27;, 0)</span><br/><span class="error">E        +    where &lt;built-in method get of dict object at 0x7f0135240088&gt; = {&#x27;error&#x27;: 3, &#x27;seconds&#x27;: 38}.get</span><br/><br/>/home/travis/miniconda/envs/test-environment/lib/python3.5/site-packages/_pytest/pytester.py:370: AssertionError<br/>----------------------------- Captured stdout call -----------------------------<br/>
 Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.1.dev40+g8616be7, cov-2.6.0
+rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests3, inifile: 
+plugins: logging-2015.11.4, html-1.9.0, harvest-0.5.0, cov-2.6.0
 collected 2 items
 
 test_run_all_tests.py EEE
 
 ==================================== ERRORS ====================================
-________________ ERROR at setup of test_foo[0.5039191673519139] ________________
+________________ ERROR at setup of test_foo[0.551113053571472] _________________
 
-object = &lt;code object my_yield_fix at 0x7fc1b16451e0, file &quot;&lt;decorator-gen-3&gt;&quot;, line 1&gt;
+object = &lt;code object my_yield_fix at 0x7f01354789c0, file &quot;&lt;decorator-gen-4&gt;&quot;, line 1&gt;
 
     def getsource(object):
         &quot;&quot;&quot;Return the text of the source code for an object.
@@ -774,7 +868,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     lines, lnum = findsource(object)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-object = &lt;code object my_yield_fix at 0x7fc1b16451e0, file &quot;&lt;decorator-gen-3&gt;&quot;, line 1&gt;
+object = &lt;code object my_yield_fix at 0x7f01354789c0, file &quot;&lt;decorator-gen-4&gt;&quot;, line 1&gt;
 
     def findsource(object):
         &quot;&quot;&quot;Return the entire source file and starting line number for an object.
@@ -806,9 +900,9 @@ object = &lt;code object my_yield_fix at 0x7fc1b16451e0, file &quot;&lt;decorato
 E           OSError: could not get source code
 
 /home/travis/miniconda/envs/test-environment/lib/python3.5/inspect.py:767: OSError
-________________ ERROR at setup of test_foo[0.150940914533374] _________________
+_______________ ERROR at setup of test_foo[0.15090818436618858] ________________
 
-object = &lt;code object my_yield_fix at 0x7fc1b16451e0, file &quot;&lt;decorator-gen-3&gt;&quot;, line 1&gt;
+object = &lt;code object my_yield_fix at 0x7f01354789c0, file &quot;&lt;decorator-gen-4&gt;&quot;, line 1&gt;
 
     def getsource(object):
         &quot;&quot;&quot;Return the text of the source code for an object.
@@ -824,7 +918,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     lines, lnum = findsource(object)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-object = &lt;code object my_yield_fix at 0x7fc1b16451e0, file &quot;&lt;decorator-gen-3&gt;&quot;, line 1&gt;
+object = &lt;code object my_yield_fix at 0x7f01354789c0, file &quot;&lt;decorator-gen-4&gt;&quot;, line 1&gt;
 
     def findsource(object):
         &quot;&quot;&quot;Return the entire source file and starting line number for an object.
@@ -856,23 +950,23 @@ object = &lt;code object my_yield_fix at 0x7fc1b16451e0, file &quot;&lt;decorato
 E           OSError: could not get source code
 
 /home/travis/miniconda/envs/test-environment/lib/python3.5/inspect.py:767: OSError
-_______________ ERROR at teardown of test_foo[0.150940914533374] _______________
+______________ ERROR at teardown of test_foo[0.15090818436618858] ______________
 
 &gt;   request.addfinalizer(lambda: final_test(request))
 
 test_run_all_tests.py:62: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-request = &lt;SubRequest &apos;register_final_test&apos; for &lt;Function &apos;test_foo[0.5039191673519139]&apos;&gt;&gt;
+request = &lt;SubRequest &apos;register_final_test&apos; for &lt;Function &apos;test_foo[0.551113053571472]&apos;&gt;&gt;
 
     def final_test(request):
         &quot;&quot;&quot;This is the &quot;test&quot; that will be called when session ends. We check that the STORE contains everything&quot;&quot;&quot;
         for fixture_name, values in [(&apos;my_fix&apos;, [str(n) for n in unique_numbers]),
                                      (&apos;my_yield_fix&apos;, [12, 12])]:
 &gt;           assert fixture_name in STORE
-E           assert &apos;my_yield_fix&apos; in OrderedDict([(&apos;my_fix&apos;, OrderedDict([(&apos;test_run_all_tests.py::test_foo[0.5039191673519139]&apos;, &apos;0.5039191673519139&apos;), (&apos;test_run_all_tests.py::test_foo[0.150940914533374]&apos;, &apos;0.150940914533374&apos;)]))])
+E           assert &apos;my_yield_fix&apos; in OrderedDict([(&apos;my_fix&apos;, OrderedDict([(&apos;test_run_all_tests.py::test_foo[0.551113053571472]&apos;, &apos;0.551113053571472&apos;), (&apos;test_run_all_tests.py::test_foo[0.15090818436618858]&apos;, &apos;0.15090818436618858&apos;)]))])
 
 test_run_all_tests.py:52: AssertionError
-=========================== 3 error in 0.34 seconds ============================
+=========================== 3 error in 0.38 seconds ============================
 Error while asserting that test_saved_fixture_in_global_var.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
 </div></td></tr></tbody></table></body></html>

@@ -274,23 +274,37 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#collecting-tests-status-and-parameters" title="Collecting tests status and parameters" class="md-nav__link">
-    Collecting tests status and parameters
+  <a href="#0-prerequisite-how-to-write-session-teardown-code" title="0- Prerequisite: how to write session teardown code" class="md-nav__link">
+    0- Prerequisite: how to write session teardown code
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#storing-fixture-values" title="Storing fixture values" class="md-nav__link">
-    Storing fixture values
+  <a href="#1-collecting-tests-status-and-parameters" title="1- Collecting tests status and parameters" class="md-nav__link">
+    1- Collecting tests status and parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-storingretrieving-fixtures" title="2- Storing/retrieving fixtures" class="md-nav__link">
+    2- Storing/retrieving fixtures
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#storing-in-a-variable" title="Storing in a variable" class="md-nav__link">
-    Storing in a variable
+  <a href="#a-storing-in-a-variable" title="a- Storing in a variable" class="md-nav__link">
+    a- Storing in a variable
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-storing-in-a-fixture" title="b- Storing in a fixture" class="md-nav__link">
+    b- Storing in a fixture
   </a>
   
 </li>
@@ -301,8 +315,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#collecting-test-artifacts" title="Collecting test artifacts" class="md-nav__link">
-    Collecting test artifacts
+  <a href="#3-creating-results-bags-fixtures-to-collect-test-artifacts" title="3- Creating "results bags" fixtures to collect test artifacts" class="md-nav__link">
+    3- Creating "results bags" fixtures to collect test artifacts
   </a>
   
 </li>
@@ -412,23 +426,37 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#collecting-tests-status-and-parameters" title="Collecting tests status and parameters" class="md-nav__link">
-    Collecting tests status and parameters
+  <a href="#0-prerequisite-how-to-write-session-teardown-code" title="0- Prerequisite: how to write session teardown code" class="md-nav__link">
+    0- Prerequisite: how to write session teardown code
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#storing-fixture-values" title="Storing fixture values" class="md-nav__link">
-    Storing fixture values
+  <a href="#1-collecting-tests-status-and-parameters" title="1- Collecting tests status and parameters" class="md-nav__link">
+    1- Collecting tests status and parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-storingretrieving-fixtures" title="2- Storing/retrieving fixtures" class="md-nav__link">
+    2- Storing/retrieving fixtures
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#storing-in-a-variable" title="Storing in a variable" class="md-nav__link">
-    Storing in a variable
+  <a href="#a-storing-in-a-variable" title="a- Storing in a variable" class="md-nav__link">
+    a- Storing in a variable
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-storing-in-a-fixture" title="b- Storing in a fixture" class="md-nav__link">
+    b- Storing in a fixture
   </a>
   
 </li>
@@ -439,8 +467,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#collecting-test-artifacts" title="Collecting test artifacts" class="md-nav__link">
-    Collecting test artifacts
+  <a href="#3-creating-results-bags-fixtures-to-collect-test-artifacts" title="3- Creating "results bags" fixtures to collect test artifacts" class="md-nav__link">
+    3- Creating "results bags" fixtures to collect test artifacts
   </a>
   
 </li>
@@ -515,11 +543,15 @@
 <p><a href="https://travis-ci.org/smarie/python-pytest-harvest"><img alt="Build Status" src="https://travis-ci.org/smarie/python-pytest-harvest.svg?branch=master" /></a> <a href="https://smarie.github.io/python-pytest-harvest/junit/report.html"><img alt="Tests Status" src="https://smarie.github.io/python-pytest-harvest/junit/junit-badge.svg?dummy=8484744" /></a> <a href="https://codecov.io/gh/smarie/python-pytest-harvest"><img alt="codecov" src="https://codecov.io/gh/smarie/python-pytest-harvest/branch/master/graph/badge.svg" /></a> <a href="https://smarie.github.io/python-pytest-harvest/"><img alt="Documentation" src="https://img.shields.io/badge/docs-latest-blue.svg" /></a> <a href="https://pypi.python.org/pypi/pytest_harvest/"><img alt="PyPI" src="https://img.shields.io/badge/PyPI-pytest_harvest-blue.svg" /></a></p>
 <p><code>pytest</code> is a great tool to write test logic once and then generate multiple tests from <em>parameters</em>. Its <em>fixture</em> mechanism provides a cool way to inject dependencies in your tests.</p>
 <p>At the end of a test session, you can already <strong>collect various data</strong> about the tests that have been run. However as opposed to <em>parameters</em> (<code>@pytest.mark.parametrize</code>), <code>pytest</code> purposedly does not keep <em>fixtures</em> (<code>@pytest.fixture</code>) in memory, because in general that would just be a waste of memory. Therefore you are currently <strong>not able to retrieve fixture values at the end of the session</strong>.</p>
-<p><code>pytest-harvest</code> allows you to very easily declare that a fixture should be stored in memory until the end of the session. This unlocks many new usages ; one of them proposed in this library is to create <strong>special "result bag" fixtures</strong> to collect interesting items from your tests.</p>
-<p>For example you can now create <strong>applicative benchmarks</strong>. For example if you have a new data science algorithm and wish to run it against several datasets, you can </p>
+<p><code>pytest-harvest</code></p>
+<ul>
+<li>provides a helper function to retrieve the status, duration and parameters of all tests at the end of a session, without having to register hooks</li>
+<li>allows you to very easily declare that a fixture should be stored in memory until the end of the session. This unlocks many new usages ; one of them proposed in this library is to create <strong>special "result bag" fixtures</strong> to collect interesting items from your tests.</li>
+</ul>
+<p>With that, you can now create <strong>applicative benchmarks</strong>. For example if you have a new data science algorithm and wish to run it against several datasets, you can </p>
 <ul>
 <li>create a <em>test</em> that applies the algorithm on a given dataset</li>
-<li><em>parametrize</em> it so that it runs against several datasets (<a href="https://smarie.github.io/python-pytest-cases/">pytest-cases</a> might help you)</li>
+<li><em>parametrize</em> it so that it runs against several datasets</li>
 <li><strong>NEW</strong> store accuracy values in each test run thanks to a "result bag" <em>fixture</em></li>
 <li><strong>NEW</strong> retrieve all accuracy values at the end of the <em>session</em> for reporting.</li>
 </ul>
@@ -534,29 +566,153 @@
 
 
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<h3 id="collecting-tests-status-and-parameters">Collecting tests status and parameters<a class="headerlink" href="#collecting-tests-status-and-parameters" title="Permanent link">&para;</a></h3>
-<p>Pytest already stores many information out of the box concerning tests that have run. You can easily retrieve them thanks to the <code>get_session_synthesis_dct(session)</code> utility function. For example let's assume you have this test:</p>
-<div class="codehilite"><pre><span></span><span class="nd">@pytest.mark.parametrize</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;world&#39;</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_foo</span><span class="p">():</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<h3 id="0-prerequisite-how-to-write-session-teardown-code">0- Prerequisite: how to write session teardown code<a class="headerlink" href="#0-prerequisite-how-to-write-session-teardown-code" title="Permanent link">&para;</a></h3>
+<p>In order to be able to retrieve all the information that we will store, we will have to ask <code>pytest</code> to execute our retrieval/synthesis code <strong>at the end of the entire test session</strong>. <code>pytest</code> currently provides several ways to do this:</p>
+<ul>
+<li>through the session finish <a href="https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_sessionfinish">hook</a> (you have to write this function in the <code>conftest.py</code> file):</li>
+</ul>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">exitstatus</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&lt;Put here your synthesis code&gt;&quot;</span><span class="p">)</span>
 </pre></div>
 
 
+<ul>
+<li>through a normal session-scoped fixture (put this in any of your test files or in the <code>conftest.py</code> file):</li>
+</ul>
+<div class="codehilite"><pre><span></span><span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_session_finish</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_end</span><span class="p">():</span>
+        <span class="c1"># you can access the session from the injected &#39;request&#39;:</span>
+        <span class="n">session</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&lt;Put here your synthesis code&gt;&quot;</span><span class="p">)</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">addfinalizer</span><span class="p">(</span><span class="n">_end</span><span class="p">)</span>
+</pre></div>
+
+
+<ul>
+<li>through a generator (yield) session-scoped fixture (put this in any of your test files or in the <code>conftest.py</code> file):</li>
+</ul>
+<div class="codehilite"><pre><span></span><span class="c1"># Note: for pytest&lt;3.0 you have to use @pytest.yield_fixture instead</span>
+<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;session&#39;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_cooler_session_finish</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">yield</span>
+    <span class="c1"># you can access the session from the injected &#39;request&#39;:</span>
+    <span class="n">session</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&lt;Put here your synthesis code&gt;&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>All seem completely equivalent for the usage of <code>pytest_harvest</code>. I personally prefer the "fixture" style because you can have several of them instead of a monolithic teardown hook. Besides they can be put in the test files so I typically put them as close as possible to the tests that store the data, so as to ensure maintainability (data creation/storage and data retrieval/synthesis code are in the same file).</p>
+<h3 id="1-collecting-tests-status-and-parameters">1- Collecting tests status and parameters<a class="headerlink" href="#1-collecting-tests-status-and-parameters" title="Permanent link">&para;</a></h3>
+<p>Pytest already stores some information out of the box concerning tests that have run. In addition you can follow <a href="https://docs.pytest.org/en/latest/example/simple.html#making-test-result-information-available-in-fixtures">this example</a> to retrieve more, but it requires you to write a hook so it is not very convenient. </p>
+<p>Instead, you can easily retrieve all of that thanks to the <code>get_session_synthesis_dct(session)</code> utility function. For example let's assume you have this parametrized test with a parametrized fixture:</p>
+<div class="codehilite"><pre><span></span><span class="c1"># unparametrized fixture</span>
+<span class="nd">@pytest.fixture</span>
+<span class="k">def</span> <span class="nf">dummy</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s2">&quot;hey there !&quot;</span>
+
+<span class="c1"># parametrized fixture</span>
+<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">param</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">a_number_str</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">&quot;my_fix #</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span>
+
+<span class="c1"># parametrized test using the fixtures</span>
+<span class="nd">@pytest.mark.parametrize</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;world&#39;</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_foo</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">a_number_str</span><span class="p">,</span> <span class="n">dummy</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="n">a_number_str</span><span class="p">)</span>
+</pre></div>
+
+
+<p>When running it, 4 tests are executed:</p>
+<div class="codehilite"><pre><span></span>&gt;&gt;&gt; <span class="nv">pytest</span>
+
+<span class="o">=============================</span> <span class="nb">test</span> session <span class="nv">starts</span> <span class="o">=============================</span>
+collected <span class="m">4</span> items                                                              
+
+path/to/test_file.py::test_foo<span class="o">[</span><span class="m">1</span>-hello<span class="o">]</span> PASSED <span class="o">[</span> <span class="m">25</span>%<span class="o">]</span>
+path/to/test_file.py::test_foo<span class="o">[</span><span class="m">1</span>-world<span class="o">]</span> PASSED <span class="o">[</span> <span class="m">50</span>%<span class="o">]</span>
+path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-hello<span class="o">]</span> PASSED <span class="o">[</span> <span class="m">75</span>%<span class="o">]</span>
+path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-world<span class="o">]</span> PASSED <span class="o">[</span><span class="m">100</span>%<span class="o">]</span>
+
+<span class="o">==========================</span> <span class="m">4</span> passed in <span class="m">0</span>.11 <span class="nv">seconds</span> <span class="o">===========================</span>
+</pre></div>
+
+
+<p>let's retrieve the available information at the end of the session (put this in your <a href="#0-prerequisite-how-to-write-session-teardown-code">session teardown</a> so that you have the session object):</p>
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">get_session_synthesis_dct</span>
-<span class="n">dct</span> <span class="o">=</span> <span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">)</span>
+<span class="n">synth_dct</span> <span class="o">=</span> <span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">synth_dct</span><span class="p">))</span>
 </pre></div>
 
 
-<h3 id="storing-fixture-values">Storing fixture values<a class="headerlink" href="#storing-fixture-values" title="Permanent link">&para;</a></h3>
-<p>You can either choose to store fixtures in a plain old variable, or in a session-scoped fixture. Both can be achieved using the same decorator <code>@saved_fixture(store)</code>.</p>
-<h4 id="storing-in-a-variable">Storing in a variable<a class="headerlink" href="#storing-in-a-variable" title="Permanent link">&para;</a></h4>
+<p>It yields</p>
+<div class="codehilite"><pre><span></span><span class="p">{</span>
+ <span class="s1">&#39;path/to/test_file.py::test_foo[1-hello]&#39;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s1">&#39;pytest_duration&#39;</span><span class="o">:</span> <span class="mf">0.0010001659393310547</span><span class="p">,</span>
+            <span class="s1">&#39;pytest_obj&#39;</span><span class="o">:</span> <span class="o">&lt;</span><span class="kd">function</span> <span class="nx">test_foo</span> <span class="nx">at</span> <span class="mh">0x0000000004C13B70</span><span class="o">&gt;</span><span class="p">,</span>
+            <span class="s1">&#39;pytest_params&#39;</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;a_number_str&#39;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="o">:</span> <span class="s1">&#39;hello&#39;</span><span class="p">},</span>
+            <span class="s1">&#39;pytest_status&#39;</span><span class="o">:</span> <span class="s1">&#39;passed&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;pytest_status_details&#39;</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;call&#39;</span><span class="o">:</span> <span class="p">(</span><span class="s1">&#39;passed&#39;</span><span class="p">,</span> <span class="mf">0.0010001659393310547</span><span class="p">),</span>
+                                      <span class="s1">&#39;setup&#39;</span><span class="o">:</span> <span class="p">(</span><span class="s1">&#39;passed&#39;</span><span class="p">,</span> <span class="mf">0.013001203536987305</span><span class="p">),</span>
+                                      <span class="s1">&#39;teardown&#39;</span><span class="o">:</span> <span class="p">(</span><span class="s1">&#39;passed&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+                                     <span class="p">}</span>
+             <span class="p">},</span>
+ <span class="s1">&#39;path/to/test_file.py::test_foo[1-world]&#39;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s1">&#39;pytest_duration&#39;</span><span class="o">:</span> <span class="mf">0.0</span><span class="p">,</span>
+            <span class="s1">&#39;pytest_obj&#39;</span><span class="o">:</span> <span class="o">&lt;</span><span class="kd">function</span> <span class="nx">test_foo</span> <span class="nx">at</span> <span class="mh">0x0000000004C13B70</span><span class="o">&gt;</span><span class="p">,</span>
+            <span class="s1">&#39;pytest_params&#39;</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;a_number_str&#39;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="o">:</span> <span class="s1">&#39;world&#39;</span><span class="p">},</span>
+            <span class="s1">&#39;pytest_status&#39;</span><span class="o">:</span> <span class="s1">&#39;passed&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;pytest_status_details&#39;</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;call&#39;</span><span class="o">:</span> <span class="p">(</span><span class="s1">&#39;passed&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                                      <span class="s1">&#39;setup&#39;</span><span class="o">:</span> <span class="p">(</span><span class="s1">&#39;passed&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                                      <span class="s1">&#39;teardown&#39;</span><span class="o">:</span> <span class="p">(</span><span class="s1">&#39;passed&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+                                     <span class="p">}</span>
+             <span class="p">},</span>
+ <span class="s1">&#39;path/to/test_file.py::test_foo[2-hello]&#39;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s1">&#39;pytest_duration&#39;</span><span class="o">:</span> <span class="mf">0.0010001659393310547</span><span class="p">,</span>
+            <span class="s1">&#39;pytest_obj&#39;</span><span class="o">:</span> <span class="o">&lt;</span><span class="kd">function</span> <span class="nx">test_foo</span> <span class="nx">at</span> <span class="mh">0x0000000004C13B70</span><span class="o">&gt;</span><span class="p">,</span>
+            <span class="s1">&#39;pytest_params&#39;</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;a_number_str&#39;</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="o">:</span> <span class="s1">&#39;hello&#39;</span><span class="p">},</span>
+            <span class="s1">&#39;pytest_status&#39;</span><span class="o">:</span> <span class="s1">&#39;passed&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;pytest_status_details&#39;</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;call&#39;</span><span class="o">:</span> <span class="p">(</span><span class="s1">&#39;passed&#39;</span><span class="p">,</span> <span class="mf">0.0010001659393310547</span><span class="p">),</span> 
+                                      <span class="s1">&#39;setup&#39;</span><span class="o">:</span> <span class="p">(</span><span class="s1">&#39;passed&#39;</span><span class="p">,</span> <span class="mf">0.0010001659393310547</span><span class="p">),</span>
+                                      <span class="s1">&#39;teardown&#39;</span><span class="o">:</span> <span class="p">(</span><span class="s1">&#39;passed&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+                                      <span class="p">}</span>
+             <span class="p">},</span>
+ <span class="s1">&#39;path/to/test_file.py::test_foo[2-world]&#39;</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s1">&#39;pytest_duration&#39;</span><span class="o">:</span> <span class="mf">0.0</span><span class="p">,</span>
+            <span class="s1">&#39;pytest_obj&#39;</span><span class="o">:</span> <span class="o">&lt;</span><span class="kd">function</span> <span class="nx">test_foo</span> <span class="nx">at</span> <span class="mh">0x0000000004C13B70</span><span class="o">&gt;</span><span class="p">,</span>
+            <span class="s1">&#39;pytest_params&#39;</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;a_number_str&#39;</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="o">:</span> <span class="s1">&#39;world&#39;</span><span class="p">},</span>
+            <span class="s1">&#39;pytest_status&#39;</span><span class="o">:</span> <span class="s1">&#39;passed&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;pytest_status_details&#39;</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;call&#39;</span><span class="o">:</span> <span class="p">(</span><span class="s1">&#39;passed&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                                      <span class="s1">&#39;setup&#39;</span><span class="o">:</span> <span class="p">(</span><span class="s1">&#39;passed&#39;</span><span class="p">,</span> <span class="mf">0.0010001659393310547</span><span class="p">),</span>
+                                      <span class="s1">&#39;teardown&#39;</span><span class="o">:</span> <span class="p">(</span><span class="s1">&#39;passed&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+                                      <span class="p">}</span>
+            <span class="p">},</span>
+</pre></div>
+
+
+<p>As you can see you get for each test node id, a dictionary containing</p>
+<ul>
+<li><code>'pytest_obj'</code>the object containing the test code</li>
+<li><code>'pytest_status'</code> the status and <code>'pytest_duration'</code> the duration of the test</li>
+<li><code>'pytest_params'</code>the parameters used in this test (both in the test function AND the fixture)</li>
+<li>the status details for each pytest internal step: setup, call, and teardown. </li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">status and duration aggregation</p>
+<p>that the global status corresponds to an aggregation of the status of each of those steps, but the global duration is only the duration of the "call" step - after all we do not care about how long it took to setup and teardown.</p>
+</div>
+<p>Finally let's have a closer look above. It <strong>seems</strong> that after all we have collected the fixtures, right ? For example we see <code>'a_number_str': 2</code>. But beware, this is not the fixture. It is the parameter used by the fixture <code>'a_number_str'</code>. To be convinced look at its type: it is an integer, not a string! A more obvious way to confirm that the fixtures are not available, is to see that the <code>'dummy'</code> fixture does not appear at all: indeed it had no parameters.</p>
+<p>To conclude: the <code>get_session_synthesis_dct(session)</code> utility function allows you to collect many information about the tests, but not the fixtures. To do that you have to use the mechanisms below.</p>
+<h3 id="2-storingretrieving-fixtures">2- Storing/retrieving fixtures<a class="headerlink" href="#2-storingretrieving-fixtures" title="Permanent link">&para;</a></h3>
+<p>You can either choose to store fixtures in a plain old variable, or in another, session-scoped, fixture. Both can be achieved using the same decorator <code>@saved_fixture(store)</code>.</p>
+<h4 id="a-storing-in-a-variable">a- Storing in a variable<a class="headerlink" href="#a-storing-in-a-variable" title="Permanent link">&para;</a></h4>
 <p>Let's create a store. It should be a dict-like object:</p>
 <div class="codehilite"><pre><span></span><span class="c1"># Create a global store</span>
 <span class="n">STORE</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 </pre></div>
 
 
-<p>In order to store fixture values in this object, simply decorate them with <code>@saved_fixture(store)</code>:</p>
+<p>In order to store all created fixture values in this object, simply decorate your fixture with <code>@saved_fixture(STORE)</code>:</p>
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pytest</span>
 <span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">saved_fixture</span>
 
@@ -564,37 +720,137 @@
 <span class="nd">@saved_fixture</span><span class="p">(</span><span class="n">STORE</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_fix</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Each returned fixture value will be saved in the global store&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span>
+    <span class="k">return</span> <span class="s2">&quot;my_fix #</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span>
 </pre></div>
 
 
-<p>Then you can have a look at the storage at the end of the pytest session with any of the standard means that pytest proposes to be called at session teardown or reporting stage. For example you can do it using a session-scoped fixture:</p>
-<div class="codehilite"><pre><span></span><span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;session&#39;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">register_final_test</span><span class="p">():</span>
-    <span class="k">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">STORE</span><span class="p">[</span><span class="s1">&#39;my_fix&#39;</span><span class="p">]))</span>
+<p>You can then retrieve the available information at the end of the session (put this in your <a href="#0-prerequisite-how-to-write-session-teardown-code">session teardown</a>):</p>
+<div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">STORE</span><span class="p">[</span><span class="s1">&#39;my_fix&#39;</span><span class="p">]))</span>
 </pre></div>
 
 
-<p>or inside the "session end" hook in <code>conftest.py</code>:</p>
-<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">exitstatus</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">STORE</span><span class="p">[</span><span class="s1">&#39;my_fix&#39;</span><span class="p">]))</span>
+<p>Each saved fixture appears as an ordered dictionary stored under a global key that has its name (here 'my_fix'). In this dictionary, the keys are the test node ids, and the values are the fixture values:</p>
+<div class="codehilite"><pre><span></span><span class="p">{</span><span class="s1">&#39;path/to/test_file.py::test_foo[1]&#39;</span><span class="o">:</span> <span class="s1">&#39;my_fix #1&#39;</span><span class="p">,</span> 
+<span class="s1">&#39;path/to/test_file.py::test_foo[2]&#39;</span><span class="o">:</span> <span class="s1">&#39;my_fix #2&#39;</span><span class="p">}</span>
 </pre></div>
 
 
-<p>The result is an ordered dictionary where the keys are the test node ids, and the values are the fixture values:</p>
-<div class="codehilite"><pre><span></span><span class="o">{</span><span class="s1">&#39;pytest_harvest/tests_raw/test_saved_fixture_in_global_var.py::test_foo[1]&#39;</span>: <span class="m">1</span>, <span class="s1">&#39;pytest_harvest/tests_raw/test_saved_fixture_in_global_var.py::test_foo[2]&#39;</span>: <span class="m">2</span><span class="o">}</span>
+<p>Note: you can change the key used in the global storage with the <code>key=</code> argument of <code>@saved_fixture</code>. </p>
+<h4 id="b-storing-in-a-fixture">b- Storing in a fixture<a class="headerlink" href="#b-storing-in-a-fixture" title="Permanent link">&para;</a></h4>
+<p>You might want your store to be a fixture itself, instead of a global variable. It is possible if it is session-scoped. Simply use its name in <code>@saved_fixture</code> and it will work as expected. </p>
+<p>This enables you to make the code even more readable because you can put the synthesis code in the teardown part of the storage fixture:</p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">saved_fixture</span>
+
+<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="nd">@saved_fixture</span><span class="p">(</span><span class="s2">&quot;store&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_fix</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Each returned fixture value will be saved in the global store&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;my_fix #</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span>
+
+<span class="c1"># -- the global storage fixture and synthesis creator --</span>
+<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;session&#39;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">store</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="c1"># setup: init the store</span>
+    <span class="n">store</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="k">yield</span> <span class="n">store</span>
+    <span class="c1"># teardown: here you can collect all</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">store</span><span class="p">[</span><span class="s1">&#39;my_fix&#39;</span><span class="p">]))</span>
 </pre></div>
 
 
-<h3 id="collecting-test-artifacts">Collecting test artifacts<a class="headerlink" href="#collecting-test-artifacts" title="Permanent link">&para;</a></h3>
-<p>Since the word "test results" might be misleading here (one could think about the standard success/failure results) we talk about test artifacts: we wish to collect objects that are created <strong>within</strong> the tests.</p>
-<p><strong>TODO</strong></p>
+<div class="admonition note">
+<p class="admonition-title">other teardown hooks</p>
+<p>If you use another teardown hook, you can still retrieve your <code>'store'</code> fixture by using the <code>get_fixture_value(request, 'store')</code> utility function provided in this library. </p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">yield_fixture</p>
+<p>In old versions of pytest, you have to use <code>@pytest.yield_fixture</code> to be allowed to use <code>yield</code> in a fixture.</p>
+</div>
+<h3 id="3-creating-results-bags-fixtures-to-collect-test-artifacts">3- Creating "results bags" fixtures to collect test artifacts<a class="headerlink" href="#3-creating-results-bags-fixtures-to-collect-test-artifacts" title="Permanent link">&para;</a></h3>
+<p>Now we are able to store fixtures. But what about the data that we create <strong>during</strong> the tests ? It can be accuracy results, etc.</p>
+<p>For this, simply use <code>create_results_bag_fixture()</code> to create "results bags" fixtures where you can put any data you want:</p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">create_results_bag_fixture</span>
+
+<span class="k">def</span> <span class="nf">my_algorithm</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="c1"># let&#39;s return a random accuracy !</span>
+    <span class="k">return</span> <span class="n">random</span><span class="p">()</span>
+
+<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">dataset</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">&quot;my dataset #</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span>
+
+<span class="nd">@pytest.mark.parametrize</span><span class="p">(</span><span class="s2">&quot;algo_param&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_my_app_bench</span><span class="p">(</span><span class="n">algo_param</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">results_bag</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This test applies the algorithm with various parameters (`algo_param`)</span>
+<span class="sd">    on various datasets (`dataset`). Accuracies are stored in a results</span>
+<span class="sd">    bag (`results_bag`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># apply the algorithm with param `algo_param` on dataset `dataset`</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="n">my_algorithm</span><span class="p">(</span><span class="n">algo_param</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span>
+    <span class="c1"># store it in the results bag</span>
+    <span class="n">results_bag</span><span class="o">.</span><span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy</span>
+
+<span class="c1"># -- the results bag fixture --</span>
+<span class="c1"># note: depending on your pytest version, the name used by pytest might be</span>
+<span class="c1"># the variable name (left) or the one you provide in the &#39;name&#39; argument so </span>
+<span class="c1"># make sure they are identical! </span>
+<span class="n">results_bag</span> <span class="o">=</span> <span class="n">create_results_bag_fixture</span><span class="p">(</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;results_bag&quot;</span><span class="p">)</span>
+
+<span class="c1"># -- the global storage fixture and synthesis creator --</span>
+<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;session&#39;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">store</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="c1"># setup: init the store</span>
+    <span class="n">store</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="k">yield</span> <span class="n">store</span>
+    <span class="c1"># teardown: here you can collect all</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">store</span><span class="p">[</span><span class="s1">&#39;results_bag&#39;</span><span class="p">]))</span>
+</pre></div>
+
+
+<p>We can see the correct results collected:</p>
+<div class="codehilite"><pre><span></span><span class="p">{</span>
+<span class="s1">&#39;path/to/test_file.py::::test_my_app_bench[A-1]&#39;</span><span class="o">:</span> 
+     <span class="nx">ResultsBag</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="o">:</span> <span class="mf">0.2630766637159053</span><span class="p">,</span> <span class="s1">&#39;execution_time&#39;</span><span class="o">:</span> <span class="mf">0.002</span><span class="p">},</span> 
+<span class="s1">&#39;path/to/test_file.py::::test_my_app_bench[A-2]&#39;</span><span class="o">:</span> 
+     <span class="nx">ResultsBag</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="o">:</span> <span class="mf">0.6720533462346249</span><span class="p">,</span> <span class="s1">&#39;execution_time&#39;</span><span class="o">:</span> <span class="mf">0.002</span><span class="p">},</span> 
+<span class="s1">&#39;path/to/test_file.py::::test_my_app_bench[B-1]&#39;</span><span class="o">:</span>
+     <span class="nx">ResultsBag</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="o">:</span> <span class="mf">0.9121353916881674</span><span class="p">,</span> <span class="s1">&#39;execution_time&#39;</span><span class="o">:</span> <span class="mf">0.002</span><span class="p">},</span> 
+<span class="s1">&#39;path/to/test_file.py::::test_my_app_bench[B-2]&#39;</span><span class="o">:</span> 
+     <span class="nx">ResultsBag</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="o">:</span> <span class="mf">0.9401074040573346</span><span class="p">,</span> <span class="s1">&#39;execution_time&#39;</span><span class="o">:</span> <span class="mf">0.002</span><span class="p">},</span> 
+<span class="s1">&#39;path/to/test_file.py::::test_my_app_bench[C-1]&#39;</span><span class="o">:</span> 
+     <span class="nx">ResultsBag</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="o">:</span> <span class="mf">0.01619034700438804</span><span class="p">,</span> <span class="s1">&#39;execution_time&#39;</span><span class="o">:</span> <span class="mf">0.002</span><span class="p">},</span>
+<span class="s1">&#39;path/to/test_file.py::::test_my_app_bench[C-2]&#39;</span><span class="o">:</span> 
+     <span class="nx">ResultsBag</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="o">:</span> <span class="mf">0.8027244886806986</span><span class="p">,</span> <span class="s1">&#39;execution_time&#39;</span><span class="o">:</span> <span class="mf">0.002</span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>We can of course combine this with the test status and parameters (we saw <a href="#1-collecting-tests-status-and-parameters">above</a> how to collect them) if we want to create a synthesis table. This complete story will be available on <a href="https://github.com/smarie/pytest-patterns">pytest-patterns</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">results bag fixtures' storage</p>
+<p>You declare the storage used in the arguments of <code>create_results_bag_fixture</code>. As this relies on <code>@saved_fixture</code>, you can use both a variable or a session-scope fixture name as we saw in previous chapter. </p>
+</div>
 <h3 id="compliance-with-the-other-pytest-mechanisms">Compliance with the other pytest mechanisms<a class="headerlink" href="#compliance-with-the-other-pytest-mechanisms" title="Permanent link">&para;</a></h3>
-<p>This package solely relies on the fixtures mechanism. It should therefore be quite portable across pytest versions.</p>
+<p>This package solely relies on the fixtures mechanism and the <code>pytest_runtest_makereport</code> hook. It should therefore be quite portable across pytest versions.</p>
 <h2 id="main-features-benefits">Main features / benefits<a class="headerlink" href="#main-features-benefits" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Store selected fixtures declaratively</strong>: simply decorate your fixture with <code>@saved_fixture(storage)</code> and all fixture values will be stored in the selected storage</li>
-<li><strong>Highly configurable</strong>: storage object (for storing fixtures) or results bag object (for collecting results from tests) </li>
+<li>
+<p><strong>Collect test execution information easily</strong>: with <code>get_session_synthesis_dct(session)</code> you can get a lot of information about tests, without the hassle of writing hooks. </p>
+</li>
+<li>
+<p><strong>Store selected fixtures declaratively</strong>: simply decorate your fixture with <code>@saved_fixture(storage)</code> and all fixture values will be stored in the selected storage (a variable or another fixture).</p>
+</li>
+<li>
+<p><strong>Collect test artifacts</strong>: you can create "results bags" fixtures to store applicative information during your tests and retrieve it at the end. It makes it very easy to create applicative benchmarks, for example for data science.</p>
+</li>
+<li>
+<p><strong>Highly configurable</strong>: storage object (for storing fixtures) or results bag object (for collecting results from tests) can be any object type of your choice. For results bags, a default type is provided that behaves like a "munch" (both a dictionary and an object).</p>
+</li>
 </ul>
 <h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
