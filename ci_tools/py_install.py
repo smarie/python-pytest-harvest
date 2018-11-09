@@ -11,6 +11,7 @@ import subprocess
 
 
 def check_cmd(cmd):
+    assert isinstance(cmd, str), "cmd should be a string"
     assert cmd in {"pip", "conda"}, "cmd should be conda or pip. Unknown: " + str(cmd)
 
 
@@ -33,7 +34,7 @@ env_var_regexp = re.compile(".*\$(\S+).*")
 if __name__ == '__main__':
     assert len(sys.argv[1:]) >= 2, "at least two mandatory arguments: <cmd> <filename>"
 
-    cmd = sys.argv[2:]
+    cmd = sys.argv[1]
     check_cmd(cmd)
 
     filenames = sys.argv[2:]
