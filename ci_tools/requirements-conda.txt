@@ -8,11 +8,11 @@ pypandoc
 decorator
 
 # --- to run the tests
-pytest$PYTEST_VERSION
+# (pip) pytest$PYTEST_VERSION
 # (pip) pytest-logging  # ==2015.11.4
 
 # --- to generate the reports (see scripts in ci_tools, called by .travis)
-# (pip) pytest-html==1.9.0
+# (pip) pytest-html$PYTEST_HTML_VERSION
 requests
 # (pip) xunitparser
 pytest-cov  # ==2.5
