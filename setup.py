@@ -101,6 +101,8 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+
+        'Framework :: Pytest'
     ],
 
     # What does your project relate to?
@@ -159,4 +161,7 @@ setup(
     #         'sample=sample:main',
     #     ],
     # },
+
+    # the following makes a plugin available to pytest
+    entry_points={"pytest11": ["harvest = pytest_harvest.plugin"]},
 )
