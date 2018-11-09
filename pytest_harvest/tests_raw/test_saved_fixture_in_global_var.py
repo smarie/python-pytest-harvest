@@ -8,7 +8,8 @@ import pytest
 from collections import OrderedDict
 from random import random
 
-from pytest_harvest import saved_fixture, get_session_synthesis_dct
+from pytest_harvest import saved_fixture
+from pytest_harvest.tests_raw.common_utils import yield_fixture
 
 # init
 this_file_name = os.path.split(__file__)[1]
@@ -24,20 +25,15 @@ STORE = OrderedDict()
 @pytest.fixture(params=unique_numbers)
 @saved_fixture(STORE)
 def my_fix(request):
-    return request.param
+    # convert the parameter to a string so that the fixture is different from the parameter
+    return str(request.param)
 
 
 # -- 'generator' mode
-if int(pytest.__version__.split('.', 1)[0]) >= 3:
-    @pytest.fixture()
-    @saved_fixture(STORE)
-    def my_yield_fix():
-        yield 12
-else:
-    @pytest.yield_fixture()
-    @saved_fixture(STORE)
-    def my_yield_fix():
-        yield 12
+@yield_fixture()
+@saved_fixture(STORE)
+def my_yield_fix():
+    yield 12
 
 
 def test_foo(my_fix, my_yield_fix):
@@ -51,7 +47,7 @@ def test_foo(my_fix, my_yield_fix):
 
 def final_test(request):
     """This is the "test" that will be called when session ends. We check that the STORE contains everything"""
-    for fixture_name, values in [('my_fix', unique_numbers),
+    for fixture_name, values in [('my_fix', [str(n) for n in unique_numbers]),
                                  ('my_yield_fix', [12, 12])]:
         assert fixture_name in STORE
         assert len(STORE[fixture_name]) == 2
