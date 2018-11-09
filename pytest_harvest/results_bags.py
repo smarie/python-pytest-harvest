@@ -132,13 +132,13 @@ def create_results_bag_fixture(storage,                        # type: Union[str
             yield res
 
     # Create one result bag per step if needed (if pytest_harvest is present)
-    _results_bag = one_per_step()(_results_bag)
+    _results_bag = one_per_step(_results_bag)
+
+    # Declare that this fixture should be saved
+    _results_bag = saved_fixture(storage, key=name)(_results_bag)
 
     # Decorate manually as a fixture
     _results_bag.__name__ = name
     results_bag_fixture = pytest.fixture(_results_bag)
-
-    # Declare that this fixture should be saved
-    results_bag_fixture = saved_fixture(storage)(results_bag_fixture)
 
     return results_bag_fixture
