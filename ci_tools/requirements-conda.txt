@@ -12,7 +12,7 @@ pytest$PYTEST_VERSION
 # (pip) pytest-logging  # ==2015.11.4
 
 # --- to generate the reports (see scripts in ci_tools, called by .travis)
-pytest-html  # ==1.16
+# (pip) pytest-html==1.9.0
 requests
 # (pip) xunitparser
 pytest-cov  # ==2.5
