@@ -1,844 +1,116 @@
-<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="4" name="pytest" skips="0" tests="4" time="0.904"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_fixture.py]" time="0.07965826988220215"><failure message="assert 2 == 0
- +  where 0 = &lt;built-in method get of dict object at 0x7fe6dff06408&gt;(&apos;passed&apos;, 0)
- +    where &lt;built-in method get of dict object at 0x7fe6dff06408&gt; = {&apos;error&apos;: 2, &apos;seconds&apos;: 2}.get">test_to_run = &apos;test_saved_fixture_in_fixture.py&apos;
-testdir = &lt;Testdir local(&apos;/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests0&apos;)&gt;
-
-    @pytest.mark.parametrize(&apos;test_to_run&apos;, test_files, ids=str)
-    def test_run_all_tests(test_to_run, testdir):
-        &quot;&quot;&quot;
-        This is a meta-test. It is executed for each test file in the &apos;tests_raw&apos; folder.
-        For each of them, the file is retrieved and the expected test results are read from its first lines.
-        Then a dedicated pytest runner is run on this file, and the results are compared with the expected ones.
-    
-        See https://docs.pytest.org/en/latest/writing_plugins.html
-    
-        :param test_to_run:
-        :param testdir:
-        :return:
-        &quot;&quot;&quot;
-    
-        with open(join(tests_raw_folder, test_to_run)) as f:
-            # Create a temporary conftest.py file
-            # testdir.makeconftest(&quot;&quot;&quot;&quot;&quot;&quot;)
-    
-            # create a temporary pytest test file
-            test_file_contents = f.read()
-            testdir.makepyfile(test_file_contents)
-    
-            # Grab the expected things to check when this is executed
-            m = META_REGEX.match(test_file_contents)
-            assert m is not None
-            asserts_dct_str = m.groupdict()[&apos;asserts_dct&apos;]
-            asserts_dct = ast.literal_eval(asserts_dct_str)
-    
-            # Here we run pytest
-            print(&quot;\nTesting that running pytest on file %s results in %s&quot; % (test_to_run, str(asserts_dct)))
-            result = testdir.runpytest()  # (&quot;-q&quot;)
-    
-            # Here we check that everything is ok
-            try:
-                result.assert_outcomes(**asserts_dct)
-            except Exception as e:
-                print(&quot;Error while asserting that %s results in %s&quot; % (test_to_run, str(asserts_dct)))
-&gt;               six.raise_from(e, e)
-
-/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:59: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-&lt;string&gt;:3: in raise_from
-    ???
-/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:56: in test_run_all_tests
-    result.assert_outcomes(**asserts_dct)
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = &lt;_pytest.pytester.RunResult object at 0x7fe6dff0a390&gt;, passed = 2
-skipped = 0, failed = 0
-
-    def assert_outcomes(self, passed=0, skipped=0, failed=0):
-        &quot;&quot;&quot; assert that the specified outcomes appear with the respective
-            numbers (0 means it didn&apos;t occur) in the text output from a test run.&quot;&quot;&quot;
-        d = self.parseoutcomes()
-&gt;       assert passed == d.get(&quot;passed&quot;, 0)
-E       assert 2 == 0
-E        +  where 0 = &lt;built-in method get of dict object at 0x7fe6dff06408&gt;(&apos;passed&apos;, 0)
-E        +    where &lt;built-in method get of dict object at 0x7fe6dff06408&gt; = {&apos;error&apos;: 2, &apos;seconds&apos;: 2}.get
-
-/home/travis/miniconda/envs/test-environment/lib/python3.5/site-packages/_pytest/pytester.py:370: AssertionError</failure><system-out>
-Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
+<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="0" name="pytest" skips="0" tests="4" time="0.408"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_fixture.py]" time="0.08552861213684082"><system-out>
+Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests0, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.5.1.dev1+gf56995f, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests0, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.5.1.dev1+gf56995f, cov-2.6.0
 collected 2 items
 
-test_run_all_tests.py EE
+test_run_all_tests.py ..                                                 [100%]
 
-==================================== ERRORS ====================================
-_______________ ERROR at setup of test_foo[0.34387226169447593] ________________
-pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
-
-    @yield_fixture(scope=&apos;session&apos;, autouse=True)
-    def store(request):
-    
-        # yield the store fixture
-        store = OrderedDict()
-        yield store
-    
-        # check that this util works
-        assert get_fixture_value(request, &apos;store&apos;) == store
-    
-        # check that the store contains everything
-        assert &apos;my_fix&apos; in store
-        assert len(store[&apos;my_fix&apos;]) == 2
-        assert list(store[&apos;my_fix&apos;].keys()) == [item.nodeid for item in request.session.items
-                                                if this_file_name in item.nodeid]
-        assert list(store[&apos;my_fix&apos;].values()) == [(&quot;my_fix #%s&quot; % n) for n in unique_numbers]
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests0/test_run_all_tests.py:36
-________________ ERROR at setup of test_foo[0.5387825520760716] ________________
-pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
-
-    @yield_fixture(scope=&apos;session&apos;, autouse=True)
-    def store(request):
-    
-        # yield the store fixture
-        store = OrderedDict()
-        yield store
-    
-        # check that this util works
-        assert get_fixture_value(request, &apos;store&apos;) == store
-    
-        # check that the store contains everything
-        assert &apos;my_fix&apos; in store
-        assert len(store[&apos;my_fix&apos;]) == 2
-        assert list(store[&apos;my_fix&apos;].keys()) == [item.nodeid for item in request.session.items
-                                                if this_file_name in item.nodeid]
-        assert list(store[&apos;my_fix&apos;].values()) == [(&quot;my_fix #%s&quot; % n) for n in unique_numbers]
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests0/test_run_all_tests.py:36
-=========================== 2 error in 0.02 seconds ============================
-Error while asserting that test_saved_fixture_in_fixture.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_results_bags.py]" time="0.08919072151184082"><failure message="assert 6 == 0
- +  where 0 = &lt;built-in method get of dict object at 0x7fe6dfd1c8c8&gt;(&apos;passed&apos;, 0)
- +    where &lt;built-in method get of dict object at 0x7fe6dfd1c8c8&gt; = {&apos;error&apos;: 6, &apos;seconds&apos;: 4}.get">test_to_run = &apos;test_results_bags.py&apos;
-testdir = &lt;Testdir local(&apos;/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1&apos;)&gt;
-
-    @pytest.mark.parametrize(&apos;test_to_run&apos;, test_files, ids=str)
-    def test_run_all_tests(test_to_run, testdir):
-        &quot;&quot;&quot;
-        This is a meta-test. It is executed for each test file in the &apos;tests_raw&apos; folder.
-        For each of them, the file is retrieved and the expected test results are read from its first lines.
-        Then a dedicated pytest runner is run on this file, and the results are compared with the expected ones.
-    
-        See https://docs.pytest.org/en/latest/writing_plugins.html
-    
-        :param test_to_run:
-        :param testdir:
-        :return:
-        &quot;&quot;&quot;
-    
-        with open(join(tests_raw_folder, test_to_run)) as f:
-            # Create a temporary conftest.py file
-            # testdir.makeconftest(&quot;&quot;&quot;&quot;&quot;&quot;)
-    
-            # create a temporary pytest test file
-            test_file_contents = f.read()
-            testdir.makepyfile(test_file_contents)
-    
-            # Grab the expected things to check when this is executed
-            m = META_REGEX.match(test_file_contents)
-            assert m is not None
-            asserts_dct_str = m.groupdict()[&apos;asserts_dct&apos;]
-            asserts_dct = ast.literal_eval(asserts_dct_str)
-    
-            # Here we run pytest
-            print(&quot;\nTesting that running pytest on file %s results in %s&quot; % (test_to_run, str(asserts_dct)))
-            result = testdir.runpytest()  # (&quot;-q&quot;)
-    
-            # Here we check that everything is ok
-            try:
-                result.assert_outcomes(**asserts_dct)
-            except Exception as e:
-                print(&quot;Error while asserting that %s results in %s&quot; % (test_to_run, str(asserts_dct)))
-&gt;               six.raise_from(e, e)
-
-/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:59: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-&lt;string&gt;:3: in raise_from
-    ???
-/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:56: in test_run_all_tests
-    result.assert_outcomes(**asserts_dct)
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = &lt;_pytest.pytester.RunResult object at 0x7fe6dff3f630&gt;, passed = 6
-skipped = 0, failed = 0
-
-    def assert_outcomes(self, passed=0, skipped=0, failed=0):
-        &quot;&quot;&quot; assert that the specified outcomes appear with the respective
-            numbers (0 means it didn&apos;t occur) in the text output from a test run.&quot;&quot;&quot;
-        d = self.parseoutcomes()
-&gt;       assert passed == d.get(&quot;passed&quot;, 0)
-E       assert 6 == 0
-E        +  where 0 = &lt;built-in method get of dict object at 0x7fe6dfd1c8c8&gt;(&apos;passed&apos;, 0)
-E        +    where &lt;built-in method get of dict object at 0x7fe6dfd1c8c8&gt; = {&apos;error&apos;: 6, &apos;seconds&apos;: 4}.get
-
-/home/travis/miniconda/envs/test-environment/lib/python3.5/site-packages/_pytest/pytester.py:370: AssertionError</failure><system-out>
-Testing that running pytest on file test_results_bags.py results in {&apos;skipped&apos;: 0, &apos;failed&apos;: 0, &apos;passed&apos;: 6}
+=========================== 2 passed in 0.04 seconds ===========================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_results_bags.py]" time="0.0691213607788086"><system-out>
+Testing that running pytest on file test_results_bags.py results in {&apos;passed&apos;: 6, &apos;failed&apos;: 0, &apos;skipped&apos;: 0}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.5.1.dev1+gf56995f, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests1, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.5.1.dev1+gf56995f, cov-2.6.0
 collected 6 items
 
-test_run_all_tests.py EEEEEE
+test_run_all_tests.py ......                                             [100%]
 
-==================================== ERRORS ====================================
-___________________ ERROR at setup of test_my_app_bench[A-1] ___________________
-pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
-
-    @pytest.fixture(scope=&apos;session&apos;, autouse=True)
-    def store(request):
-        # setup: init the store
-        store = OrderedDict()
-        yield store
-        # teardown: here you can collect all
-        assert len(store[&apos;results_bag&apos;]) == 6
-        print(dict(store[&apos;results_bag&apos;]))
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1/test_run_all_tests.py:42
-___________________ ERROR at setup of test_my_app_bench[A-2] ___________________
-pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
-
-    @pytest.fixture(scope=&apos;session&apos;, autouse=True)
-    def store(request):
-        # setup: init the store
-        store = OrderedDict()
-        yield store
-        # teardown: here you can collect all
-        assert len(store[&apos;results_bag&apos;]) == 6
-        print(dict(store[&apos;results_bag&apos;]))
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1/test_run_all_tests.py:42
-___________________ ERROR at setup of test_my_app_bench[B-1] ___________________
-pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
-
-    @pytest.fixture(scope=&apos;session&apos;, autouse=True)
-    def store(request):
-        # setup: init the store
-        store = OrderedDict()
-        yield store
-        # teardown: here you can collect all
-        assert len(store[&apos;results_bag&apos;]) == 6
-        print(dict(store[&apos;results_bag&apos;]))
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1/test_run_all_tests.py:42
-___________________ ERROR at setup of test_my_app_bench[B-2] ___________________
-pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
-
-    @pytest.fixture(scope=&apos;session&apos;, autouse=True)
-    def store(request):
-        # setup: init the store
-        store = OrderedDict()
-        yield store
-        # teardown: here you can collect all
-        assert len(store[&apos;results_bag&apos;]) == 6
-        print(dict(store[&apos;results_bag&apos;]))
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1/test_run_all_tests.py:42
-___________________ ERROR at setup of test_my_app_bench[C-1] ___________________
-pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
-
-    @pytest.fixture(scope=&apos;session&apos;, autouse=True)
-    def store(request):
-        # setup: init the store
-        store = OrderedDict()
-        yield store
-        # teardown: here you can collect all
-        assert len(store[&apos;results_bag&apos;]) == 6
-        print(dict(store[&apos;results_bag&apos;]))
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1/test_run_all_tests.py:42
-___________________ ERROR at setup of test_my_app_bench[C-2] ___________________
-pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
-
-    @pytest.fixture(scope=&apos;session&apos;, autouse=True)
-    def store(request):
-        # setup: init the store
-        store = OrderedDict()
-        yield store
-        # teardown: here you can collect all
-        assert len(store[&apos;results_bag&apos;]) == 6
-        print(dict(store[&apos;results_bag&apos;]))
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1/test_run_all_tests.py:42
-=========================== 6 error in 0.04 seconds ============================
-Error while asserting that test_results_bags.py results in {&apos;skipped&apos;: 0, &apos;failed&apos;: 0, &apos;passed&apos;: 6}
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_get_session_results.py]" time="0.08364629745483398"><failure message="assert 4 == 0
- +  where 0 = &lt;built-in method get of dict object at 0x7fe6dfd67248&gt;(&apos;passed&apos;, 0)
- +    where &lt;built-in method get of dict object at 0x7fe6dfd67248&gt; = {&apos;error&apos;: 6, &apos;seconds&apos;: 3}.get">test_to_run = &apos;test_get_session_results.py&apos;
-testdir = &lt;Testdir local(&apos;/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2&apos;)&gt;
-
-    @pytest.mark.parametrize(&apos;test_to_run&apos;, test_files, ids=str)
-    def test_run_all_tests(test_to_run, testdir):
-        &quot;&quot;&quot;
-        This is a meta-test. It is executed for each test file in the &apos;tests_raw&apos; folder.
-        For each of them, the file is retrieved and the expected test results are read from its first lines.
-        Then a dedicated pytest runner is run on this file, and the results are compared with the expected ones.
-    
-        See https://docs.pytest.org/en/latest/writing_plugins.html
-    
-        :param test_to_run:
-        :param testdir:
-        :return:
-        &quot;&quot;&quot;
-    
-        with open(join(tests_raw_folder, test_to_run)) as f:
-            # Create a temporary conftest.py file
-            # testdir.makeconftest(&quot;&quot;&quot;&quot;&quot;&quot;)
-    
-            # create a temporary pytest test file
-            test_file_contents = f.read()
-            testdir.makepyfile(test_file_contents)
-    
-            # Grab the expected things to check when this is executed
-            m = META_REGEX.match(test_file_contents)
-            assert m is not None
-            asserts_dct_str = m.groupdict()[&apos;asserts_dct&apos;]
-            asserts_dct = ast.literal_eval(asserts_dct_str)
-    
-            # Here we run pytest
-            print(&quot;\nTesting that running pytest on file %s results in %s&quot; % (test_to_run, str(asserts_dct)))
-            result = testdir.runpytest()  # (&quot;-q&quot;)
-    
-            # Here we check that everything is ok
-            try:
-                result.assert_outcomes(**asserts_dct)
-            except Exception as e:
-                print(&quot;Error while asserting that %s results in %s&quot; % (test_to_run, str(asserts_dct)))
-&gt;               six.raise_from(e, e)
-
-/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:59: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-&lt;string&gt;:3: in raise_from
-    ???
-/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:56: in test_run_all_tests
-    result.assert_outcomes(**asserts_dct)
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = &lt;_pytest.pytester.RunResult object at 0x7fe6dfdfcef0&gt;, passed = 4
-skipped = 1, failed = 1
-
-    def assert_outcomes(self, passed=0, skipped=0, failed=0):
-        &quot;&quot;&quot; assert that the specified outcomes appear with the respective
-            numbers (0 means it didn&apos;t occur) in the text output from a test run.&quot;&quot;&quot;
-        d = self.parseoutcomes()
-&gt;       assert passed == d.get(&quot;passed&quot;, 0)
-E       assert 4 == 0
-E        +  where 0 = &lt;built-in method get of dict object at 0x7fe6dfd67248&gt;(&apos;passed&apos;, 0)
-E        +    where &lt;built-in method get of dict object at 0x7fe6dfd67248&gt; = {&apos;error&apos;: 6, &apos;seconds&apos;: 3}.get
-
-/home/travis/miniconda/envs/test-environment/lib/python3.5/site-packages/_pytest/pytester.py:370: AssertionError</failure><system-out>
-Testing that running pytest on file test_get_session_results.py results in {&apos;skipped&apos;: 1, &apos;failed&apos;: 1, &apos;passed&apos;: 4}
+=========================== 6 passed in 0.03 seconds ===========================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_get_session_results.py]" time="0.0955965518951416"><system-out>
+Testing that running pytest on file test_get_session_results.py results in {&apos;passed&apos;: 4, &apos;failed&apos;: 1, &apos;skipped&apos;: 1}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.5.1.dev1+gf56995f, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests2, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.5.1.dev1+gf56995f, cov-2.6.0
 collected 6 items
 
-test_run_all_tests.py EEEEEE
+test_run_all_tests.py ....sF                                             [100%]
 
-==================================== ERRORS ====================================
-_____________________ ERROR at setup of test_foo[1-hello] ______________________
-pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
+=================================== FAILURES ===================================
+_________________________________ test_failing _________________________________
 
-    @yield_fixture(scope=&apos;session&apos;, autouse=True)
-    def make_synthesis(request):
-        yield
-    
-        #  teardown callback
-        synth_dct = get_session_synthesis_dct(request.session)
-    
-        from pprint import pprint
-        pprint(dict(synth_dct))
-    
-        # asserts
-        these_tests = [item.nodeid for item in request.session.items if this_file_name in item.nodeid]
-    
-        # -- first check that synth_dct contains all these test nodes
-        missing = set(these_tests) - set(synth_dct.keys())
-        assert len(missing) == 0
-    
-        # compute the parameter values for all tests in order
-        params = list(product(fixture_params, test_params))
-    
-        # -- check that all test foo nodes appear as success and contain the right information
-        test_foo_nodes = [nid for nid in these_tests if test_foo.__name__ in nid]
-        for i, nodeid in enumerate(test_foo_nodes):
-            node_synth_dct = synth_dct[nodeid]
-            assert set(node_synth_dct.keys()) == {&apos;pytest_obj&apos;,
-                                                  &apos;pytest_status&apos;,
-                                                  &apos;pytest_duration&apos;,
-                                                  &apos;pytest_status_details&apos;,
-                                                  &apos;pytest_params&apos;
-                                                  }
-            # main test information
-            assert node_synth_dct[&apos;pytest_obj&apos;] == test_foo
-            assert node_synth_dct[&apos;pytest_status&apos;] == &apos;passed&apos;
-            assert node_synth_dct[&apos;pytest_duration&apos;] &gt;= 0
-    
-            # test status details
-            stages = [&apos;setup&apos;, &apos;call&apos;, &apos;teardown&apos;]
-            assert set(node_synth_dct[&apos;pytest_status_details&apos;].keys()) == set(stages)
-            for step in stages:
-                assert len(node_synth_dct[&apos;pytest_status_details&apos;][step]) == 2
-                assert node_synth_dct[&apos;pytest_status_details&apos;][step][0] == &apos;passed&apos;
-                assert node_synth_dct[&apos;pytest_status_details&apos;][step][1] &gt;= 0
-    
-            # parameter values
-            assert set(node_synth_dct[&apos;pytest_params&apos;].keys()) == {&apos;p&apos;, &apos;a_number_str&apos;}
-            assert node_synth_dct[&apos;pytest_params&apos;][&apos;a_number_str&apos;] == params[i][0]
-            assert node_synth_dct[&apos;pytest_params&apos;][&apos;p&apos;] == params[i][1]
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2/test_run_all_tests.py:51
-_____________________ ERROR at setup of test_foo[1-world] ______________________
-pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
+    def test_failing():
+&gt;       pytest.fail(&quot;oh&quot;)
+E       Failed: oh
 
-    @yield_fixture(scope=&apos;session&apos;, autouse=True)
-    def make_synthesis(request):
-        yield
-    
-        #  teardown callback
-        synth_dct = get_session_synthesis_dct(request.session)
-    
-        from pprint import pprint
-        pprint(dict(synth_dct))
-    
-        # asserts
-        these_tests = [item.nodeid for item in request.session.items if this_file_name in item.nodeid]
-    
-        # -- first check that synth_dct contains all these test nodes
-        missing = set(these_tests) - set(synth_dct.keys())
-        assert len(missing) == 0
-    
-        # compute the parameter values for all tests in order
-        params = list(product(fixture_params, test_params))
-    
-        # -- check that all test foo nodes appear as success and contain the right information
-        test_foo_nodes = [nid for nid in these_tests if test_foo.__name__ in nid]
-        for i, nodeid in enumerate(test_foo_nodes):
-            node_synth_dct = synth_dct[nodeid]
-            assert set(node_synth_dct.keys()) == {&apos;pytest_obj&apos;,
-                                                  &apos;pytest_status&apos;,
-                                                  &apos;pytest_duration&apos;,
-                                                  &apos;pytest_status_details&apos;,
-                                                  &apos;pytest_params&apos;
-                                                  }
-            # main test information
-            assert node_synth_dct[&apos;pytest_obj&apos;] == test_foo
-            assert node_synth_dct[&apos;pytest_status&apos;] == &apos;passed&apos;
-            assert node_synth_dct[&apos;pytest_duration&apos;] &gt;= 0
-    
-            # test status details
-            stages = [&apos;setup&apos;, &apos;call&apos;, &apos;teardown&apos;]
-            assert set(node_synth_dct[&apos;pytest_status_details&apos;].keys()) == set(stages)
-            for step in stages:
-                assert len(node_synth_dct[&apos;pytest_status_details&apos;][step]) == 2
-                assert node_synth_dct[&apos;pytest_status_details&apos;][step][0] == &apos;passed&apos;
-                assert node_synth_dct[&apos;pytest_status_details&apos;][step][1] &gt;= 0
-    
-            # parameter values
-            assert set(node_synth_dct[&apos;pytest_params&apos;].keys()) == {&apos;p&apos;, &apos;a_number_str&apos;}
-            assert node_synth_dct[&apos;pytest_params&apos;][&apos;a_number_str&apos;] == params[i][0]
-            assert node_synth_dct[&apos;pytest_params&apos;][&apos;p&apos;] == params[i][1]
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2/test_run_all_tests.py:51
-_____________________ ERROR at setup of test_foo[2-hello] ______________________
-pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
-
-    @yield_fixture(scope=&apos;session&apos;, autouse=True)
-    def make_synthesis(request):
-        yield
-    
-        #  teardown callback
-        synth_dct = get_session_synthesis_dct(request.session)
-    
-        from pprint import pprint
-        pprint(dict(synth_dct))
-    
-        # asserts
-        these_tests = [item.nodeid for item in request.session.items if this_file_name in item.nodeid]
-    
-        # -- first check that synth_dct contains all these test nodes
-        missing = set(these_tests) - set(synth_dct.keys())
-        assert len(missing) == 0
-    
-        # compute the parameter values for all tests in order
-        params = list(product(fixture_params, test_params))
-    
-        # -- check that all test foo nodes appear as success and contain the right information
-        test_foo_nodes = [nid for nid in these_tests if test_foo.__name__ in nid]
-        for i, nodeid in enumerate(test_foo_nodes):
-            node_synth_dct = synth_dct[nodeid]
-            assert set(node_synth_dct.keys()) == {&apos;pytest_obj&apos;,
-                                                  &apos;pytest_status&apos;,
-                                                  &apos;pytest_duration&apos;,
-                                                  &apos;pytest_status_details&apos;,
-                                                  &apos;pytest_params&apos;
-                                                  }
-            # main test information
-            assert node_synth_dct[&apos;pytest_obj&apos;] == test_foo
-            assert node_synth_dct[&apos;pytest_status&apos;] == &apos;passed&apos;
-            assert node_synth_dct[&apos;pytest_duration&apos;] &gt;= 0
-    
-            # test status details
-            stages = [&apos;setup&apos;, &apos;call&apos;, &apos;teardown&apos;]
-            assert set(node_synth_dct[&apos;pytest_status_details&apos;].keys()) == set(stages)
-            for step in stages:
-                assert len(node_synth_dct[&apos;pytest_status_details&apos;][step]) == 2
-                assert node_synth_dct[&apos;pytest_status_details&apos;][step][0] == &apos;passed&apos;
-                assert node_synth_dct[&apos;pytest_status_details&apos;][step][1] &gt;= 0
-    
-            # parameter values
-            assert set(node_synth_dct[&apos;pytest_params&apos;].keys()) == {&apos;p&apos;, &apos;a_number_str&apos;}
-            assert node_synth_dct[&apos;pytest_params&apos;][&apos;a_number_str&apos;] == params[i][0]
-            assert node_synth_dct[&apos;pytest_params&apos;][&apos;p&apos;] == params[i][1]
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2/test_run_all_tests.py:51
-_____________________ ERROR at setup of test_foo[2-world] ______________________
-pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
-
-    @yield_fixture(scope=&apos;session&apos;, autouse=True)
-    def make_synthesis(request):
-        yield
-    
-        #  teardown callback
-        synth_dct = get_session_synthesis_dct(request.session)
-    
-        from pprint import pprint
-        pprint(dict(synth_dct))
-    
-        # asserts
-        these_tests = [item.nodeid for item in request.session.items if this_file_name in item.nodeid]
-    
-        # -- first check that synth_dct contains all these test nodes
-        missing = set(these_tests) - set(synth_dct.keys())
-        assert len(missing) == 0
-    
-        # compute the parameter values for all tests in order
-        params = list(product(fixture_params, test_params))
-    
-        # -- check that all test foo nodes appear as success and contain the right information
-        test_foo_nodes = [nid for nid in these_tests if test_foo.__name__ in nid]
-        for i, nodeid in enumerate(test_foo_nodes):
-            node_synth_dct = synth_dct[nodeid]
-            assert set(node_synth_dct.keys()) == {&apos;pytest_obj&apos;,
-                                                  &apos;pytest_status&apos;,
-                                                  &apos;pytest_duration&apos;,
-                                                  &apos;pytest_status_details&apos;,
-                                                  &apos;pytest_params&apos;
-                                                  }
-            # main test information
-            assert node_synth_dct[&apos;pytest_obj&apos;] == test_foo
-            assert node_synth_dct[&apos;pytest_status&apos;] == &apos;passed&apos;
-            assert node_synth_dct[&apos;pytest_duration&apos;] &gt;= 0
-    
-            # test status details
-            stages = [&apos;setup&apos;, &apos;call&apos;, &apos;teardown&apos;]
-            assert set(node_synth_dct[&apos;pytest_status_details&apos;].keys()) == set(stages)
-            for step in stages:
-                assert len(node_synth_dct[&apos;pytest_status_details&apos;][step]) == 2
-                assert node_synth_dct[&apos;pytest_status_details&apos;][step][0] == &apos;passed&apos;
-                assert node_synth_dct[&apos;pytest_status_details&apos;][step][1] &gt;= 0
-    
-            # parameter values
-            assert set(node_synth_dct[&apos;pytest_params&apos;].keys()) == {&apos;p&apos;, &apos;a_number_str&apos;}
-            assert node_synth_dct[&apos;pytest_params&apos;][&apos;a_number_str&apos;] == params[i][0]
-            assert node_synth_dct[&apos;pytest_params&apos;][&apos;p&apos;] == params[i][1]
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2/test_run_all_tests.py:51
-________________________ ERROR at setup of test_skipped ________________________
-pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
-
-    @yield_fixture(scope=&apos;session&apos;, autouse=True)
-    def make_synthesis(request):
-        yield
-    
-        #  teardown callback
-        synth_dct = get_session_synthesis_dct(request.session)
-    
-        from pprint import pprint
-        pprint(dict(synth_dct))
-    
-        # asserts
-        these_tests = [item.nodeid for item in request.session.items if this_file_name in item.nodeid]
-    
-        # -- first check that synth_dct contains all these test nodes
-        missing = set(these_tests) - set(synth_dct.keys())
-        assert len(missing) == 0
-    
-        # compute the parameter values for all tests in order
-        params = list(product(fixture_params, test_params))
-    
-        # -- check that all test foo nodes appear as success and contain the right information
-        test_foo_nodes = [nid for nid in these_tests if test_foo.__name__ in nid]
-        for i, nodeid in enumerate(test_foo_nodes):
-            node_synth_dct = synth_dct[nodeid]
-            assert set(node_synth_dct.keys()) == {&apos;pytest_obj&apos;,
-                                                  &apos;pytest_status&apos;,
-                                                  &apos;pytest_duration&apos;,
-                                                  &apos;pytest_status_details&apos;,
-                                                  &apos;pytest_params&apos;
-                                                  }
-            # main test information
-            assert node_synth_dct[&apos;pytest_obj&apos;] == test_foo
-            assert node_synth_dct[&apos;pytest_status&apos;] == &apos;passed&apos;
-            assert node_synth_dct[&apos;pytest_duration&apos;] &gt;= 0
-    
-            # test status details
-            stages = [&apos;setup&apos;, &apos;call&apos;, &apos;teardown&apos;]
-            assert set(node_synth_dct[&apos;pytest_status_details&apos;].keys()) == set(stages)
-            for step in stages:
-                assert len(node_synth_dct[&apos;pytest_status_details&apos;][step]) == 2
-                assert node_synth_dct[&apos;pytest_status_details&apos;][step][0] == &apos;passed&apos;
-                assert node_synth_dct[&apos;pytest_status_details&apos;][step][1] &gt;= 0
-    
-            # parameter values
-            assert set(node_synth_dct[&apos;pytest_params&apos;].keys()) == {&apos;p&apos;, &apos;a_number_str&apos;}
-            assert node_synth_dct[&apos;pytest_params&apos;][&apos;a_number_str&apos;] == params[i][0]
-            assert node_synth_dct[&apos;pytest_params&apos;][&apos;p&apos;] == params[i][1]
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2/test_run_all_tests.py:51
-________________________ ERROR at setup of test_failing ________________________
-pytest.fixture functions cannot use ``yield``. Instead write and return an inner function/generator and let the consumer call and iterate over it.:
-
-    @yield_fixture(scope=&apos;session&apos;, autouse=True)
-    def make_synthesis(request):
-        yield
-    
-        #  teardown callback
-        synth_dct = get_session_synthesis_dct(request.session)
-    
-        from pprint import pprint
-        pprint(dict(synth_dct))
-    
-        # asserts
-        these_tests = [item.nodeid for item in request.session.items if this_file_name in item.nodeid]
-    
-        # -- first check that synth_dct contains all these test nodes
-        missing = set(these_tests) - set(synth_dct.keys())
-        assert len(missing) == 0
-    
-        # compute the parameter values for all tests in order
-        params = list(product(fixture_params, test_params))
-    
-        # -- check that all test foo nodes appear as success and contain the right information
-        test_foo_nodes = [nid for nid in these_tests if test_foo.__name__ in nid]
-        for i, nodeid in enumerate(test_foo_nodes):
-            node_synth_dct = synth_dct[nodeid]
-            assert set(node_synth_dct.keys()) == {&apos;pytest_obj&apos;,
-                                                  &apos;pytest_status&apos;,
-                                                  &apos;pytest_duration&apos;,
-                                                  &apos;pytest_status_details&apos;,
-                                                  &apos;pytest_params&apos;
-                                                  }
-            # main test information
-            assert node_synth_dct[&apos;pytest_obj&apos;] == test_foo
-            assert node_synth_dct[&apos;pytest_status&apos;] == &apos;passed&apos;
-            assert node_synth_dct[&apos;pytest_duration&apos;] &gt;= 0
-    
-            # test status details
-            stages = [&apos;setup&apos;, &apos;call&apos;, &apos;teardown&apos;]
-            assert set(node_synth_dct[&apos;pytest_status_details&apos;].keys()) == set(stages)
-            for step in stages:
-                assert len(node_synth_dct[&apos;pytest_status_details&apos;][step]) == 2
-                assert node_synth_dct[&apos;pytest_status_details&apos;][step][0] == &apos;passed&apos;
-                assert node_synth_dct[&apos;pytest_status_details&apos;][step][1] &gt;= 0
-    
-            # parameter values
-            assert set(node_synth_dct[&apos;pytest_params&apos;].keys()) == {&apos;p&apos;, &apos;a_number_str&apos;}
-            assert node_synth_dct[&apos;pytest_params&apos;][&apos;a_number_str&apos;] == params[i][0]
-            assert node_synth_dct[&apos;pytest_params&apos;][&apos;p&apos;] == params[i][1]
-/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2/test_run_all_tests.py:51
-=========================== 6 error in 0.03 seconds ============================
-Error while asserting that test_get_session_results.py results in {&apos;skipped&apos;: 1, &apos;failed&apos;: 1, &apos;passed&apos;: 4}
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_global_var.py]" time="0.43874573707580566"><failure message="assert 2 == 0
- +  where 0 = &lt;built-in method get of dict object at 0x7fe6dfe8c548&gt;(&apos;passed&apos;, 0)
- +    where &lt;built-in method get of dict object at 0x7fe6dfe8c548&gt; = {&apos;error&apos;: 3, &apos;seconds&apos;: 39}.get">test_to_run = &apos;test_saved_fixture_in_global_var.py&apos;
-testdir = &lt;Testdir local(&apos;/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests3&apos;)&gt;
-
-    @pytest.mark.parametrize(&apos;test_to_run&apos;, test_files, ids=str)
-    def test_run_all_tests(test_to_run, testdir):
-        &quot;&quot;&quot;
-        This is a meta-test. It is executed for each test file in the &apos;tests_raw&apos; folder.
-        For each of them, the file is retrieved and the expected test results are read from its first lines.
-        Then a dedicated pytest runner is run on this file, and the results are compared with the expected ones.
-    
-        See https://docs.pytest.org/en/latest/writing_plugins.html
-    
-        :param test_to_run:
-        :param testdir:
-        :return:
-        &quot;&quot;&quot;
-    
-        with open(join(tests_raw_folder, test_to_run)) as f:
-            # Create a temporary conftest.py file
-            # testdir.makeconftest(&quot;&quot;&quot;&quot;&quot;&quot;)
-    
-            # create a temporary pytest test file
-            test_file_contents = f.read()
-            testdir.makepyfile(test_file_contents)
-    
-            # Grab the expected things to check when this is executed
-            m = META_REGEX.match(test_file_contents)
-            assert m is not None
-            asserts_dct_str = m.groupdict()[&apos;asserts_dct&apos;]
-            asserts_dct = ast.literal_eval(asserts_dct_str)
-    
-            # Here we run pytest
-            print(&quot;\nTesting that running pytest on file %s results in %s&quot; % (test_to_run, str(asserts_dct)))
-            result = testdir.runpytest()  # (&quot;-q&quot;)
-    
-            # Here we check that everything is ok
-            try:
-                result.assert_outcomes(**asserts_dct)
-            except Exception as e:
-                print(&quot;Error while asserting that %s results in %s&quot; % (test_to_run, str(asserts_dct)))
-&gt;               six.raise_from(e, e)
-
-/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:59: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-&lt;string&gt;:3: in raise_from
-    ???
-/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:56: in test_run_all_tests
-    result.assert_outcomes(**asserts_dct)
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = &lt;_pytest.pytester.RunResult object at 0x7fe6dfe8e7f0&gt;, passed = 2
-skipped = 0, failed = 0
-
-    def assert_outcomes(self, passed=0, skipped=0, failed=0):
-        &quot;&quot;&quot; assert that the specified outcomes appear with the respective
-            numbers (0 means it didn&apos;t occur) in the text output from a test run.&quot;&quot;&quot;
-        d = self.parseoutcomes()
-&gt;       assert passed == d.get(&quot;passed&quot;, 0)
-E       assert 2 == 0
-E        +  where 0 = &lt;built-in method get of dict object at 0x7fe6dfe8c548&gt;(&apos;passed&apos;, 0)
-E        +    where &lt;built-in method get of dict object at 0x7fe6dfe8c548&gt; = {&apos;error&apos;: 3, &apos;seconds&apos;: 39}.get
-
-/home/travis/miniconda/envs/test-environment/lib/python3.5/site-packages/_pytest/pytester.py:370: AssertionError</failure><system-out>
-Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
+test_run_all_tests.py:48: Failed
+--------------------------- Captured stdout teardown ---------------------------
+{&apos;test_run_all_tests.py::test_failing&apos;: {&apos;pytest_duration&apos;: 0.00041365623474121094,
+                                         &apos;pytest_obj&apos;: &lt;function test_failing at 0x7f11302e1048&gt;,
+                                         &apos;pytest_params&apos;: {},
+                                         &apos;pytest_status&apos;: &apos;failed&apos;,
+                                         &apos;pytest_status_details&apos;: {&apos;call&apos;: (&apos;failed&apos;,
+                                                                            0.00041365623474121094),
+                                                                   &apos;setup&apos;: (&apos;passed&apos;,
+                                                                             0.00029015541076660156)}},
+ &apos;test_run_all_tests.py::test_foo[1-hello]&apos;: {&apos;pytest_duration&apos;: 0.000263214111328125,
+                                              &apos;pytest_obj&apos;: &lt;function test_foo at 0x7f11302e1268&gt;,
+                                              &apos;pytest_params&apos;: {&apos;a_number_str&apos;: 1,
+                                                                &apos;p&apos;: &apos;hello&apos;},
+                                              &apos;pytest_status&apos;: &apos;passed&apos;,
+                                              &apos;pytest_status_details&apos;: {&apos;call&apos;: (&apos;passed&apos;,
+                                                                                 0.000263214111328125),
+                                                                        &apos;setup&apos;: (&apos;passed&apos;,
+                                                                                  0.0008876323699951172),
+                                                                        &apos;teardown&apos;: (&apos;passed&apos;,
+                                                                                     0.0002949237823486328)}},
+ &apos;test_run_all_tests.py::test_foo[1-world]&apos;: {&apos;pytest_duration&apos;: 0.00023555755615234375,
+                                              &apos;pytest_obj&apos;: &lt;function test_foo at 0x7f11302e1268&gt;,
+                                              &apos;pytest_params&apos;: {&apos;a_number_str&apos;: 1,
+                                                                &apos;p&apos;: &apos;world&apos;},
+                                              &apos;pytest_status&apos;: &apos;passed&apos;,
+                                              &apos;pytest_status_details&apos;: {&apos;call&apos;: (&apos;passed&apos;,
+                                                                                 0.00023555755615234375),
+                                                                        &apos;setup&apos;: (&apos;passed&apos;,
+                                                                                  0.0006003379821777344),
+                                                                        &apos;teardown&apos;: (&apos;passed&apos;,
+                                                                                     0.0002732276916503906)}},
+ &apos;test_run_all_tests.py::test_foo[2-hello]&apos;: {&apos;pytest_duration&apos;: 0.00023102760314941406,
+                                              &apos;pytest_obj&apos;: &lt;function test_foo at 0x7f11302e1268&gt;,
+                                              &apos;pytest_params&apos;: {&apos;a_number_str&apos;: 2,
+                                                                &apos;p&apos;: &apos;hello&apos;},
+                                              &apos;pytest_status&apos;: &apos;passed&apos;,
+                                              &apos;pytest_status_details&apos;: {&apos;call&apos;: (&apos;passed&apos;,
+                                                                                 0.00023102760314941406),
+                                                                        &apos;setup&apos;: (&apos;passed&apos;,
+                                                                                  0.0005583763122558594),
+                                                                        &apos;teardown&apos;: (&apos;passed&apos;,
+                                                                                     0.000278472900390625)}},
+ &apos;test_run_all_tests.py::test_foo[2-world]&apos;: {&apos;pytest_duration&apos;: 0.00021767616271972656,
+                                              &apos;pytest_obj&apos;: &lt;function test_foo at 0x7f11302e1268&gt;,
+                                              &apos;pytest_params&apos;: {&apos;a_number_str&apos;: 2,
+                                                                &apos;p&apos;: &apos;world&apos;},
+                                              &apos;pytest_status&apos;: &apos;passed&apos;,
+                                              &apos;pytest_status_details&apos;: {&apos;call&apos;: (&apos;passed&apos;,
+                                                                                 0.00021767616271972656),
+                                                                        &apos;setup&apos;: (&apos;passed&apos;,
+                                                                                  0.0005259513854980469),
+                                                                        &apos;teardown&apos;: (&apos;passed&apos;,
+                                                                                     0.0002663135528564453)}},
+ &apos;test_run_all_tests.py::test_skipped&apos;: {&apos;pytest_duration&apos;: 0.00043964385986328125,
+                                         &apos;pytest_obj&apos;: &lt;function test_skipped at 0x7f11302e12f0&gt;,
+                                         &apos;pytest_params&apos;: {},
+                                         &apos;pytest_status&apos;: &apos;skipped&apos;,
+                                         &apos;pytest_status_details&apos;: {&apos;call&apos;: (&apos;skipped&apos;,
+                                                                            0.00043964385986328125),
+                                                                   &apos;setup&apos;: (&apos;passed&apos;,
+                                                                             0.0003046989440917969),
+                                                                   &apos;teardown&apos;: (&apos;passed&apos;,
+                                                                                0.00020313262939453125)}}}
+================ 1 failed, 4 passed, 1 skipped in 0.06 seconds =================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_global_var.py]" time="0.06340503692626953"><system-out>
+Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests3, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.5.1.dev1+gf56995f, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests3, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.5.1.dev1+gf56995f, cov-2.6.0
 collected 2 items
 
-test_run_all_tests.py EEE
+test_run_all_tests.py ..                                                 [100%]
 
-==================================== ERRORS ====================================
-________________ ERROR at setup of test_foo[0.6229724081628467] ________________
-
-object = &lt;code object my_yield_fix at 0x7fe6dfecd5d0, file &quot;&lt;decorator-gen-4&gt;&quot;, line 1&gt;
-
-    def getsource(object):
-        &quot;&quot;&quot;Return the text of the source code for an object.
-    
-        The argument may be a module, class, method, function, traceback, frame,
-        or code object.  The source code is returned as a single string.  An
-        OSError is raised if the source code cannot be retrieved.&quot;&quot;&quot;
-&gt;       lines, lnum = getsourcelines(object)
-
-/home/travis/miniconda/envs/test-environment/lib/python3.5/inspect.py:949: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-/home/travis/miniconda/envs/test-environment/lib/python3.5/inspect.py:936: in getsourcelines
-    lines, lnum = findsource(object)
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-object = &lt;code object my_yield_fix at 0x7fe6dfecd5d0, file &quot;&lt;decorator-gen-4&gt;&quot;, line 1&gt;
-
-    def findsource(object):
-        &quot;&quot;&quot;Return the entire source file and starting line number for an object.
-    
-        The argument may be a module, class, method, function, traceback, frame,
-        or code object.  The source code is returned as a list of all the lines
-        in the file and the line number indexes a line in that list.  An OSError
-        is raised if the source code cannot be retrieved.&quot;&quot;&quot;
-    
-        file = getsourcefile(object)
-        if file:
-            # Invalidate cache if needed.
-            linecache.checkcache(file)
-        else:
-            file = getfile(object)
-            # Allow filenames in form of &quot;&lt;something&gt;&quot; to pass through.
-            # `doctest` monkeypatches `linecache` module to enable
-            # inspection, so let `linecache.getlines` to be called.
-            if not (file.startswith(&apos;&lt;&apos;) and file.endswith(&apos;&gt;&apos;)):
-                raise OSError(&apos;source code not available&apos;)
-    
-        module = getmodule(object, file)
-        if module:
-            lines = linecache.getlines(file, module.__dict__)
-        else:
-            lines = linecache.getlines(file)
-        if not lines:
-&gt;           raise OSError(&apos;could not get source code&apos;)
-E           OSError: could not get source code
-
-/home/travis/miniconda/envs/test-environment/lib/python3.5/inspect.py:767: OSError
-________________ ERROR at setup of test_foo[0.9700778180801172] ________________
-
-object = &lt;code object my_yield_fix at 0x7fe6dfecd5d0, file &quot;&lt;decorator-gen-4&gt;&quot;, line 1&gt;
-
-    def getsource(object):
-        &quot;&quot;&quot;Return the text of the source code for an object.
-    
-        The argument may be a module, class, method, function, traceback, frame,
-        or code object.  The source code is returned as a single string.  An
-        OSError is raised if the source code cannot be retrieved.&quot;&quot;&quot;
-&gt;       lines, lnum = getsourcelines(object)
-
-/home/travis/miniconda/envs/test-environment/lib/python3.5/inspect.py:949: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-/home/travis/miniconda/envs/test-environment/lib/python3.5/inspect.py:936: in getsourcelines
-    lines, lnum = findsource(object)
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-object = &lt;code object my_yield_fix at 0x7fe6dfecd5d0, file &quot;&lt;decorator-gen-4&gt;&quot;, line 1&gt;
-
-    def findsource(object):
-        &quot;&quot;&quot;Return the entire source file and starting line number for an object.
-    
-        The argument may be a module, class, method, function, traceback, frame,
-        or code object.  The source code is returned as a list of all the lines
-        in the file and the line number indexes a line in that list.  An OSError
-        is raised if the source code cannot be retrieved.&quot;&quot;&quot;
-    
-        file = getsourcefile(object)
-        if file:
-            # Invalidate cache if needed.
-            linecache.checkcache(file)
-        else:
-            file = getfile(object)
-            # Allow filenames in form of &quot;&lt;something&gt;&quot; to pass through.
-            # `doctest` monkeypatches `linecache` module to enable
-            # inspection, so let `linecache.getlines` to be called.
-            if not (file.startswith(&apos;&lt;&apos;) and file.endswith(&apos;&gt;&apos;)):
-                raise OSError(&apos;source code not available&apos;)
-    
-        module = getmodule(object, file)
-        if module:
-            lines = linecache.getlines(file, module.__dict__)
-        else:
-            lines = linecache.getlines(file)
-        if not lines:
-&gt;           raise OSError(&apos;could not get source code&apos;)
-E           OSError: could not get source code
-
-/home/travis/miniconda/envs/test-environment/lib/python3.5/inspect.py:767: OSError
-______________ ERROR at teardown of test_foo[0.9700778180801172] _______________
-
-&gt;   request.addfinalizer(lambda: final_test(request))
-
-test_run_all_tests.py:62: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-request = &lt;SubRequest &apos;register_final_test&apos; for &lt;Function &apos;test_foo[0.6229724081628467]&apos;&gt;&gt;
-
-    def final_test(request):
-        &quot;&quot;&quot;This is the &quot;test&quot; that will be called when session ends. We check that the STORE contains everything&quot;&quot;&quot;
-        for fixture_name, values in [(&apos;my_fix&apos;, [str(n) for n in unique_numbers]),
-                                     (&apos;my_yield_fix&apos;, [12, 12])]:
-&gt;           assert fixture_name in STORE
-E           assert &apos;my_yield_fix&apos; in OrderedDict([(&apos;my_fix&apos;, OrderedDict([(&apos;test_run_all_tests.py::test_foo[0.6229724081628467]&apos;, &apos;0.6229724081628467&apos;), (&apos;test_run_all_tests.py::test_foo[0.9700778180801172]&apos;, &apos;0.9700778180801172&apos;)]))])
-
-test_run_all_tests.py:52: AssertionError
-=========================== 3 error in 0.39 seconds ============================
-Error while asserting that test_saved_fixture_in_global_var.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
+=========================== 2 passed in 0.03 seconds ===========================
 </system-out></testcase></testsuite>
