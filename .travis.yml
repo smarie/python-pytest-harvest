@@ -48,7 +48,9 @@ install:
   - conda list
   - python ci_tools/py_install.py conda ci_tools/requirements-conda.txt
   - python ci_tools/py_install.py pip ci_tools/requirements-pip.txt
-  - pip install codecov    # https://github.com/codecov/example-python. This is specific to travis integration
+  # travis-specific installs
+  - pip install valid8 PyGithub  # for ci_tools/github_release.py
+  - pip install codecov  # See https://github.com/codecov/example-python.
   - conda list
 
 script:
@@ -80,11 +82,11 @@ after_success:
     if [ -s "ci_tools/github_travis_rsa" ]; then
       chmod 600 ci_tools/github_travis_rsa
       eval `ssh-agent -s`  # launch the authentication agent
-      ssh-add ci_tools/github_travis_rsa  # register the key
+      ssh-add ci_tools/github_travis_rsa  # register the decrypted key
       git config user.name "Automatic Publish"
       git config user.email "sylvain.marie@schneider-electric.com"
       git remote add gh-remote "${GH_REF}";
-      git fetch gh-remote && git fetch gh-remote gh-pages:gh-pages;
+      git fetch gh-remote && git fetch gh-remote gh-pages:gh-pages;  # make sure we have the latest gh-remote
       # push but only if this is not a build triggered by a pull request
       # note: here we use the --dirty flag so that mkdocs does not clean the additional reports that we copied in the site
       if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_PYTHON_VERSION}" = "3.5" ]; then echo "Pushing to github"; PYTHONPATH=pytest_harvest/ mkdocs gh-deploy -v --dirty -f docs/mkdocs.yml --remote-name gh-remote; git push gh-remote gh-pages; fi;
@@ -93,17 +95,26 @@ after_success:
     fi
 
 deploy:
-  provider: pypi
-  user: "smarie"
-  password:
-    secure: "q693g+4gKp4rzD1FuqCIxO20Tpj50m7R8TGlH+IeDEF3ecFK5AyCRKhK1ag6RpQWDMWJe1ouRU6/js8vy68c8QE9rjfS3OtaQgyY1/F87KXyUxBJPz5XypXLbs7Q25DjysE8i5LTmlO+Xls1jQcRF5j5Vm5Iw7tF4JApkSvvcLkaanA4IArg3KOWS0qVy31xTfmRofJC2XKjjTZqHSWjcENpfzaLDEv8RWRIzBtqwdrSsqeVpv3xPrkAQY4YLBy/u4sS+yZJBx9t3z94tK5QxKi5nx2uBBe13dhVs2Q+DviMoZVxeRgQJU34NiBPq81lZlaIOqew52tFNF+GVtgpUTriI4Auhw4OACdExrjClCNoUR4NBFXlKBEQxYYjs2FQx00wDMuzgbK5i7H2xQlPGbLafuuzy7Lc00svfqGw17k8TWqVW3n9RpIqP6qnukm2O+gl6RF0UUCScx74GCHnuoT2i4VJ40qoJfhrOpkVEL4L7/nID18RQ5TSJKkH7cCJvMsVwMEjNYcTg2JBTYr0rymG47L3QZ2ppjdwBtvfoYqwsufh/ViC2gwn7l+Q4WdHUWS/sK4+qvAszOGStjdmxYRuVur9Nsuh69ck3zoquQqnWqjkI3zRl+oCWThmuAdMsT9t+6aCkgP1xlZaQLNSkklg1BUSFEanoKqGFBdo/mk="
-  on:
-    tags: true
-    python: 3.5  #only one of the builds have to be deployed
-    condition: $PYTEST_VERSION = "<3"
+  # Deploy on PyPI on tags
+  - provider: pypi
+    user: "smarie"
+    password:
+      secure: "q693g+4gKp4rzD1FuqCIxO20Tpj50m7R8TGlH+IeDEF3ecFK5AyCRKhK1ag6RpQWDMWJe1ouRU6/js8vy68c8QE9rjfS3OtaQgyY1/F87KXyUxBJPz5XypXLbs7Q25DjysE8i5LTmlO+Xls1jQcRF5j5Vm5Iw7tF4JApkSvvcLkaanA4IArg3KOWS0qVy31xTfmRofJC2XKjjTZqHSWjcENpfzaLDEv8RWRIzBtqwdrSsqeVpv3xPrkAQY4YLBy/u4sS+yZJBx9t3z94tK5QxKi5nx2uBBe13dhVs2Q+DviMoZVxeRgQJU34NiBPq81lZlaIOqew52tFNF+GVtgpUTriI4Auhw4OACdExrjClCNoUR4NBFXlKBEQxYYjs2FQx00wDMuzgbK5i7H2xQlPGbLafuuzy7Lc00svfqGw17k8TWqVW3n9RpIqP6qnukm2O+gl6RF0UUCScx74GCHnuoT2i4VJ40qoJfhrOpkVEL4L7/nID18RQ5TSJKkH7cCJvMsVwMEjNYcTg2JBTYr0rymG47L3QZ2ppjdwBtvfoYqwsufh/ViC2gwn7l+Q4WdHUWS/sK4+qvAszOGStjdmxYRuVur9Nsuh69ck3zoquQqnWqjkI3zRl+oCWThmuAdMsT9t+6aCkgP1xlZaQLNSkklg1BUSFEanoKqGFBdo/mk="
+    on:
+      tags: true
+      python: 3.5  #only one of the builds have to be deployed
+      condition: $PYTEST_VERSION = "<3"
+    # server: https://test.pypi.org/legacy/
+    distributions: "sdist bdist_wheel"
 
-#  server: https://test.pypi.org/legacy/
-  distributions: "sdist bdist_wheel"
+  # Create a github release on tags
+  - provider: script
+    script: python ci_tools/github_release.py -s $GITHUB_TOKEN --repo-slug smarie/python-pytest-harvest -cf ./docs/changelog.md $TRAVIS_TAG
+    skip_cleanup: true
+    on:
+      tags: true
+      python: 3.5  #only one of the builds have to be deployed
+      condition: $PYTEST_VERSION = "<3"
 
 matrix:
     fast_finish: true
