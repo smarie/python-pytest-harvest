@@ -13,8 +13,9 @@ from valid8 import validate
 @click.option('-s', '--secret', help='GitHub access token')
 @click.option('-r', '--repo-slug', help='Repo slug. i.e.: apple/swift')
 @click.option('-cf', '--changelog-file', help='Changelog file path')
+@click.option('-d', '--doc-url', help='Documentation url')
 @click.argument('tag')
-def create_or_update_release(user, pwd, secret, repo_slug, changelog_file, tag):
+def create_or_update_release(user, pwd, secret, repo_slug, changelog_file, doc_url, tag):
     """
     Creates or updates (TODO)
     a github release corresponding to git tag <TAG>.
@@ -50,7 +51,10 @@ def create_or_update_release(user, pwd, secret, repo_slug, changelog_file, tag):
             message = match['body']
     else:
         title = tag
-        message = "See changelog in the documentation for details"
+        message = ''
+
+    # append footer if doc url is provided
+    message += "\n\nSee [documentation page](%s) for details." % doc_url
 
     # 3- REPOSITORY EXPLORATION
     validate('repo_slug', repo_slug, instance_of=str, min_len=1, help_msg="repo_slug should be a non-empty string")

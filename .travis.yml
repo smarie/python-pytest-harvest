@@ -109,7 +109,7 @@ deploy:
 
   # Create a github release on tags
   - provider: script
-    script: python ci_tools/github_release.py -s $GITHUB_TOKEN --repo-slug smarie/python-pytest-harvest -cf ./docs/changelog.md $TRAVIS_TAG
+    script: python ci_tools/github_release.py -s $GITHUB_TOKEN --repo-slug smarie/python-pytest-harvest -cf ./docs/changelog.md -d https://smarie.github.io/python-pytest-harvest/changelog/ $TRAVIS_TAG
     skip_cleanup: true
     on:
       tags: true
