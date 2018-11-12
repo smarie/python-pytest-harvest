@@ -4,7 +4,7 @@ import re
 
 import click
 from github import Github, UnknownObjectException
-from valid8 import validate
+# from valid8 import validate  not compliant with python 2.7
 
 
 @click.command()
@@ -23,12 +23,15 @@ def create_or_update_release(user, pwd, secret, repo_slug, changelog_file, doc_u
     # 1- AUTHENTICATION
     if user is not None and secret is None:
         # using username and password
-        validate('user', user, instance_of=str)
-        validate('pwd', pwd, instance_of=str)
+        # validate('user', user, instance_of=str)
+        assert isinstance(user, str)
+        # validate('pwd', pwd, instance_of=str)
+        assert isinstance(pwd, str)
         g = Github(user, pwd)
     elif user is None and secret is not None:
         # or using an access token
-        validate('secret', secret, instance_of=str)
+        # validate('secret', secret, instance_of=str)
+        assert isinstance(secret, str)
         g = Github(secret)
     else:
         raise ValueError("You should either provide username/password OR an access token")
@@ -38,8 +41,9 @@ def create_or_update_release(user, pwd, secret, repo_slug, changelog_file, doc_u
     regex_pattern = "[\s\S]*[\n][#]+[\s]*(?P<title>[\S ]*%s[\S ]*)[\n]+(?P<body>[^#]*)" % re.escape(tag)
     changelog_section = re.compile(regex_pattern)
     if changelog_file is not None:
-        validate('changelog_file', changelog_file, custom=os.path.exists,
-                 help_msg="changelog file should be a valid file path")
+        # validate('changelog_file', changelog_file, custom=os.path.exists,
+        #          help_msg="changelog file should be a valid file path")
+        assert os.path.exists(changelog_file), "changelog file should be a valid file path"
         with open(changelog_file) as f:
             contents = f.read()
 
@@ -57,7 +61,8 @@ def create_or_update_release(user, pwd, secret, repo_slug, changelog_file, doc_u
     message += "\n\nSee [documentation page](%s) for details." % doc_url
 
     # 3- REPOSITORY EXPLORATION
-    validate('repo_slug', repo_slug, instance_of=str, min_len=1, help_msg="repo_slug should be a non-empty string")
+    # validate('repo_slug', repo_slug, instance_of=str, min_len=1, help_msg="repo_slug should be a non-empty string")
+    assert isinstance(repo_slug, str) and len(repo_slug) > 0, "repo_slug should be a non-empty string"
     repo = g.get_repo(repo_slug)
 
     # -- Is there a tag with that name ?

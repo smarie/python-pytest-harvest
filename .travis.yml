@@ -49,7 +49,7 @@ install:
   - python ci_tools/py_install.py conda ci_tools/requirements-conda.txt
   - python ci_tools/py_install.py pip ci_tools/requirements-pip.txt
   # travis-specific installs
-  - pip install valid8 PyGithub  # for ci_tools/github_release.py
+  - pip install PyGithub  # for ci_tools/github_release.py
   - pip install codecov  # See https://github.com/codecov/example-python.
   - conda list
 
