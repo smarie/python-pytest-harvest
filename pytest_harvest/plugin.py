@@ -10,6 +10,8 @@ def pytest_runtest_makereport(item, call):
     We use this hook to store the test execution status for each node in the 'item' object,
     so that we can use it in `get_session_synthesis_dct`
 
+    It is called because the whole package is a pytest plugin (it has a pytest entry point in setup.py)
+
     Following the example here:
     https://docs.pytest.org/en/latest/example/simple.html#making-test-result-information-available-in-fixtures
 
