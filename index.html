@@ -322,6 +322,20 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#4-putting-it-all-together" title="4- Putting it all together" class="md-nav__link">
+    4- Putting it all together
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-testing-the-synthesis" title="5- Testing the synthesis" class="md-nav__link">
+    5- Testing the synthesis
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#compliance-with-the-other-pytest-mechanisms" title="Compliance with the other pytest mechanisms" class="md-nav__link">
     Compliance with the other pytest mechanisms
   </a>
@@ -469,6 +483,20 @@
           <li class="md-nav__item">
   <a href="#3-creating-results-bags-fixtures-to-collect-test-artifacts" title="3- Creating "results bags" fixtures to collect test artifacts" class="md-nav__link">
     3- Creating "results bags" fixtures to collect test artifacts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-putting-it-all-together" title="4- Putting it all together" class="md-nav__link">
+    4- Putting it all together
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-testing-the-synthesis" title="5- Testing the synthesis" class="md-nav__link">
+    5- Testing the synthesis
   </a>
   
 </li>
@@ -835,6 +863,10 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 <p class="admonition-title">results bag fixtures' storage</p>
 <p>You declare the storage used in the arguments of <code>create_results_bag_fixture</code>. As this relies on <code>@saved_fixture</code>, you can use both a variable or a session-scope fixture name as we saw in previous chapter. </p>
 </div>
+<h3 id="4-putting-it-all-together">4- Putting it all together<a class="headerlink" href="#4-putting-it-all-together" title="Permanent link">&para;</a></h3>
+<p><strong>TODO</strong> explain how <code>get_session_synthesis_dct</code> can merge all information with a store.</p>
+<h3 id="5-testing-the-synthesis">5- Testing the synthesis<a class="headerlink" href="#5-testing-the-synthesis" title="Permanent link">&para;</a></h3>
+<p><strong>TODO</strong></p>
 <h3 id="compliance-with-the-other-pytest-mechanisms">Compliance with the other pytest mechanisms<a class="headerlink" href="#compliance-with-the-other-pytest-mechanisms" title="Permanent link">&para;</a></h3>
 <p>This package solely relies on the fixtures mechanism and the <code>pytest_runtest_makereport</code> hook. It should therefore be quite portable across pytest versions.</p>
 <h2 id="main-features-benefits">Main features / benefits<a class="headerlink" href="#main-features-benefits" title="Permanent link">&para;</a></h2>
