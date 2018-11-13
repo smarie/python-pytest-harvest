@@ -322,6 +322,14 @@ We can of course combine this with the test status and parameters (we saw [above
 !!! note "results bag fixtures' storage"
     You declare the storage used in the arguments of `create_results_bag_fixture`. As this relies on `@saved_fixture`, you can use both a variable or a session-scope fixture name as we saw in previous chapter. 
 
+### 4- Putting it all together
+
+**TODO** explain how `get_session_synthesis_dct` can merge all information with a store.
+
+### 5- Testing the synthesis
+
+**TODO**
+
 ### Compliance with the other pytest mechanisms
 
 This package solely relies on the fixtures mechanism and the `pytest_runtest_makereport` hook. It should therefore be quite portable across pytest versions.
