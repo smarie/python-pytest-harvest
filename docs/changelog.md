@@ -1,8 +1,12 @@
 # Changelog
 
+### 0.6.0 - `get_session_synthesis_dct` improvements
+
+ * `get_session_synthesis_dct` now has a test object `filter`, a `flatten` option, and and can now take optional storage objects as input to create a fully merged dictionary. See `help(get_session_synthesis_dct)` for details. Fixes [#3](https://github.com/smarie/python-pytest-harvest/issues/3).
+
 ### 0.5.1 - Fixed bug with pytest 2.x
 
- * Fixed [#2](https://github.com/smarie/python-pytest-harvest/issues/2)
+ * Fixed [#2](https://github.com/smarie/python-pytest-harvest/issues/2).
 
 ### 0.5.0 - First public version
 
