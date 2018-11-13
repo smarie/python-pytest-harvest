@@ -73,11 +73,13 @@ def create_or_update_release(user, pwd, secret, repo_slug, changelog_file, doc_u
 
     # -- Is there already a release with that tag name ?
     click.echo("Checking if release %s already exists in repository %s" % (tag, repo.name))
-    release = repo.get_release(tag)
-    if release is not None:
-        raise ValueError("Release %s already exists in repository %s. Please set overwrite to True if you wish to "
-                         "update the release (Not yet supported)" % (tag, repo.name))
-    else:
+    try:
+        release = repo.get_release(tag)
+        if release is not None:
+            raise ValueError("Release %s already exists in repository %s. Please set overwrite to True if you wish to "
+                             "update the release (Not yet supported)" % (tag, repo.name))
+    except UnknownObjectException:
+        # Release does not exist: we can safely create it.
         click.echo("Creating release %s on repo: %s" % (tag, repo.name))
         click.echo("Release title: '%s'" % title)
         click.echo("Release message:\n--\n%s\n--\n" % message)
