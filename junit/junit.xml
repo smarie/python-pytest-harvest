@@ -1,34 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="0" name="pytest" skips="0" tests="4" time="0.326"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_fixture.py]" time="0.05525016784667969"><system-out>
+<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="0" name="pytest" skips="0" tests="4" time="0.497"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_fixture.py]" time="0.1087954044342041"><system-out>
 Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests0, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.5.1, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests0, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.5.1, cov-2.6.0
 collected 2 items
 
-test_run_all_tests.py ..
+test_run_all_tests.py ..                                                 [100%]
 
-=========================== 2 passed in 0.02 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_results_bags.py]" time="0.05104994773864746"><system-out>
-Testing that running pytest on file test_results_bags.py results in {&apos;passed&apos;: 6, &apos;failed&apos;: 0, &apos;skipped&apos;: 0}
+=========================== 2 passed in 0.06 seconds ===========================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_results_bags.py]" time="0.08874249458312988"><system-out>
+Testing that running pytest on file test_results_bags.py results in {&apos;skipped&apos;: 0, &apos;passed&apos;: 6, &apos;failed&apos;: 0}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.5.1, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests1, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.5.1, cov-2.6.0
 collected 6 items
 
-test_run_all_tests.py ......
+test_run_all_tests.py ......                                             [100%]
 
-=========================== 6 passed in 0.02 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_get_session_results.py]" time="0.07159733772277832"><system-out>
-Testing that running pytest on file test_get_session_results.py results in {&apos;passed&apos;: 4, &apos;failed&apos;: 1, &apos;skipped&apos;: 1}
+=========================== 6 passed in 0.04 seconds ===========================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_get_session_results.py]" time="0.1156001091003418"><system-out>
+Testing that running pytest on file test_get_session_results.py results in {&apos;skipped&apos;: 1, &apos;passed&apos;: 4, &apos;failed&apos;: 1}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.5.1, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests2, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.5.1, cov-2.6.0
 collected 6 items
 
-test_run_all_tests.py ....sF
+test_run_all_tests.py ....sF                                             [100%]
 
 =================================== FAILURES ===================================
 _________________________________ test_failing _________________________________
@@ -38,16 +38,79 @@ _________________________________ test_failing _________________________________
 E       Failed: normal, intended failure here
 
 test_run_all_tests.py:48: Failed
-================ 1 failed, 4 passed, 1 skipped in 0.04 seconds =================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_global_var.py]" time="0.048363447189331055"><system-out>
+--------------------------- Captured stdout teardown ---------------------------
+{&apos;test_run_all_tests.py::test_failing&apos;: {&apos;pytest_duration&apos;: 0.0005323886871337891,
+                                         &apos;pytest_obj&apos;: &lt;function test_failing at 0x7f57e90d1d08&gt;,
+                                         &apos;pytest_params&apos;: {},
+                                         &apos;pytest_status&apos;: &apos;failed&apos;,
+                                         &apos;pytest_status_details&apos;: {&apos;call&apos;: (&apos;failed&apos;,
+                                                                            0.0005323886871337891),
+                                                                   &apos;setup&apos;: (&apos;passed&apos;,
+                                                                             0.0003037452697753906)}},
+ &apos;test_run_all_tests.py::test_foo[1-hello]&apos;: {&apos;pytest_duration&apos;: 0.00034308433532714844,
+                                              &apos;pytest_obj&apos;: &lt;function test_foo at 0x7f57e90d1d90&gt;,
+                                              &apos;pytest_params&apos;: {&apos;a_number_str&apos;: 1,
+                                                                &apos;p&apos;: &apos;hello&apos;},
+                                              &apos;pytest_status&apos;: &apos;passed&apos;,
+                                              &apos;pytest_status_details&apos;: {&apos;call&apos;: (&apos;passed&apos;,
+                                                                                 0.00034308433532714844),
+                                                                        &apos;setup&apos;: (&apos;passed&apos;,
+                                                                                  0.001753091812133789),
+                                                                        &apos;teardown&apos;: (&apos;passed&apos;,
+                                                                                     0.0003814697265625)}},
+ &apos;test_run_all_tests.py::test_foo[1-world]&apos;: {&apos;pytest_duration&apos;: 0.00027179718017578125,
+                                              &apos;pytest_obj&apos;: &lt;function test_foo at 0x7f57e90d1d90&gt;,
+                                              &apos;pytest_params&apos;: {&apos;a_number_str&apos;: 1,
+                                                                &apos;p&apos;: &apos;world&apos;},
+                                              &apos;pytest_status&apos;: &apos;passed&apos;,
+                                              &apos;pytest_status_details&apos;: {&apos;call&apos;: (&apos;passed&apos;,
+                                                                                 0.00027179718017578125),
+                                                                        &apos;setup&apos;: (&apos;passed&apos;,
+                                                                                  0.0006430149078369141),
+                                                                        &apos;teardown&apos;: (&apos;passed&apos;,
+                                                                                     0.0004086494445800781)}},
+ &apos;test_run_all_tests.py::test_foo[2-hello]&apos;: {&apos;pytest_duration&apos;: 0.00024318695068359375,
+                                              &apos;pytest_obj&apos;: &lt;function test_foo at 0x7f57e90d1d90&gt;,
+                                              &apos;pytest_params&apos;: {&apos;a_number_str&apos;: 2,
+                                                                &apos;p&apos;: &apos;hello&apos;},
+                                              &apos;pytest_status&apos;: &apos;passed&apos;,
+                                              &apos;pytest_status_details&apos;: {&apos;call&apos;: (&apos;passed&apos;,
+                                                                                 0.00024318695068359375),
+                                                                        &apos;setup&apos;: (&apos;passed&apos;,
+                                                                                  0.0007479190826416016),
+                                                                        &apos;teardown&apos;: (&apos;passed&apos;,
+                                                                                     0.00031065940856933594)}},
+ &apos;test_run_all_tests.py::test_foo[2-world]&apos;: {&apos;pytest_duration&apos;: 0.00024008750915527344,
+                                              &apos;pytest_obj&apos;: &lt;function test_foo at 0x7f57e90d1d90&gt;,
+                                              &apos;pytest_params&apos;: {&apos;a_number_str&apos;: 2,
+                                                                &apos;p&apos;: &apos;world&apos;},
+                                              &apos;pytest_status&apos;: &apos;passed&apos;,
+                                              &apos;pytest_status_details&apos;: {&apos;call&apos;: (&apos;passed&apos;,
+                                                                                 0.00024008750915527344),
+                                                                        &apos;setup&apos;: (&apos;passed&apos;,
+                                                                                  0.0006306171417236328),
+                                                                        &apos;teardown&apos;: (&apos;passed&apos;,
+                                                                                     0.0003001689910888672)}},
+ &apos;test_run_all_tests.py::test_skipped&apos;: {&apos;pytest_duration&apos;: 0.0005147457122802734,
+                                         &apos;pytest_obj&apos;: &lt;function test_skipped at 0x7f57e90d1ea0&gt;,
+                                         &apos;pytest_params&apos;: {},
+                                         &apos;pytest_status&apos;: &apos;skipped&apos;,
+                                         &apos;pytest_status_details&apos;: {&apos;call&apos;: (&apos;skipped&apos;,
+                                                                            0.0005147457122802734),
+                                                                   &apos;setup&apos;: (&apos;passed&apos;,
+                                                                             0.0003025531768798828),
+                                                                   &apos;teardown&apos;: (&apos;passed&apos;,
+                                                                                0.0002429485321044922)}}}
+================ 1 failed, 4 passed, 1 skipped in 0.07 seconds =================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_global_var.py]" time="0.07619142532348633"><system-out>
 Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests3, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.5.1, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests3, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.5.1, cov-2.6.0
 collected 2 items
 
-test_run_all_tests.py ..
+test_run_all_tests.py ..                                                 [100%]
 
-=========================== 2 passed in 0.02 seconds ===========================
+=========================== 2 passed in 0.03 seconds ===========================
 </system-out></testcase></testsuite>
