@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="0" name="pytest" skips="0" tests="5" time="0.575"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_all_together.py]" time="0.11180543899536133"><system-out>
-Testing that running pytest on file test_all_together.py results in {&apos;failed&apos;: 0, &apos;skipped&apos;: 0, &apos;passed&apos;: 9}
+<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="0" name="pytest" skips="0" tests="5" time="0.502"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_all_together.py]" time="0.1009824275970459"><system-out>
+Testing that running pytest on file test_all_together.py results in {&apos;passed&apos;: 9, &apos;skipped&apos;: 0, &apos;failed&apos;: 0}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests0, inifile:
@@ -35,9 +35,9 @@ This warning will be an error error in pytest-4.0.
   @pytest.mark.parametrize(&apos;flatten, flatten_more&apos;, [(False, None), (True, None), (True, &apos;my_results&apos;)],
 
 -- Docs: https://docs.pytest.org/en/latest/warnings.html
-===================== 9 passed, 6 warnings in 0.07 seconds =====================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_fixture.py]" time="0.07381486892700195"><system-out>
-Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
+===================== 9 passed, 6 warnings in 0.06 seconds =====================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_fixture.py]" time="0.06608700752258301"><system-out>
+Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests1, inifile:
@@ -46,9 +46,9 @@ collected 2 items
 
 test_run_all_tests.py ..                                                 [100%]
 
-=========================== 2 passed in 0.03 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_results_bags.py]" time="0.08034372329711914"><system-out>
-Testing that running pytest on file test_results_bags.py results in {&apos;failed&apos;: 0, &apos;skipped&apos;: 0, &apos;passed&apos;: 6}
+=========================== 2 passed in 0.02 seconds ===========================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_results_bags.py]" time="0.06591057777404785"><system-out>
+Testing that running pytest on file test_results_bags.py results in {&apos;passed&apos;: 6, &apos;skipped&apos;: 0, &apos;failed&apos;: 0}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests2, inifile:
@@ -58,8 +58,8 @@ collected 6 items
 test_run_all_tests.py ......                                             [100%]
 
 =========================== 6 passed in 0.03 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_get_session_results.py]" time="0.11908292770385742"><system-out>
-Testing that running pytest on file test_get_session_results.py results in {&apos;failed&apos;: 1, &apos;skipped&apos;: 1, &apos;passed&apos;: 9}
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_get_session_results.py]" time="0.10625624656677246"><system-out>
+Testing that running pytest on file test_get_session_results.py results in {&apos;passed&apos;: 9, &apos;skipped&apos;: 1, &apos;failed&apos;: 1}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests3, inifile:
@@ -84,8 +84,8 @@ Docs: https://docs.pytest.org/en/latest/mark.html#updating-code
 
 -- Docs: https://docs.pytest.org/en/latest/warnings.html
 ========== 1 failed, 9 passed, 1 skipped, 1 warnings in 0.07 seconds ===========
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_global_var.py]" time="0.07150864601135254"><system-out>
-Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_global_var.py]" time="0.06711459159851074"><system-out>
+Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests4, inifile:
@@ -94,5 +94,5 @@ collected 2 items
 
 test_run_all_tests.py ..                                                 [100%]
 
-=========================== 2 passed in 0.03 seconds ===========================
+=========================== 2 passed in 0.02 seconds ===========================
 </system-out></testcase></testsuite>
