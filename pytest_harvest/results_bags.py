@@ -15,6 +15,7 @@ except ImportError:
     def one_per_step(f):
         return f
 
+from pytest_harvest.common import yield_fixture
 from pytest_harvest.fixture_cache import saved_fixture
 
 
@@ -139,6 +140,6 @@ def create_results_bag_fixture(storage,                        # type: Union[str
 
     # Decorate manually as a fixture
     _results_bag.__name__ = name
-    results_bag_fixture = pytest.fixture(_results_bag)
+    results_bag_fixture = yield_fixture(_results_bag)
 
     return results_bag_fixture

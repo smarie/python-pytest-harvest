@@ -9,7 +9,7 @@ from collections import OrderedDict
 from random import random
 
 from pytest_harvest import saved_fixture
-from pytest_harvest.tests_raw.common_utils import yield_fixture
+from pytest_harvest.common import yield_fixture
 
 # init
 this_file_name = os.path.split(__file__)[1]

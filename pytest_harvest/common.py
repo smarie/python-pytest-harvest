@@ -1,3 +1,6 @@
+import pytest
+
+
 def get_fixture_value(request, fixture_name):
     """
     Returns the value associated with fixture named `fixture_name`, in provided request context.
@@ -14,3 +17,10 @@ def get_fixture_value(request, fixture_name):
     except AttributeError:
         # Pytest 3-
         return request.getfuncargvalue(fixture_name)
+
+
+# Create a symbol that will work to create a fixture containing 'yield', whatever the pytest version
+if int(pytest.__version__.split('.', 1)[0]) < 3:
+    yield_fixture = pytest.yield_fixture
+else:
+    yield_fixture = pytest.fixture

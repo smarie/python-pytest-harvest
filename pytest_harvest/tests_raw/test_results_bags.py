@@ -6,6 +6,7 @@ from random import random
 import pytest
 
 from pytest_harvest import create_results_bag_fixture
+from pytest_harvest.common import yield_fixture
 
 
 def my_algorithm(param, data):
@@ -39,7 +40,7 @@ def test_my_app_bench(algo_param, dataset, results_bag):
 results_bag = create_results_bag_fixture('store', name="results_bag")
 
 
-@pytest.fixture(scope='session', autouse=True)
+@yield_fixture(scope='session', autouse=True)
 def store(request):
     # setup: init the store
     store = OrderedDict()

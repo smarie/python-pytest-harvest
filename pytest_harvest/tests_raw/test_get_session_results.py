@@ -8,7 +8,7 @@ from itertools import product
 
 import pytest
 from pytest_harvest import get_session_synthesis_dct
-from pytest_harvest.tests_raw.common_utils import yield_fixture
+from pytest_harvest.common import yield_fixture
 
 
 # init
@@ -40,12 +40,12 @@ def test_foo(p, a_number_str, dummy):
 
 # skipped test
 def test_skipped():
-    pytest.skip("oh")
+    pytest.skip("normal, intended skip here")
 
 
 # failing test
 def test_failing():
-    pytest.fail("oh")
+    pytest.fail("normal, intended failure here")
 
 
 @yield_fixture(scope='session', autouse=True)

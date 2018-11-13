@@ -9,7 +9,7 @@ from collections import OrderedDict
 from random import random
 
 from pytest_harvest import saved_fixture, get_fixture_value
-from pytest_harvest.tests_raw.common_utils import yield_fixture
+from pytest_harvest.common import yield_fixture
 
 
 # init
