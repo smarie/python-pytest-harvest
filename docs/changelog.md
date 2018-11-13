@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.5.1 - Fixed bug with pytest 2.x
+
+ * Fixed [#2](https://github.com/smarie/python-pytest-harvest/issues/2)
+
 ### 0.5.0 - First public version
 
 First version validated against the [data science benchmark pattern](https://smarie.github.io/pytest-patterns/) (yet to be published)
