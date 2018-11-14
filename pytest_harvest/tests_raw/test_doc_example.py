@@ -76,3 +76,17 @@ def test_synthesis(request, store):
 
     # print using tabulate
     print(tabulate(results_df, headers='keys'))
+
+
+# ------- Output -------
+#
+#                         status      duration_ms    algo_param  dataset           accuracy
+# ----------------------  --------  -------------  ------------  -------------  -----------
+# test_basic              passed         0.999928           nan  nan            nan
+# test_my_app_bench[A-1]  passed         0                    1  my dataset #A    0.818458
+# test_my_app_bench[A-2]  passed         0                    2  my dataset #A    0.0364919
+# test_my_app_bench[B-1]  passed         0                    1  my dataset #B    0.0885096
+# test_my_app_bench[B-2]  passed         1.0004               2  my dataset #B    0.826001
+# test_my_app_bench[C-1]  passed         0                    1  my dataset #C    0.700515
+# test_my_app_bench[C-2]  passed         0                    2  my dataset #C    0.281405
+#

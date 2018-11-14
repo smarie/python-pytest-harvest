@@ -33,7 +33,7 @@ Note: you can learn more about how to design such a benchmark in [pytest-pattern
 
 ## Usage
 
-If you "just want to see the code", jump to the [complete example](#complete-example). Otherwise continue from here.
+If you just want to see an example, jump [here](#complete-example). Otherwise continue reading.
 
 ### 0- Prerequisite: how to write session teardown code
 
