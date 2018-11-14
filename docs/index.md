@@ -113,7 +113,7 @@ let's retrieve the available information at the end of the session (put this in 
 
 ```python
 from pytest_harvest import get_session_synthesis_dct
-synth_dct = get_session_synthesis_dct(session)
+synth_dct = get_session_synthesis_dct(session, status_details=True)
 print(dict(synth_dct))
 ```
 
@@ -168,10 +168,10 @@ As you can see you get for each test node id, a dictionary containing
  - `'pytest_obj'`the object containing the test code
  - `'pytest_status'` the status and `'pytest_duration'` the duration of the test
  - `'pytest_params'`the parameters used in this test (both in the test function AND the fixture)
- - the status details for each pytest internal step: setup, call, and teardown. 
+ - `'pytest_status_details'` a dictionary containing the status details for each pytest internal stages: setup, call, and teardown. 
  
 !!! note "status and duration aggregation" 
-    that the global status corresponds to an aggregation of the status of each of those steps, but the global duration is only the duration of the "call" step - after all we do not care about how long it took to setup and teardown.
+    that the global status corresponds to an aggregation of the status of each of those stages (setup, call, teardown), but the global duration is only the duration of the "call" stage - after all we do not care about how long it took to setup and teardown.
 
 Finally let's have a closer look above. It **seems** that after all we have collected the fixtures, right ? For example we see `'a_number_str': 2`. But beware, this is not the fixture. It is the parameter used by the fixture `'a_number_str'`. To be convinced look at its type: it is an integer, not a string! A more obvious way to confirm that the fixtures are not available, is to see that the `'dummy'` fixture does not appear at all: indeed it had no parameters.
 
@@ -303,17 +303,17 @@ We can see the correct results collected:
 ```js
 {
 'path/to/test_file.py::::test_my_app_bench[A-1]': 
-     ResultsBag: {'accuracy': 0.2630766637159053, 'execution_time': 0.002}, 
+     ResultsBag: {'accuracy': 0.2630766637159053}, 
 'path/to/test_file.py::::test_my_app_bench[A-2]': 
-     ResultsBag: {'accuracy': 0.6720533462346249, 'execution_time': 0.002}, 
+     ResultsBag: {'accuracy': 0.6720533462346249}, 
 'path/to/test_file.py::::test_my_app_bench[B-1]':
-     ResultsBag: {'accuracy': 0.9121353916881674, 'execution_time': 0.002}, 
+     ResultsBag: {'accuracy': 0.9121353916881674}, 
 'path/to/test_file.py::::test_my_app_bench[B-2]': 
-     ResultsBag: {'accuracy': 0.9401074040573346, 'execution_time': 0.002}, 
+     ResultsBag: {'accuracy': 0.9401074040573346}, 
 'path/to/test_file.py::::test_my_app_bench[C-1]': 
-     ResultsBag: {'accuracy': 0.01619034700438804, 'execution_time': 0.002},
+     ResultsBag: {'accuracy': 0.01619034700438804},
 'path/to/test_file.py::::test_my_app_bench[C-2]': 
-     ResultsBag: {'accuracy': 0.8027244886806986, 'execution_time': 0.002}
+     ResultsBag: {'accuracy': 0.8027244886806986}
 }
 ```
 
@@ -322,9 +322,68 @@ We can of course combine this with the test status and parameters (we saw [above
 !!! note "results bag fixtures' storage"
     You declare the storage used in the arguments of `create_results_bag_fixture`. As this relies on `@saved_fixture`, you can use both a variable or a session-scope fixture name as we saw in previous chapter. 
 
-### 4- Putting it all together
+### 4- Creating a Synthesis table
 
-**TODO** explain how `get_session_synthesis_dct` can merge all information with a store.
+Now that we know
+
+ - how to retrieve pytest status and parameters
+ - how to store and retrieve fixtures
+ - and how to store and retrieve applicative results
+
+We can create a synthesis table containing all information available. This is very easy: instead of calling `get_session_synthesis_dct` with no parameters, give it your `store` object. Since we want to create a table, we will use the `flatten` and `flatten_more` options so that the result does not contain nested dictionaries for the parameters, fixtures, and result bags. Finally we decide that we want the durations expressed in ms (pytest measures them in seconds by default, using the time method - see opened discussion [here](https://github.com/pytest-dev/pytest/issues/4391)).
+
+```python
+# retrieve the synthesis, merged with the fixture store
+results_dct = get_session_synthesis_dct(session, fixture_store=store, 
+                                        flatten=True, flatten_more='results_bag',
+                                        durations_in_ms=True)
+```
+
+We can print the first entry:
+
+```python
+>>> pprint(dict(next(iter(results_dct.values()))))
+
+{'pytest_obj': <function test_my_app_bench at 0x0000000004FF6A60>,
+ 'pytest_status': 'passed',
+ 'pytest_duration_ms': 0.0,
+ 'dataset': 'A',
+ 'algo_param': 1,
+ 'accuracy': 0.2630766637159053}
+```
+
+We see that all information is available at the same level: pytest status and duration, parameters (`dataset` and `algo_param`), and results (`accuracy`).
+
+Transforming such a flattened dictionary in a table is very easy with `pandas`:
+
+```python
+import pandas as pd
+results_df = pd.DataFrame.from_dict(results_dct, orient='index')
+# (a) remove the full test id path
+results_df.index = results_df.index.to_series().apply(lambda test_id: test_id.split('::')[-1])
+# (b) drop pytest object column
+results_df.drop(['pytest_obj'], axis=1, inplace=True)
+```
+
+And finally we can use `pandas` or `tabulate` to export the result in csv or markdown format:
+
+```python
+# csv format
+print(results_df.to_csv())
+
+# github markdown format
+from tabulate import tabulate
+print(tabulate(results_df, headers='keys', tablefmt="pipe"))
+```
+
+|                        | status   |   duration_ms |   algo_param | dataset   |   accuracy |
+|------------------------|----------|---------------|--------------|-----------|------------|
+| test_my_app_bench[A-1] | passed   |       1.00017 |            1 | A         |  0.313807  |
+| test_my_app_bench[A-2] | passed   |       0       |            2 | A         |  0.0459802 |
+| test_my_app_bench[B-1] | passed   |       0       |            1 | B         |  0.638511  |
+| test_my_app_bench[B-2] | passed   |       0       |            2 | B         |  0.10418   |
+| test_my_app_bench[C-1] | passed   |       0       |            1 | C         |  0.287151  |
+| test_my_app_bench[C-2] | passed   |       0       |            2 | C         |  0.19437   |
 
 ### 5- Testing the synthesis
 

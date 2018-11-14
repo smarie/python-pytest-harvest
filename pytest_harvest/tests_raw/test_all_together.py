@@ -47,20 +47,39 @@ def test_synthesis(flatten, flatten_more, request, store):
     """Tests that the synthesis dictionary combined with with fixture store is ok"""
 
     # retrieve the synthesis, merged with the fixture store
-    dct = get_session_synthesis_dct(request.session, filter=test_complete, fixture_store=store, flatten=flatten,
-                                    flatten_more=flatten_more)
+    results_dct = get_session_synthesis_dct(request.session, filter=test_complete, status_details=False,
+                                            fixture_store=store, flatten=flatten, flatten_more=flatten_more)
+
+    # ------ PRINTS ---------
 
     # --test node ids
-    print("\n".join(list(dct.keys())))
+    print("\n".join(list(results_dct.keys())))
 
     # --zoom on first node
-    print("\n".join(repr(k) + ": " + repr(v) for k, v in list(dct.values())[0].items()))
+    print("\n".join(repr(k) + ": " + repr(v) for k, v in list(results_dct.values())[0].items()))
+
+    if flatten and flatten_more:
+        # -- use tabulate to print
+        from tabulate import tabulate
+        # print(tabulate(dct, headers='keys'))  not possible, it does not yet support that dict keys represent rows
+
+        # -- use pandas to print
+        import pandas as pd
+        results_df = pd.DataFrame.from_dict(results_dct, orient='index')
+        # (a) remove the full test id path
+        results_df.index = results_df.index.to_series().apply(lambda test_id: test_id.split('::')[-1])
+        # (b) replace pytest object with its name
+        results_df['pytest_obj'] = results_df['pytest_obj'].map(lambda f: f.__name__)
+
+        print(tabulate(results_df, headers='keys', tablefmt="pipe").replace(':-', '--').replace('-:', '--'))
+
+    # ------ ASSERTS ---------
 
     # compute the parameter values for all tests in order
     params = list(product(fixture_params, test_params))
-    assert len(dct) == len(params)
+    assert len(results_dct) == len(params)
 
-    for i, (nodeid, node_info) in enumerate(dct.items()):
+    for i, (nodeid, node_info) in enumerate(results_dct.items()):
         if flatten:
             where_dct = node_info
             if flatten_more is None:

@@ -15,18 +15,24 @@ PYTEST_OBJ_NAME = 'pytest_obj'
 
 def get_session_synthesis_dct(session,
                               status_details=False,  # type: bool
+                              durations_in_ms=False, # type: bool
+                              pytest_prefix=None,    # type: bool
                               filter=None,           # type: Any
                               flatten=False,         # type: bool
                               fixture_store=None,    # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
-                              flatten_more=None,     # type: Union[str, Iterable[str], Mapping[str, str]]
+                              flatten_more=None      # type: Union[str, Iterable[str], Mapping[str, str]]
                               ):
     """
     Returns a dictionary containing a synthesis of what is available currently in the `pytest` session object provided.
      - 'pytest_obj': the object under test, typically a test function
      - 'pytest_status': the overall status ('failing', 'skipped', 'passed')
-     - 'pytest_duration': the duration of the 'call' step (ms ? TODO check with pytest doc)
+     - 'pytest_duration': the duration of the 'call' step. By default this is the pytest unit (s) but if you set
+     `durations_in_ms=True` it becomes (ms)
      - 'pytest_status_details': a dictionary containing step-by-step status details for all pytest steps ('setup',
      'call', 'teardown'). This is only included if `status_details=True` (not by default)
+
+    The 'pytest' prefix in front of all these items (except `pytest_obj`) is by default added in non-flatten mode and
+    removed in flatten mode. To force one of these you can set `pytest_prefix` to True or False.
 
     An optional `filter` can be provided, that can be a singleton or iterable of pytest objects (typically test
     functions).
@@ -39,6 +45,11 @@ def get_session_synthesis_dct(session,
     :param session: a pytest session object.
     :param status_details: a flag indicating if pytest status details per stage (setup/call/teardown) should be
         included. Default=`False`: only the pytest status summary is provided.
+    :param durations_in_ms: by default `pytest` measures durations in seconds so they are outputed in this unit. You
+        can turn the flag to True to output milliseconds instead.
+    :param pytest_prefix: to add (True) or remove (False) the 'pytest_' prefix in front of status, duration and status
+        details. Typically useful in flatten mode when the names are not ambiguous. By default it is None, which
+        means =(not flatten)
     :param filter: a singleton or iterable of pytest objects on which to filter the returned dict on (the returned
         items will only by pytest nodes for which the pytest object is one of the ones provided)
     :param flatten: a boolean (default `False`) indicating if the resulting dictionary should be flattened. If it
@@ -55,6 +66,14 @@ def get_session_synthesis_dct(session,
         available from pytest concerning the test node, and optionally storage contents if `storage_dcts` is provided.
     """
     res_dct = OrderedDict()
+
+    # Optional 'pytest_' prefix in front of status and duration
+    if pytest_prefix is None:
+        pytest_prefix = not flatten
+    if pytest_prefix:
+        pytest_prefix = 'pytest_'
+    else:
+        pytest_prefix = ''
 
     # Optional filter
     if filter is not None:
@@ -96,23 +115,23 @@ def get_session_synthesis_dct(session,
         item_dct[PYTEST_OBJ_NAME] = item.obj
 
         # -- test status: this information is available thanks to our hook in plugin.py
-        (test_status, test_duration), status_dct = get_pytest_status(item)
+        (test_status, test_duration), status_dct = get_pytest_status(item, durations_in_ms=durations_in_ms)
 
         # -- parameters (of tests and fixtures)
         param_dct = get_pytest_params(item)
 
         # Fill according to mode
-        item_dct["pytest_status"] = test_status
-        item_dct["pytest_duration"] = test_duration
+        item_dct[pytest_prefix + "status"] = test_status
+        item_dct[pytest_prefix + "duration_" + ('ms' if durations_in_ms else 's')] = test_duration
         if flatten:
             if status_details:
                 for k, v in status_dct.items():
-                    item_dct["pytest_status__" + k] = v
+                    item_dct[pytest_prefix + "_status__" + k] = v
             item_dct.update(param_dct)
         else:
             if status_details:
-                item_dct["pytest_status_details"] = status_dct
-            item_dct["pytest_params"] = param_dct
+                item_dct[pytest_prefix + "status_details"] = status_dct
+            item_dct[pytest_prefix + "params"] = param_dct
 
         # -- fixture storages
         # For info: https://docs.pytest.org/en/latest/_modules/_pytest/runner.html
@@ -148,8 +167,8 @@ def get_session_synthesis_dct(session,
     return res_dct
 
 
-def get_pytest_status(item):
-    """ Returns a dictionary containing item's pytest status (success/skipped/failed, duration) """
+def get_pytest_status(item, durations_in_ms=False):
+    """ Returns a dictionary containing item's pytest status (success/skipped/failed, duration converted to ms) """
 
     # the status keys that have been stored by our plugin.py module
     status_keys = [k for k in vars(item) if k.startswith(HARVEST_PREFIX)]
@@ -162,17 +181,20 @@ def get_pytest_status(item):
     # create the status dictionary for that item
     status_dct = OrderedDict()
     test_status = 'passed'
+
+    duration_factor = (1000 if durations_in_ms else 1)
+
     test_duration = None
     for k in status_keys:
         statusreport = getattr(item, k)
-        status_dct[statusreport.when] = (statusreport.outcome, statusreport.duration)
+        status_dct[statusreport.when] = (statusreport.outcome, statusreport.duration * duration_factor)
         # update global test status
         if test_status == 'passed' \
                 or (test_status == 'skipped' and statusreport.outcome != 'passed'):
             test_status = statusreport.outcome
         # global test duration is the duration of the "call" step only
         if statusreport.when == "call":
-            test_duration = statusreport.duration
+            test_duration = statusreport.duration * duration_factor
 
     return (test_status, test_duration), status_dct
 

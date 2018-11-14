@@ -86,15 +86,13 @@ assert isinstance(ResultsBag(), dict)
 
 
 def _results_bag_fixture_impl(bag_type=None,                  # type: Type[Any]
-                              exec_time_key='execution_time'  # type: str
                               ):
     """
     Implementation of a results bag fixture. It creates a `ResultsBag` by default, or an object of custom `bag_type`.
-    Before yielding it, it starts a timer so as to record the execution time in it afterwards
-    (under key <exec_time_key>).
+
+    Note: we do not measure time here anymore because it is less precise than pytest duration
 
     :param bag_type: the type of object to create as results bag. Default: `ResultsBag`
-    :param exec_time_key: default: `execution_time`
     :return:
     """
 
@@ -102,33 +100,33 @@ def _results_bag_fixture_impl(bag_type=None,                  # type: Type[Any]
     bag_type = ResultsBag if bag_type is None else bag_type
     results_bag = bag_type()
 
-    # Yield it and also measure the time
-    start = datetime.now()
+    # Yield it - note: we do not measure time anymore because it is less precise than pytest duration
+    # start = datetime.now()
     yield results_bag
-    end = datetime.now()
+    # end = datetime.now()
 
     # Fill execution time
-    results_bag[exec_time_key] = (end - start).total_seconds()
+    # results_bag[exec_time_key] = (end - start).total_seconds()
 
 
 def create_results_bag_fixture(storage,                        # type: Union[str, Dict[str, Any]]
                                name='results_bag',             # type: str
                                bag_type=None,                  # type: Type[Any]
-                               exec_time_key='execution_time'  # type: str
                                ):
     """
+    Creates a "results bag" fixture with name <name> stored in the given storage (under key=<name>). By default results
+    bags are instances of `ResultsBag` but you can provide another `bag_type` if needed.
 
     :param storage: a dict-like object or a fixture name corresponding to a dict-like object. in this dictionary, a new
         entry will be added for the fixture. This entry will contain a dictionary <test_id>: <fixture_value> for each
         test node.
-    :param name: the name associated with the stored fixture in the global storage. By default this is the fixture name.
+    :param name: the name associated with the stored fixture in the global storage. By default this is 'results_bag'.
     :param bag_type: the type of object to create as a results bag. Default: `ResultsBag`
-    :param exec_time_key: default: `execution_time`
     :return:
     """
     # Create the same function than _results_bag_fixture_impl but with preset arguments (same than functools.partial)
     def _results_bag():
-        gen = _results_bag_fixture_impl(bag_type=bag_type, exec_time_key=exec_time_key)
+        gen = _results_bag_fixture_impl(bag_type=bag_type)
         for res in gen:
             yield res
 

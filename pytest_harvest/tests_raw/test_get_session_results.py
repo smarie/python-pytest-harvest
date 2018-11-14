@@ -37,7 +37,8 @@ def test_foo(p, a_number_str, dummy):
 
 
 @pytest.mark.parametrize('flatten', [False, True], ids="flatten={}".format)
-def test_foo_synthesis_all_options(request, flatten):
+@pytest.mark.parametrize('durations_in_ms', [False, True], ids="duration_in_ms={}".format)
+def test_foo_synthesis_all_options(request, flatten, durations_in_ms):
     """
     Tests that the synthesis is ok
 
@@ -45,15 +46,18 @@ def test_foo_synthesis_all_options(request, flatten):
     :return:
     """
     # Get the synthesis dictionary concerning `test_foo`
-    synth_dct = get_session_synthesis_dct(request.session, status_details=True, flatten=flatten, filter=test_foo)
+    synth_dct = get_session_synthesis_dct(request.session, status_details=True, flatten=flatten, filter=test_foo,
+                                          durations_in_ms=durations_in_ms)
 
     # from pprint import pprint
     # pprint(dict(synth_dct))
 
+    durations_unit = ('ms' if durations_in_ms else 's')
+
     # Check the returned dictionary contents
     expected_keys = {'pytest_obj',
                      'pytest_status',
-                     'pytest_duration'}
+                     'pytest_duration_' + durations_unit}
     stages = ['setup', 'call', 'teardown']
     if not flatten:
         expected_keys.update({'pytest_status_details', 'pytest_params'})
@@ -75,7 +79,7 @@ def test_foo_synthesis_all_options(request, flatten):
         # main test information
         assert nodeinfo['pytest_obj'] == test_foo  # check that the filter worked
         assert nodeinfo['pytest_status'] == 'passed'
-        assert nodeinfo['pytest_duration'] >= 0
+        assert nodeinfo['pytest_duration_' + durations_unit] >= 0
 
         # test status details
         if not flatten:
