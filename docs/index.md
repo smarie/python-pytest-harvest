@@ -33,6 +33,8 @@ Note: you can learn more about how to design such a benchmark in [pytest-pattern
 
 ## Usage
 
+If you "just want to see the code", jump to the [complete example](#complete-example). Otherwise continue from here.
+
 ### 0- Prerequisite: how to write session teardown code
 
 In order to be able to retrieve all the information that we will store, we will have to ask `pytest` to execute our retrieval/synthesis code **at the end of the entire test session**. `pytest` currently provides several ways to do this:
@@ -220,7 +222,7 @@ Note: you can change the key used in the global storage with the `key=` argument
 
 #### b- Storing in a fixture
 
-You might want your store to be a fixture itself, instead of a global variable. It is possible if it is session-scoped. Simply use its name in `@saved_fixture` and it will work as expected. 
+You might want your store to be a fixture itself, instead of a global variable. It is possible if it is session- or module-scoped (in the same module than where it is used). Simply use its name in `@saved_fixture` and it will work as expected. 
 
 This enables you to make the code even more readable because you can put the synthesis code in the teardown part of the storage fixture:
 
@@ -236,7 +238,7 @@ def my_fix(request):
 
 # -- the global storage fixture and synthesis creator --
 @pytest.fixture(scope='session', autouse=True)
-def store(request):
+def store():
     # setup: init the store
     store = OrderedDict()
     yield store
@@ -320,7 +322,7 @@ We can see the correct results collected:
 We can of course combine this with the test status and parameters (we saw [above](#1-collecting-tests-status-and-parameters) how to collect them) if we want to create a synthesis table. This complete story will be available on [pytest-patterns](https://github.com/smarie/pytest-patterns).
 
 !!! note "results bag fixtures' storage"
-    You declare the storage used in the arguments of `create_results_bag_fixture`. As this relies on `@saved_fixture`, you can use both a variable or a session-scope fixture name as we saw in previous chapter. 
+    You declare the storage used in the arguments of `create_results_bag_fixture`. As this relies on `@saved_fixture`, you can use both a variable or a session/module-scoped fixture name as we saw in previous chapter. 
 
 ### 4- Creating a Synthesis table
 
@@ -330,7 +332,7 @@ Now that we know
  - how to store and retrieve fixtures
  - and how to store and retrieve applicative results
 
-We can create a synthesis table containing all information available. This is very easy: instead of calling `get_session_synthesis_dct` with no parameters, give it your `store` object. Since we want to create a table, we will use the `flatten` and `flatten_more` options so that the result does not contain nested dictionaries for the parameters, fixtures, and result bags. Finally we decide that we want the durations expressed in ms (pytest measures them in seconds by default, using the time method - see opened discussion [here](https://github.com/pytest-dev/pytest/issues/4391)).
+We can create a synthesis table containing all information available. This is very easy: instead of calling `get_session_synthesis_dct` with no parameters, give it your `store` object. Since we want to create a table, we will use the `flatten` and `flatten_more` options so that the result does not contain nested dictionaries for the parameters, fixtures, and result bags. Finally we decide that we want the durations expressed in ms (pytest measures them in seconds by default).
 
 ```python
 # retrieve the synthesis, merged with the fixture store
@@ -360,7 +362,8 @@ Transforming such a flattened dictionary in a table is very easy with `pandas`:
 import pandas as pd
 results_df = pd.DataFrame.from_dict(results_dct, orient='index')
 # (a) remove the full test id path
-results_df.index = results_df.index.to_series().apply(lambda test_id: test_id.split('::')[-1])
+results_df.index = results_df.index.to_series() \
+                             .apply(lambda test_id: test_id.split('::')[-1])
 # (b) drop pytest object column
 results_df.drop(['pytest_obj'], axis=1, inplace=True)
 ```
@@ -373,7 +376,7 @@ print(results_df.to_csv())
 
 # github markdown format
 from tabulate import tabulate
-print(tabulate(results_df, headers='keys', tablefmt="pipe"))
+print(tabulate(results_df, headers='keys'))
 ```
 
 |                        | status   |   duration_ms |   algo_param | dataset   |   accuracy |
@@ -385,9 +388,40 @@ print(tabulate(results_df, headers='keys', tablefmt="pipe"))
 | test_my_app_bench[C-1] | passed   |       0       |            1 | C         |  0.287151  |
 | test_my_app_bench[C-2] | passed   |       0       |            2 | C         |  0.19437   |
 
-### 5- Testing the synthesis
+!!! note "Duration calculation"
+    The duration field is directly extracted from `pytest`. Currently `pytest` computes durations using the `time` method, which might not be as accurate as other methods - see opened discussion [here](https://github.com/pytest-dev/pytest/issues/4391). If you need more precise duration benchmarking **now**, of if you need to measure the duration of a specific sub-function instead of the duration of the whole test function call, use [pytest-benchmark](https://github.com/ionelmc/pytest-benchmark). In the long run, the author thinks that `pytest` will hopefully provide more precise duration estimates, and therefore you will be able to get similar results in the table outputted above (+ possibly a `@repeat(n)` parameter on top of your test function if you wish to repeat it several times and compare the durations).
 
-**TODO**
+### 5- Partial synthesis (module, function) and synthesis tests
+
+We have seen [above](#1-collecting-tests-status-and-parameters) that you can get the pytest `session` object from many different teardown hooks. In addition, you can even access it from inside a test! In that case all information will not be available, but if the synthesis test is located **after** the test function of interest in execution order, it will be ok.
+
+To be sure to only get results you're interested in, the special `filter` argument allows you to only select parts of the test nodes to create the synthesis:
+
+```python
+# a module-scoped store
+@pytest.fixture(scope='module', autouse=True)
+def store():
+    return OrderedDict()
+
+# results bag fixture
+my_results = create_results_bag_fixture('store', name='my_results')
+
+def test_foo(my_results):
+    ...
+
+def test_synthesis(request, store):
+    # get partial results concerning `test_foo`
+    results_dct = get_session_synthesis_dct(request.session, filter=test_foo, 
+                                            fixture_store=store)
+    
+    # you can assert / report using the `results_dct` here
+```
+
+See `help(get_session_synthesis_dct)` for details: for example you can include in this filter a list, and it can contain module names too.
+
+### Complete example
+
+A module-scoped complete example with parameters, fixtures, and results bag can be found [here](https://github.com/smarie/python-pytest-harvest/tree/master/pytest_harvest/tests_raw/test_doc_example.py).
 
 ### Compliance with the other pytest mechanisms
 
