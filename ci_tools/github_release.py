@@ -38,7 +38,7 @@ def create_or_update_release(user, pwd, secret, repo_slug, changelog_file, doc_u
     click.echo("Logged in as {user_name}".format(user_name=g.get_user()))
 
     # 2- CHANGELOG VALIDATION
-    regex_pattern = "[\s\S]*[\n][#]+[\s]*(?P<title>[\S ]*%s[\S ]*)[\n]+(?P<body>[^#]*)" % re.escape(tag)
+    regex_pattern = "[\s\S]*[\n][#]+[\s]*(?P<title>[\S ]*%s[\S ]*)[\n]+(?P<body>[\s\S]*?)[\n]*(\n#|$)" % re.escape(tag)
     changelog_section = re.compile(regex_pattern)
     if changelog_file is not None:
         # validate('changelog_file', changelog_file, custom=os.path.exists,
