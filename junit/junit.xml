@@ -1,56 +1,83 @@
-<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="0" name="pytest" skips="0" tests="6" time="1.480"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_all_together.py]" time="0.4595661163330078"><system-out>
-Testing that running pytest on file test_all_together.py results in {&apos;passed&apos;: 9, &apos;failed&apos;: 0, &apos;skipped&apos;: 0}
+<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="0" name="pytest" skips="0" tests="6" time="1.537"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_all_together.py]" time="0.44934821128845215"><system-out>
+Testing that running pytest on file test_all_together.py results in {&apos;passed&apos;: 9, &apos;skipped&apos;: 0, &apos;failed&apos;: 0}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests0, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.8.0, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests0, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.8.0, cov-2.6.0
 collected 9 items
 
-test_run_all_tests.py .........
+test_run_all_tests.py .........                                          [100%]
 
-=========================== 9 passed in 0.43 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_doc_example.py]" time="0.36393070220947266"><system-out>
-Testing that running pytest on file test_doc_example.py results in {&apos;passed&apos;: 8, &apos;failed&apos;: 0, &apos;skipped&apos;: 0}
+=============================== warnings summary ===============================
+test_run_all_tests.py:43: RemovedInPytest4Warning: While trying to determine id of parameter flatten at position 0 the following exception was raised:
+  IndexError: tuple index out of range
+This warning will be an error error in pytest-4.0.
+  @pytest.mark.parametrize(&apos;flatten, flatten_more&apos;, [(False, None), (True, None), (True, &apos;my_results&apos;)],
+test_run_all_tests.py:43: RemovedInPytest4Warning: While trying to determine id of parameter flatten_more at position 0 the following exception was raised:
+  IndexError: tuple index out of range
+This warning will be an error error in pytest-4.0.
+  @pytest.mark.parametrize(&apos;flatten, flatten_more&apos;, [(False, None), (True, None), (True, &apos;my_results&apos;)],
+test_run_all_tests.py:43: RemovedInPytest4Warning: While trying to determine id of parameter flatten at position 1 the following exception was raised:
+  IndexError: tuple index out of range
+This warning will be an error error in pytest-4.0.
+  @pytest.mark.parametrize(&apos;flatten, flatten_more&apos;, [(False, None), (True, None), (True, &apos;my_results&apos;)],
+test_run_all_tests.py:43: RemovedInPytest4Warning: While trying to determine id of parameter flatten_more at position 1 the following exception was raised:
+  IndexError: tuple index out of range
+This warning will be an error error in pytest-4.0.
+  @pytest.mark.parametrize(&apos;flatten, flatten_more&apos;, [(False, None), (True, None), (True, &apos;my_results&apos;)],
+test_run_all_tests.py:43: RemovedInPytest4Warning: While trying to determine id of parameter flatten at position 2 the following exception was raised:
+  IndexError: tuple index out of range
+This warning will be an error error in pytest-4.0.
+  @pytest.mark.parametrize(&apos;flatten, flatten_more&apos;, [(False, None), (True, None), (True, &apos;my_results&apos;)],
+test_run_all_tests.py:43: RemovedInPytest4Warning: While trying to determine id of parameter flatten_more at position 2 the following exception was raised:
+  IndexError: tuple index out of range
+This warning will be an error error in pytest-4.0.
+  @pytest.mark.parametrize(&apos;flatten, flatten_more&apos;, [(False, None), (True, None), (True, &apos;my_results&apos;)],
+
+-- Docs: https://docs.pytest.org/en/latest/warnings.html
+===================== 9 passed, 6 warnings in 0.40 seconds =====================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_doc_example.py]" time="0.3622007369995117"><system-out>
+Testing that running pytest on file test_doc_example.py results in {&apos;passed&apos;: 8, &apos;skipped&apos;: 0, &apos;failed&apos;: 0}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.8.0, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests1, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.8.0, cov-2.6.0
 collected 8 items
 
-test_run_all_tests.py ........
+test_run_all_tests.py ........                                           [100%]
 
-=========================== 8 passed in 0.33 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_fixture.py]" time="0.04289698600769043"><system-out>
+=========================== 8 passed in 0.32 seconds ===========================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_fixture.py]" time="0.06255626678466797"><system-out>
 Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.8.0, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests2, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.8.0, cov-2.6.0
 collected 2 items
 
-test_run_all_tests.py ..
+test_run_all_tests.py ..                                                 [100%]
 
 =========================== 2 passed in 0.02 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_results_bags.py]" time="0.3179631233215332"><system-out>
-Testing that running pytest on file test_results_bags.py results in {&apos;passed&apos;: 6, &apos;failed&apos;: 0, &apos;skipped&apos;: 0}
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_results_bags.py]" time="0.3841054439544678"><system-out>
+Testing that running pytest on file test_results_bags.py results in {&apos;passed&apos;: 6, &apos;skipped&apos;: 0, &apos;failed&apos;: 0}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests3, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.8.0, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests3, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.8.0, cov-2.6.0
 collected 6 items
 
-test_run_all_tests.py ......
+test_run_all_tests.py ......                                             [100%]
 
-=========================== 6 passed in 0.29 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_get_session_results.py]" time="0.1630725860595703"><system-out>
-Testing that running pytest on file test_get_session_results.py results in {&apos;passed&apos;: 11, &apos;failed&apos;: 1, &apos;skipped&apos;: 1}
+=========================== 6 passed in 0.35 seconds ===========================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_get_session_results.py]" time="0.1102285385131836"><system-out>
+Testing that running pytest on file test_get_session_results.py results in {&apos;passed&apos;: 11, &apos;skipped&apos;: 1, &apos;failed&apos;: 1}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests4, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.8.0, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests4, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.8.0, cov-2.6.0
 collected 13 items
 
-test_run_all_tests.py ........sF...
+test_run_all_tests.py ........sF...                                      [100%]
 
 =================================== FAILURES ===================================
 _________________________________ test_failing _________________________________
@@ -60,16 +87,28 @@ _________________________________ test_failing _________________________________
 E       Failed: normal, intended failure here
 
 test_run_all_tests.py:115: Failed
-================ 1 failed, 11 passed, 1 skipped in 0.13 seconds ================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_global_var.py]" time="0.043099164962768555"><system-out>
+=============================== warnings summary ===============================
+/tmp/pytest-of-travis/pytest-0/test_run_all_tests4/test_run_all_tests.py:68: RemovedInPytest4Warning: MarkInfo objects are deprecated as they contain merged marks which are hard to deal with correctly.
+Please use node.get_closest_marker(name) or node.iter_markers(name).
+Docs: https://docs.pytest.org/en/latest/mark.html#updating-code
+  expected_keys.update({mark.args[0] for mark in test_foo.parametrize})
+
+/tmp/pytest-of-travis/pytest-0/test_run_all_tests4/test_run_all_tests.py:68: RemovedInPytest4Warning: MarkInfo objects are deprecated as they contain merged marks which are hard to deal with correctly.
+Please use node.get_closest_marker(name) or node.iter_markers(name).
+Docs: https://docs.pytest.org/en/latest/mark.html#updating-code
+  expected_keys.update({mark.args[0] for mark in test_foo.parametrize})
+
+-- Docs: https://docs.pytest.org/en/latest/warnings.html
+========== 1 failed, 11 passed, 1 skipped, 2 warnings in 0.07 seconds ==========
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_global_var.py]" time="0.06367087364196777"><system-out>
 Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests5, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.8.0, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.8.1, py-1.6.0, pluggy-0.7.1
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests5, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.8.0, cov-2.6.0
 collected 2 items
 
-test_run_all_tests.py ..
+test_run_all_tests.py ..                                                 [100%]
 
 =========================== 2 passed in 0.02 seconds ===========================
 </system-out></testcase></testsuite>
