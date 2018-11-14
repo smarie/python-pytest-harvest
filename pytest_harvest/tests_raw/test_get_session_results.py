@@ -45,7 +45,7 @@ def test_foo_synthesis_all_options(request, flatten):
     :return:
     """
     # Get the synthesis dictionary concerning `test_foo`
-    synth_dct = get_session_synthesis_dct(request.session, flatten=flatten, filter=test_foo)
+    synth_dct = get_session_synthesis_dct(request.session, status_details=True, flatten=flatten, filter=test_foo)
 
     # from pprint import pprint
     # pprint(dict(synth_dct))

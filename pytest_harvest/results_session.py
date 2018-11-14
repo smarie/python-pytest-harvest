@@ -14,10 +14,11 @@ PYTEST_OBJ_NAME = 'pytest_obj'
 
 
 def get_session_synthesis_dct(session,
-                              filter=None,  # type: Any
-                              flatten=False,  # type: bool
-                              fixture_store=None,  # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
-                              flatten_more=None  # type: Union[str, Iterable[str], Mapping[str, str]]
+                              status_details=False,  # type: bool
+                              filter=None,           # type: Any
+                              flatten=False,         # type: bool
+                              fixture_store=None,    # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
+                              flatten_more=None,     # type: Union[str, Iterable[str], Mapping[str, str]]
                               ):
     """
     Returns a dictionary containing a synthesis of what is available currently in the `pytest` session object provided.
@@ -25,7 +26,7 @@ def get_session_synthesis_dct(session,
      - 'pytest_status': the overall status ('failing', 'skipped', 'passed')
      - 'pytest_duration': the duration of the 'call' step (ms ? TODO check with pytest doc)
      - 'pytest_status_details': a dictionary containing step-by-step status details for all pytest steps ('setup',
-     'call', 'teardown')
+     'call', 'teardown'). This is only included if `status_details=True` (not by default)
 
     An optional `filter` can be provided, that can be a singleton or iterable of pytest objects (typically test
     functions).
@@ -36,6 +37,8 @@ def get_session_synthesis_dct(session,
     parameters dict, and storage dicts.
 
     :param session: a pytest session object.
+    :param status_details: a flag indicating if pytest status details per stage (setup/call/teardown) should be
+        included. Default=`False`: only the pytest status summary is provided.
     :param filter: a singleton or iterable of pytest objects on which to filter the returned dict on (the returned
         items will only by pytest nodes for which the pytest object is one of the ones provided)
     :param flatten: a boolean (default `False`) indicating if the resulting dictionary should be flattened. If it
@@ -102,11 +105,13 @@ def get_session_synthesis_dct(session,
         item_dct["pytest_status"] = test_status
         item_dct["pytest_duration"] = test_duration
         if flatten:
-            for k, v in status_dct.items():
-                item_dct["pytest_status__" + k] = v
+            if status_details:
+                for k, v in status_dct.items():
+                    item_dct["pytest_status__" + k] = v
             item_dct.update(param_dct)
         else:
-            item_dct["pytest_status_details"] = status_dct
+            if status_details:
+                item_dct["pytest_status_details"] = status_dct
             item_dct["pytest_params"] = param_dct
 
         # -- fixture storages
