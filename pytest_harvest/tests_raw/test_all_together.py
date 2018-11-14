@@ -3,14 +3,13 @@
 # END META
 from collections import OrderedDict
 from itertools import product
-from pprint import pprint
 
 import pytest
 
 from pytest_harvest import create_results_bag_fixture, saved_fixture, get_session_synthesis_dct
 
 
-@pytest.fixture(scope='session', autouse=True)
+@pytest.fixture(scope='module', autouse=True)
 def store():
     return OrderedDict()
 
