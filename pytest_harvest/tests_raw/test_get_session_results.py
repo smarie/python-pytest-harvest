@@ -132,7 +132,7 @@ def test_synthesis_failed(request):
 def test_synthesis_contains_everything(request):
     """ Tests that the synthesis contains all test nodes """
     # retrieve session results
-    synth_dct = get_session_synthesis_dct(request.session)
+    synth_dct = get_session_synthesis_dct(request.session, filter_incomplete=False)
 
     # asserts
     these_tests = [item.nodeid for item in request.session.items if this_file_name in item.nodeid]

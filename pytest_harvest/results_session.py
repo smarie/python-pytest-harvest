@@ -14,13 +14,14 @@ PYTEST_OBJ_NAME = 'pytest_obj'
 
 
 def get_session_synthesis_dct(session,
-                              status_details=False,  # type: bool
-                              durations_in_ms=False, # type: bool
-                              pytest_prefix=None,    # type: bool
-                              filter=None,           # type: Any
-                              flatten=False,         # type: bool
-                              fixture_store=None,    # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
-                              flatten_more=None      # type: Union[str, Iterable[str], Mapping[str, str]]
+                              status_details=False,    # type: bool
+                              durations_in_ms=False,   # type: bool
+                              pytest_prefix=None,      # type: bool
+                              filter=None,             # type: Any
+                              filter_incomplete=True,  # type: bool
+                              flatten=False,           # type: bool
+                              fixture_store=None,      # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
+                              flatten_more=None        # type: Union[str, Iterable[str], Mapping[str, str]]
                               ):
     """
     Returns a dictionary containing a synthesis of what is available currently in the `pytest` session object provided.
@@ -35,7 +36,11 @@ def get_session_synthesis_dct(session,
     removed in flatten mode. To force one of these you can set `pytest_prefix` to True or False.
 
     An optional `filter` can be provided, that can be a singleton or iterable of pytest objects (typically test
-    functions).
+    functions). It can also be a module, or the special `THIS_MODULE` object.
+
+    If this method is called before the end of the pytest session, some nodes might be incomplete, i.e. they will not
+    have data for the three stages (setup/call/teardown). By default these nodes are filtered out but you can set
+    `filter_incomplete=False` to make them appear. They will have a special 'pending' synthesis status.
 
     An optional collection of storage objects can be provided, so as to merge them into the resulting dictionary.
 
@@ -51,7 +56,10 @@ def get_session_synthesis_dct(session,
         details. Typically useful in flatten mode when the names are not ambiguous. By default it is None, which
         means =(not flatten)
     :param filter: a singleton or iterable of pytest objects on which to filter the returned dict on (the returned
-        items will only by pytest nodes for which the pytest object is one of the ones provided)
+        items will only by pytest nodes for which the pytest object is one of the ones provided). One can also use
+        modules or the special `THIS MODULE` item.
+    :param filter_incomplete: a boolean indicating if incomplete nodes (without the three stages setup/call/teardown)
+        should appear in the results (False) or not (True, default).
     :param flatten: a boolean (default `False`) indicating if the resulting dictionary should be flattened. If it
         set to `True`, the 3 nested dictionaries (pytest status details, parameters, and optionally storages)
         will have their contents directly copied in the first level (with a prefix added in case of pytest status
@@ -77,13 +85,23 @@ def get_session_synthesis_dct(session,
 
     # Optional filter
     if filter is not None:
-        try:
-            iter(filter)
-            filter = set(filter)
-        except TypeError:
-            # TypeError: '<....>' object is not iterable
+        if isinstance(filter, str):
             filter = {filter}
-        filtered_items = (item for item in session.items if item.obj in filter)
+        else:
+            try:
+                iter(filter)
+                filter = set(filter)
+            except TypeError:
+                # TypeError: '<....>' object is not iterable
+                filter = {filter}
+        def is_selected(item_obj):
+            if item_obj in filter:
+                return True
+            elif any(item_obj.__module__ == f for f in filter):
+                return True
+            else:
+                return False
+        filtered_items = (item for item in session.items if is_selected(item.obj))
     else:
         filtered_items = session.items
 
@@ -117,57 +135,58 @@ def get_session_synthesis_dct(session,
         # -- test status: this information is available thanks to our hook in plugin.py
         (test_status, test_duration), status_dct = get_pytest_status(item, durations_in_ms=durations_in_ms)
 
-        # -- parameters (of tests and fixtures)
-        param_dct = get_pytest_params(item)
+        if test_status != 'pending' or not filter_incomplete:
+            # -- parameters (of tests and fixtures)
+            param_dct = get_pytest_params(item)
 
-        # Fill according to mode
-        item_dct[pytest_prefix + "status"] = test_status
-        item_dct[pytest_prefix + "duration_" + ('ms' if durations_in_ms else 's')] = test_duration
-        if flatten:
-            if status_details:
-                for k, v in status_dct.items():
-                    item_dct[pytest_prefix + "status__" + k] = v
-            item_dct.update(param_dct)
-        else:
-            if status_details:
-                item_dct[pytest_prefix + "status_details"] = status_dct
-            item_dct[pytest_prefix + "params"] = param_dct
+            # Fill according to mode
+            item_dct[pytest_prefix + "status"] = test_status
+            item_dct[pytest_prefix + "duration_" + ('ms' if durations_in_ms else 's')] = test_duration
+            if flatten:
+                if status_details:
+                    for k, v in status_dct.items():
+                        item_dct[pytest_prefix + "status__" + k] = v
+                item_dct.update(param_dct)
+            else:
+                if status_details:
+                    item_dct[pytest_prefix + "status_details"] = status_dct
+                item_dct[pytest_prefix + "params"] = param_dct
 
-        # -- fixture storages
-        # For info: https://docs.pytest.org/en/latest/_modules/_pytest/runner.html
-        # used_fixtures = sorted(item._fixtureinfo.name2fixturedefs.keys())
-        # if used_fixtures:
-        #     tw.write(" (fixtures used: {})".format(", ".join(used_fixtures)))
-        if fixture_store is not None:
-            if not flatten:
-                item_dct['fixtures'] = OrderedDict()
+            # -- fixture storages
+            # For info: https://docs.pytest.org/en/latest/_modules/_pytest/runner.html
+            # used_fixtures = sorted(item._fixtureinfo.name2fixturedefs.keys())
+            # if used_fixtures:
+            #     tw.write(" (fixtures used: {})".format(", ".join(used_fixtures)))
+            if fixture_store is not None:
+                if not flatten:
+                    item_dct['fixtures'] = OrderedDict()
 
-            for fixture_name, fixture_dct in fixture_store_items:
+                for fixture_name, fixture_dct in fixture_store_items:
 
-                # if this fixture is available for this test
-                if item.nodeid in fixture_dct:
-                    # get the fixture value for this test
-                    fix_val = fixture_dct[item.nodeid]
+                    # if this fixture is available for this test
+                    if item.nodeid in fixture_dct:
+                        # get the fixture value for this test
+                        fix_val = fixture_dct[item.nodeid]
 
-                    # store it in the appropriate format
-                    if flatten:
-                        if flatten_more is not None and fixture_name in flatten_more_prefixes_dct:
-                            prefix = flatten_more_prefixes_dct[fixture_name]
-                            # flatten more
-                            for k, v in fix_val.items():
-                                item_dct[prefix + k] = v
+                        # store it in the appropriate format
+                        if flatten:
+                            if flatten_more is not None and fixture_name in flatten_more_prefixes_dct:
+                                prefix = flatten_more_prefixes_dct[fixture_name]
+                                # flatten more
+                                for k, v in fix_val.items():
+                                    item_dct[prefix + k] = v
+                            else:
+                                item_dct[fixture_name] = fix_val
                         else:
-                            item_dct[fixture_name] = fix_val
-                    else:
-                        item_dct['fixtures'][fixture_name] = fix_val
+                            item_dct['fixtures'][fixture_name] = fix_val
 
-        # Finally store in the main dictionary
-        res_dct[item.nodeid] = item_dct
+            # Finally store in the main dictionary
+            res_dct[item.nodeid] = item_dct
 
     return res_dct
 
 
-def get_pytest_status(item, durations_in_ms=False):
+def get_pytest_status(item, durations_in_ms):
     """ Returns a dictionary containing item's pytest status (success/skipped/failed, duration converted to ms) """
 
     # the status keys that have been stored by our plugin.py module
@@ -178,12 +197,12 @@ def get_pytest_status(item, durations_in_ms=False):
              "`pytest_plugins = ['harvest']` to your conftest.py. But for normal use this should not be required, "
              "installing with pip should be enough.")
 
+    # adjust duration factor according to target unit
+    duration_factor = (1000 if durations_in_ms else 1)
+
     # create the status dictionary for that item
     status_dct = OrderedDict()
     test_status = 'passed'
-
-    duration_factor = (1000 if durations_in_ms else 1)
-
     test_duration = None
     for k in status_keys:
         statusreport = getattr(item, k)
@@ -195,6 +214,10 @@ def get_pytest_status(item, durations_in_ms=False):
         # global test duration is the duration of the "call" step only
         if statusreport.when == "call":
             test_duration = statusreport.duration * duration_factor
+
+    if len(status_keys) < 3:
+        # this is an incomplete test
+        test_status = 'pending'
 
     return (test_status, test_duration), status_dct
 
