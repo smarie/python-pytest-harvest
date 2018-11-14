@@ -1,5 +1,5 @@
 # META
-# {'passed': 9, 'skipped': 1, 'failed': 1}
+# {'passed': 11, 'skipped': 1, 'failed': 1}
 # END META
 import os
 from itertools import product
@@ -55,14 +55,15 @@ def test_foo_synthesis_all_options(request, flatten, durations_in_ms):
     durations_unit = ('ms' if durations_in_ms else 's')
 
     # Check the returned dictionary contents
+    prefix = '' if flatten else 'pytest_'
     expected_keys = {'pytest_obj',
-                     'pytest_status',
-                     'pytest_duration_' + durations_unit}
+                     prefix + 'status',
+                     prefix + 'duration_' + durations_unit}
     stages = ['setup', 'call', 'teardown']
     if not flatten:
-        expected_keys.update({'pytest_status_details', 'pytest_params'})
+        expected_keys.update({prefix + 'status_details', prefix + 'params'})
     else:
-        expected_keys.update({('pytest_status__' + stage) for stage in stages})
+        expected_keys.update({(prefix + 'status__' + stage) for stage in stages})
         # add parameters
         expected_keys.update({mark.args[0] for mark in test_foo.parametrize})
         # add parametrized fixtures
@@ -78,17 +79,17 @@ def test_foo_synthesis_all_options(request, flatten, durations_in_ms):
 
         # main test information
         assert nodeinfo['pytest_obj'] == test_foo  # check that the filter worked
-        assert nodeinfo['pytest_status'] == 'passed'
-        assert nodeinfo['pytest_duration_' + durations_unit] >= 0
+        assert nodeinfo[prefix + 'status'] == 'passed'
+        assert nodeinfo[prefix + 'duration_' + durations_unit] >= 0
 
         # test status details
         if not flatten:
-            assert set(nodeinfo['pytest_status_details'].keys()) == set(stages)
+            assert set(nodeinfo[prefix + 'status_details'].keys()) == set(stages)
         for step in stages:
             if flatten:
-                step_info = nodeinfo['pytest_status__' + step]
+                step_info = nodeinfo[prefix + 'status__' + step]
             else:
-                step_info = nodeinfo['pytest_status_details'][step]
+                step_info = nodeinfo[prefix + 'status_details'][step]
             assert len(step_info) == 2
             assert step_info[0] == 'passed'
             assert step_info[1] >= 0
@@ -97,8 +98,8 @@ def test_foo_synthesis_all_options(request, flatten, durations_in_ms):
         if flatten:
             param_dct = nodeinfo
         else:
-            assert set(nodeinfo['pytest_params'].keys()) == {'p', 'a_number_str'}
-            param_dct = nodeinfo['pytest_params']
+            assert set(nodeinfo[prefix + 'params'].keys()) == {'p', 'a_number_str'}
+            param_dct = nodeinfo[prefix + 'params']
 
         assert param_dct['a_number_str'] == params[i][0]
         assert param_dct['p'] == params[i][1]

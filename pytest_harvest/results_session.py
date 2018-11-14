@@ -126,7 +126,7 @@ def get_session_synthesis_dct(session,
         if flatten:
             if status_details:
                 for k, v in status_dct.items():
-                    item_dct[pytest_prefix + "_status__" + k] = v
+                    item_dct[pytest_prefix + "status__" + k] = v
             item_dct.update(param_dct)
         else:
             if status_details:
