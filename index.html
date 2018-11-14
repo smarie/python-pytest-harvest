@@ -329,8 +329,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#5-testing-the-synthesis" title="5- Testing the synthesis" class="md-nav__link">
-    5- Testing the synthesis
+  <a href="#5-partial-synthesis-module-function-and-synthesis-tests" title="5- Partial synthesis (module, function) and synthesis tests" class="md-nav__link">
+    5- Partial synthesis (module, function) and synthesis tests
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete-example" title="Complete example" class="md-nav__link">
+    Complete example
   </a>
   
 </li>
@@ -495,8 +502,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#5-testing-the-synthesis" title="5- Testing the synthesis" class="md-nav__link">
-    5- Testing the synthesis
+  <a href="#5-partial-synthesis-module-function-and-synthesis-tests" title="5- Partial synthesis (module, function) and synthesis tests" class="md-nav__link">
+    5- Partial synthesis (module, function) and synthesis tests
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complete-example" title="Complete example" class="md-nav__link">
+    Complete example
   </a>
   
 </li>
@@ -594,6 +608,7 @@
 
 
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<p>If you "just want to see the code", jump to the <a href="#complete-example">complete example</a>. Otherwise continue from here.</p>
 <h3 id="0-prerequisite-how-to-write-session-teardown-code">0- Prerequisite: how to write session teardown code<a class="headerlink" href="#0-prerequisite-how-to-write-session-teardown-code" title="Permanent link">&para;</a></h3>
 <p>In order to be able to retrieve all the information that we will store, we will have to ask <code>pytest</code> to execute our retrieval/synthesis code <strong>at the end of the entire test session</strong>. <code>pytest</code> currently provides several ways to do this:</p>
 <ul>
@@ -765,7 +780,7 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 
 <p>Note: you can change the key used in the global storage with the <code>key=</code> argument of <code>@saved_fixture</code>. </p>
 <h4 id="b-storing-in-a-fixture">b- Storing in a fixture<a class="headerlink" href="#b-storing-in-a-fixture" title="Permanent link">&para;</a></h4>
-<p>You might want your store to be a fixture itself, instead of a global variable. It is possible if it is session-scoped. Simply use its name in <code>@saved_fixture</code> and it will work as expected. </p>
+<p>You might want your store to be a fixture itself, instead of a global variable. It is possible if it is session- or module-scoped (in the same module than where it is used). Simply use its name in <code>@saved_fixture</code> and it will work as expected. </p>
 <p>This enables you to make the code even more readable because you can put the synthesis code in the teardown part of the storage fixture:</p>
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pytest</span>
 <span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">saved_fixture</span>
@@ -778,7 +793,7 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 
 <span class="c1"># -- the global storage fixture and synthesis creator --</span>
 <span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;session&#39;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">store</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">store</span><span class="p">():</span>
     <span class="c1"># setup: init the store</span>
     <span class="n">store</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
     <span class="k">yield</span> <span class="n">store</span>
@@ -861,7 +876,7 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 <p>We can of course combine this with the test status and parameters (we saw <a href="#1-collecting-tests-status-and-parameters">above</a> how to collect them) if we want to create a synthesis table. This complete story will be available on <a href="https://github.com/smarie/pytest-patterns">pytest-patterns</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">results bag fixtures' storage</p>
-<p>You declare the storage used in the arguments of <code>create_results_bag_fixture</code>. As this relies on <code>@saved_fixture</code>, you can use both a variable or a session-scope fixture name as we saw in previous chapter. </p>
+<p>You declare the storage used in the arguments of <code>create_results_bag_fixture</code>. As this relies on <code>@saved_fixture</code>, you can use both a variable or a session/module-scoped fixture name as we saw in previous chapter. </p>
 </div>
 <h3 id="4-creating-a-synthesis-table">4- Creating a Synthesis table<a class="headerlink" href="#4-creating-a-synthesis-table" title="Permanent link">&para;</a></h3>
 <p>Now that we know</p>
@@ -870,7 +885,7 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 <li>how to store and retrieve fixtures</li>
 <li>and how to store and retrieve applicative results</li>
 </ul>
-<p>We can create a synthesis table containing all information available. This is very easy: instead of calling <code>get_session_synthesis_dct</code> with no parameters, give it your <code>store</code> object. Since we want to create a table, we will use the <code>flatten</code> and <code>flatten_more</code> options so that the result does not contain nested dictionaries for the parameters, fixtures, and result bags. Finally we decide that we want the durations expressed in ms (pytest measures them in seconds by default, using the time method - see opened discussion <a href="https://github.com/pytest-dev/pytest/issues/4391">here</a>).</p>
+<p>We can create a synthesis table containing all information available. This is very easy: instead of calling <code>get_session_synthesis_dct</code> with no parameters, give it your <code>store</code> object. Since we want to create a table, we will use the <code>flatten</code> and <code>flatten_more</code> options so that the result does not contain nested dictionaries for the parameters, fixtures, and result bags. Finally we decide that we want the durations expressed in ms (pytest measures them in seconds by default).</p>
 <div class="codehilite"><pre><span></span><span class="c1"># retrieve the synthesis, merged with the fixture store</span>
 <span class="n">results_dct</span> <span class="o">=</span> <span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">fixture_store</span><span class="o">=</span><span class="n">store</span><span class="p">,</span> 
                                         <span class="n">flatten</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">flatten_more</span><span class="o">=</span><span class="s1">&#39;results_bag&#39;</span><span class="p">,</span>
@@ -895,7 +910,8 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">results_dct</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
 <span class="c1"># (a) remove the full test id path</span>
-<span class="n">results_df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">test_id</span><span class="p">:</span> <span class="n">test_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;::&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">results_df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span> \
+                             <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">test_id</span><span class="p">:</span> <span class="n">test_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;::&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 <span class="c1"># (b) drop pytest object column</span>
 <span class="n">results_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;pytest_obj&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
@@ -907,7 +923,7 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 
 <span class="c1"># github markdown format</span>
 <span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
-<span class="k">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">results_df</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;keys&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;pipe&quot;</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">results_df</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;keys&#39;</span><span class="p">))</span>
 </pre></div>
 
 
@@ -973,8 +989,36 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 </tr>
 </tbody>
 </table>
-<h3 id="5-testing-the-synthesis">5- Testing the synthesis<a class="headerlink" href="#5-testing-the-synthesis" title="Permanent link">&para;</a></h3>
-<p><strong>TODO</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Duration calculation</p>
+<p>The duration field is directly extracted from <code>pytest</code>. Currently <code>pytest</code> computes durations using the <code>time</code> method, which might not be as accurate as other methods - see opened discussion <a href="https://github.com/pytest-dev/pytest/issues/4391">here</a>. If you need more precise duration benchmarking <strong>now</strong>, of if you need to measure the duration of a specific sub-function instead of the duration of the whole test function call, use <a href="https://github.com/ionelmc/pytest-benchmark">pytest-benchmark</a>. In the long run, the author thinks that <code>pytest</code> will hopefully provide more precise duration estimates, and therefore you will be able to get similar results in the table outputted above (+ possibly a <code>@repeat(n)</code> parameter on top of your test function if you wish to repeat it several times and compare the durations).</p>
+</div>
+<h3 id="5-partial-synthesis-module-function-and-synthesis-tests">5- Partial synthesis (module, function) and synthesis tests<a class="headerlink" href="#5-partial-synthesis-module-function-and-synthesis-tests" title="Permanent link">&para;</a></h3>
+<p>We have seen <a href="#1-collecting-tests-status-and-parameters">above</a> that you can get the pytest <code>session</code> object from many different teardown hooks. In addition, you can even access it from inside a test! In that case all information will not be available, but if the synthesis test is located <strong>after</strong> the test function of interest in execution order, it will be ok.</p>
+<p>To be sure to only get results you're interested in, the special <code>filter</code> argument allows you to only select parts of the test nodes to create the synthesis:</p>
+<div class="codehilite"><pre><span></span><span class="c1"># a module-scoped store</span>
+<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;module&#39;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">store</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">OrderedDict</span><span class="p">()</span>
+
+<span class="c1"># results bag fixture</span>
+<span class="n">my_results</span> <span class="o">=</span> <span class="n">create_results_bag_fixture</span><span class="p">(</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;my_results&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">test_foo</span><span class="p">(</span><span class="n">my_results</span><span class="p">):</span>
+    <span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">test_synthesis</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">store</span><span class="p">):</span>
+    <span class="c1"># get partial results concerning `test_foo`</span>
+    <span class="n">results_dct</span> <span class="o">=</span> <span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="n">test_foo</span><span class="p">,</span> 
+                                            <span class="n">fixture_store</span><span class="o">=</span><span class="n">store</span><span class="p">)</span>
+
+    <span class="c1"># you can assert / report using the `results_dct` here</span>
+</pre></div>
+
+
+<p>See <code>help(get_session_synthesis_dct)</code> for details: for example you can include in this filter a list, and it can contain module names too.</p>
+<h3 id="complete-example">Complete example<a class="headerlink" href="#complete-example" title="Permanent link">&para;</a></h3>
+<p>A module-scoped complete example with parameters, fixtures, and results bag can be found <a href="https://github.com/smarie/python-pytest-harvest/tree/master/pytest_harvest/tests_raw/test_doc_example.py">here</a>.</p>
 <h3 id="compliance-with-the-other-pytest-mechanisms">Compliance with the other pytest mechanisms<a class="headerlink" href="#compliance-with-the-other-pytest-mechanisms" title="Permanent link">&para;</a></h3>
 <p>This package solely relies on the fixtures mechanism and the <code>pytest_runtest_makereport</code> hook. It should therefore be quite portable across pytest versions.</p>
 <h2 id="main-features-benefits">Main features / benefits<a class="headerlink" href="#main-features-benefits" title="Permanent link">&para;</a></h2>
