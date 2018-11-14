@@ -1,5 +1,11 @@
 # Changelog
 
+### 0.8.0 - Documentation + better filters in `get_session_synthesis_dct`
+
+ * Documentation: added a section about creating the synthesis table from *inside* a test function (fixes [#4](https://github.com/smarie/python-pytest-harvest/issues/4)). Also, added a link to a complete example file.
+ 
+ * `get_session_synthesis_dct`: `filter` argument can now contain module names (fixed [#7](https://github.com/smarie/python-pytest-harvest/issues/7)). Also now the function filters out incomplete tests by default. A new `filter_incomplete` argument can be used to display them again (fixed [#8](https://github.com/smarie/python-pytest-harvest/issues/8)).
+
 ### 0.7.0 - Documentation + `get_session_synthesis_dct` improvements 2
 
  * Results bags do not measure execution time anymore since this is much less accurate than pytest duration. Fixes [#6](https://github.com/smarie/python-pytest-harvest/issues/6)
