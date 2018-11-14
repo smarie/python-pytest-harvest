@@ -322,8 +322,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#4-putting-it-all-together" title="4- Putting it all together" class="md-nav__link">
-    4- Putting it all together
+  <a href="#4-creating-a-synthesis-table" title="4- Creating a Synthesis table" class="md-nav__link">
+    4- Creating a Synthesis table
   </a>
   
 </li>
@@ -488,8 +488,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#4-putting-it-all-together" title="4- Putting it all together" class="md-nav__link">
-    4- Putting it all together
+  <a href="#4-creating-a-synthesis-table" title="4- Creating a Synthesis table" class="md-nav__link">
+    4- Creating a Synthesis table
   </a>
   
 </li>
@@ -668,7 +668,7 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 
 <p>let's retrieve the available information at the end of the session (put this in your <a href="#0-prerequisite-how-to-write-session-teardown-code">session teardown</a> so that you have the session object):</p>
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">get_session_synthesis_dct</span>
-<span class="n">synth_dct</span> <span class="o">=</span> <span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+<span class="n">synth_dct</span> <span class="o">=</span> <span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">status_details</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">synth_dct</span><span class="p">))</span>
 </pre></div>
 
@@ -723,11 +723,11 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 <li><code>'pytest_obj'</code>the object containing the test code</li>
 <li><code>'pytest_status'</code> the status and <code>'pytest_duration'</code> the duration of the test</li>
 <li><code>'pytest_params'</code>the parameters used in this test (both in the test function AND the fixture)</li>
-<li>the status details for each pytest internal step: setup, call, and teardown. </li>
+<li><code>'pytest_status_details'</code> a dictionary containing the status details for each pytest internal stages: setup, call, and teardown. </li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">status and duration aggregation</p>
-<p>that the global status corresponds to an aggregation of the status of each of those steps, but the global duration is only the duration of the "call" step - after all we do not care about how long it took to setup and teardown.</p>
+<p>that the global status corresponds to an aggregation of the status of each of those stages (setup, call, teardown), but the global duration is only the duration of the "call" stage - after all we do not care about how long it took to setup and teardown.</p>
 </div>
 <p>Finally let's have a closer look above. It <strong>seems</strong> that after all we have collected the fixtures, right ? For example we see <code>'a_number_str': 2</code>. But beware, this is not the fixture. It is the parameter used by the fixture <code>'a_number_str'</code>. To be convinced look at its type: it is an integer, not a string! A more obvious way to confirm that the fixtures are not available, is to see that the <code>'dummy'</code> fixture does not appear at all: indeed it had no parameters.</p>
 <p>To conclude: the <code>get_session_synthesis_dct(session)</code> utility function allows you to collect many information about the tests, but not the fixtures. To do that you have to use the mechanisms below.</p>
@@ -843,17 +843,17 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 <p>We can see the correct results collected:</p>
 <div class="codehilite"><pre><span></span><span class="p">{</span>
 <span class="s1">&#39;path/to/test_file.py::::test_my_app_bench[A-1]&#39;</span><span class="o">:</span> 
-     <span class="nx">ResultsBag</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="o">:</span> <span class="mf">0.2630766637159053</span><span class="p">,</span> <span class="s1">&#39;execution_time&#39;</span><span class="o">:</span> <span class="mf">0.002</span><span class="p">},</span> 
+     <span class="nx">ResultsBag</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="o">:</span> <span class="mf">0.2630766637159053</span><span class="p">},</span> 
 <span class="s1">&#39;path/to/test_file.py::::test_my_app_bench[A-2]&#39;</span><span class="o">:</span> 
-     <span class="nx">ResultsBag</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="o">:</span> <span class="mf">0.6720533462346249</span><span class="p">,</span> <span class="s1">&#39;execution_time&#39;</span><span class="o">:</span> <span class="mf">0.002</span><span class="p">},</span> 
+     <span class="nx">ResultsBag</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="o">:</span> <span class="mf">0.6720533462346249</span><span class="p">},</span> 
 <span class="s1">&#39;path/to/test_file.py::::test_my_app_bench[B-1]&#39;</span><span class="o">:</span>
-     <span class="nx">ResultsBag</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="o">:</span> <span class="mf">0.9121353916881674</span><span class="p">,</span> <span class="s1">&#39;execution_time&#39;</span><span class="o">:</span> <span class="mf">0.002</span><span class="p">},</span> 
+     <span class="nx">ResultsBag</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="o">:</span> <span class="mf">0.9121353916881674</span><span class="p">},</span> 
 <span class="s1">&#39;path/to/test_file.py::::test_my_app_bench[B-2]&#39;</span><span class="o">:</span> 
-     <span class="nx">ResultsBag</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="o">:</span> <span class="mf">0.9401074040573346</span><span class="p">,</span> <span class="s1">&#39;execution_time&#39;</span><span class="o">:</span> <span class="mf">0.002</span><span class="p">},</span> 
+     <span class="nx">ResultsBag</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="o">:</span> <span class="mf">0.9401074040573346</span><span class="p">},</span> 
 <span class="s1">&#39;path/to/test_file.py::::test_my_app_bench[C-1]&#39;</span><span class="o">:</span> 
-     <span class="nx">ResultsBag</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="o">:</span> <span class="mf">0.01619034700438804</span><span class="p">,</span> <span class="s1">&#39;execution_time&#39;</span><span class="o">:</span> <span class="mf">0.002</span><span class="p">},</span>
+     <span class="nx">ResultsBag</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="o">:</span> <span class="mf">0.01619034700438804</span><span class="p">},</span>
 <span class="s1">&#39;path/to/test_file.py::::test_my_app_bench[C-2]&#39;</span><span class="o">:</span> 
-     <span class="nx">ResultsBag</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="o">:</span> <span class="mf">0.8027244886806986</span><span class="p">,</span> <span class="s1">&#39;execution_time&#39;</span><span class="o">:</span> <span class="mf">0.002</span><span class="p">}</span>
+     <span class="nx">ResultsBag</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;accuracy&#39;</span><span class="o">:</span> <span class="mf">0.8027244886806986</span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -863,8 +863,116 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 <p class="admonition-title">results bag fixtures' storage</p>
 <p>You declare the storage used in the arguments of <code>create_results_bag_fixture</code>. As this relies on <code>@saved_fixture</code>, you can use both a variable or a session-scope fixture name as we saw in previous chapter. </p>
 </div>
-<h3 id="4-putting-it-all-together">4- Putting it all together<a class="headerlink" href="#4-putting-it-all-together" title="Permanent link">&para;</a></h3>
-<p><strong>TODO</strong> explain how <code>get_session_synthesis_dct</code> can merge all information with a store.</p>
+<h3 id="4-creating-a-synthesis-table">4- Creating a Synthesis table<a class="headerlink" href="#4-creating-a-synthesis-table" title="Permanent link">&para;</a></h3>
+<p>Now that we know</p>
+<ul>
+<li>how to retrieve pytest status and parameters</li>
+<li>how to store and retrieve fixtures</li>
+<li>and how to store and retrieve applicative results</li>
+</ul>
+<p>We can create a synthesis table containing all information available. This is very easy: instead of calling <code>get_session_synthesis_dct</code> with no parameters, give it your <code>store</code> object. Since we want to create a table, we will use the <code>flatten</code> and <code>flatten_more</code> options so that the result does not contain nested dictionaries for the parameters, fixtures, and result bags. Finally we decide that we want the durations expressed in ms (pytest measures them in seconds by default, using the time method - see opened discussion <a href="https://github.com/pytest-dev/pytest/issues/4391">here</a>).</p>
+<div class="codehilite"><pre><span></span><span class="c1"># retrieve the synthesis, merged with the fixture store</span>
+<span class="n">results_dct</span> <span class="o">=</span> <span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">fixture_store</span><span class="o">=</span><span class="n">store</span><span class="p">,</span> 
+                                        <span class="n">flatten</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">flatten_more</span><span class="o">=</span><span class="s1">&#39;results_bag&#39;</span><span class="p">,</span>
+                                        <span class="n">durations_in_ms</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+
+
+<p>We can print the first entry:</p>
+<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">pprint</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">results_dct</span><span class="o">.</span><span class="n">values</span><span class="p">()))))</span>
+
+<span class="p">{</span><span class="s1">&#39;pytest_obj&#39;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">function</span> <span class="n">test_my_app_bench</span> <span class="n">at</span> <span class="mh">0x0000000004FF6A60</span><span class="o">&gt;</span><span class="p">,</span>
+ <span class="s1">&#39;pytest_status&#39;</span><span class="p">:</span> <span class="s1">&#39;passed&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;pytest_duration_ms&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+ <span class="s1">&#39;dataset&#39;</span><span class="p">:</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;algo_param&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+ <span class="s1">&#39;accuracy&#39;</span><span class="p">:</span> <span class="mf">0.2630766637159053</span><span class="p">}</span>
+</pre></div>
+
+
+<p>We see that all information is available at the same level: pytest status and duration, parameters (<code>dataset</code> and <code>algo_param</code>), and results (<code>accuracy</code>).</p>
+<p>Transforming such a flattened dictionary in a table is very easy with <code>pandas</code>:</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">results_dct</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+<span class="c1"># (a) remove the full test id path</span>
+<span class="n">results_df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">test_id</span><span class="p">:</span> <span class="n">test_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;::&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="c1"># (b) drop pytest object column</span>
+<span class="n">results_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;pytest_obj&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+
+
+<p>And finally we can use <code>pandas</code> or <code>tabulate</code> to export the result in csv or markdown format:</p>
+<div class="codehilite"><pre><span></span><span class="c1"># csv format</span>
+<span class="k">print</span><span class="p">(</span><span class="n">results_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">())</span>
+
+<span class="c1"># github markdown format</span>
+<span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
+<span class="k">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">results_df</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;keys&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;pipe&quot;</span><span class="p">))</span>
+</pre></div>
+
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>status</th>
+<th>duration_ms</th>
+<th>algo_param</th>
+<th>dataset</th>
+<th>accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test_my_app_bench[A-1]</td>
+<td>passed</td>
+<td>1.00017</td>
+<td>1</td>
+<td>A</td>
+<td>0.313807</td>
+</tr>
+<tr>
+<td>test_my_app_bench[A-2]</td>
+<td>passed</td>
+<td>0</td>
+<td>2</td>
+<td>A</td>
+<td>0.0459802</td>
+</tr>
+<tr>
+<td>test_my_app_bench[B-1]</td>
+<td>passed</td>
+<td>0</td>
+<td>1</td>
+<td>B</td>
+<td>0.638511</td>
+</tr>
+<tr>
+<td>test_my_app_bench[B-2]</td>
+<td>passed</td>
+<td>0</td>
+<td>2</td>
+<td>B</td>
+<td>0.10418</td>
+</tr>
+<tr>
+<td>test_my_app_bench[C-1]</td>
+<td>passed</td>
+<td>0</td>
+<td>1</td>
+<td>C</td>
+<td>0.287151</td>
+</tr>
+<tr>
+<td>test_my_app_bench[C-2]</td>
+<td>passed</td>
+<td>0</td>
+<td>2</td>
+<td>C</td>
+<td>0.19437</td>
+</tr>
+</tbody>
+</table>
 <h3 id="5-testing-the-synthesis">5- Testing the synthesis<a class="headerlink" href="#5-testing-the-synthesis" title="Permanent link">&para;</a></h3>
 <p><strong>TODO</strong></p>
 <h3 id="compliance-with-the-other-pytest-mechanisms">Compliance with the other pytest mechanisms<a class="headerlink" href="#compliance-with-the-other-pytest-mechanisms" title="Permanent link">&para;</a></h3>
