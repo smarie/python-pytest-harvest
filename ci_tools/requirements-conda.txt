@@ -8,6 +8,7 @@ pypandoc
 decorator
 
 # --- to run the tests
+pandas
 # (pip) pytest$PYTEST_VERSION
 # (pip) pytest-logging  # ==2015.11.4
 

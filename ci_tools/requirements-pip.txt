@@ -3,6 +3,7 @@ pytest-html$PYTEST_HTML_VERSION
 xunitparser
 
 # --- to run the tests
+tabulate
 pytest$PYTEST_VERSION
 pytest-logging  # ==2015.11.4
 
