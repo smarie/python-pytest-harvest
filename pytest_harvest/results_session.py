@@ -97,6 +97,9 @@ def get_session_synthesis_dct(session,
         def is_selected(item_obj):
             if item_obj in filter:
                 return True
+            # support class methods: the item obje is a bound method while filter is not
+            elif getattr(item_obj, 'im_func', None) in filter or getattr(item_obj, '__func__', None) in filter:
+                return True
             elif any(item_obj.__module__ == f for f in filter):
                 return True
             else:
