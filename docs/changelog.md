@@ -1,5 +1,12 @@
 # Changelog
 
+### 0.9.0 - `get_session_synthesis_dct`: filter bugfix + test id formatter
+
+ * `get_session_synthesis_dct`:
+  
+   - `filter` now correctly handles class methods. Fixed [#11](https://github.com/smarie/python-pytest-harvest/issues/11)
+   - new `test_id_format` option to process test ids. Fixed [#9](https://github.com/smarie/python-pytest-harvest/issues/9)
+
 ### 0.8.0 - Documentation + better filters in `get_session_synthesis_dct`
 
  * Documentation: added a section about creating the synthesis table from *inside* a test function (fixes [#4](https://github.com/smarie/python-pytest-harvest/issues/4)). Also, added a link to a complete example file.
