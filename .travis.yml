@@ -38,7 +38,6 @@ before_install:
   - echo "installing miniconda to $HOME/miniconda";  bash miniconda.sh -b -p $HOME/miniconda; export PATH="$HOME/miniconda/bin:$PATH"
   - echo "configuring miniconda"; hash -r; conda config --set always_yes yes --set changeps1 no
   # - conda update -q conda NO !!!!
-  # - conda info -a  # Use this to debug conda
 
   # (c) base conda environment
   - echo "creating conda environment"; conda create -q -y -n test-environment python=$TRAVIS_PYTHON_VERSION
@@ -52,6 +51,8 @@ install:
   - pip install PyGithub  # for ci_tools/github_release.py
   - pip install codecov  # See https://github.com/codecov/example-python.
   - conda list
+  # WARNING to use the "true" pytest (or py.test) depending on version, "pytest" is NOT the way to go !
+  - python -m pytest --version  #  - pytest --version
 
 script:
 #  - coverage run tests.py

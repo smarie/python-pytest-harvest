@@ -1,5 +1,5 @@
 # --- to execute setup.py whatever the goal
-pytest-runner
+# pytest-runner
 setuptools_scm
 pandoc
 pypandoc
@@ -16,7 +16,7 @@ pandas
 # (pip) pytest-html$PYTEST_HTML_VERSION
 requests
 # (pip) xunitparser
-pytest-cov  # ==2.5
+# pytest-cov  # ==2.5
 coverage
 pylint
 

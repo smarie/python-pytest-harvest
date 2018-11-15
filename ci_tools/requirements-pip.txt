@@ -1,3 +1,6 @@
+# --- to execute setup.py whatever the goal
+pytest-runner
+
 # --- to generate the reports (see scripts in ci_tools, called by .travis)
 pytest-html$PYTEST_HTML_VERSION
 xunitparser
@@ -6,6 +9,9 @@ xunitparser
 tabulate
 pytest$PYTEST_VERSION
 pytest-logging  # ==2015.11.4
+
+# --- to generate the reports (see scripts in ci_tools, called by .travis)
+pytest-cov  # ==2.5
 
 # --- to generate the doc (see .travis)
 mkdocs-material==2.7.3
