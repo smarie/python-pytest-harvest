@@ -1,56 +1,120 @@
-<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="0" name="pytest" skips="0" tests="6" time="1.464"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_all_together.py]" time="0.46070003509521484"><system-out>
-Testing that running pytest on file test_all_together.py results in {&apos;passed&apos;: 9, &apos;skipped&apos;: 0, &apos;failed&apos;: 0}
+<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="1" name="pytest" skips="0" tests="6" time="1.520"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_all_together.py]" time="0.4475364685058594"><system-out>
+Testing that running pytest on file test_all_together.py results in {&apos;failed&apos;: 0, &apos;skipped&apos;: 0, &apos;passed&apos;: 9}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
+platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests0, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.8.1.dev1+g049c1bb, cov-2.6.0
+plugins: logging-2015.11.4, html-1.9.0, harvest-0.9.0, cov-2.6.0
 collected 9 items
 
 test_run_all_tests.py .........
 
-=========================== 9 passed in 0.42 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_doc_example.py]" time="0.35289907455444336"><system-out>
-Testing that running pytest on file test_doc_example.py results in {&apos;passed&apos;: 8, &apos;skipped&apos;: 0, &apos;failed&apos;: 0}
+=========================== 9 passed in 0.41 seconds ===========================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_doc_example.py]" time="0.35556507110595703"><system-out>
+Testing that running pytest on file test_doc_example.py results in {&apos;failed&apos;: 0, &apos;skipped&apos;: 0, &apos;passed&apos;: 8}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
+platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.8.1.dev1+g049c1bb, cov-2.6.0
+plugins: logging-2015.11.4, html-1.9.0, harvest-0.9.0, cov-2.6.0
 collected 8 items
 
 test_run_all_tests.py ........
 
-=========================== 8 passed in 0.32 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_fixture.py]" time="0.04269242286682129"><system-out>
-Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0}
+=========================== 8 passed in 0.33 seconds ===========================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_fixture.py]" time="0.042469024658203125"><system-out>
+Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
+platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.8.1.dev1+g049c1bb, cov-2.6.0
+plugins: logging-2015.11.4, html-1.9.0, harvest-0.9.0, cov-2.6.0
 collected 2 items
 
 test_run_all_tests.py ..
 
 =========================== 2 passed in 0.02 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_results_bags.py]" time="0.3156869411468506"><system-out>
-Testing that running pytest on file test_results_bags.py results in {&apos;passed&apos;: 6, &apos;skipped&apos;: 0, &apos;failed&apos;: 0}
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_results_bags.py]" time="0.30591535568237305"><system-out>
+Testing that running pytest on file test_results_bags.py results in {&apos;failed&apos;: 0, &apos;skipped&apos;: 0, &apos;passed&apos;: 6}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
+platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests3, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.8.1.dev1+g049c1bb, cov-2.6.0
+plugins: logging-2015.11.4, html-1.9.0, harvest-0.9.0, cov-2.6.0
 collected 6 items
 
 test_run_all_tests.py ......
 
-=========================== 6 passed in 0.29 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_get_session_results.py]" time="0.15410971641540527"><system-out>
-Testing that running pytest on file test_get_session_results.py results in {&apos;passed&apos;: 11, &apos;skipped&apos;: 1, &apos;failed&apos;: 1}
-============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests4, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.8.1.dev1+g049c1bb, cov-2.6.0
-collected 13 items
+=========================== 6 passed in 0.28 seconds ===========================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_get_session_results.py]" time="0.2000436782836914"><failure message="assert 11 == 13
+ +  where 13 = &lt;built-in method get of dict object at 0x7fd113910548&gt;(&apos;passed&apos;, 0)
+ +    where &lt;built-in method get of dict object at 0x7fd113910548&gt; = {&apos;failed&apos;: 2, &apos;passed&apos;: 13, &apos;seconds&apos;: 15, &apos;skipped&apos;: 1}.get">test_to_run = &apos;test_get_session_results.py&apos;
+testdir = &lt;Testdir local(&apos;/tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests4&apos;)&gt;
 
-test_run_all_tests.py ........sF...
+    @pytest.mark.parametrize(&apos;test_to_run&apos;, test_files, ids=str)
+    def test_run_all_tests(test_to_run, testdir):
+        &quot;&quot;&quot;
+        This is a meta-test. It is executed for each test file in the &apos;tests_raw&apos; folder.
+        For each of them, the file is retrieved and the expected test results are read from its first lines.
+        Then a dedicated pytest runner is run on this file, and the results are compared with the expected ones.
+    
+        See https://docs.pytest.org/en/latest/writing_plugins.html
+    
+        :param test_to_run:
+        :param testdir:
+        :return:
+        &quot;&quot;&quot;
+    
+        with open(join(tests_raw_folder, test_to_run)) as f:
+            # Create a temporary conftest.py file
+            # testdir.makeconftest(&quot;&quot;&quot;&quot;&quot;&quot;)
+    
+            # create a temporary pytest test file
+            test_file_contents = f.read()
+            testdir.makepyfile(test_file_contents)
+    
+            # Grab the expected things to check when this is executed
+            m = META_REGEX.match(test_file_contents)
+            assert m is not None
+            asserts_dct_str = m.groupdict()[&apos;asserts_dct&apos;]
+            asserts_dct = ast.literal_eval(asserts_dct_str)
+    
+            # Here we run pytest
+            print(&quot;\nTesting that running pytest on file %s results in %s&quot; % (test_to_run, str(asserts_dct)))
+            result = testdir.runpytest()  # (&quot;-q&quot;)
+    
+            # Here we check that everything is ok
+            try:
+                result.assert_outcomes(**asserts_dct)
+            except Exception as e:
+                print(&quot;Error while asserting that %s results in %s&quot; % (test_to_run, str(asserts_dct)))
+&gt;               six.raise_from(e, e)
+
+/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+&lt;string&gt;:3: in raise_from
+    ???
+/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:56: in test_run_all_tests
+    result.assert_outcomes(**asserts_dct)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;_pytest.pytester.RunResult object at 0x7fd11390efd0&gt;, passed = 11
+skipped = 1, failed = 1
+
+    def assert_outcomes(self, passed=0, skipped=0, failed=0):
+        &quot;&quot;&quot; assert that the specified outcomes appear with the respective
+            numbers (0 means it didn&apos;t occur) in the text output from a test run.&quot;&quot;&quot;
+        d = self.parseoutcomes()
+&gt;       assert passed == d.get(&quot;passed&quot;, 0)
+E       assert 11 == 13
+E        +  where 13 = &lt;built-in method get of dict object at 0x7fd113910548&gt;(&apos;passed&apos;, 0)
+E        +    where &lt;built-in method get of dict object at 0x7fd113910548&gt; = {&apos;failed&apos;: 2, &apos;passed&apos;: 13, &apos;seconds&apos;: 15, &apos;skipped&apos;: 1}.get
+
+/home/travis/miniconda/envs/test-environment/lib/python3.5/site-packages/_pytest/pytester.py:370: AssertionError</failure><system-out>
+Testing that running pytest on file test_get_session_results.py results in {&apos;failed&apos;: 1, &apos;skipped&apos;: 1, &apos;passed&apos;: 11}
+============================= test session starts ==============================
+platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
+rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests4, inifile: 
+plugins: logging-2015.11.4, html-1.9.0, harvest-0.9.0, cov-2.6.0
+collected 16 items
+
+test_run_all_tests.py ........sF....F.
 
 =================================== FAILURES ===================================
 _________________________________ test_failing _________________________________
@@ -60,13 +124,46 @@ _________________________________ test_failing _________________________________
 E       Failed: normal, intended failure here
 
 test_run_all_tests.py:115: Failed
-================ 1 failed, 11 passed, 1 skipped in 0.12 seconds ================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_global_var.py]" time="0.04305768013000488"><system-out>
-Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0}
+_________________________ test_synthesis_id_formatting _________________________
+
+request = &lt;FixtureRequest for &lt;Function &apos;test_synthesis_id_formatting&apos;&gt;&gt;
+
+    def test_synthesis_id_formatting(request):
+        &quot;&quot;&quot;
+        Note: we could do this at many other places (hook, teardown of a session-scope fixture...)
+    
+        Note2: we could provide helper methods in pytest_harvest to perform the code below more easily
+        :param request:
+        :param store:
+        :return:
+        &quot;&quot;&quot;
+        # Get session synthesis filtered on the test function of interest
+        fmt = &apos;function&apos;
+        results_dct = get_session_synthesis_dct(request.session, filter=TestX.test_easy, test_id_format=fmt)
+        assert list(results_dct.keys())[0] == &apos;test_easy[True]&apos;
+    
+        fmt = &apos;class&apos;
+        results_dct = get_session_synthesis_dct(request.session, filter=TestX.test_easy, test_id_format=fmt)
+        assert list(results_dct.keys())[0] == &apos;TestX::()::test_easy[True]&apos;
+    
+        fmt = &apos;module&apos;
+        results_dct = get_session_synthesis_dct(request.session, filter=TestX.test_easy, test_id_format=fmt)
+&gt;       assert list(results_dct.keys())[0] == &apos;test_get_session_results.py::TestX::()::test_easy[True]&apos;
+E       assert &apos;test_run_all...st_easy[True]&apos; == &apos;test_get_sess...st_easy[True]&apos;
+E         - test_run_all_tests.py::TestX::()::test_easy[True]
+E         ?      ^^  ^^^^^
+E         + test_get_session_results.py::TestX::()::test_easy[True]
+E         ?      ^^^^^^^^^^  ^  ++
+
+test_run_all_tests.py:158: AssertionError
+================ 2 failed, 13 passed, 1 skipped in 0.15 seconds ================
+Error while asserting that test_get_session_results.py results in {&apos;failed&apos;: 1, &apos;skipped&apos;: 1, &apos;passed&apos;: 11}
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_global_var.py]" time="0.04257678985595703"><system-out>
+Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.6.0, pluggy-0.3.1
+platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests5, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-0.8.1.dev1+g049c1bb, cov-2.6.0
+plugins: logging-2015.11.4, html-1.9.0, harvest-0.9.0, cov-2.6.0
 collected 2 items
 
 test_run_all_tests.py ..
