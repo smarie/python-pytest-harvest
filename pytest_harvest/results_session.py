@@ -14,6 +14,7 @@ PYTEST_OBJ_NAME = 'pytest_obj'
 
 
 def get_session_synthesis_dct(session,
+                              test_id_format='full',   #
                               status_details=False,    # type: bool
                               durations_in_ms=False,   # type: bool
                               pytest_prefix=None,      # type: bool
@@ -25,12 +26,23 @@ def get_session_synthesis_dct(session,
                               ):
     """
     Returns a dictionary containing a synthesis of what is available currently in the `pytest` session object provided.
+
+    For each entry, the key is the test id, and the value is a dictionary containing:
      - 'pytest_obj': the object under test, typically a test function
      - 'pytest_status': the overall status ('failing', 'skipped', 'passed')
      - 'pytest_duration': the duration of the 'call' step. By default this is the pytest unit (s) but if you set
      `durations_in_ms=True` it becomes (ms)
      - 'pytest_status_details': a dictionary containing step-by-step status details for all pytest steps ('setup',
      'call', 'teardown'). This is only included if `status_details=True` (not by default)
+
+    It is possible to process the test id (the keys) using the `test_id_format` option. Let's assume that the id is
+    `pytest_steps/tests_raw/test_wrapped_in_class.py::TestX::()::test_easy[p1-p2]`. Here are the returned test ids
+    depending on the selected `test_id_format`
+     - 'function' will return `test_easy[p1-p2]`
+     - 'class' will return `TestX::()::test_easy[p1-p2]`
+     - 'module' will return `test_wrapped_in_class.py::TestX::()::test_easy[...]`
+     - 'full' will return the original id (this is the default behaviour)
+    In addition one can provide a custom string handling function that will be called for each test id to process.
 
     The 'pytest' prefix in front of all these items (except `pytest_obj`) is by default added in non-flatten mode and
     removed in flatten mode. To force one of these you can set `pytest_prefix` to True or False.
@@ -48,6 +60,8 @@ def get_session_synthesis_dct(session,
     parameters dict, and storage dicts.
 
     :param session: a pytest session object.
+    :param test_id_format: one of 'function', 'class', 'module', or 'full' (default), or a custom test id processing
+        function.
     :param status_details: a flag indicating if pytest status details per stage (setup/call/teardown) should be
         included. Default=`False`: only the pytest status summary is provided.
     :param durations_in_ms: by default `pytest` measures durations in seconds so they are outputed in this unit. You
@@ -74,6 +88,25 @@ def get_session_synthesis_dct(session,
         available from pytest concerning the test node, and optionally storage contents if `storage_dcts` is provided.
     """
     res_dct = OrderedDict()
+
+    # Optional test id formatter
+    if test_id_format == 'function':
+        def test_id_format(test_id):
+            return test_id.split('::')[-1]
+    elif test_id_format == 'class':
+        def test_id_format(test_id):
+            return '::'.join(test_id.split('::')[1:])
+    elif test_id_format == 'module':
+        def test_id_format(test_id):
+            return test_id.replace('\\', '/').split('/')[-1]
+    elif test_id_format == 'full':
+        def test_id_format(test_id):
+            return test_id
+    elif callable(test_id_format):
+        pass  # use it directly
+    else:
+        raise ValueError("`test_id_format` should be one of {'function', 'class', 'module', 'full'} or be a custom "
+                         "function. Found '%s'" % test_id_format)
 
     # Optional 'pytest_' prefix in front of status and duration
     if pytest_prefix is None:
@@ -184,7 +217,7 @@ def get_session_synthesis_dct(session,
                             item_dct['fixtures'][fixture_name] = fix_val
 
             # Finally store in the main dictionary
-            res_dct[item.nodeid] = item_dct
+            res_dct[test_id_format(item.nodeid)] = item_dct
 
     return res_dct
 

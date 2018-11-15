@@ -129,6 +129,40 @@ def test_synthesis_failed(request):
         assert v['pytest_status'] == 'failed'
 
 
+class TestX:
+    @pytest.mark.parametrize('p', [True, False])
+    def test_easy(self, p):
+        print(2)
+
+
+def test_synthesis_id_formatting(request):
+    """
+    Note: we could do this at many other places (hook, teardown of a session-scope fixture...)
+
+    Note2: we could provide helper methods in pytest_harvest to perform the code below more easily
+    :param request:
+    :param store:
+    :return:
+    """
+    # Get session synthesis filtered on the test function of interest
+    fmt = 'function'
+    results_dct = get_session_synthesis_dct(request.session, filter=TestX.test_easy, test_id_format=fmt)
+    assert list(results_dct.keys())[0] == 'test_easy[True]'
+
+    fmt = 'class'
+    results_dct = get_session_synthesis_dct(request.session, filter=TestX.test_easy, test_id_format=fmt)
+    assert list(results_dct.keys())[0] == 'TestX::()::test_easy[True]'
+
+    fmt = 'module'
+    results_dct = get_session_synthesis_dct(request.session, filter=TestX.test_easy, test_id_format=fmt)
+    assert list(results_dct.keys())[0] == 'test_get_session_results.py::TestX::()::test_easy[True]'
+
+    def fmt(test_id):
+        return test_id.split('::')[-1].lower()
+    results_dct = get_session_synthesis_dct(request.session, filter=TestX.test_easy, test_id_format=fmt)
+    assert list(results_dct.keys())[0] == 'test_easy[true]'
+
+
 def test_synthesis_contains_everything(request):
     """ Tests that the synthesis contains all test nodes """
     # retrieve session results
