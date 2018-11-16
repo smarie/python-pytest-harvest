@@ -61,7 +61,7 @@ def test_synthesis(request, store):
     """
     # retrieve the synthesis, merged with the fixture store
     results_dct = get_session_synthesis_dct(request.session, filter=test_synthesis.__module__,
-                                            durations_in_ms=True,
+                                            durations_in_ms=True, test_id_format='function',
                                             status_details=False, fixture_store=store,
                                             flatten=True, flatten_more='my_results')
 
@@ -71,8 +71,7 @@ def test_synthesis(request, store):
 
     # convert to a pandas dataframe
     results_df = pd.DataFrame.from_dict(results_dct, orient='index')
-    results_df.index = results_df.index.to_series().apply(lambda test_id: test_id.split('::')[-1])  # remove full path
-    results_df.drop(['pytest_obj'], axis=1, inplace=True)                                  # drop pytest object column
+    results_df.drop(['pytest_obj'], axis=1, inplace=True)  # drop pytest object column
 
     # print using tabulate
     print(tabulate(results_df, headers='keys'))
