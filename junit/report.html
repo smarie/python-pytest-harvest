@@ -235,7 +235,7 @@ function filter_table(elem) {
 }
 </script>
     <h1>report.html</h1>
-    <p>Report generated on 15-Nov-2018 at 18:33:34 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
+    <p>Report generated on 16-Nov-2018 at 11:08:19 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -246,40 +246,43 @@ function filter_table(elem) {
         <td>/usr/lib/jvm/java-8-oracle</td></tr>
       <tr>
         <td>Packages</td>
-        <td>{&apos;pluggy&apos;: &apos;0.8.0&apos;, &apos;pytest&apos;: &apos;3.10.1&apos;, &apos;py&apos;: &apos;1.7.0&apos;}</td></tr>
+        <td>{&apos;py&apos;: &apos;1.7.0&apos;, &apos;pytest&apos;: &apos;3.10.1&apos;, &apos;pluggy&apos;: &apos;0.8.0&apos;}</td></tr>
       <tr>
         <td>Platform</td>
         <td>Linux-4.4.0-101-generic-x86_64-with-debian-jessie-sid</td></tr>
       <tr>
         <td>Plugins</td>
-        <td>{&apos;metadata&apos;: &apos;1.7.0&apos;, &apos;html&apos;: &apos;1.19.0&apos;, &apos;harvest&apos;: &apos;0.9.0&apos;, &apos;cov&apos;: &apos;2.6.0&apos;}</td></tr>
+        <td>{&apos;harvest&apos;: &apos;0.9.1.dev1+g68250d5&apos;, &apos;html&apos;: &apos;1.19.0&apos;, &apos;cov&apos;: &apos;2.6.0&apos;, &apos;metadata&apos;: &apos;1.7.0&apos;}</td></tr>
       <tr>
         <td>Python</td>
         <td>3.5.6</td></tr>
       <tr>
         <td>TRAVIS_BRANCH</td>
-        <td>0.9.0</td></tr>
+        <td>master</td></tr>
       <tr>
         <td>TRAVIS_BUILD_ID</td>
-        <td>455626498</td></tr>
+        <td>455923566</td></tr>
       <tr>
         <td>TRAVIS_BUILD_NUMBER</td>
-        <td>47</td></tr>
+        <td>48</td></tr>
       <tr>
         <td>TRAVIS_COMMIT</td>
-        <td>d3f9556212d0d33747536a7c940f5b86994e542e</td></tr>
+        <td>68250d55fe01db9042e59ad208cbf01be59ebf08</td></tr>
       <tr>
         <td>TRAVIS_COMMIT_MESSAGE</td>
-        <td>0.9.0 changelog</td></tr>
+        <td>Improved example by relying on the new `test_id_format` argument.</td></tr>
+      <tr>
+        <td>TRAVIS_COMMIT_RANGE</td>
+        <td>d3f9556212d0...68250d55fe01</td></tr>
       <tr>
         <td>TRAVIS_EVENT_TYPE</td>
         <td>push</td></tr>
       <tr>
         <td>TRAVIS_JOB_ID</td>
-        <td>455626510</td></tr>
+        <td>455923571</td></tr>
       <tr>
         <td>TRAVIS_JOB_NUMBER</td>
-        <td>47.5</td></tr>
+        <td>48.5</td></tr>
       <tr>
         <td>TRAVIS_OS_NAME</td>
         <td>linux</td></tr>
@@ -291,12 +294,9 @@ function filter_table(elem) {
         <td>smarie/python-pytest-harvest</td></tr>
       <tr>
         <td>TRAVIS_SUDO</td>
-        <td>true</td></tr>
-      <tr>
-        <td>TRAVIS_TAG</td>
-        <td>0.9.0</td></tr></table>
+        <td>true</td></tr></table>
     <h2>Summary</h2>
-    <p>6 tests ran in 1.68 seconds. </p>
+    <p>6 tests ran in 1.79 seconds. </p>
     <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">5 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">1 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
@@ -312,16 +312,16 @@ function filter_table(elem) {
         <tr>
           <td class="col-result">Failed</td>
           <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_get_session_results.py]</td>
-          <td class="col-duration">0.14</td>
+          <td class="col-duration">0.16</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">test_to_run = &#x27;test_get_session_results.py&#x27;<br/>testdir = &lt;Testdir local(&#x27;/tmp/pytest-of-travis/pytest-0/test_run_all_tests4&#x27;)&gt;<br/><br/>    @pytest.mark.parametrize(&#x27;test_to_run&#x27;, test_files, ids=str)<br/>    def test_run_all_tests(test_to_run, testdir):<br/>        &quot;&quot;&quot;<br/>        This is a meta-test. It is executed for each test file in the &#x27;tests_raw&#x27; folder.<br/>        For each of them, the file is retrieved and the expected test results are read from its first lines.<br/>        Then a dedicated pytest runner is run on this file, and the results are compared with the expected ones.<br/>    <br/>        See https://docs.pytest.org/en/latest/writing_plugins.html<br/>    <br/>        :param test_to_run:<br/>        :param testdir:<br/>        :return:<br/>        &quot;&quot;&quot;<br/>    <br/>        with open(join(tests_raw_folder, test_to_run)) as f:<br/>            # Create a temporary conftest.py file<br/>            # testdir.makeconftest(&quot;&quot;&quot;&quot;&quot;&quot;)<br/>    <br/>            # create a temporary pytest test file<br/>            test_file_contents = f.read()<br/>            testdir.makepyfile(test_file_contents)<br/>    <br/>            # Grab the expected things to check when this is executed<br/>            m = META_REGEX.match(test_file_contents)<br/>            assert m is not None<br/>            asserts_dct_str = m.groupdict()[&#x27;asserts_dct&#x27;]<br/>            asserts_dct = ast.literal_eval(asserts_dct_str)<br/>    <br/>            # Here we run pytest<br/>            print(&quot;\nTesting that running pytest on file %s results in %s&quot; % (test_to_run, str(asserts_dct)))<br/>            result = testdir.runpytest()  # (&quot;-q&quot;)<br/>    <br/>            # Here we check that everything is ok<br/>            try:<br/>                result.assert_outcomes(**asserts_dct)<br/>            except Exception as e:<br/>                print(&quot;Error while asserting that %s results in %s&quot; % (test_to_run, str(asserts_dct)))<br/>&gt;               six.raise_from(e, e)<br/><br/>/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:59: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/>&lt;string&gt;:3: in raise_from<br/>    ???<br/>/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:56: in test_run_all_tests<br/>    result.assert_outcomes(**asserts_dct)<br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;_pytest.pytester.RunResult object at 0x7f53ee71e2e8&gt;, passed = 11<br/>skipped = 1, failed = 1, error = 0, xpassed = 0, xfailed = 0<br/><br/>    def assert_outcomes(<br/>        self, passed=0, skipped=0, failed=0, error=0, xpassed=0, xfailed=0<br/>    ):<br/>        &quot;&quot;&quot;Assert that the specified outcomes appear with the respective<br/>        numbers (0 means it didn&#x27;t occur) in the text output from a test run.<br/>    <br/>        &quot;&quot;&quot;<br/>        d = self.parseoutcomes()<br/>        obtained = {<br/>            &quot;passed&quot;: d.get(&quot;passed&quot;, 0),<br/>            &quot;skipped&quot;: d.get(&quot;skipped&quot;, 0),<br/>            &quot;failed&quot;: d.get(&quot;failed&quot;, 0),<br/>            &quot;error&quot;: d.get(&quot;error&quot;, 0),<br/>            &quot;xpassed&quot;: d.get(&quot;xpassed&quot;, 0),<br/>            &quot;xfailed&quot;: d.get(&quot;xfailed&quot;, 0),<br/>        }<br/>        expected = {<br/>            &quot;passed&quot;: passed,<br/>            &quot;skipped&quot;: skipped,<br/>            &quot;failed&quot;: failed,<br/>            &quot;error&quot;: error,<br/>            &quot;xpassed&quot;: xpassed,<br/>            &quot;xfailed&quot;: xfailed,<br/>        }<br/>&gt;       assert obtained == expected<br/><span class="error">E       AssertionError: assert {&#x27;error&#x27;: 0, &#x27;failed&#x27;: 2, &#x27;passed&#x27;: 13, &#x27;skipped&#x27;: 1, ...} == {&#x27;error&#x27;: 0, &#x27;failed&#x27;: 1, &#x27;passed&#x27;: 11, &#x27;skipped&#x27;: 1, ...}</span><br/><br/>/home/travis/miniconda/envs/test-environment/lib/python3.5/site-packages/_pytest/pytester.py:444: AssertionError<br/>----------------------------- Captured stdout call -----------------------------<br/>
+            <div class="log">test_to_run = &#x27;test_get_session_results.py&#x27;<br/>testdir = &lt;Testdir local(&#x27;/tmp/pytest-of-travis/pytest-0/test_run_all_tests4&#x27;)&gt;<br/><br/>    @pytest.mark.parametrize(&#x27;test_to_run&#x27;, test_files, ids=str)<br/>    def test_run_all_tests(test_to_run, testdir):<br/>        &quot;&quot;&quot;<br/>        This is a meta-test. It is executed for each test file in the &#x27;tests_raw&#x27; folder.<br/>        For each of them, the file is retrieved and the expected test results are read from its first lines.<br/>        Then a dedicated pytest runner is run on this file, and the results are compared with the expected ones.<br/>    <br/>        See https://docs.pytest.org/en/latest/writing_plugins.html<br/>    <br/>        :param test_to_run:<br/>        :param testdir:<br/>        :return:<br/>        &quot;&quot;&quot;<br/>    <br/>        with open(join(tests_raw_folder, test_to_run)) as f:<br/>            # Create a temporary conftest.py file<br/>            # testdir.makeconftest(&quot;&quot;&quot;&quot;&quot;&quot;)<br/>    <br/>            # create a temporary pytest test file<br/>            test_file_contents = f.read()<br/>            testdir.makepyfile(test_file_contents)<br/>    <br/>            # Grab the expected things to check when this is executed<br/>            m = META_REGEX.match(test_file_contents)<br/>            assert m is not None<br/>            asserts_dct_str = m.groupdict()[&#x27;asserts_dct&#x27;]<br/>            asserts_dct = ast.literal_eval(asserts_dct_str)<br/>    <br/>            # Here we run pytest<br/>            print(&quot;\nTesting that running pytest on file %s results in %s&quot; % (test_to_run, str(asserts_dct)))<br/>            result = testdir.runpytest()  # (&quot;-q&quot;)<br/>    <br/>            # Here we check that everything is ok<br/>            try:<br/>                result.assert_outcomes(**asserts_dct)<br/>            except Exception as e:<br/>                print(&quot;Error while asserting that %s results in %s&quot; % (test_to_run, str(asserts_dct)))<br/>&gt;               six.raise_from(e, e)<br/><br/>/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:59: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/>&lt;string&gt;:3: in raise_from<br/>    ???<br/>/home/travis/build/smarie/python-pytest-harvest/pytest_harvest/tests/test_all.py:56: in test_run_all_tests<br/>    result.assert_outcomes(**asserts_dct)<br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;_pytest.pytester.RunResult object at 0x7fe569bce160&gt;, passed = 11<br/>skipped = 1, failed = 1, error = 0, xpassed = 0, xfailed = 0<br/><br/>    def assert_outcomes(<br/>        self, passed=0, skipped=0, failed=0, error=0, xpassed=0, xfailed=0<br/>    ):<br/>        &quot;&quot;&quot;Assert that the specified outcomes appear with the respective<br/>        numbers (0 means it didn&#x27;t occur) in the text output from a test run.<br/>    <br/>        &quot;&quot;&quot;<br/>        d = self.parseoutcomes()<br/>        obtained = {<br/>            &quot;passed&quot;: d.get(&quot;passed&quot;, 0),<br/>            &quot;skipped&quot;: d.get(&quot;skipped&quot;, 0),<br/>            &quot;failed&quot;: d.get(&quot;failed&quot;, 0),<br/>            &quot;error&quot;: d.get(&quot;error&quot;, 0),<br/>            &quot;xpassed&quot;: d.get(&quot;xpassed&quot;, 0),<br/>            &quot;xfailed&quot;: d.get(&quot;xfailed&quot;, 0),<br/>        }<br/>        expected = {<br/>            &quot;passed&quot;: passed,<br/>            &quot;skipped&quot;: skipped,<br/>            &quot;failed&quot;: failed,<br/>            &quot;error&quot;: error,<br/>            &quot;xpassed&quot;: xpassed,<br/>            &quot;xfailed&quot;: xfailed,<br/>        }<br/>&gt;       assert obtained == expected<br/><span class="error">E       AssertionError: assert {&#x27;error&#x27;: 0, &#x27;failed&#x27;: 2, &#x27;passed&#x27;: 13, &#x27;skipped&#x27;: 1, ...} == {&#x27;error&#x27;: 0, &#x27;failed&#x27;: 1, &#x27;passed&#x27;: 11, &#x27;skipped&#x27;: 1, ...}</span><br/><br/>/home/travis/miniconda/envs/test-environment/lib/python3.5/site-packages/_pytest/pytester.py:444: AssertionError<br/>----------------------------- Captured stdout call -----------------------------<br/>
 Testing that running pytest on file test_get_session_results.py results in {&#x27;failed&#x27;: 1, &#x27;skipped&#x27;: 1, &#x27;passed&#x27;: 11}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.10.1, py-1.7.0, pluggy-0.8.0
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests4, inifile:
-plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.0, cov-2.6.0
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.1.dev1+g68250d5, cov-2.6.0
 collected 16 items
 
 test_run_all_tests.py ........sF....F.                                   [100%]
@@ -380,14 +380,14 @@ test_run_all_tests.py::test_foo_synthesis_all_options[duration_in_ms=True-flatte
     expected_keys.update({mark.args[0] for mark in test_foo.parametrize})
 
 -- Docs: https://docs.pytest.org/en/latest/warnings.html
-========== 2 failed, 13 passed, 1 skipped, 2 warnings in 0.10 seconds ==========
+========== 2 failed, 13 passed, 1 skipped, 2 warnings in 0.11 seconds ==========
 Error while asserting that test_get_session_results.py results in {&#x27;failed&#x27;: 1, &#x27;skipped&#x27;: 1, &#x27;passed&#x27;: 11}
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_all_together.py]</td>
-          <td class="col-duration">0.45</td>
+          <td class="col-duration">0.47</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -396,7 +396,7 @@ Testing that running pytest on file test_all_together.py results in {&#x27;faile
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.10.1, py-1.7.0, pluggy-0.8.0
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests0, inifile:
-plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.0, cov-2.6.0
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.1.dev1+g68250d5, cov-2.6.0
 collected 9 items
 
 test_run_all_tests.py .........                                          [100%]
@@ -429,13 +429,13 @@ test_run_all_tests.py:43
     @pytest.mark.parametrize(&#x27;flatten, flatten_more&#x27;, [(False, None), (True, None), (True, &#x27;my_results&#x27;)],
 
 -- Docs: https://docs.pytest.org/en/latest/warnings.html
-===================== 9 passed, 6 warnings in 0.41 seconds =====================
+===================== 9 passed, 6 warnings in 0.42 seconds =====================
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_doc_example.py]</td>
-          <td class="col-duration">0.37</td>
+          <td class="col-duration">0.39</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -444,18 +444,18 @@ Testing that running pytest on file test_doc_example.py results in {&#x27;failed
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.10.1, py-1.7.0, pluggy-0.8.0
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests1, inifile:
-plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.0, cov-2.6.0
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.1.dev1+g68250d5, cov-2.6.0
 collected 8 items
 
 test_run_all_tests.py ........                                           [100%]
 
-=========================== 8 passed in 0.33 seconds ===========================
+=========================== 8 passed in 0.34 seconds ===========================
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_saved_fixture_in_fixture.py]</td>
-          <td class="col-duration">0.07</td>
+          <td class="col-duration">0.08</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -464,7 +464,7 @@ Testing that running pytest on file test_saved_fixture_in_fixture.py results in 
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.10.1, py-1.7.0, pluggy-0.8.0
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests2, inifile:
-plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.0, cov-2.6.0
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.1.dev1+g68250d5, cov-2.6.0
 collected 2 items
 
 test_run_all_tests.py ..                                                 [100%]
@@ -475,7 +475,7 @@ test_run_all_tests.py ..                                                 [100%]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_results_bags.py]</td>
-          <td class="col-duration">0.39</td>
+          <td class="col-duration">0.42</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -484,18 +484,18 @@ Testing that running pytest on file test_results_bags.py results in {&#x27;faile
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.10.1, py-1.7.0, pluggy-0.8.0
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests3, inifile:
-plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.0, cov-2.6.0
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.1.dev1+g68250d5, cov-2.6.0
 collected 6 items
 
 test_run_all_tests.py ......                                             [100%]
 
-=========================== 6 passed in 0.34 seconds ===========================
+=========================== 6 passed in 0.37 seconds ===========================
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_saved_fixture_in_global_var.py]</td>
-          <td class="col-duration">0.07</td>
+          <td class="col-duration">0.08</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -504,7 +504,7 @@ Testing that running pytest on file test_saved_fixture_in_global_var.py results 
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.10.1, py-1.7.0, pluggy-0.8.0
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests5, inifile:
-plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.0, cov-2.6.0
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.1.dev1+g68250d5, cov-2.6.0
 collected 2 items
 
 test_run_all_tests.py ..                                                 [100%]

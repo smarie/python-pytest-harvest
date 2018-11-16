@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="1" name="pytest" skips="0" tests="6" time="1.676"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_all_together.py]" time="0.4568300247192383"><system-out>
+<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="1" name="pytest" skips="0" tests="6" time="1.793"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_all_together.py]" time="0.4760103225708008"><system-out>
 Testing that running pytest on file test_all_together.py results in {&apos;failed&apos;: 0, &apos;skipped&apos;: 0, &apos;passed&apos;: 9}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.10.1, py-1.7.0, pluggy-0.8.0
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests0, inifile:
-plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.0, cov-2.6.0
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.1.dev1+g68250d5, cov-2.6.0
 collected 9 items
 
 test_run_all_tests.py .........                                          [100%]
@@ -36,41 +36,41 @@ test_run_all_tests.py:43
     @pytest.mark.parametrize(&apos;flatten, flatten_more&apos;, [(False, None), (True, None), (True, &apos;my_results&apos;)],
 
 -- Docs: https://docs.pytest.org/en/latest/warnings.html
-===================== 9 passed, 6 warnings in 0.41 seconds =====================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_doc_example.py]" time="0.3783426284790039"><system-out>
+===================== 9 passed, 6 warnings in 0.42 seconds =====================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_doc_example.py]" time="0.3924217224121094"><system-out>
 Testing that running pytest on file test_doc_example.py results in {&apos;failed&apos;: 0, &apos;skipped&apos;: 0, &apos;passed&apos;: 8}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.10.1, py-1.7.0, pluggy-0.8.0
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests1, inifile:
-plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.0, cov-2.6.0
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.1.dev1+g68250d5, cov-2.6.0
 collected 8 items
 
 test_run_all_tests.py ........                                           [100%]
 
-=========================== 8 passed in 0.33 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_fixture.py]" time="0.07059383392333984"><system-out>
+=========================== 8 passed in 0.34 seconds ===========================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_fixture.py]" time="0.0813446044921875"><system-out>
 Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.10.1, py-1.7.0, pluggy-0.8.0
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests2, inifile:
-plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.0, cov-2.6.0
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.1.dev1+g68250d5, cov-2.6.0
 collected 2 items
 
 test_run_all_tests.py ..                                                 [100%]
 
 =========================== 2 passed in 0.03 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_results_bags.py]" time="0.3913705348968506"><system-out>
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_results_bags.py]" time="0.4209635257720947"><system-out>
 Testing that running pytest on file test_results_bags.py results in {&apos;failed&apos;: 0, &apos;skipped&apos;: 0, &apos;passed&apos;: 6}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.10.1, py-1.7.0, pluggy-0.8.0
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests3, inifile:
-plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.0, cov-2.6.0
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.1.dev1+g68250d5, cov-2.6.0
 collected 6 items
 
 test_run_all_tests.py ......                                             [100%]
 
-=========================== 6 passed in 0.34 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_get_session_results.py]" time="0.14356064796447754"><failure message="AssertionError: assert {&apos;error&apos;: 0, &apos;failed&apos;: 2, &apos;passed&apos;: 13, &apos;skipped&apos;: 1, ...} == {&apos;error&apos;: 0, &apos;failed&apos;: 1, &apos;passed&apos;: 11, &apos;skipped&apos;: 1, ...}">test_to_run = &apos;test_get_session_results.py&apos;
+=========================== 6 passed in 0.37 seconds ===========================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_get_session_results.py]" time="0.16143345832824707"><failure message="AssertionError: assert {&apos;error&apos;: 0, &apos;failed&apos;: 2, &apos;passed&apos;: 13, &apos;skipped&apos;: 1, ...} == {&apos;error&apos;: 0, &apos;failed&apos;: 1, &apos;passed&apos;: 11, &apos;skipped&apos;: 1, ...}">test_to_run = &apos;test_get_session_results.py&apos;
 testdir = &lt;Testdir local(&apos;/tmp/pytest-of-travis/pytest-0/test_run_all_tests4&apos;)&gt;
 
     @pytest.mark.parametrize(&apos;test_to_run&apos;, test_files, ids=str)
@@ -120,7 +120,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     result.assert_outcomes(**asserts_dct)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = &lt;_pytest.pytester.RunResult object at 0x7f53ee71e2e8&gt;, passed = 11
+self = &lt;_pytest.pytester.RunResult object at 0x7fe569bce160&gt;, passed = 11
 skipped = 1, failed = 1, error = 0, xpassed = 0, xfailed = 0
 
     def assert_outcomes(
@@ -155,7 +155,7 @@ Testing that running pytest on file test_get_session_results.py results in {&apo
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.10.1, py-1.7.0, pluggy-0.8.0
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests4, inifile:
-plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.0, cov-2.6.0
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.1.dev1+g68250d5, cov-2.6.0
 collected 16 items
 
 test_run_all_tests.py ........sF....F.                                   [100%]
@@ -214,14 +214,14 @@ test_run_all_tests.py::test_foo_synthesis_all_options[duration_in_ms=True-flatte
     expected_keys.update({mark.args[0] for mark in test_foo.parametrize})
 
 -- Docs: https://docs.pytest.org/en/latest/warnings.html
-========== 2 failed, 13 passed, 1 skipped, 2 warnings in 0.10 seconds ==========
+========== 2 failed, 13 passed, 1 skipped, 2 warnings in 0.11 seconds ==========
 Error while asserting that test_get_session_results.py results in {&apos;failed&apos;: 1, &apos;skipped&apos;: 1, &apos;passed&apos;: 11}
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_global_var.py]" time="0.07077813148498535"><system-out>
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_global_var.py]" time="0.0802147388458252"><system-out>
 Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-3.10.1, py-1.7.0, pluggy-0.8.0
 rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests5, inifile:
-plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.0, cov-2.6.0
+plugins: metadata-1.7.0, html-1.19.0, harvest-0.9.1.dev1+g68250d5, cov-2.6.0
 collected 2 items
 
 test_run_all_tests.py ..                                                 [100%]
