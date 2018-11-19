@@ -71,7 +71,9 @@ def test_synthesis(request, store):
 
     # convert to a pandas dataframe
     results_df = pd.DataFrame.from_dict(results_dct, orient='index')
-    results_df.drop(['pytest_obj'], axis=1, inplace=True)  # drop pytest object column
+    results_df = results_df.loc[list(results_dct.keys()), :]          # fix rows order
+    results_df.index.name = 'test_id'                                 # set index name
+    results_df.drop(['pytest_obj'], axis=1, inplace=True)             # drop pytest object column
 
     # print using tabulate
     print(tabulate(results_df, headers='keys'))
@@ -79,7 +81,7 @@ def test_synthesis(request, store):
 
 # ------- Output -------
 #
-#                         status      duration_ms    algo_param  dataset           accuracy
+# test_id                 status      duration_ms    algo_param  dataset           accuracy
 # ----------------------  --------  -------------  ------------  -------------  -----------
 # test_basic              passed         0.999928           nan  nan            nan
 # test_my_app_bench[A-1]  passed         0                    1  my dataset #A    0.818458
