@@ -41,7 +41,7 @@ def test_my_app_bench(algo_param, dataset, my_results):
     This test applies the algorithm with various parameters (`algo_param`)
     on various datasets (`dataset`).
 
-    Accuracies are stored in a results bag (`results_bag`)
+    Accuracies are stored in a results bag (`my_results`)
     """
     # apply the algorithm with param `algo_param` on dataset `dataset`
     accuracy = my_algorithm(algo_param, dataset)
