@@ -271,6 +271,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#100-new-methods-for-pytest-session-analysis" title="1.0.0 - new methods for pytest session analysis" class="md-nav__link">
+    1.0.0 - new methods for pytest session analysis
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#090-get_session_synthesis_dct-filter-bugfix-test-id-formatter" title="0.9.0 - get_session_synthesis_dct: filter bugfix + test id formatter" class="md-nav__link">
     0.9.0 - get_session_synthesis_dct: filter bugfix + test id formatter
   </a>
@@ -344,6 +351,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#100-new-methods-for-pytest-session-analysis" title="1.0.0 - new methods for pytest session analysis" class="md-nav__link">
+    1.0.0 - new methods for pytest session analysis
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#090-get_session_synthesis_dct-filter-bugfix-test-id-formatter" title="0.9.0 - get_session_synthesis_dct: filter bugfix + test id formatter" class="md-nav__link">
     0.9.0 - get_session_synthesis_dct: filter bugfix + test id formatter
   </a>
@@ -405,6 +419,11 @@
                 
                 
                 <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
+<h3 id="100-new-methods-for-pytest-session-analysis">1.0.0 - new methods for pytest session analysis<a class="headerlink" href="#100-new-methods-for-pytest-session-analysis" title="Permanent link">&para;</a></h3>
+<p>New methods are provided to analyse pytest session results: 
+ - <code>filter_session_items(session, filter=None)</code> is the filtering method used behind several functions in this package - it can be used independently. <code>pytest_item_matches_filter</code> is the inner method used to test if a single item matches the filter.
+ - <code>get_all_pytest_param_names(session, filter=None, filter_incomplete=False)</code> lists all unique parameter names used in pytest session items, with optional filtering capabilities. Fixes <a href="https://github.com/smarie/python-pytest-harvest/issues/12">#12</a>
+ - <code>is_pytest_incomplete(item)</code>, <code>get_pytest_status(item)</code>, <code>get_pytest_param_names(item)</code> and <code>get_pytest_params(item)</code> allow users to analyse a specific item. </p>
 <h3 id="090-get_session_synthesis_dct-filter-bugfix-test-id-formatter">0.9.0 - <code>get_session_synthesis_dct</code>: filter bugfix + test id formatter<a class="headerlink" href="#090-get_session_synthesis_dct-filter-bugfix-test-id-formatter" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
