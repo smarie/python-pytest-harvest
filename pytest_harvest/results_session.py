@@ -222,8 +222,33 @@ def get_session_synthesis_dct(session,
     return res_dct
 
 
-def get_pytest_status(item, durations_in_ms):
-    """ Returns a dictionary containing item's pytest status (success/skipped/failed, duration converted to ms) """
+def get_all_pytest_param_names(session):
+    """ Returns the list of all unique parameter names used in all items in the provided session """
+
+    dset = set()
+    # relies on the fact that dset.add() always returns None
+    # thanks https://stackoverflow.com/questions/6197409/ordered-sets-python-2-7
+    return [k for item in session.items for k in get_pytest_params(item) if k not in dset and not dset.add(k)]
+
+
+# ------------ item-related -------------
+
+def get_pytest_status(item, durations_in_ms=False):
+    """
+    Returns a dictionary containing item's pytest status (success/skipped/failed, duration converted to ms) for
+    each pytest phase, and a tuple synthesizing the information.
+
+    The synthesis status contains the worst status of all phases (setup/call/teardown), or 'pending' if there are less
+    than 3 phases.
+
+    The synthesis duration is equal to the duration of the 'call' phase (not to the sum of all phases: indeed, we are
+    mostly interested in the test call itself).
+
+    :param item: a pytest session.item
+    :param durations_in_ms: by default `pytest` measures durations in seconds so they are outputed in this unit. You
+        can turn the flag to True to output milliseconds instead.
+    :return: a tuple ((test_status, test_duration), status_dct)
+    """
 
     # the status keys that have been stored by our plugin.py module
     status_keys = [k for k in vars(item) if k.startswith(HARVEST_PREFIX)]
@@ -256,15 +281,6 @@ def get_pytest_status(item, durations_in_ms):
         test_status = 'pending'
 
     return (test_status, test_duration), status_dct
-
-
-def get_all_pytest_param_names(session):
-    """ Returns the list of all unique parameter names used in all items in the provided session """
-
-    dset = set()
-    # relies on the fact that dset.add() always returns None
-    # thanks https://stackoverflow.com/questions/6197409/ordered-sets-python-2-7
-    return [k for item in session.items for k in get_pytest_params(item) if k not in dset and not dset.add(k)]
 
 
 def get_pytest_param_names(item):
