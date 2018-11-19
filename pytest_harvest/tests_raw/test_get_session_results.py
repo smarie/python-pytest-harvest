@@ -1,11 +1,12 @@
 # META
-# {'passed': 11, 'skipped': 1, 'failed': 1}
+# {'passed': 15, 'skipped': 1, 'failed': 1}
 # END META
 import os
 from itertools import product
+import re
 
 import pytest
-from pytest_harvest import get_session_synthesis_dct
+from pytest_harvest import get_session_synthesis_dct, get_all_pytest_param_names
 from pytest_harvest.common import yield_fixture
 
 
@@ -155,12 +156,25 @@ def test_synthesis_id_formatting(request):
 
     fmt = 'module'
     results_dct = get_session_synthesis_dct(request.session, filter=TestX.test_easy, test_id_format=fmt)
-    assert list(results_dct.keys())[0] == 'test_get_session_results.py::TestX::()::test_easy[True]'
+    # this does not work when we run the test from the meta-tester
+    # assert list(results_dct.keys())[0] == 'test_get_session_results.py::TestX::()::test_easy[True]'
+    pattern_str = re.escape("test_get_session_results.py::TestX::()::test_easy[True]") \
+                            .replace('test_get_session_results', '^[a-zA-Z0-9_]*?')  # replace the file name with a non-greedy capturer
+    assert re.match(pattern_str, list(results_dct.keys())[0])
 
     def fmt(test_id):
         return test_id.split('::')[-1].lower()
     results_dct = get_session_synthesis_dct(request.session, filter=TestX.test_easy, test_id_format=fmt)
     assert list(results_dct.keys())[0] == 'test_easy[true]'
+
+
+def test_get_all_pytest_param_names(request):
+    """Tests that get_all_pytest_param_names works"""
+    param_names = get_all_pytest_param_names(request.session, filter=test_get_all_pytest_param_names.__module__)
+    assert param_names == ['p', 'a_number_str', 'flatten', 'durations_in_ms']
+
+    param_names = get_all_pytest_param_names(request.session, filter=test_foo)
+    assert param_names == ['p', 'a_number_str']
 
 
 def test_synthesis_contains_everything(request):

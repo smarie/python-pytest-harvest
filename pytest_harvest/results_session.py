@@ -48,7 +48,7 @@ def get_session_synthesis_dct(session,
     removed in flatten mode. To force one of these you can set `pytest_prefix` to True or False.
 
     An optional `filter` can be provided, that can be a singleton or iterable of pytest objects (typically test
-    functions). It can also be a module, or the special `THIS_MODULE` object.
+    functions) and/or module names.
 
     If this method is called before the end of the pytest session, some nodes might be incomplete, i.e. they will not
     have data for the three stages (setup/call/teardown). By default these nodes are filtered out but you can set
@@ -71,7 +71,7 @@ def get_session_synthesis_dct(session,
         means =(not flatten)
     :param filter: a singleton or iterable of pytest objects on which to filter the returned dict on (the returned
         items will only by pytest nodes for which the pytest object is one of the ones provided). One can also use
-        modules or the special `THIS MODULE` item.
+        module names.
     :param filter_incomplete: a boolean indicating if incomplete nodes (without the three stages setup/call/teardown)
         should appear in the results (False) or not (True, default).
     :param flatten: a boolean (default `False`) indicating if the resulting dictionary should be flattened. If it
@@ -117,29 +117,7 @@ def get_session_synthesis_dct(session,
         pytest_prefix = ''
 
     # Optional filter
-    if filter is not None:
-        if isinstance(filter, str):
-            filter = {filter}
-        else:
-            try:
-                iter(filter)
-                filter = set(filter)
-            except TypeError:
-                # TypeError: '<....>' object is not iterable
-                filter = {filter}
-        def is_selected(item_obj):
-            if item_obj in filter:
-                return True
-            # support class methods: the item obje is a bound method while filter is not
-            elif getattr(item_obj, 'im_func', None) in filter or getattr(item_obj, '__func__', None) in filter:
-                return True
-            elif any(item_obj.__module__ == f for f in filter):
-                return True
-            else:
-                return False
-        filtered_items = (item for item in session.items if is_selected(item.obj))
-    else:
-        filtered_items = session.items
+    filtered_items = filter_session_items(session, filter)
 
     # fixture store check
     if fixture_store is not None:
@@ -222,16 +200,90 @@ def get_session_synthesis_dct(session,
     return res_dct
 
 
-def get_all_pytest_param_names(session):
-    """ Returns the list of all unique parameter names used in all items in the provided session """
+def filter_session_items(session,
+                         filter=None,  # type: Any
+                         ):
+    """
+    Filters pytest session item in the provided `session`
+    An optional `filter` can be provided, that can be a singleton or iterable of pytest objects (typically test
+    functions) and/or module names.
 
+    :param session:
+    :param filter: a singleton or iterable of pytest objects on which to filter the returned dict on (the returned
+        items will only by pytest nodes for which the pytest object is one of the ones provided). One can also use
+        module names.
+    :return:
+    """
+    if filter is not None:
+        if isinstance(filter, str):
+            filter = {filter}
+        else:
+            try:
+                iter(filter)
+                filter = set(filter)
+            except TypeError:
+                # TypeError: '<....>' object is not iterable
+                filter = {filter}
+
+        def is_selected(item_obj):
+            if item_obj in filter:
+                return True
+            # support class methods: the item obje is a bound method while filter is not
+            elif getattr(item_obj, 'im_func', None) in filter or getattr(item_obj, '__func__', None) in filter:
+                return True
+            elif any(item_obj.__module__ == f for f in filter):
+                return True
+            else:
+                return False
+
+        filtered_items = (item for item in session.items if is_selected(item.obj))
+    else:
+        filtered_items = session.items
+    return filtered_items
+
+
+def get_all_pytest_param_names(session,
+                               filter=None,              # type: Any
+                               filter_incomplete=False,  # type: bool
+                               ):
+    """
+    Returns the list of all unique parameter names used in all items in the provided session, with given filter.
+
+    An optional `filter` can be provided, that can be a singleton or iterable of pytest objects (typically test
+    functions) and/or module names.
+
+    If this method is called before the end of the pytest session, some nodes might be incomplete, i.e. they will not
+    have data for the three stages (setup/call/teardown). By default these nodes are filtered out but you can set
+    `filter_incomplete=False` to make them appear. They will have a special 'pending' synthesis status.
+
+    :param session: a pytest session object.
+    :param filter: a singleton or iterable of pytest objects on which to filter the returned dict on (the returned
+        items will only by pytest nodes for which the pytest object is one of the ones provided). One can also use
+        modules or the special `THIS MODULE` item.
+    :param filter_incomplete: a boolean indicating if incomplete nodes (without the three stages setup/call/teardown)
+        should appear in the results (False) or not (True). Note: by default incomplete nodes DO APPEAR (this is
+        different from get_session_synthesis_dct behaviour)
+    :return:
+    """
     dset = set()
+
     # relies on the fact that dset.add() always returns None
     # thanks https://stackoverflow.com/questions/6197409/ordered-sets-python-2-7
-    return [k for item in session.items for k in get_pytest_params(item) if k not in dset and not dset.add(k)]
+    return [k for item in filter_session_items(session, filter=filter)
+            for k in get_pytest_params(item)
+            if k not in dset and not (filter_incomplete and is_incomplete(item))
+               and not dset.add(k)]
 
 
 # ------------ item-related -------------
+
+def _get_pytest_status_keys(item):
+    return [k for k in vars(item) if k.startswith(HARVEST_PREFIX)]
+
+
+def is_incomplete(item):
+    return len(_get_pytest_status_keys(item)) < 3
+
 
 def get_pytest_status(item, durations_in_ms=False):
     """
@@ -251,7 +303,7 @@ def get_pytest_status(item, durations_in_ms=False):
     """
 
     # the status keys that have been stored by our plugin.py module
-    status_keys = [k for k in vars(item) if k.startswith(HARVEST_PREFIX)]
+    status_keys = _get_pytest_status_keys(item)
     if len(status_keys) == 0:
         warn("[pytest-harvest] Test items status is not available. You should maybe install pytest-harvest with "
              "pip. If it is already the case, you case try to force-use it by adding "

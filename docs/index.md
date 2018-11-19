@@ -162,10 +162,11 @@ It yields
                                       'setup': ('passed', 0.0010001659393310547),
                                       'teardown': ('passed', 0.0)
                                       }
-            },
+            }
+}
 ```
 
-As you can see you get for each test node id, a dictionary containing
+As you can see for each test node id you get a dictionary containing
 
  - `'pytest_obj'`the object containing the test code
  - `'pytest_status'` the status and `'pytest_duration'` the duration of the test
@@ -174,6 +175,11 @@ As you can see you get for each test node id, a dictionary containing
  
 !!! note "status and duration aggregation" 
     that the global status corresponds to an aggregation of the status of each of those stages (setup, call, teardown), but the global duration is only the duration of the "call" stage - after all we do not care about how long it took to setup and teardown.
+
+In addition, you can also use three companion methods : 
+ - `filter_session_items(session, filter=None)` is the filtering method used behind the scenes
+ - `get_all_pytest_param_names(session)` lists all unique parameter names used, with optional filtering capabilities
+ - `is_incomplete(item)`, `get_pytest_status(item)`, `get_pytest_param_names(item)` and `get_pytest_params(item)` can be used to analyse a specific item in `session.items` directly without creating the dictionary.
 
 Finally let's have a closer look above. It **seems** that after all we have collected the fixtures, right ? For example we see `'a_number_str': 2`. But beware, this is not the fixture. It is the parameter used by the fixture `'a_number_str'`. To be convinced look at its type: it is an integer, not a string! A more obvious way to confirm that the fixtures are not available, is to see that the `'dummy'` fixture does not appear at all: indeed it had no parameters.
 
