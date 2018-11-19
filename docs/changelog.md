@@ -1,5 +1,13 @@
 # Changelog
 
+### 1.0.0 - new methods for pytest session analysis
+
+New methods are provided to analyse pytest session results: 
+ - `filter_session_items(session, filter=None)` is the filtering method used behind several functions in this package - it can be used independently. `pytest_item_matches_filter` is the inner method used to test if a single item matches the filter.
+ - `get_all_pytest_param_names(session, filter=None, filter_incomplete=False)` lists all unique parameter names used in pytest session items, with optional filtering capabilities. Fixes [#12](https://github.com/smarie/python-pytest-harvest/issues/12)
+ - `is_pytest_incomplete(item)`, `get_pytest_status(item)`, `get_pytest_param_names(item)` and `get_pytest_params(item)` allow users to analyse a specific item. 
+
+
 ### 0.9.0 - `get_session_synthesis_dct`: filter bugfix + test id formatter
 
  * `get_session_synthesis_dct`:
