@@ -258,8 +258,22 @@ def get_pytest_status(item, durations_in_ms):
     return (test_status, test_duration), status_dct
 
 
+def get_all_pytest_param_names(session):
+    """ Returns the list of all unique parameter names used in all items in the provided session """
+
+    dset = set()
+    # relies on the fact that dset.add() always returns None
+    # thanks https://stackoverflow.com/questions/6197409/ordered-sets-python-2-7
+    return [k for item in session.items for k in get_pytest_params(item) if k not in dset and not dset.add(k)]
+
+
+def get_pytest_param_names(item):
+    """ Returns a list containing a pytest session item's parameter """
+    return list(get_pytest_params(item).keys())
+
+
 def get_pytest_params(item):
-    """ Returns a dictionary containing item's parameters """
+    """ Returns a dictionary containing a pytest session item's parameters """
 
     param_dct = OrderedDict()
     for param_name in item.fixturenames:
