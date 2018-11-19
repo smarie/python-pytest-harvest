@@ -146,6 +146,8 @@ def test_synthesis_id_formatting(request):
     :return:
     """
     # Get session synthesis filtered on the test function of interest
+    # -- to debug the filter:
+    # assert pytest_item_matches_filter(request.session.items[28], filter={TestX.test_easy})
     fmt = 'function'
     results_dct = get_session_synthesis_dct(request.session, filter=TestX.test_easy, test_id_format=fmt)
     assert list(results_dct.keys())[0] == 'test_easy[True]'
@@ -159,7 +161,7 @@ def test_synthesis_id_formatting(request):
     # this does not work when we run the test from the meta-tester
     # assert list(results_dct.keys())[0] == 'test_get_session_results.py::TestX::()::test_easy[True]'
     pattern_str = re.escape("test_get_session_results.py::TestX::()::test_easy[True]") \
-                            .replace('test_get_session_results', '^[a-zA-Z0-9_]*?')  # replace the file name with a non-greedy capturer
+                            .replace(re.escape('test_get_session_results'), '^[a-zA-Z0-9_]*?')  # replace the file name with a non-greedy capturer
     assert re.match(pattern_str, list(results_dct.keys())[0])
 
     def fmt(test_id):

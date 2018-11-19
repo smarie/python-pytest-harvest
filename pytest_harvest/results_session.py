@@ -1,3 +1,4 @@
+import sys
 from collections import OrderedDict
 from itertools import chain
 from warnings import warn
@@ -215,28 +216,8 @@ def filter_session_items(session,
     :return:
     """
     if filter is not None:
-        if isinstance(filter, str):
-            filter = {filter}
-        else:
-            try:
-                iter(filter)
-                filter = set(filter)
-            except TypeError:
-                # TypeError: '<....>' object is not iterable
-                filter = {filter}
-
-        def is_selected(item_obj):
-            if item_obj in filter:
-                return True
-            # support class methods: the item obje is a bound method while filter is not
-            elif getattr(item_obj, 'im_func', None) in filter or getattr(item_obj, '__func__', None) in filter:
-                return True
-            elif any(item_obj.__module__ == f for f in filter):
-                return True
-            else:
-                return False
-
-        filtered_items = (item for item in session.items if is_selected(item.obj))
+        filterset = _get_filterset(filter)
+        filtered_items = (item for item in session.items if _pytest_item_matches_filter(item, filterset))
     else:
         filtered_items = session.items
     return filtered_items
@@ -271,17 +252,69 @@ def get_all_pytest_param_names(session,
     # thanks https://stackoverflow.com/questions/6197409/ordered-sets-python-2-7
     return [k for item in filter_session_items(session, filter=filter)
             for k in get_pytest_params(item)
-            if k not in dset and not (filter_incomplete and is_incomplete(item))
+            if k not in dset and not (filter_incomplete and is_pytest_incomplete(item))
                and not dset.add(k)]
 
 
 # ------------ item-related -------------
+def pytest_item_matches_filter(item, filter):
+    """
+    Returns True if pytest session item `item` matches filter `filter`
+
+    :param item: an item inside a pytest session
+    :param filter:
+    :return:
+    """
+    filterset = _get_filterset(filter)
+    return _pytest_item_matches_filter(item, filterset)
+
+
+def _pytest_item_matches_filter(item, filterset):
+    """Internal method used to check if item matches filter set"""
+    item_obj = item.obj
+    if item_obj in filterset:
+        return True
+    # support class methods: the item object can be a bound method while the filter is maybe not
+    elif _is_unbound_present(item_obj, filterset):
+        return True
+    elif any(item_obj.__module__ == f for f in filterset):
+        return True
+    else:
+        return False
+
+
+def _is_unbound_present(item_obj, filterset):
+    """
+    Returns True if item_obj is a bound method and that its unbound version is in filterset
+    :param item_obj:
+    :param filterset:
+    :return:
+    """
+    if sys.version_info >= (3,):
+        # Python 3
+        not_bound_fct = getattr(item_obj, '__func__', None)
+        if not_bound_fct is None:
+            return False
+        else:
+            return not_bound_fct in filterset
+    else:
+        # Python 2 has the concept of "unbound method" and behaves a bit diferently
+        # see https://stackoverflow.com/questions/14574641/python-get-unbound-class-method
+        not_bound_fct = getattr(item_obj, 'im_func', None)
+        if not_bound_fct is None:
+            return False
+        elif not_bound_fct in filterset:
+            return True
+        else:
+            # maybe the filterset contains a "truly unbound" method ?
+            return not_bound_fct in {getattr(f, 'im_func', None) for f in filterset}
+
 
 def _get_pytest_status_keys(item):
     return [k for k in vars(item) if k.startswith(HARVEST_PREFIX)]
 
 
-def is_incomplete(item):
+def is_pytest_incomplete(item):
     return len(_get_pytest_status_keys(item)) < 3
 
 
@@ -356,3 +389,22 @@ def get_pytest_params(item):
                 pass
 
     return param_dct
+
+
+# --- misc
+def _get_filterset(filter):
+    """
+    Always returns a set, even if the filter is a string (module name) or single object
+    :param filter:
+    :return:
+    """
+    if isinstance(filter, str):
+        filter = {filter}
+    else:
+        try:
+            iter(filter)
+            filter = set(filter)
+        except TypeError:
+            # TypeError: '<....>' object is not iterable
+            filter = {filter}
+    return filter
