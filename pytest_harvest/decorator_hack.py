@@ -179,7 +179,7 @@ def _wrap_caller_for_additional_args(func, caller, additional_args):
     return caller
 
 
-def my_decorate(func, caller, extras=(), additional_args=()):
+def my_decorate(func, caller, extras=(), additional_args=(), pytest_place_as=True):
     """
     decorate(func, caller) decorates a function using a caller.
     If the caller is a generator function, the resulting function
@@ -229,4 +229,9 @@ def my_decorate(func, caller, extras=(), additional_args=()):
             evaldict, add_args=additional_args, __wrapped__=func)
     if hasattr(func, '__qualname__'):
         fun.__qualname__ = func.__qualname__
+
+    # With this hack our decorator will be ordered correctly by pytest https://github.com/pytest-dev/pytest/issues/4429
+    if pytest_place_as:
+        fun.place_as = func
+
     return fun
