@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.0.1 Ordering bug fix
+
+Fixed pytest ordering issue, by relying on [place_as](https://github.com/pytest-dev/pytest/issues/4429). See [#18](https://github.com/smarie/python-pytest-steps/issues/18)
+
 ### 1.0.0 - new methods for pytest session analysis
 
 New methods are provided to analyse pytest session results: 
