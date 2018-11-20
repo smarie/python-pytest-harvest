@@ -95,6 +95,7 @@ class MyFunctionMaker(FunctionMaker):
                 # delete this annotation otherwise inspect.signature
                 # will wrongly return the signature of func.__wrapped__
                 # instead of the signature of func
+                func.__wrapped_with_addargs__ = func.__wrapped__
                 del func.__wrapped__
 
             return func
