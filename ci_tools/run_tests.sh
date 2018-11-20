@@ -18,9 +18,10 @@ trap "cleanup" INT TERM EXIT
 #    echo "pytest not found. Trying py.test"
 #fi
 
-# First the raw
+# First the raw for coverage
 echo -e "\n\n****** Running tests : 1/2 RAW******\n\n"
-python -m pytest --cov-report term-missing --cov=./pytest_harvest -v pytest_harvest/tests_raw/
+coverage run --source pytest_harvest -m pytest -v pytest_harvest/tests_raw/
+#python -m pytest --cov-report term-missing --cov=./pytest_harvest -v pytest_harvest/tests_raw/
 
 # Then the meta (appended)
 echo -e "\n\n****** Running tests : 2/2 META******\n\n"
