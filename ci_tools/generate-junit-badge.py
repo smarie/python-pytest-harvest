@@ -57,7 +57,7 @@ def download_badge(success_percentage,          # type: int
 if __name__ == "__main__":
     # Execute only if run as a script.
     # Check the arguments
-    assert len(sys.argv[1:]) < 1, "a single mandatory argument is required: <threshold>"
+    assert len(sys.argv[1:]) == 1, "a single mandatory argument is required: <threshold>"
     threshold = sys.argv[1]
 
     # First retrieve the success percentage from the junit xml
