@@ -21,56 +21,30 @@ from pytest_harvest.fixture_cache import saved_fixture
 
 class ResultsBag(dict):
     """
-    A 'Munch', that is, a dual object/dict.
+    A simple 'Munch', that is, a dual object/dict.
+    It is hashable with a not very interesting hash, but at least a unique one in a python session (id(self))
     """
 
     # object
     def __setattr__(self, key, value):
-        if key != '__dct__':
-            try:
-                self[key] = value
-            except KeyError as e:
-                raise_from(AttributeError(key), e)
-        else:
-            object.__setattr__(self, key, value)
+        # try:  No exception can happen: key is always a string, and new entries are allowed in a dict
+        self[key] = value
+        # except KeyError as e:
+        #     raise_from(AttributeError(key), e)
 
     def __getattr__(self, key):
-        if key != '__dct__':
-            try:
-                return self[key]
-            except KeyError as e:
-                raise_from(AttributeError(key), e)
-        else:
-            return object.__getattribute__(self, key)
+        try:
+            return self[key]
+        except KeyError as e:
+            raise_from(AttributeError(key), e)
 
     def __delattr__(self, key):
-        if key != '__dct__':
-            try:
-                del self[key]
-            except KeyError as e:
-                raise_from(AttributeError(key), e)
-        else:
-            raise ValueError("Can not delete __dct__: read-only")
-
-    # # MutableMapping
-    #
-    # def __getitem__(self, item):
-    #     return self.__dct__[item]
-    #
-    # def __setitem__(self, key, value):
-    #     self.__dct__[key] = value
-    #
-    # def __delitem__(self, key):
-    #     del self.__dct__[key]
-    #
-    # def __iter__(self):
-    #     return iter(self.__dct__)
-    #
-    # def __len__(self):
-    #     return len(self.__dct__)
+        try:
+            del self[key]
+        except KeyError as e:
+            raise_from(AttributeError(key), e)
 
     # object base
-
     def __str__(self):
         return dict.__str__(self)
 
@@ -78,6 +52,7 @@ class ResultsBag(dict):
         return "ResultsBag:\n" + dict.__repr__(self)
 
     def __hash__(self):
+        """Make the type hashable with a fake hash"""
         return id(self)
 
 

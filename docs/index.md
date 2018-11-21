@@ -427,7 +427,7 @@ See `help(get_session_synthesis_dct)` for details: for example you can include i
 
 ### Complete example
 
-A module-scoped complete example with parameters, fixtures, and results bag can be found [here](https://github.com/smarie/python-pytest-harvest/tree/master/pytest_harvest/tests_raw/test_doc_example.py).
+A module-scoped complete example with parameters, fixtures, and results bag can be found [here](https://github.com/smarie/python-pytest-harvest/tree/master/pytest_harvest/tests/test_doc_example.py).
 
 ### Compliance with the other pytest mechanisms
 
