@@ -32,7 +32,8 @@ def download_badge(success_percentage,          # type: int
     :param dest_folder:
     :return:
     """
-    makedirs(dest_folder, exist_ok=True)
+    if not path.exists(dest_folder):
+        makedirs(dest_folder)  # , exist_ok=True) not python 2 compliant
 
     if success_percentage < 50:
         color = 'red'
