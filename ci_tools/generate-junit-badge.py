@@ -6,7 +6,9 @@ from os import makedirs, path
 import xunitparser
 
 
-def get_success_percentage(junit_xml: str='reports/junit/junit.xml'):
+def get_success_percentage(junit_xml='reports/junit/junit.xml'  # type: str
+                           ):
+    # type: (...) -> int
     """
     read the junit test file and extract the success percentage
     :param junit_xml: the junit xml file path
@@ -20,7 +22,9 @@ def get_success_percentage(junit_xml: str='reports/junit/junit.xml'):
     return success_percentage
 
 
-def download_badge(success_percentage, dest_folder: str='reports/junit'):
+def download_badge(success_percentage,          # type: int
+                   dest_folder='reports/junit'  # type: str
+                   ):
     """
     Downloads the badge corresponding to the provided success percentage, from https://img.shields.io.
 

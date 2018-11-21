@@ -1,4 +1,4 @@
-from results_bags import ResultsBag
+from pytest_harvest import ResultsBag
 
 
 def test_results_bag_basic():
