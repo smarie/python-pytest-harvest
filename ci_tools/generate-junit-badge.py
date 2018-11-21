@@ -1,19 +1,35 @@
+import sys
+
 import requests
 import shutil
 from os import makedirs, path
 import xunitparser
 
 
-def download_badge(junit_xml: str='reports/junit/junit.xml', dest_folder: str='reports/junit'):
-
-    makedirs(dest_folder, exist_ok=True)
-
-    # read the junit test file
+def get_success_percentage(junit_xml: str='reports/junit/junit.xml'):
+    """
+    read the junit test file and extract the success percentage
+    :param junit_xml: the junit xml file path
+    :return: the success percentage (an int)
+    """
     ts, tr = xunitparser.parse(open(junit_xml))
     runned = tr.testsRun
     failed = len(tr.failures)
 
     success_percentage = round((runned - failed) * 100 / runned)
+    return success_percentage
+
+
+def download_badge(success_percentage, dest_folder: str='reports/junit'):
+    """
+    Downloads the badge corresponding to the provided success percentage, from https://img.shields.io.
+
+    :param success_percentage:
+    :param dest_folder:
+    :return:
+    """
+    makedirs(dest_folder, exist_ok=True)
+
     if success_percentage < 50:
         color = 'red'
     elif success_percentage < 75:
@@ -35,5 +51,18 @@ def download_badge(junit_xml: str='reports/junit/junit.xml', dest_folder: str='r
 
 
 if __name__ == "__main__":
-    # execute only if run as a script
-    download_badge()
+    # Execute only if run as a script.
+    # Check the arguments
+    assert len(sys.argv[1:]) < 1, "a single mandatory argument is required: <threshold>"
+    threshold = sys.argv[1]
+
+    # First retrieve the success percentage from the junit xml
+    success_percentage = get_success_percentage()
+
+    # Validate against the threshold
+    if success_percentage < threshold:
+        raise Exception("Success percentage %s%% is strictly lower than required threshold %s%%"
+                        "" % (success_percentage, threshold))
+
+    # Download the badge
+    download_badge(success_percentage)

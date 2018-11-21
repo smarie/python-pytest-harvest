@@ -32,7 +32,7 @@ env_var_regexp = re.compile(".*\$(\S+).*")
 
 
 if __name__ == '__main__':
-    assert len(sys.argv[1:]) >= 2, "at least two mandatory arguments: <cmd> <filename>"
+    assert len(sys.argv[1:]) >= 2, "at least two mandatory arguments are required: <cmd> <filename>"
 
     cmd = sys.argv[1]
     check_cmd(cmd)
