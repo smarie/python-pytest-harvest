@@ -58,12 +58,13 @@ if __name__ == "__main__":
     # Execute only if run as a script.
     # Check the arguments
     assert len(sys.argv[1:]) == 1, "a single mandatory argument is required: <threshold>"
-    threshold = sys.argv[1]
+    threshold = float(sys.argv[1])
 
     # First retrieve the success percentage from the junit xml
     success_percentage = get_success_percentage()
 
     # Validate against the threshold
+    print("Success percentage is %s%%. Checking that it is >= %s" % (success_percentage, threshold))
     if success_percentage < threshold:
         raise Exception("Success percentage %s%% is strictly lower than required threshold %s%%"
                         "" % (success_percentage, threshold))
