@@ -17,12 +17,13 @@ except ImportError:
         return x
 
 
-def saved_fixture(store,    # type: Union[str, Dict[str, Any]]
-                  key=None  # type: str
+def saved_fixture(store='fixture_store',  # type: Union[str, Dict[str, Any]]
+                  key=None                # type: str
                   ):
     """
     Decorates a fixture so that it is saved in `store`. `store` can be a dict-like variable or a string
-    representing a fixture name to a dict-like session-scoped fixture (TODO)
+    representing a fixture name to a dict-like session-scoped fixture. By default it uses the global 'fixture_store'
+    fixture provided by this plugin.
 
     After executing all tests, <store> will contain a new item under key <name>. This item is a dictionary
     <test_id>: <fixture_value> for each test node.
@@ -43,15 +44,17 @@ def saved_fixture(store,    # type: Union[str, Dict[str, Any]]
     :return: a fixture that will be stored
     """
     # trick to support both with-args and without args usage
-    return _saved_fixture(store, key)
+    # if only one argument is provided (the first)
+    if key is None:
+        return _saved_fixture(store)
+    else:
+        return _saved_fixture(store, key)
 
 
 def _saved_fixture(*args, **kwargs):
     """ Inner decorator creation method to support no-arg calls """
     if len(args) == 1 and callable(args[0]):
         # called without arguments, directly decorates a function
-        # Note: since store is currently mandatory, this never happens.
-        # But we keep it in case of signature change
         f = args[0]
         return make_saved_fixture(f)
     else:
@@ -85,8 +88,8 @@ def _saved_fixture(*args, **kwargs):
 
 
 def make_saved_fixture(fixture_fun,
-                       store,    # type: Union[str, Dict[str, Any]]
-                       key=None  # type: str
+                       store='fixture_store',  # type: Union[str, Dict[str, Any]]
+                       key=None                # type: str
                        ):
     """
     Manual decorator to decorate a (future) fixture function so that it is saved in a storage.

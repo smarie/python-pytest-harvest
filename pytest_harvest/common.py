@@ -1,6 +1,9 @@
 import pytest
 
 
+HARVEST_PREFIX = "harvest_rep_"
+
+
 def get_fixture_value(request, fixture_name):
     """
     Returns the value associated with fixture named `fixture_name`, in provided request context.

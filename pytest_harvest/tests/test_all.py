@@ -43,7 +43,7 @@ def test_run_all_tests(test_to_run, testdir):
 
         # Grab the expected things to check when this is executed
         m = META_REGEX.match(test_file_contents)
-        assert m is not None
+        assert m is not None, "No META header was detected for file " + test_to_run
         asserts_dct_str = m.groupdict()['asserts_dct']
         asserts_dct = ast.literal_eval(asserts_dct_str)
 

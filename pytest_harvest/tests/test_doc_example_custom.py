@@ -1,13 +1,14 @@
 # META
 # {'passed': 8, 'skipped': 0, 'failed': 0}
 # END META
+from collections import OrderedDict
 from random import random
 
 import pandas as pd
 import pytest
 from tabulate import tabulate
 
-from pytest_harvest import saved_fixture
+from pytest_harvest import create_results_bag_fixture, saved_fixture, get_session_synthesis_dct
 
 
 # ---------- The function to test -------
@@ -17,25 +18,35 @@ def my_algorithm(param, data):
 
 
 # ---------- Tests
+# A module-scoped store
+@pytest.fixture(scope='module', autouse=True)
+def my_store():
+    return OrderedDict()
+
+
+# A module-scoped results bag fixture
+my_results_bag = create_results_bag_fixture('my_store', name='my_results_bag')
+
+
 @pytest.fixture(params=['A', 'B', 'C'])
-@saved_fixture
+@saved_fixture('my_store')
 def dataset(request):
     """Represents a dataset fixture."""
     return "my dataset #%s" % request.param
 
 
 @pytest.mark.parametrize("algo_param", [1, 2], ids=str)
-def test_my_app_bench(algo_param, dataset, results_bag):
+def test_my_app_bench(algo_param, dataset, my_results_bag):
     """
     This test applies the algorithm with various parameters (`algo_param`)
     on various datasets (`dataset`).
 
-    Accuracies are stored in a results bag (`results_bag`)
+    Accuracies are stored in a results bag (`my_results_bag`)
     """
     # apply the algorithm with param `algo_param` on dataset `dataset`
     accuracy = my_algorithm(algo_param, dataset)
     # store it in the results bag
-    results_bag.accuracy = accuracy
+    my_results_bag.accuracy = accuracy
 
 
 def test_basic():
@@ -44,12 +55,28 @@ def test_basic():
 
 
 # Our test synthesis
-def test_synthesis(module_results_df):
+def test_synthesis(request, my_store):
     """
     An example test that retrieves synthesis information about this module
     """
+    # retrieve the synthesis, merged with the fixture store
+    results_dct = get_session_synthesis_dct(request.session, filter=test_synthesis.__module__,
+                                            durations_in_ms=True, test_id_format='function',
+                                            status_details=False, fixture_store=my_store,
+                                            flatten=True, flatten_more='my_results_bag')
+
+    # print keys and first node details
+    print("\nKeys:\n" + "\n".join(list(results_dct.keys())))
+    print("\nFirst node:\n" + "\n".join(repr(k) + ": " + repr(v) for k, v in list(results_dct.values())[0].items()))
+
+    # convert to a pandas dataframe
+    results_df = pd.DataFrame.from_dict(results_dct, orient='index')
+    results_df = results_df.loc[list(results_dct.keys()), :]          # fix rows order
+    results_df.index.name = 'test_id'                                 # set index name
+    results_df.drop(['pytest_obj'], axis=1, inplace=True)             # drop pytest object column
+
     # print using tabulate
-    print(tabulate(module_results_df, headers='keys'))
+    print(tabulate(results_df, headers='keys'))
 
 
 # ------- Output -------

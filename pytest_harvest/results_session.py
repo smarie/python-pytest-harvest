@@ -8,7 +8,7 @@ try: # python 3.5+
 except ImportError:
     pass
 
-from pytest_harvest.plugin import HARVEST_PREFIX
+from pytest_harvest.common import HARVEST_PREFIX
 
 
 PYTEST_OBJ_NAME = 'pytest_obj'
