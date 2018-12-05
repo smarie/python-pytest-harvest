@@ -1,6 +1,3 @@
-# META
-# {'passed': 8, 'skipped': 0, 'failed': 0}
-# END META
 from collections import OrderedDict
 from random import random
 

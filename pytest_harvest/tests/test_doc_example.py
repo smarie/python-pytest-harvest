@@ -1,9 +1,5 @@
-# META
-# {'passed': 8, 'skipped': 0, 'failed': 0}
-# END META
 from random import random
 
-import pandas as pd
 import pytest
 from tabulate import tabulate
 
