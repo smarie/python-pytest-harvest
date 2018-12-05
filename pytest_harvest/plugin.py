@@ -58,7 +58,7 @@ def session_results_dct(request, fixture_store):
     Note: this might seem counter intuitive but we need a scope=function here because we want this method to be called
     every time it is needed (not once at the beginning).
     """
-    results_dct = get_session_synthesis_dct(request.session, durations_in_ms=True,
+    results_dct = get_session_synthesis_dct(request, durations_in_ms=True,
                                             test_id_format='full', status_details=False,
                                             fixture_store=fixture_store,
                                             flatten=True, flatten_more='results_bag')
@@ -76,7 +76,7 @@ def module_results_dct(request, fixture_store):
     Note: this might seem counter intuitive but we need a scope=function here because we want this method to be called
     every time it is needed (not once at the beginning).
     """
-    results_dct = get_session_synthesis_dct(request.session, durations_in_ms=True,
+    results_dct = get_session_synthesis_dct(request, durations_in_ms=True,
                                             filter=request.module.__name__,
                                             test_id_format='function', status_details=False,
                                             fixture_store=fixture_store,

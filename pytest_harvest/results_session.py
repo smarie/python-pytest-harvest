@@ -14,7 +14,7 @@ from pytest_harvest.common import HARVEST_PREFIX
 PYTEST_OBJ_NAME = 'pytest_obj'
 
 
-def get_session_synthesis_dct(session,
+def get_session_synthesis_dct(session_or_request,
                               test_id_format='full',   #
                               status_details=False,    # type: bool
                               durations_in_ms=False,   # type: bool
@@ -90,6 +90,14 @@ def get_session_synthesis_dct(session,
     """
     res_dct = OrderedDict()
 
+    # extract session if needed
+    if hasattr(session_or_request, 'session') and session_or_request.session is not session_or_request:
+        request = session_or_request
+        session = request.session
+    else:
+        request = None
+        session = session_or_request
+
     # Optional test id formatter
     if test_id_format == 'function':
         def test_id_format(test_id):
@@ -148,9 +156,10 @@ def get_session_synthesis_dct(session,
         item_dct[PYTEST_OBJ_NAME] = item.obj
 
         # -- test status: this information is available thanks to our hook in plugin.py
-        (test_status, test_duration), status_dct = get_pytest_status(item, durations_in_ms=durations_in_ms)
+        (test_status, test_duration), status_dct = get_pytest_status(item, durations_in_ms=durations_in_ms,
+                                                                     current_request=request)
 
-        if test_status != 'pending' or not filter_incomplete:
+        if test_status not in {'pending', 'unknown'} or not filter_incomplete:
             # -- parameters (of tests and fixtures)
             param_dct = get_pytest_params(item)
 
@@ -318,7 +327,7 @@ def is_pytest_incomplete(item):
     return len(_get_pytest_status_keys(item)) < 3
 
 
-def get_pytest_status(item, durations_in_ms=False):
+def get_pytest_status(item, durations_in_ms=False, current_request=None):
     """
     Returns a dictionary containing item's pytest status (success/skipped/failed, duration converted to ms) for
     each pytest phase, and a tuple synthesizing the information.
@@ -332,38 +341,48 @@ def get_pytest_status(item, durations_in_ms=False):
     :param item: a pytest session.item
     :param durations_in_ms: by default `pytest` measures durations in seconds so they are outputed in this unit. You
         can turn the flag to True to output milliseconds instead.
+    :param current_request: if a non-None `request` is provided and the item is precisely the one from the request,
+        then the status will be 'pending'
     :return: a tuple ((test_status, test_duration), status_dct)
     """
 
     # the status keys that have been stored by our plugin.py module
     status_keys = _get_pytest_status_keys(item)
     if len(status_keys) == 0:
-        warn("[pytest-harvest] Test items status is not available. You should maybe install pytest-harvest with "
-             "pip. If it is already the case, you case try to force-use it by adding "
-             "`pytest_plugins = ['harvest']` to your conftest.py. But for normal use this should not be required, "
-             "installing with pip should be enough.")
+        if current_request is not None and current_request.node == item:
+            # do not raise a warning: it is normal that there is no information, the node is being called.
+            test_status = 'pending'
+        else:
+            # warn("[pytest-harvest] Test items status is not available. You should maybe install pytest-harvest with "
+            #      "pip. If it is already the case, you case try to force-use it by adding "
+            #      "`pytest_plugins = ['harvest']` to your conftest.py. But for normal use this should not be required,"
+            #      "installing with pip should be enough.")
+            test_status = 'unknown'
 
-    # adjust duration factor according to target unit
-    duration_factor = (1000 if durations_in_ms else 1)
+        test_duration = None
+        status_dct = dict()
+    else:
+        # adjust duration factor according to target unit
+        duration_factor = (1000 if durations_in_ms else 1)
 
-    # create the status dictionary for that item
-    status_dct = OrderedDict()
-    test_status = 'passed'
-    test_duration = None
-    for k in status_keys:
-        statusreport = getattr(item, k)
-        status_dct[statusreport.when] = (statusreport.outcome, statusreport.duration * duration_factor)
-        # update global test status
-        if test_status == 'passed' \
-                or (test_status == 'skipped' and statusreport.outcome != 'passed'):
-            test_status = statusreport.outcome
-        # global test duration is the duration of the "call" step only
-        if statusreport.when == "call":
-            test_duration = statusreport.duration * duration_factor
+        # create the status dictionary for that item
+        status_dct = OrderedDict()
+        test_status = 'passed'
+        test_duration = None
+        for k in status_keys:
+            statusreport = getattr(item, k)
+            status_dct[statusreport.when] = (statusreport.outcome, statusreport.duration * duration_factor)
+            # update global test status
+            if test_status == 'passed' \
+                    or (test_status == 'skipped' and statusreport.outcome != 'passed'):
+                test_status = statusreport.outcome
+            # global test duration is the duration of the "call" step only
+            if statusreport.when == "call":
+                test_duration = statusreport.duration * duration_factor
 
-    if len(status_keys) < 3:
-        # this is an incomplete test
-        test_status = 'pending'
+        if len(status_keys) < 3:
+            # this is an incomplete test
+            test_status = 'pending'
 
     return (test_status, test_duration), status_dct
 
