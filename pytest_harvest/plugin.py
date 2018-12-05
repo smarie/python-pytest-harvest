@@ -3,7 +3,7 @@ from collections import OrderedDict
 import pytest
 import six
 
-from common import HARVEST_PREFIX
+from pytest_harvest.common import HARVEST_PREFIX
 from pytest_harvest.results_bags import create_results_bag_fixture
 from pytest_harvest.results_session import get_session_synthesis_dct
 
