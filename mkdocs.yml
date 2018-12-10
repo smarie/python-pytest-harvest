@@ -5,6 +5,7 @@ pages:
     - Home: index.md
     # - API reference: api_reference.md
     - Changelog: changelog.md
+    - Advanced Usage: advanced_usage.md
 theme: material  # readthedocs  mkdocs
 
 markdown_extensions:

@@ -271,8 +271,15 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#101-ordering-bug-fix" title="1.0.1 Ordering bug fix" class="md-nav__link">
-    1.0.1 Ordering bug fix
+  <a href="#110-new-default-fixtures-fixture-parameter-names-fix" title="1.1.0 - New default fixtures + fixture parameter names fix" class="md-nav__link">
+    1.1.0 - New default fixtures + fixture parameter names fix
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#101-ordering-bug-fix" title="1.0.1 - Ordering bug fix" class="md-nav__link">
+    1.0.1 - Ordering bug fix
   </a>
   
 </li>
@@ -337,6 +344,18 @@
   </li>
 
     
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../advanced_usage/" title="Advanced Usage" class="md-nav__link">
+      Advanced Usage
+    </a>
+  </li>
+
+    
   </ul>
 </nav>
                   </div>
@@ -358,8 +377,15 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#101-ordering-bug-fix" title="1.0.1 Ordering bug fix" class="md-nav__link">
-    1.0.1 Ordering bug fix
+  <a href="#110-new-default-fixtures-fixture-parameter-names-fix" title="1.1.0 - New default fixtures + fixture parameter names fix" class="md-nav__link">
+    1.1.0 - New default fixtures + fixture parameter names fix
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#101-ordering-bug-fix" title="1.0.1 - Ordering bug fix" class="md-nav__link">
+    1.0.1 - Ordering bug fix
   </a>
   
 </li>
@@ -433,7 +459,24 @@
                 
                 
                 <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
-<h3 id="101-ordering-bug-fix">1.0.1 Ordering bug fix<a class="headerlink" href="#101-ordering-bug-fix" title="Permanent link">&para;</a></h3>
+<h3 id="110-new-default-fixtures-fixture-parameter-names-fix">1.1.0 - New default fixtures + fixture parameter names fix<a class="headerlink" href="#110-new-default-fixtures-fixture-parameter-names-fix" title="Permanent link">&para;</a></h3>
+<p>Created 6 fixtures registered by default by the plugin. Fixed <a href="https://github.com/smarie/python-pytest-harvest/issues/14">#14</a>:</p>
+<ul>
+<li><code>fixture_store</code> in an <code>OrderedDict</code> that can be used as a fixture store, typically in <code>@saved_fixture</code>.</li>
+<li><code>results_bag</code> is a <code>ResultsBag</code>-typed results bag.</li>
+<li><code>session_results_dct</code> and <code>module_results_dct</code> return a synthesis dictionary for all tests completed "so far", respectively in the session or module. They include
+    contents from the default <code>fixture_store</code>, including <code>results_bag</code>.</li>
+<li><code>session_results_df</code> and <code>module_results_df</code> are the dataframe equivalents of <code>session_results_dct</code> and <code>module_results_dct</code></li>
+</ul>
+<p>The documentation has been updated so that users can get started more quickly by leveraging them.</p>
+<p>In addition:</p>
+<ul>
+<li><code>get_session_synthesis_dct</code> can now take both a <code>session</code> or a <code>request</code> input. If a <code>request</code> is provided, the status of current item will be marked as 'pending', while not started items will be marked as 'unknown'.</li>
+<li>fixed bug in <code>get_session_synthesis_dct</code>: fixture parameters and saved fixtures where overriding each other in the final dict in <code>flatten=True</code> mode. Now fixture parameters appear as <code>'&lt;fixture_name&gt;_param'</code>. Fixed <a href="https://github.com/smarie/python-pytest-harvest/issues/15">#15</a>.</li>
+<li><code>@saved_fixture</code> can now be used without arguments. By default it will store fixtures in the default session-scoped <code>'fixture_store'</code> fixture.</li>
+<li><code>HARVEST_PREFIX</code> moved to <code>common.py</code> and is now exported at package level.</li>
+</ul>
+<h3 id="101-ordering-bug-fix">1.0.1 - Ordering bug fix<a class="headerlink" href="#101-ordering-bug-fix" title="Permanent link">&para;</a></h3>
 <p>Fixed pytest ordering issue, by relying on <a href="https://github.com/pytest-dev/pytest/issues/4429">place_as</a>. See <a href="https://github.com/smarie/python-pytest-steps/issues/18">#18</a></p>
 <h3 id="100-new-methods-for-pytest-session-analysis">1.0.0 - new methods for pytest session analysis<a class="headerlink" href="#100-new-methods-for-pytest-session-analysis" title="Permanent link">&para;</a></h3>
 <p>New methods are provided to analyse pytest session results: 
@@ -524,6 +567,20 @@
             </div>
           </a>
         
+        
+          <a href="../advanced_usage/" title="Advanced Usage" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Advanced Usage
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
         
       </nav>
     </div>
