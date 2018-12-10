@@ -42,7 +42,8 @@ def test_synthesis(module_results_df):
     # we use 'tabulate' for a nicer format
     print(tabulate(module_results_df, headers='keys', tablefmt="pipe"))
 
-    assert set(module_results_df.columns) == {'status', 'duration_ms',              # pytest info
+    assert set(module_results_df.columns) == {'pytest_obj',
+                                              'status', 'duration_ms',              # pytest info
                                               'double_sleep_time', 'person_param',  # parameters
                                               'person',                             # fixtures
                                               'nb_letters', 'current_time'}         # results

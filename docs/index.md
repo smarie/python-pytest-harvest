@@ -379,12 +379,12 @@ PASSED
 PASSED
    `module_results_df` dataframe:
 
-| test_id           | status   |   duration_ms | double_sleep_time   |   person_param | person   |   nb_letters | current_time               |
-|:------------------|:---------|--------------:|:--------------------|---------------:|:---------|-------------:|:---------------------------|
-| test_foo[0-False] | passed   |        500.05 | False               |              0 | world    |            5 | 2018-12-10T18:29:11.042427 |
-| test_foo[0-True]  | passed   |       1000.1  | True                |              0 | world    |            5 | 2018-12-10T18:29:12.046528 |
-| test_foo[1-False] | passed   |        400.04 | False               |              1 | self     |            4 | 2018-12-10T18:29:12.450568 |
-| test_foo[1-True]  | passed   |        800.08 | True                |              1 | self     |            4 | 2018-12-10T18:29:13.254648 |
+| test_id           | pytest_obj                                | status   |   duration_ms | double_sleep_time   |   person_param | person   |   nb_letters | current_time               |
+|:------------------|:------------------------------------------|:---------|--------------:|:--------------------|---------------:|:---------|-------------:|:---------------------------|
+| test_foo[0-False] | <function test_foo at 0x0000000004F8C488> | passed   |       500.029 | False               |              0 | world    |            5 | 2018-12-10T22:06:32.279561 |
+| test_foo[0-True]  | <function test_foo at 0x0000000004F8C488> | passed   |      1000.06  | True                |              0 | world    |            5 | 2018-12-10T22:06:33.283618 |
+| test_foo[1-False] | <function test_foo at 0x0000000004F8C488> | passed   |       400.023 | False               |              1 | self     |            4 | 2018-12-10T22:06:33.687641 |
+| test_foo[1-True]  | <function test_foo at 0x0000000004F8C488> | passed   |       800.046 | True                |              1 | self     |            4 | 2018-12-10T22:06:34.491687 |
 PASSED
 
 ========================== 5 passed in 3.87 seconds ===========================
