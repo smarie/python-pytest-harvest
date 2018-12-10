@@ -4,23 +4,24 @@
 
 [![Build Status](https://travis-ci.org/smarie/python-pytest-harvest.svg?branch=master)](https://travis-ci.org/smarie/python-pytest-harvest) [![Tests Status](https://smarie.github.io/python-pytest-harvest/junit/junit-badge.svg?dummy=8484744)](https://smarie.github.io/python-pytest-harvest/junit/report.html) [![codecov](https://codecov.io/gh/smarie/python-pytest-harvest/branch/master/graph/badge.svg)](https://codecov.io/gh/smarie/python-pytest-harvest) [![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://smarie.github.io/python-pytest-harvest/) [![PyPI](https://img.shields.io/badge/PyPI-pytest_harvest-blue.svg)](https://pypi.python.org/pypi/pytest_harvest/)
 
+!!! success "New simplified usage: with the default fixtures provided, you can now start collecting data from your tests in less than 5 minutes !"
+
 `pytest` is a great tool to write test logic once and then generate multiple tests from *parameters*. Its *fixture* mechanism provides a cool way to inject dependencies in your tests.
 
 At the end of a test session, you can already **collect various data** about the tests that have been run. However as opposed to *parameters* (`@pytest.mark.parametrize`), `pytest` purposedly does not keep *fixtures* (`@pytest.fixture`) in memory, because in general that would just be a waste of memory. Therefore you are currently **not able to retrieve fixture values at the end of the session**.
 
-`pytest-harvest`
+With `pytest-harvest`:
 
- * provides a helper function to retrieve the status, duration and parameters of all tests at the end of a session, without having to register hooks
- * allows you to very easily declare that a fixture should be stored in memory until the end of the session. This unlocks many new usages ; one of them proposed in this library is to create **special "result bag" fixtures** to collect interesting items from your tests.
+ * you can **store all instances of a fixture** with `@saved_fixture`, so that they remain available until the end of the test session. 
  
-With that, you can now create **applicative benchmarks**. For example if you have a new data science algorithm and wish to run it against several datasets, you can 
+ * you can use the special `results_bag` fixture to **collect interesting results** within your tests.
  
- - create a *test* that applies the algorithm on a given dataset
- - *parametrize* it so that it runs against several datasets
- - **NEW** store accuracy values in each test run thanks to a "result bag" *fixture*
- - **NEW** retrieve all accuracy values at the end of the *session* for reporting.
+ * you can use the special `[session/module]_results_[dct/df]` fixtures to easily **collect all available data** at the end of a session or module, without having to register `pytest` hooks. The status, duration and parameters of all tests become easily available both as dictionary or `pandas` dataframe, and your saved fixtures and results are there too. 
+ 
+ * you can create your own variants of the above thanks to the API, for more customized data collection and synthesis.
 
-Note: you can learn more about how to design such a benchmark in [pytest-patterns](https://smarie.github.io/pytest-patterns/) (coming soon)
+ 
+With all that, you can now easily create **applicative benchmarks**. See [pytest-patterns](https://smarie.github.io/pytest-patterns/) for an example of data science benchmark.
 
 !!! note
     `pytest-harvest` has not yet been tested with pytest-xdist. See [#1](https://github.com/smarie/python-pytest-harvest/issues/1)
@@ -33,415 +34,383 @@ Note: you can learn more about how to design such a benchmark in [pytest-pattern
 
 ## Usage
 
-If you just want to see an example, jump [here](#complete-example). Otherwise continue reading.
+### a- Storing fixture instances
 
-### 0- Prerequisite: how to write session teardown code
-
-In order to be able to retrieve all the information that we will store, we will have to ask `pytest` to execute our retrieval/synthesis code **at the end of the entire test session**. `pytest` currently provides several ways to do this:
-
- * through the session finish [hook](https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_sessionfinish) (you have to write this function in the `conftest.py` file):
+Simply use the `@saved_fixture` decorator on your fixtures to declare that their instances must be saved. By default they are saved in a session-scoped `fixture_store` fixture that you can therefore grab and inspect in other tests or in any compliant pytest entry point:
 
 ```python
-def pytest_sessionfinish(session, exitstatus):
-    print("<Put here your synthesis code>")
+import pytest
+from pytest_harvest import saved_fixture
+
+@pytest.fixture(params=range(2))
+@saved_fixture
+def person(request):
+    """
+    A dummy fixture, parametrized so that it has two instances
+    """
+    if request.param == 0:
+        return "world"
+    elif request.param == 1:
+        return "self"
+
+def test_foo(person):
+    """
+    A dummy test, executed for each `person` fixture available
+    """
+    print('\n   hello, ' + person + ' !')
+
+def test_synthesis(fixture_store):
+    """
+    In this test we inspect the contents of the fixture store so far,
+    and check that the 'person' entry contains a dict <test_id>: <person>
+    """
+    # print the keys in the store
+    print("\n   Available `fixture_store` keys:")
+    for k in fixture_store:
+        print("    - '%s'" % k)
+
+    # print what is available for the 'person' entry
+    print("\n   Contents of `fixture_store['person']`:")
+    for k, v in fixture_store['person'].items():
+        print("    - '%s': %s" % (k, v))
 ```
 
- * through a normal session-scoped fixture (put this in any of your test files or in the `conftest.py` file):
- 
-```python
-@pytest.fixture(scope="session", autouse=True)
-def my_session_finish(request):
-    def _end():
-        # you can access the session from the injected 'request':
-        session = request.session
-        print("<Put here your synthesis code>")
-    request.addfinalizer(_end)
-```
-
- * through a generator (yield) session-scoped fixture (put this in any of your test files or in the `conftest.py` file):
-
-```python
-# Note: for pytest<3.0 you have to use @pytest.yield_fixture instead
-@pytest.fixture(scope='session', autouse=True)
-def my_cooler_session_finish(request):
-    yield
-    # you can access the session from the injected 'request':
-    session = request.session
-    print("<Put here your synthesis code>")
-```
-
-All seem completely equivalent for the usage of `pytest_harvest`. I personally prefer the "fixture" style because you can have several of them instead of a monolithic teardown hook. Besides they can be put in the test files so I typically put them as close as possible to the tests that store the data, so as to ensure maintainability (data creation/storage and data retrieval/synthesis code are in the same file).
-
-### 1- Collecting tests status and parameters
-
-Pytest already stores some information out of the box concerning tests that have run. In addition you can follow [this example](https://docs.pytest.org/en/latest/example/simple.html#making-test-result-information-available-in-fixtures) to retrieve more, but it requires you to write a hook so it is not very convenient. 
-
-Instead, you can easily retrieve all of that thanks to the `get_session_synthesis_dct(session)` utility function. For example let's assume you have this parametrized test with a parametrized fixture:
-
-```python
-# unparametrized fixture
-@pytest.fixture
-def dummy():
-    return "hey there !"
-
-# parametrized fixture
-@pytest.fixture(param=[1, 2])
-def a_number_str(request):
-    return "my_fix #%s" % request.param
-
-# parametrized test using the fixtures
-@pytest.mark.parametrize('p', ['hello', 'world'], ids=str)
-def test_foo(p, a_number_str, dummy):
-    print(p + a_number_str)
-```
-
-When running it, 4 tests are executed:
+Let's execute it:
 
 ```bash
->>> pytest
+>>> pytest -s -v
 
 ============================= test session starts =============================
-collected 4 items                                                              
+...
+collecting ... collected 3 items
+test_doc_basic_saved_fixture.py::test_foo[0] 
+   hello, world !
+PASSED
+test_doc_basic_saved_fixture.py::test_foo[1] 
+   hello, self !
+PASSED
+test_doc_basic_saved_fixture.py::test_synthesis 
+   Available `fixture_store` keys:
+    - 'person'
 
-path/to/test_file.py::test_foo[1-hello] PASSED [ 25%]
-path/to/test_file.py::test_foo[1-world] PASSED [ 50%]
-path/to/test_file.py::test_foo[2-hello] PASSED [ 75%]
-path/to/test_file.py::test_foo[2-world] PASSED [100%]
+   Contents of `fixture_store['person']`:
+    - 'test_doc_basic_saved_fixture.py::test_foo[0]': world
+    - 'test_doc_basic_saved_fixture.py::test_foo[1]': self
+PASSED
 
-========================== 4 passed in 0.11 seconds ===========================
+========================== 3 passed in 0.09 seconds ===========================
 ```
 
-let's retrieve the available information at the end of the session (put this in your [session teardown](#0-prerequisite-how-to-write-session-teardown-code) so that you have the session object):
+As you can see, the `fixture_store` contains one entry for each saved fixture, and this entry's value is a dictionary of `{<test_id>: <fixture_value>}`.  We will see [below](#d-collecting-all-at-once) how to combine this information with information already available in pytest (test status, duration...).
+
+### b- Collecting test artifacts
+
+Simply use the `results_bag` fixture in your tests and you'll be able to store items in it. This object behaves like a munch: if you create/read a field it will create/read a dictionary entry. By default the `results_bag` fixture is stored in the `fixture_store` so you can retrieve it at the end as shown previously.
 
 ```python
-from pytest_harvest import get_session_synthesis_dct
-synth_dct = get_session_synthesis_dct(session, status_details=True)
-print(dict(synth_dct))
+from datetime import datetime
+import pytest
+
+@pytest.mark.parametrize('p', ['world', 'self'], ids=str)
+def test_foo(p, results_bag):
+    """
+    A dummy test, parametrized so that it is executed twice
+    """
+    print('\n   hello, ' + p + ' !')
+
+    # Let's store some things in the results bag
+    results_bag.nb_letters = len(p)
+    results_bag.current_time = datetime.now().isoformat()
+
+def test_synthesis(fixture_store):
+    """
+    In this test we inspect the contents of the fixture store so far, and 
+    check that the 'results_bag' entry contains a dict <test_id>: <results_bag>
+    """
+    # print the keys in the store
+    print("\n   Available `fixture_store` keys:")
+    for k in fixture_store:
+        print("    - '%s'" % k)
+
+    # print what is available for the 'results_bag' entry
+    print("\n   Contents of `fixture_store['results_bag']`:")
+    for k, v in fixture_store['results_bag'].items():
+        print("    - '%s':" % k)
+        for kk, vv in v.items():
+            print("      - '%s': %s" % (kk, vv))
 ```
 
-It yields
+Let's execute it:
 
-```js
-{
- 'path/to/test_file.py::test_foo[1-hello]': {
-            'pytest_duration': 0.0010001659393310547,
-            'pytest_obj': <function test_foo at 0x0000000004C13B70>,
-            'pytest_params': {'a_number_str': 1, 'p': 'hello'},
-            'pytest_status': 'passed',
-            'pytest_status_details': {'call': ('passed', 0.0010001659393310547),
-                                      'setup': ('passed', 0.013001203536987305),
-                                      'teardown': ('passed', 0.0)
-                                     }
-             },
- 'path/to/test_file.py::test_foo[1-world]': {
-            'pytest_duration': 0.0,
-            'pytest_obj': <function test_foo at 0x0000000004C13B70>,
-            'pytest_params': {'a_number_str': 1, 'p': 'world'},
-            'pytest_status': 'passed',
-            'pytest_status_details': {'call': ('passed', 0.0),
-                                      'setup': ('passed', 0.0),
-                                      'teardown': ('passed', 0.0)
-                                     }
-             },
- 'path/to/test_file.py::test_foo[2-hello]': {
-            'pytest_duration': 0.0010001659393310547,
-            'pytest_obj': <function test_foo at 0x0000000004C13B70>,
-            'pytest_params': {'a_number_str': 2, 'p': 'hello'},
-            'pytest_status': 'passed',
-            'pytest_status_details': {'call': ('passed', 0.0010001659393310547), 
-                                      'setup': ('passed', 0.0010001659393310547),
-                                      'teardown': ('passed', 0.0)
-                                      }
-             },
- 'path/to/test_file.py::test_foo[2-world]': {
-            'pytest_duration': 0.0,
-            'pytest_obj': <function test_foo at 0x0000000004C13B70>,
-            'pytest_params': {'a_number_str': 2, 'p': 'world'},
-            'pytest_status': 'passed',
-            'pytest_status_details': {'call': ('passed', 0.0),
-                                      'setup': ('passed', 0.0010001659393310547),
-                                      'teardown': ('passed', 0.0)
-                                      }
-            }
-}
+```bash
+>>> pytest -s -v
+
+============================= test session starts =============================
+...
+collecting ... collected 3 items
+test_doc_basic_results_bag.py::test_foo[world] 
+   hello, world !
+PASSED
+test_doc_basic_results_bag.py::test_foo[self] 
+   hello, self !
+PASSED
+test_doc_basic_results_bag.py::test_synthesis 
+   Available `fixture_store` keys:
+    - 'results_bag'
+
+   Contents of `fixture_store['results_bag']`:
+    - 'test_doc_basic_results_bag.py::test_foo[world]':
+      - 'nb_letters': 5
+      - 'current_time': 2018-12-08T22:20:10.695791
+    - 'test_doc_basic_results_bag.py::test_foo[self]':
+      - 'nb_letters': 4
+      - 'current_time': 2018-12-08T22:20:10.700791
+PASSED
+
+========================== 3 passed in 0.05 seconds ===========================
 ```
 
-As you can see for each test node id you get a dictionary containing
+As in previous example, the `fixture_store` contains one entry for `'results_bag'`, and this entry's value is a dictionary of `{<test_id>: <results_bag>}`. We can therefore access all values stored within each test (here, `nb_letters` and `current_time`). 
+
+We will see [below](#d-collecting-all-at-once) how to combine this information with information already available in pytest.
+
+### c- Collecting a synthesis
+
+**as a** `dict`
+
+Simply use the `module_results_dct` fixture to get a dictionary containing the test results *in that module*, *so far*. You can use this fixture in a test as shown below (`test_synthesis`) or in any compliant pytest entry point. 
+
+```python
+import pytest
+import time
+
+@pytest.mark.parametrize('p', ['world', 'self'], ids=str)
+def test_foo(p):
+    """
+    A dummy test, parametrized so that it is executed twice
+    """
+    print('\n   hello, ' + p + ' !')
+    time.sleep(len(p) / 10)
+    
+def test_synthesis(module_results_dct):
+    """
+    In this test we just look at the synthesis of all tests 
+    executed before it, in that module.
+    """
+    # print the keys in the synthesis dictionary
+    print("\n   Available `module_results_dct` keys:")
+    for k in module_results_dct:
+        print("    - " + k)
+
+    # print what is available for a single test
+    print("\n   Contents of 'test_foo[world]':")
+    for k, v in module_results_dct['test_foo[world]'].items():
+        if k != 'status_details':
+            print("    - '%s': %s" % (k, v))
+        else:
+            print("    - '%s':" % k)
+            for kk, vv in v.items():
+                print("      - '%s': %s" % (kk, vv))
+```
+
+Let's execute it:
+
+```bash
+>>> pytest -s -v
+
+============================= test session starts =============================
+...
+collecting ... collected 3 items
+test_doc_basic.py::test_foo[world]
+   hello, world !
+PASSED
+test_doc_basic.py::test_foo[self]
+   hello, self !
+PASSED
+test_doc_basic.py::test_synthesis 
+   Available `module_results_dct` keys:
+    - test_foo[world]
+    - test_foo[self]
+
+   Contents of 'test_foo[world]':
+    - 'pytest_obj': <function test_foo at 0x0000000005A7DEA0>
+    - 'status': passed
+    - 'duration_ms': 500.0283718109131
+    - 'status_details':
+      - 'setup': ('passed', 3.0002593994140625)
+      - 'call': ('passed', 500.0283718109131)
+      - 'teardown': ('passed', 2.0003318786621094)
+    - 'params': OrderedDict([('p', 'world')])
+    - 'fixtures': OrderedDict()
+PASSED
+
+========================== 3 passed in 0.05 seconds ===========================
+```
+
+As you can see, for each test node id you get a dictionary containing
 
  - `'pytest_obj'`the object containing the test code
- - `'pytest_status'` the status and `'pytest_duration'` the duration of the test
- - `'pytest_params'`the parameters used in this test (both in the test function AND the fixture)
- - `'pytest_status_details'` a dictionary containing the status details for each pytest internal stages: setup, call, and teardown. 
- 
-!!! note "status and duration aggregation" 
-    that the global status corresponds to an aggregation of the status of each of those stages (setup, call, teardown), but the global duration is only the duration of the "call" stage - after all we do not care about how long it took to setup and teardown.
+ - `'status'` the status of the test (passed/skipped/failed)
+ - `'duration_ms'` the duration of the test as measured by pytest (only the "call" step is measured here, not setup nor teardown times)
+ - `'status_details'`: details (status and duration) for each pytest phase
+ - `'params'`the parameters used in this test (both in the test function AND the fixtures)
+ - `'fixtures'` the saved fixture instances (not parameters) for this test. Here we see the saved fixtures and result bags, if any (see [below](#d-collecting-all-at-once) for a complete example) 
 
-In addition, you can also use the following companion methods : 
- - `filter_session_items(session, filter=None)` is the filtering method used behind the scenes. `pytest_item_matches_filter` is the inner method used to test if a single item matches the filter.
- - `get_all_pytest_param_names(session)` lists all unique parameter names used, with optional filtering capabilities
- - `is_pytest_incomplete(item)`, `get_pytest_status(item)`, `get_pytest_param_names(item)` and `get_pytest_params(item)` can be used to analyse a specific item in `session.items` directly without creating the dictionary.
+Note: if you need the synthesis to contain all tests of the *session* instead of just the current *module*, use fixtures `session_results_dct` instead.
 
-Finally let's have a closer look above. It **seems** that after all we have collected the fixtures, right ? For example we see `'a_number_str': 2`. But beware, this is not the fixture. It is the parameter used by the fixture `'a_number_str'`. To be convinced look at its type: it is an integer, not a string! A more obvious way to confirm that the fixtures are not available, is to see that the `'dummy'` fixture does not appear at all: indeed it had no parameters.
 
-To conclude: the `get_session_synthesis_dct(session)` utility function allows you to collect many information about the tests, but not the fixtures. To do that you have to use the mechanisms below.
+**as a** `DataFrame`
 
-### 2- Storing/retrieving fixtures
+Simply use the `module_results_df` fixture instead of `module_results_dct` (note the `df` suffix instead of `dct`) to get the same contents as a table, which might be more convenient for statistics and aggregations of all sorts. Note: you have to have `pandas` installed for this fixture to be available.
 
-You can either choose to store fixtures in a plain old variable, or in another, session-scoped, fixture. Both can be achieved using the same decorator `@saved_fixture(store)`.
-
-#### a- Storing in a variable
-
-Let's create a store. It should be a dict-like object:
+Replacing the above `test_synthesis` function with 
 
 ```python
-# Create a global store
-STORE = dict()
-```
-
-In order to store all created fixture values in this object, simply decorate your fixture with `@saved_fixture(STORE)`:
-
-```python
-from pytest
-from pytest_harvest import saved_fixture
-
-@pytest.fixture(params=[1, 2])
-@saved_fixture(STORE)
-def my_fix(request):
-    """Each returned fixture value will be saved in the global store"""
-    return "my_fix #%s" % request.param
-``` 
-
-You can then retrieve the available information at the end of the session (put this in your [session teardown](#0-prerequisite-how-to-write-session-teardown-code)):
-
-```python
-print(dict(STORE['my_fix']))
-```
-
-Each saved fixture appears as an ordered dictionary stored under a global key that has its name (here 'my_fix'). In this dictionary, the keys are the test node ids, and the values are the fixture values:
-
-```js
-{'path/to/test_file.py::test_foo[1]': 'my_fix #1', 
-'path/to/test_file.py::test_foo[2]': 'my_fix #2'}
-```
-
-Note: you can change the key used in the global storage with the `key=` argument of `@saved_fixture`. 
-
-#### b- Storing in a fixture
-
-You might want your store to be a fixture itself, instead of a global variable. It is possible if it is session- or module-scoped (in the same module than where it is used). Simply use its name in `@saved_fixture` and it will work as expected. 
-
-This enables you to make the code even more readable because you can put the synthesis code in the teardown part of the storage fixture:
-
-```python
-from pytest
-from pytest_harvest import saved_fixture
-
-@pytest.fixture(params=[1, 2])
-@saved_fixture("store")
-def my_fix(request):
-    """Each returned fixture value will be saved in the global store"""
-    return "my_fix #%s" % request.param
-
-# -- the global storage fixture and synthesis creator --
-@pytest.fixture(scope='session', autouse=True)
-def store():
-    # setup: init the store
-    store = OrderedDict()
-    yield store
-    # teardown: here you can collect all
-    print(dict(store['my_fix']))
-``` 
-
-!!! note "other teardown hooks"
-    If you use another teardown hook, you can still retrieve your `'store'` fixture by using the `get_fixture_value(request, 'store')` utility function provided in this library. 
-
-!!! note "yield_fixture"
-    In old versions of pytest, you have to use `@pytest.yield_fixture` to be allowed to use `yield` in a fixture.
-
-### 3- Creating "results bags" fixtures to collect test artifacts
-
-Now we are able to store fixtures. But what about the data that we create **during** the tests ? It can be accuracy results, etc.
-
-For this, simply use `create_results_bag_fixture()` to create "results bags" fixtures where you can put any data you want:
- 
-```python
-from collections import OrderedDict
-from random import random
-import pytest
-from pytest_harvest import create_results_bag_fixture
-
-def my_algorithm(param, data):
-    # let's return a random accuracy !
-    return random()
-
-@pytest.fixture(params=['A', 'B', 'C'])
-def dataset(request):
-    return "my dataset #%s" % request.param
-
-@pytest.mark.parametrize("algo_param", [1, 2], ids=str)
-def test_my_app_bench(algo_param, dataset, results_bag):
+def test_synthesis(module_results_df):
     """
-    This test applies the algorithm with various parameters (`algo_param`)
-    on various datasets (`dataset`). Accuracies are stored in a results
-    bag (`results_bag`)
+    In this variant we use the 'dataframe' fixture
     """
-    # apply the algorithm with param `algo_param` on dataset `dataset`
-    accuracy = my_algorithm(algo_param, dataset)
-    # store it in the results bag
-    results_bag.accuracy = accuracy
-
-# -- the results bag fixture --
-# note: depending on your pytest version, the name used by pytest might be
-# the variable name (left) or the one you provide in the 'name' argument so 
-# make sure they are identical! 
-results_bag = create_results_bag_fixture('store', name="results_bag")
-
-# -- the global storage fixture and synthesis creator --
-@pytest.fixture(scope='session', autouse=True)
-def store(request):
-    # setup: init the store
-    store = OrderedDict()
-    yield store
-    # teardown: here you can collect all
-    print(dict(store['results_bag']))
+    # print the synthesis dataframe
+    print("\n   `module_results_df` dataframe:\n")
+    print(module_results_df)
 ```
 
-We can see the correct results collected:
+yields:
 
-```js
-{
-'path/to/test_file.py::::test_my_app_bench[A-1]': 
-     ResultsBag: {'accuracy': 0.2630766637159053}, 
-'path/to/test_file.py::::test_my_app_bench[A-2]': 
-     ResultsBag: {'accuracy': 0.6720533462346249}, 
-'path/to/test_file.py::::test_my_app_bench[B-1]':
-     ResultsBag: {'accuracy': 0.9121353916881674}, 
-'path/to/test_file.py::::test_my_app_bench[B-2]': 
-     ResultsBag: {'accuracy': 0.9401074040573346}, 
-'path/to/test_file.py::::test_my_app_bench[C-1]': 
-     ResultsBag: {'accuracy': 0.01619034700438804},
-'path/to/test_file.py::::test_my_app_bench[C-2]': 
-     ResultsBag: {'accuracy': 0.8027244886806986}
-}
+```bash
+>>> pytest -s -v
+
+============================= test session starts =============================
+...
+collecting ... collected 3 items
+test_doc_basic_dct.py::test_foo[world] 
+   hello, world !
+PASSED
+test_doc_basic_dct.py::test_foo[self] 
+   hello, self !
+PASSED
+test_doc_basic_df.py::test_synthesis 
+   `module_results_df` dataframe:
+   
+                 status  duration_ms      p
+test_id                                    
+test_foo[world]  passed   500.028610  world
+test_foo[self]   passed   400.022745   self
+PASSED
+
+========================== 3 passed in 0.05 seconds ===========================
 ```
 
-We can of course combine this with the test status and parameters (we saw [above](#1-collecting-tests-status-and-parameters) how to collect them) if we want to create a synthesis table. This complete story will be available on [pytest-patterns](https://github.com/smarie/pytest-patterns).
+As can be seen above, each row in the dataframe corresponds to a test (the index is the test id), and the various information are presented in columns. As opposed to the dictionary version, status details are not provided.
 
-!!! note "results bag fixtures' storage"
-    You declare the storage used in the arguments of `create_results_bag_fixture`. As this relies on `@saved_fixture`, you can use both a variable or a session/module-scoped fixture name as we saw in previous chapter. 
+Note: as for the dict version, if you need the synthesis to contain all tests of the *session* instead of just the current *module*, use fixtures `session_results_df` instead.
 
-### 4- Creating a Synthesis table
+### d- collecting all at once
 
-Now that we know
+We have seen first how to collect *saved fixtures*, and *test artifacts* thanks to results bags. Then we saw how to collect *pytest status and duration information, as well as parameters*. 
 
- - how to retrieve pytest status and parameters
- - how to store and retrieve fixtures
- - and how to store and retrieve applicative results
+You may now wonder how to collect all of this in a single handy object ? Well, the answer is quite simple: you have nothing more to do. Indeed, the `[module/session]_results_[dct/df]` fixtures that we saw in previous chapter will by default contain *all* saved fixtures and results bags. 
 
-We can create a synthesis table containing all information available. This is very easy: instead of calling `get_session_synthesis_dct` with no parameters, give it your `store` object. Since we want to create a table, we will use the `flatten` and `flatten_more` options so that the result does not contain nested dictionaries for the parameters, fixtures, and result bags. Finally we decide that we want the durations expressed in ms (pytest measures them in seconds by default).
+Let's try it:
 
 ```python
-# retrieve the synthesis, merged with the fixture store
-results_dct = get_session_synthesis_dct(session, fixture_store=store, 
-                                        flatten=True, flatten_more='results_bag',
-                                        durations_in_ms=True)
-```
-
-We can print the first entry:
-
-```python
->>> pprint(dict(next(iter(results_dct.values()))))
-
-{'pytest_obj': <function test_my_app_bench at 0x0000000004FF6A60>,
- 'pytest_status': 'passed',
- 'pytest_duration_ms': 0.0,
- 'dataset': 'A',
- 'algo_param': 1,
- 'accuracy': 0.2630766637159053}
-```
-
-We see that all information is available at the same level: pytest status and duration, parameters (`dataset` and `algo_param`), and results (`accuracy`).
-
-Transforming such a flattened dictionary in a table is very easy with `pandas`:
-
-```python
-import pandas as pd
-results_df = pd.DataFrame.from_dict(results_dct, orient='index')
-# (a) remove the full test id path
-results_df.index = results_df.index.to_series() \
-                             .apply(lambda test_id: test_id.split('::')[-1])
-# (b) drop pytest object column
-results_df.drop(['pytest_obj'], axis=1, inplace=True)
-```
-
-And finally we can use `pandas` or `tabulate` to export the result in csv or markdown format:
-
-```python
-# csv format
-print(results_df.to_csv())
-
-# github markdown format
+import time
+from datetime import datetime
 from tabulate import tabulate
-print(tabulate(results_df, headers='keys'))
-```
 
-|                        | status   |   duration_ms |   algo_param | dataset   |   accuracy |
-|------------------------|----------|---------------|--------------|-----------|------------|
-| test_my_app_bench[A-1] | passed   |       1.00017 |            1 | A         |  0.313807  |
-| test_my_app_bench[A-2] | passed   |       0       |            2 | A         |  0.0459802 |
-| test_my_app_bench[B-1] | passed   |       0       |            1 | B         |  0.638511  |
-| test_my_app_bench[B-2] | passed   |       0       |            2 | B         |  0.10418   |
-| test_my_app_bench[C-1] | passed   |       0       |            1 | C         |  0.287151  |
-| test_my_app_bench[C-2] | passed   |       0       |            2 | C         |  0.19437   |
+import pytest
+from pytest_harvest import saved_fixture
 
-!!! note "Duration calculation"
-    The duration field is directly extracted from `pytest`. Currently `pytest` computes durations using the `time` method, which might not be as accurate as other methods - see opened discussion [here](https://github.com/pytest-dev/pytest/issues/4391). If you need more precise duration benchmarking **now**, of if you need to measure the duration of a specific sub-function instead of the duration of the whole test function call, use [pytest-benchmark](https://github.com/ionelmc/pytest-benchmark). In the long run, the author thinks that `pytest` will hopefully provide more precise duration estimates, and therefore you will be able to get similar results in the table outputted above (+ possibly a `@repeat(n)` parameter on top of your test function if you wish to repeat it several times and compare the durations).
+@pytest.fixture(params=range(2))
+@saved_fixture
+def person(request):
+    """
+    A dummy fixture, parametrized so that it has two instances
+    """
+    if request.param == 0:
+        return "world"
+    elif request.param == 1:
+        return "self"
 
-### 5- Partial synthesis (module, function) and synthesis tests
+@pytest.mark.parametrize('double_sleep_time', [False, True], ids=str)
+def test_foo(double_sleep_time, person, results_bag):
+    """
+    A dummy test, parametrized so that it is executed twice.
+    """
+    print('\n   hello, ' + person + ' !')
+    time.sleep(len(person) / 10 * (2 if double_sleep_time else 1))
 
-We have seen [above](#1-collecting-tests-status-and-parameters) that you can get the pytest `session` object from many different teardown hooks. In addition, you can even access it from inside a test! In that case all information will not be available, but if the synthesis test is located **after** the test function of interest in execution order, it will be ok.
+    # Let's store some things in the results bag
+    results_bag.nb_letters = len(person)
+    results_bag.current_time = datetime.now().isoformat()
 
-To be sure to only get results you're interested in, the special `filter` argument allows you to only select parts of the test nodes to create the synthesis:
-
-```python
-# a module-scoped store
-@pytest.fixture(scope='module', autouse=True)
-def store():
-    return OrderedDict()
-
-# results bag fixture
-my_results = create_results_bag_fixture('store', name='my_results')
-
-def test_foo(my_results):
-    ...
-
-def test_synthesis(request, store):
-    # get partial results concerning `test_foo`
-    results_dct = get_session_synthesis_dct(request.session, filter=test_foo, 
-                                            fixture_store=store)
+def test_synthesis(module_results_df):
+    """
+    In this test we just look at the synthesis of all tests
+    executed before it, in that module.
+    """
+    # print the synthesis dataframe
+    print("\n   `module_results_df` dataframe:\n")
     
-    # you can assert / report using the `results_dct` here
+    # we use 'tabulate' for a nicer output format
+    print(tabulate(module_results_df, headers='keys', tablefmt="pipe"))
 ```
 
-See `help(get_session_synthesis_dct)` for details: for example you can include in this filter a list, and it can contain module names too.
+yields
 
-### Complete example
+```bash
+>>> pytest -s -v
 
-A module-scoped complete example with parameters, fixtures, and results bag can be found [here](https://github.com/smarie/python-pytest-harvest/tree/master/pytest_harvest/tests/test_doc_example.py).
+============================= test session starts =============================
+...
+collecting ... collected 5 items
+test_doc_basic_df_all.py::test_foo[0-False] 
+test_doc_basic_df_all.py::test_foo[0-True] 
+test_doc_basic_df_all.py::test_foo[1-False] 
+test_doc_basic_df_all.py::test_foo[1-True] 
+test_doc_basic_df_all.py::test_synthesis 
+   hello, world !
+PASSED
+   hello, world !
+PASSED
+   hello, self !
+PASSED
+   hello, self !
+PASSED
+   `module_results_df` dataframe:
 
-### Compliance with the other pytest mechanisms
+| test_id           | status   |   duration_ms | double_sleep_time   |   person_param | person   |   nb_letters | current_time               |
+|:------------------|:---------|--------------:|:--------------------|---------------:|:---------|-------------:|:---------------------------|
+| test_foo[0-False] | passed   |        500.05 | False               |              0 | world    |            5 | 2018-12-10T18:29:11.042427 |
+| test_foo[0-True]  | passed   |       1000.1  | True                |              0 | world    |            5 | 2018-12-10T18:29:12.046528 |
+| test_foo[1-False] | passed   |        400.04 | False               |              1 | self     |            4 | 2018-12-10T18:29:12.450568 |
+| test_foo[1-True]  | passed   |        800.08 | True                |              1 | self     |            4 | 2018-12-10T18:29:13.254648 |
+PASSED
 
-This package solely relies on the fixtures mechanism and the `pytest_runtest_makereport` hook. It should therefore be quite portable across pytest versions.
+========================== 5 passed in 3.87 seconds ===========================
+```
+
+So we see here that we get all the information in a single handy table object: for each test, we get its status, duration, parameters (`double_sleep_time`, `person_param`), fixtures (`person`) and results (`nb_letters`, `current_time`).
+
+Of course you can still get the same information as a dictionary, and chose to get it for the whole session or for a specific module (see previous [chapter](#c-collecting-a-synthesis)). 
+
+### e- customization
+
+All the behaviours described above are pre-wired to help most users getting started. However they are nothing but pre-wiring of more generic capabilities, that are offered in this library as well. For details on how to create **custom synthesis**, **custom store objects**, **custom results bags**... see [advanced usage page](./advanced_usage).
+
+## Compliance with the pytest ecosystem
+
+This plugin mostly relies on the fixtures mechanism and the `pytest_runtest_makereport` hook. It should therefore be quite portable across pytest versions (at least it is tested against pytest 2 and 3, for both python 2 and 3).
 
 ## Main features / benefits
 
- * **Collect test execution information easily**: with `get_session_synthesis_dct(session)` you can get a lot of information about tests, without the hassle of writing hooks. 
-  
- * **Store selected fixtures declaratively**: simply decorate your fixture with `@saved_fixture(storage)` and all fixture values will be stored in the selected storage (a variable or another fixture).
+ * **Collect test execution information easily**: with the default `[module/session]_results_[dct/df]` fixtures, and with `get_session_synthesis_dct(session)` (advanced users), you can collect all the information you need, without the hassle of writing hooks. 
+
+ * **Store selected fixtures declaratively**: simply decorate your fixture with `@saved_fixture` and all fixture values will be stored in the default storage. You can use the advanced `@saved_fixture(storage)` to customize the storage (a variable or another fixture).
  
- * **Collect test artifacts**: you can create "results bags" fixtures to store applicative information during your tests and retrieve it at the end. It makes it very easy to create applicative benchmarks, for example for data science.
+ * **Collect test artifacts**: simply use the `results_bag` fixture to start collecting results from your tests. You can also create your own "results bags" fixtures (advanced). It makes it very easy to create applicative benchmarks, for example for [data science](https://smarie.github.io/pytest-patterns/).
  
- * **Highly configurable**: storage object (for storing fixtures) or results bag object (for collecting results from tests) can be any object type of your choice. For results bags, a default type is provided that behaves like a "munch" (both a dictionary and an object).
+ * **Highly configurable**: storage object (for storing fixtures) or results bag objects (for collecting results from tests) can be of any object type of your choice. For results bags, a default type is provided that behaves like a "munch" (both a dictionary and an object). See [advanced usage page](./advanced_usage).
 
 ## See Also
 
