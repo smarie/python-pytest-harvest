@@ -107,7 +107,7 @@ def session_results_df(request, fixture_store):
         results_df = pd.DataFrame.from_dict(session_results_dct, orient='index')
         results_df = results_df.loc[list(session_results_dct.keys()), :]  # fix rows order
         results_df.index.name = 'test_id'  # set index name
-        results_df.drop(['pytest_obj'], axis=1, inplace=True)  # drop pytest object column
+        # results_df.drop(['pytest_obj'], axis=1, inplace=True)  # drop pytest object column
 
         return results_df
 
@@ -140,7 +140,7 @@ def module_results_df(request, fixture_store):
         results_df = pd.DataFrame.from_dict(module_results_dct, orient='index')
         results_df = results_df.loc[list(module_results_dct.keys()), :]  # fix rows order
         results_df.index.name = 'test_id'  # set index name
-        results_df.drop(['pytest_obj'], axis=1, inplace=True)  # drop pytest object column
+        # results_df.drop(['pytest_obj'], axis=1, inplace=True)  # drop pytest object column
 
         return results_df
 
