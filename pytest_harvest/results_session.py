@@ -396,12 +396,15 @@ def get_pytest_params(item):
     """ Returns a dictionary containing a pytest session item's parameters """
 
     param_dct = OrderedDict()
-    for param_name in item.fixturenames:
+    for param_name in item.fixturenames:  # note: item.funcargnames gives the exact same list
         if hasattr(item, 'callspec'):
             if param_name in item.callspec.params:
-                # this is a param: ok
-                # IMPORTANT: fixture parameters have the same name than the fixtures themselves!
-                param_dct[param_name] = item.callspec.params[param_name]
+                if item.session._fixturemanager.getfixturedefs(param_name, item.nodeid) is not None:
+                    # Fixture parameters have the same name than the fixtures themselves! change it
+                    param_dct[param_name + '_param'] = item.callspec.params[param_name]
+                else:
+                    # Non-fixture parameter: ok
+                    param_dct[param_name] = item.callspec.params[param_name]
             else:
                 # this is a fixture: it is not available by default in item, this is normal pytest behaviour
                 # (hence the @saved_fixture decorator)

@@ -68,7 +68,7 @@ def test_foo_synthesis_all_options(request, flatten, durations_in_ms):
         # add parameters
         expected_keys.update({mark.args[0] for mark in test_foo.parametrize})
         # add parametrized fixtures
-        expected_keys.update({parametrized_fixture.__name__ for parametrized_fixture in [a_number_str]})
+        expected_keys.update({parametrized_fixture.__name__ + '_param' for parametrized_fixture in [a_number_str]})
 
     # compute the parameter values for all tests in order
     params = list(product(fixture_params, test_params))
@@ -99,10 +99,10 @@ def test_foo_synthesis_all_options(request, flatten, durations_in_ms):
         if flatten:
             param_dct = nodeinfo
         else:
-            assert set(nodeinfo[prefix + 'params'].keys()) == {'p', 'a_number_str'}
+            assert set(nodeinfo[prefix + 'params'].keys()) == {'p', 'a_number_str_param'}
             param_dct = nodeinfo[prefix + 'params']
 
-        assert param_dct['a_number_str'] == params[i][0]
+        assert param_dct['a_number_str_param'] == params[i][0]
         assert param_dct['p'] == params[i][1]
 
 
@@ -173,10 +173,10 @@ def test_synthesis_id_formatting(request):
 def test_get_all_pytest_param_names(request):
     """Tests that get_all_pytest_param_names works"""
     param_names = get_all_pytest_param_names(request.session, filter=test_get_all_pytest_param_names.__module__)
-    assert param_names == ['p', 'a_number_str', 'flatten', 'durations_in_ms']
+    assert param_names == ['p', 'a_number_str_param', 'flatten', 'durations_in_ms']
 
     param_names = get_all_pytest_param_names(request.session, filter=test_foo)
-    assert param_names == ['p', 'a_number_str']
+    assert param_names == ['p', 'a_number_str_param']
 
 
 def test_synthesis_contains_everything(request):
