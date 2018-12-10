@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="0" name="pytest" skips="0" tests="44" time="5.623"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_all_together.py]" time="0.0686495304107666"><system-out>
-Testing that running pytest on file test_all_together.py results in {&apos;passed&apos;: 9, &apos;failed&apos;: 0, &apos;skipped&apos;: 0}
+<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="0" name="pytest" skips="0" tests="44" time="5.579"><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_all_together.py]" time="0.0660715103149414"><system-out>
+Testing that running pytest on file test_all_together.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 9, &apos;skipped&apos;: 0}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests0, inifile: 
@@ -9,8 +9,8 @@ collected 9 items
 test_run_all_tests.py .........
 
 =========================== 9 passed in 0.03 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_fixture.py]" time="0.045609474182128906"><system-out>
-Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0}
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_fixture.py]" time="0.04111528396606445"><system-out>
+Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1, inifile: 
@@ -19,9 +19,9 @@ collected 2 items
 
 test_run_all_tests.py ..
 
-=========================== 2 passed in 0.02 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_default_fixtures.py]" time="0.0631706714630127"><system-out>
-Testing that running pytest on file test_default_fixtures.py results in {&apos;passed&apos;: 8, &apos;failed&apos;: 0, &apos;skipped&apos;: 0}
+=========================== 2 passed in 0.01 seconds ===========================
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_default_fixtures.py]" time="0.05854487419128418"><system-out>
+Testing that running pytest on file test_default_fixtures.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 8, &apos;skipped&apos;: 0}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2, inifile: 
@@ -31,8 +31,8 @@ collected 8 items
 test_run_all_tests.py ........
 
 =========================== 8 passed in 0.03 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_results_bags.py]" time="0.05126452445983887"><system-out>
-Testing that running pytest on file test_results_bags.py results in {&apos;passed&apos;: 6, &apos;failed&apos;: 0, &apos;skipped&apos;: 0}
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_results_bags.py]" time="0.04625391960144043"><system-out>
+Testing that running pytest on file test_results_bags.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 6, &apos;skipped&apos;: 0}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests3, inifile: 
@@ -42,8 +42,8 @@ collected 6 items
 test_run_all_tests.py ......
 
 =========================== 6 passed in 0.02 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_get_session_results.py]" time="0.12199187278747559"><system-out>
-Testing that running pytest on file test_get_session_results.py results in {&apos;passed&apos;: 15, &apos;failed&apos;: 1, &apos;skipped&apos;: 1}
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_get_session_results.py]" time="0.11525964736938477"><system-out>
+Testing that running pytest on file test_get_session_results.py results in {&apos;failed&apos;: 1, &apos;passed&apos;: 15, &apos;skipped&apos;: 1}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests4, inifile: 
@@ -61,8 +61,8 @@ E       Failed: normal, intended failure here
 
 test_run_all_tests.py:116: Failed
 ================ 1 failed, 15 passed, 1 skipped in 0.09 seconds ================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_global_var.py]" time="0.07835602760314941"><system-out>
-Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0}
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_all" file="pytest_harvest/tests/test_all.py" line="21" name="test_run_all_tests[test_saved_fixture_in_global_var.py]" time="0.07738423347473145"><system-out>
+Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests5, inifile: 
@@ -72,7 +72,7 @@ collected 2 items
 test_run_all_tests.py ..
 
 =========================== 2 passed in 0.05 seconds ===========================
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_decorator" file="pytest_harvest/tests/test_decorator.py" line="32" name="test_normal_normal" time="0.0014069080352783203"><system-out>0
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_decorator" file="pytest_harvest/tests/test_decorator.py" line="32" name="test_normal_normal" time="0.0019190311431884766"><system-out>0
 1
 2
 3
@@ -82,7 +82,7 @@ test_run_all_tests.py ..
 7
 8
 9
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_decorator" file="pytest_harvest/tests/test_decorator.py" line="42" name="test_normal_gen" time="0.001230001449584961"><system-out>0
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_decorator" file="pytest_harvest/tests/test_decorator.py" line="42" name="test_normal_gen" time="0.0016841888427734375"><system-out>0
 1
 2
 3
@@ -92,8 +92,8 @@ test_run_all_tests.py ..
 7
 8
 9
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_decorator" file="pytest_harvest/tests/test_decorator.py" line="55" name="test_gen_gen" time="0.0013759136199951172"><system-out>0
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_decorator" file="pytest_harvest/tests/test_decorator.py" line="66" name="test_gen_normal" time="0.0015850067138671875"><system-out>0
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_decorator" file="pytest_harvest/tests/test_decorator.py" line="55" name="test_gen_gen" time="0.0015990734100341797"><system-out>0
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_decorator" file="pytest_harvest/tests/test_decorator.py" line="66" name="test_gen_normal" time="0.002056121826171875"><system-out>0
 1
 2
 3
@@ -103,58 +103,58 @@ test_run_all_tests.py ..
 7
 8
 9
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_dct" file="pytest_harvest/tests/test_doc_basic_dct.py" line="5" name="test_foo[world]" time="0.5017313957214355"><system-out>
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_dct" file="pytest_harvest/tests/test_doc_basic_dct.py" line="5" name="test_foo[world]" time="0.5022616386413574"><system-out>
    hello, world !
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_dct" file="pytest_harvest/tests/test_doc_basic_dct.py" line="5" name="test_foo[self]" time="0.40189337730407715"><system-out>
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_dct" file="pytest_harvest/tests/test_doc_basic_dct.py" line="5" name="test_foo[self]" time="0.4023246765136719"><system-out>
    hello, self !
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_dct" file="pytest_harvest/tests/test_doc_basic_dct.py" line="14" name="test_synthesis" time="0.0016086101531982422"><system-out>
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_dct" file="pytest_harvest/tests/test_doc_basic_dct.py" line="14" name="test_synthesis" time="0.002178192138671875"><system-out>
    Available `module_results_dct` keys:
     - test_foo[world]
     - test_foo[self]
 
    Contents of &apos;test_foo[world]&apos;:
-    - &apos;pytest_obj&apos;: &lt;function test_foo at 0x7ff2b8df49d8&gt;
+    - &apos;pytest_obj&apos;: &lt;function test_foo at 0x7f947dae79d8&gt;
     - &apos;status&apos;: passed
-    - &apos;duration_ms&apos;: 500.9765625
+    - &apos;duration_ms&apos;: 500.92601776123047
     - &apos;status_details&apos;:
-      - &apos;call&apos;: (&apos;passed&apos;, 500.9765625)
-      - &apos;setup&apos;: (&apos;passed&apos;, 0.5998611450195312)
-      - &apos;teardown&apos;: (&apos;passed&apos;, 0.15497207641601562)
+      - &apos;setup&apos;: (&apos;passed&apos;, 1.1570453643798828)
+      - &apos;call&apos;: (&apos;passed&apos;, 500.92601776123047)
+      - &apos;teardown&apos;: (&apos;passed&apos;, 0.1785755157470703)
     - &apos;params&apos;: OrderedDict([(&apos;p&apos;, &apos;world&apos;)])
     - &apos;fixtures&apos;: OrderedDict()
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_df" file="pytest_harvest/tests/test_doc_basic_df.py" line="5" name="test_foo[world]" time="0.5031008720397949"><system-out>
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_df" file="pytest_harvest/tests/test_doc_basic_df.py" line="5" name="test_foo[world]" time="0.5027616024017334"><system-out>
    hello, world !
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_df" file="pytest_harvest/tests/test_doc_basic_df.py" line="5" name="test_foo[self]" time="0.4022555351257324"><system-out>
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_df" file="pytest_harvest/tests/test_doc_basic_df.py" line="5" name="test_foo[self]" time="0.4019286632537842"><system-out>
    hello, self !
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_df" file="pytest_harvest/tests/test_doc_basic_df.py" line="14" name="test_synthesis" time="0.015004873275756836"><system-out>
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_df" file="pytest_harvest/tests/test_doc_basic_df.py" line="14" name="test_synthesis" time="0.014431953430175781"><system-out>
    `module_results_df` dataframe:
 
                  status  duration_ms      p
 test_id                                    
-test_foo[world]  passed   501.407862  world
-test_foo[self]   passed   400.938749   self
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_df_all" file="pytest_harvest/tests/test_doc_basic_df_all.py" line="21" name="test_foo[0-False]" time="0.502490758895874"><system-out>
+test_foo[world]  passed   500.975370  world
+test_foo[self]   passed   400.853634   self
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_df_all" file="pytest_harvest/tests/test_doc_basic_df_all.py" line="21" name="test_foo[0-False]" time="0.5024476051330566"><system-out>
    hello, world !
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_df_all" file="pytest_harvest/tests/test_doc_basic_df_all.py" line="21" name="test_foo[0-True]" time="1.0034112930297852"><system-out>
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_df_all" file="pytest_harvest/tests/test_doc_basic_df_all.py" line="21" name="test_foo[0-True]" time="1.0032987594604492"><system-out>
    hello, world !
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_df_all" file="pytest_harvest/tests/test_doc_basic_df_all.py" line="21" name="test_foo[1-False]" time="0.40239691734313965"><system-out>
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_df_all" file="pytest_harvest/tests/test_doc_basic_df_all.py" line="21" name="test_foo[1-False]" time="0.4019277095794678"><system-out>
    hello, self !
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_df_all" file="pytest_harvest/tests/test_doc_basic_df_all.py" line="21" name="test_foo[1-True]" time="0.8028748035430908"><system-out>
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_df_all" file="pytest_harvest/tests/test_doc_basic_df_all.py" line="21" name="test_foo[1-True]" time="0.8023686408996582"><system-out>
    hello, self !
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_df_all" file="pytest_harvest/tests/test_doc_basic_df_all.py" line="34" name="test_synthesis" time="0.008614301681518555"><system-out>
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_df_all" file="pytest_harvest/tests/test_doc_basic_df_all.py" line="34" name="test_synthesis" time="0.007120370864868164"><system-out>
    `module_results_df` dataframe:
 
 | test_id           | status   |   duration_ms | double_sleep_time   |   person_param | person   |   nb_letters | current_time               |
 |:------------------|:---------|--------------:|:--------------------|---------------:|:---------|-------------:|:---------------------------|
-| test_foo[0-False] | passed   |       501.11  | False               |              0 | world    |            5 | 2018-12-10T18:09:11.852946 |
-| test_foo[0-True]  | passed   |      1001.65  | True                |              0 | world    |            5 | 2018-12-10T18:09:12.858033 |
-| test_foo[1-False] | passed   |       401.13  | False               |              1 | self     |            4 | 2018-12-10T18:09:13.262241 |
-| test_foo[1-True]  | passed   |       801.435 | True                |              1 | self     |            4 | 2018-12-10T18:09:14.067043 |
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_results_bag" file="pytest_harvest/tests/test_doc_basic_results_bag.py" line="5" name="test_foo[world]" time="0.0017893314361572266"><system-out>
+| test_foo[0-False] | passed   |       500.984 | False               |              0 | world    |            5 | 2018-12-10T18:13:36.841858 |
+| test_foo[0-True]  | passed   |      1001.44  | True                |              0 | world    |            5 | 2018-12-10T18:13:37.846809 |
+| test_foo[1-False] | passed   |       400.806 | False               |              1 | self     |            4 | 2018-12-10T18:13:38.250335 |
+| test_foo[1-True]  | passed   |       801.274 | True                |              1 | self     |            4 | 2018-12-10T18:13:39.054301 |
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_results_bag" file="pytest_harvest/tests/test_doc_basic_results_bag.py" line="5" name="test_foo[world]" time="0.0009942054748535156"><system-out>
    hello, world !
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_results_bag" file="pytest_harvest/tests/test_doc_basic_results_bag.py" line="5" name="test_foo[self]" time="0.0013222694396972656"><system-out>
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_results_bag" file="pytest_harvest/tests/test_doc_basic_results_bag.py" line="5" name="test_foo[self]" time="0.0008733272552490234"><system-out>
    hello, self !
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_results_bag" file="pytest_harvest/tests/test_doc_basic_results_bag.py" line="17" name="test_synthesis" time="0.001149892807006836"><system-out>
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_results_bag" file="pytest_harvest/tests/test_doc_basic_results_bag.py" line="17" name="test_synthesis" time="0.0008454322814941406"><system-out>
    Available `fixture_store` keys:
     - &apos;person&apos;
     - &apos;results_bag&apos;
@@ -162,27 +162,27 @@ test_foo[self]   passed   400.938749   self
    Contents of `fixture_store[&apos;results_bag&apos;]`:
     - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[0-False]&apos;:
       - &apos;nb_letters&apos;: 5
-      - &apos;current_time&apos;: 2018-12-10T18:09:11.852946
+      - &apos;current_time&apos;: 2018-12-10T18:13:36.841858
     - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[0-True]&apos;:
       - &apos;nb_letters&apos;: 5
-      - &apos;current_time&apos;: 2018-12-10T18:09:12.858033
+      - &apos;current_time&apos;: 2018-12-10T18:13:37.846809
     - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[1-False]&apos;:
       - &apos;nb_letters&apos;: 4
-      - &apos;current_time&apos;: 2018-12-10T18:09:13.262241
+      - &apos;current_time&apos;: 2018-12-10T18:13:38.250335
     - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[1-True]&apos;:
       - &apos;nb_letters&apos;: 4
-      - &apos;current_time&apos;: 2018-12-10T18:09:14.067043
+      - &apos;current_time&apos;: 2018-12-10T18:13:39.054301
     - &apos;pytest_harvest/tests/test_doc_basic_results_bag.py::test_foo[world]&apos;:
       - &apos;nb_letters&apos;: 5
-      - &apos;current_time&apos;: 2018-12-10T18:09:14.080550
+      - &apos;current_time&apos;: 2018-12-10T18:13:39.065694
     - &apos;pytest_harvest/tests/test_doc_basic_results_bag.py::test_foo[self]&apos;:
       - &apos;nb_letters&apos;: 4
-      - &apos;current_time&apos;: 2018-12-10T18:09:14.083976
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_saved_fixture" file="pytest_harvest/tests/test_doc_basic_saved_fixture.py" line="17" name="test_foo[0]" time="0.0012979507446289062"><system-out>
+      - &apos;current_time&apos;: 2018-12-10T18:13:39.068207
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_saved_fixture" file="pytest_harvest/tests/test_doc_basic_saved_fixture.py" line="17" name="test_foo[0]" time="0.002777576446533203"><system-out>
    hello, world !
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_saved_fixture" file="pytest_harvest/tests/test_doc_basic_saved_fixture.py" line="17" name="test_foo[1]" time="0.0015101432800292969"><system-out>
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_saved_fixture" file="pytest_harvest/tests/test_doc_basic_saved_fixture.py" line="17" name="test_foo[1]" time="0.0010018348693847656"><system-out>
    hello, self !
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_saved_fixture" file="pytest_harvest/tests/test_doc_basic_saved_fixture.py" line="24" name="test_synthesis" time="0.0009672641754150391"><system-out>
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_basic_saved_fixture" file="pytest_harvest/tests/test_doc_basic_saved_fixture.py" line="24" name="test_synthesis" time="0.0007855892181396484"><system-out>
    Available `fixture_store` keys:
     - &apos;person&apos;
     - &apos;results_bag&apos;
@@ -194,16 +194,16 @@ test_foo[self]   passed   400.938749   self
     - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[1-True]&apos;: self
     - &apos;pytest_harvest/tests/test_doc_basic_saved_fixture.py::test_foo[0]&apos;: world
     - &apos;pytest_harvest/tests/test_doc_basic_saved_fixture.py::test_foo[1]&apos;: self
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_example" file="pytest_harvest/tests/test_doc_example.py" line="22" name="test_my_app_bench[A-1]" time="0.0012655258178710938"></testcase><testcase classname="pytest_harvest.tests.test_doc_example" file="pytest_harvest/tests/test_doc_example.py" line="22" name="test_my_app_bench[A-2]" time="0.0011167526245117188"></testcase><testcase classname="pytest_harvest.tests.test_doc_example" file="pytest_harvest/tests/test_doc_example.py" line="22" name="test_my_app_bench[B-1]" time="0.0013973712921142578"></testcase><testcase classname="pytest_harvest.tests.test_doc_example" file="pytest_harvest/tests/test_doc_example.py" line="22" name="test_my_app_bench[B-2]" time="0.0012197494506835938"></testcase><testcase classname="pytest_harvest.tests.test_doc_example" file="pytest_harvest/tests/test_doc_example.py" line="22" name="test_my_app_bench[C-1]" time="0.0011174678802490234"></testcase><testcase classname="pytest_harvest.tests.test_doc_example" file="pytest_harvest/tests/test_doc_example.py" line="22" name="test_my_app_bench[C-2]" time="0.001222372055053711"></testcase><testcase classname="pytest_harvest.tests.test_doc_example" file="pytest_harvest/tests/test_doc_example.py" line="36" name="test_basic" time="0.0007035732269287109"></testcase><testcase classname="pytest_harvest.tests.test_doc_example" file="pytest_harvest/tests/test_doc_example.py" line="42" name="test_synthesis" time="0.007780790328979492"><system-out>test_id                 status      duration_ms    algo_param  dataset_param      accuracy  dataset
-----------------------  --------  -------------  ------------  ---------------  ----------  -------------
-test_my_app_bench[A-1]  passed         0.189781             1  A                  0.065527  my dataset #A
-test_my_app_bench[A-2]  passed         0.185966             2  A                  0.357956  my dataset #A
-test_my_app_bench[B-1]  passed         0.517607             1  B                  0.682754  my dataset #B
-test_my_app_bench[B-2]  passed         0.1266               2  B                  0.628104  my dataset #B
-test_my_app_bench[C-1]  passed         0.127316             1  C                  0.522665  my dataset #C
-test_my_app_bench[C-2]  passed         0.185251             2  C                  0.388988  my dataset #C
-test_basic              passed         0.193357           nan  nan              nan         nan
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_example_custom" file="pytest_harvest/tests/test_doc_example_custom.py" line="34" name="test_my_app_bench[A-1]" time="0.0013742446899414062"></testcase><testcase classname="pytest_harvest.tests.test_doc_example_custom" file="pytest_harvest/tests/test_doc_example_custom.py" line="34" name="test_my_app_bench[A-2]" time="0.0012536048889160156"></testcase><testcase classname="pytest_harvest.tests.test_doc_example_custom" file="pytest_harvest/tests/test_doc_example_custom.py" line="34" name="test_my_app_bench[B-1]" time="0.0012791156768798828"></testcase><testcase classname="pytest_harvest.tests.test_doc_example_custom" file="pytest_harvest/tests/test_doc_example_custom.py" line="34" name="test_my_app_bench[B-2]" time="0.0017588138580322266"></testcase><testcase classname="pytest_harvest.tests.test_doc_example_custom" file="pytest_harvest/tests/test_doc_example_custom.py" line="34" name="test_my_app_bench[C-1]" time="0.0012276172637939453"></testcase><testcase classname="pytest_harvest.tests.test_doc_example_custom" file="pytest_harvest/tests/test_doc_example_custom.py" line="34" name="test_my_app_bench[C-2]" time="0.0014815330505371094"></testcase><testcase classname="pytest_harvest.tests.test_doc_example_custom" file="pytest_harvest/tests/test_doc_example_custom.py" line="48" name="test_basic" time="0.0009021759033203125"></testcase><testcase classname="pytest_harvest.tests.test_doc_example_custom" file="pytest_harvest/tests/test_doc_example_custom.py" line="54" name="test_synthesis" time="0.010837554931640625"><system-out>
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_example" file="pytest_harvest/tests/test_doc_example.py" line="22" name="test_my_app_bench[A-1]" time="0.0009968280792236328"></testcase><testcase classname="pytest_harvest.tests.test_doc_example" file="pytest_harvest/tests/test_doc_example.py" line="22" name="test_my_app_bench[A-2]" time="0.0010318756103515625"></testcase><testcase classname="pytest_harvest.tests.test_doc_example" file="pytest_harvest/tests/test_doc_example.py" line="22" name="test_my_app_bench[B-1]" time="0.0011267662048339844"></testcase><testcase classname="pytest_harvest.tests.test_doc_example" file="pytest_harvest/tests/test_doc_example.py" line="22" name="test_my_app_bench[B-2]" time="0.0009377002716064453"></testcase><testcase classname="pytest_harvest.tests.test_doc_example" file="pytest_harvest/tests/test_doc_example.py" line="22" name="test_my_app_bench[C-1]" time="0.0007946491241455078"></testcase><testcase classname="pytest_harvest.tests.test_doc_example" file="pytest_harvest/tests/test_doc_example.py" line="22" name="test_my_app_bench[C-2]" time="0.0009589195251464844"></testcase><testcase classname="pytest_harvest.tests.test_doc_example" file="pytest_harvest/tests/test_doc_example.py" line="36" name="test_basic" time="0.0005745887756347656"></testcase><testcase classname="pytest_harvest.tests.test_doc_example" file="pytest_harvest/tests/test_doc_example.py" line="42" name="test_synthesis" time="0.006683826446533203"><system-out>test_id                 status      duration_ms    algo_param  dataset_param        accuracy  dataset
+----------------------  --------  -------------  ------------  ---------------  ------------  -------------
+test_my_app_bench[A-1]  passed        0.107527              1  A                  0.662925    my dataset #A
+test_my_app_bench[A-2]  passed        0.169992              2  A                  0.438195    my dataset #A
+test_my_app_bench[B-1]  passed        0.374794              1  B                  0.0169817   my dataset #B
+test_my_app_bench[B-2]  passed        0.0984669             2  B                  0.602745    my dataset #B
+test_my_app_bench[C-1]  passed        0.196457              1  C                  0.00273766  my dataset #C
+test_my_app_bench[C-2]  passed        0.120163              2  C                  0.664917    my dataset #C
+test_basic              passed        0.0956059           nan  nan              nan           nan
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_doc_example_custom" file="pytest_harvest/tests/test_doc_example_custom.py" line="34" name="test_my_app_bench[A-1]" time="0.0011615753173828125"></testcase><testcase classname="pytest_harvest.tests.test_doc_example_custom" file="pytest_harvest/tests/test_doc_example_custom.py" line="34" name="test_my_app_bench[A-2]" time="0.0010225772857666016"></testcase><testcase classname="pytest_harvest.tests.test_doc_example_custom" file="pytest_harvest/tests/test_doc_example_custom.py" line="34" name="test_my_app_bench[B-1]" time="0.0011091232299804688"></testcase><testcase classname="pytest_harvest.tests.test_doc_example_custom" file="pytest_harvest/tests/test_doc_example_custom.py" line="34" name="test_my_app_bench[B-2]" time="0.0015714168548583984"></testcase><testcase classname="pytest_harvest.tests.test_doc_example_custom" file="pytest_harvest/tests/test_doc_example_custom.py" line="34" name="test_my_app_bench[C-1]" time="0.0011796951293945312"></testcase><testcase classname="pytest_harvest.tests.test_doc_example_custom" file="pytest_harvest/tests/test_doc_example_custom.py" line="34" name="test_my_app_bench[C-2]" time="0.0011761188507080078"></testcase><testcase classname="pytest_harvest.tests.test_doc_example_custom" file="pytest_harvest/tests/test_doc_example_custom.py" line="48" name="test_basic" time="0.0007524490356445312"></testcase><testcase classname="pytest_harvest.tests.test_doc_example_custom" file="pytest_harvest/tests/test_doc_example_custom.py" line="54" name="test_synthesis" time="0.007758617401123047"><system-out>
 Keys:
 test_my_app_bench[A-1]
 test_my_app_bench[A-2]
@@ -214,20 +214,20 @@ test_my_app_bench[C-2]
 test_basic
 
 First node:
-&apos;pytest_obj&apos;: &lt;function test_my_app_bench at 0x7ff2a6f09ae8&gt;
+&apos;pytest_obj&apos;: &lt;function test_my_app_bench at 0x7f946b21dae8&gt;
 &apos;status&apos;: &apos;passed&apos;
-&apos;duration_ms&apos;: 0.1780986785888672
+&apos;duration_ms&apos;: 0.1266002655029297
 &apos;algo_param&apos;: 1
 &apos;dataset_param&apos;: &apos;A&apos;
 &apos;dataset&apos;: &apos;my dataset #A&apos;
-&apos;accuracy&apos;: 0.8344991742214796
+&apos;accuracy&apos;: 0.27834328923182095
 test_id                 status      duration_ms    algo_param  dataset_param    dataset          accuracy
 ----------------------  --------  -------------  ------------  ---------------  -------------  ----------
-test_my_app_bench[A-1]  passed         0.178099             1  A                my dataset #A    0.834499
-test_my_app_bench[A-2]  passed         0.201702             2  A                my dataset #A    0.455337
-test_my_app_bench[B-1]  passed         0.188112             1  B                my dataset #B    0.141486
-test_my_app_bench[B-2]  passed         0.186682             2  B                my dataset #B    0.399212
-test_my_app_bench[C-1]  passed         0.19908              1  C                my dataset #C    0.339753
-test_my_app_bench[C-2]  passed         0.207663             2  C                my dataset #C    0.633158
-test_basic              passed         0.186205           nan  nan              nan            nan
-</system-out></testcase><testcase classname="pytest_harvest.tests.test_results_bag_basic" file="pytest_harvest/tests/test_results_bag_basic.py" line="3" name="test_results_bag_basic" time="0.0012559890747070312"></testcase></testsuite>
+test_my_app_bench[A-1]  passed         0.1266               1  A                my dataset #A    0.278343
+test_my_app_bench[A-2]  passed         0.110865             2  A                my dataset #A    0.99411
+test_my_app_bench[B-1]  passed         0.122786             1  B                my dataset #B    0.930297
+test_my_app_bench[B-2]  passed         0.169039             2  B                my dataset #B    0.773177
+test_my_app_bench[C-1]  passed         0.204563             1  C                my dataset #C    0.292402
+test_my_app_bench[C-2]  passed         0.172615             2  C                my dataset #C    0.487905
+test_basic              passed         0.166178           nan  nan              nan            nan
+</system-out></testcase><testcase classname="pytest_harvest.tests.test_results_bag_basic" file="pytest_harvest/tests/test_results_bag_basic.py" line="3" name="test_results_bag_basic" time="0.0011582374572753906"></testcase></testsuite>
