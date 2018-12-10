@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.2.0 - Added column in default dataframe synthesis fixtures
+
+Fixtures `module_results_df` and `session_results_df` now contains the `'pytest_obj'` column.
+
 ### 1.1.0 - New default fixtures + fixture parameter names fix
 
 Created 6 fixtures registered by default by the plugin. Fixed [#14](https://github.com/smarie/python-pytest-harvest/issues/14):
