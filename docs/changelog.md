@@ -1,6 +1,26 @@
 # Changelog
 
-### 1.0.1 Ordering bug fix
+### 1.1.0 - New default fixtures + fixture parameter names fix
+
+Created 6 fixtures registered by default by the plugin. Fixed [#14](https://github.com/smarie/python-pytest-harvest/issues/14):
+
+ - `fixture_store` in an `OrderedDict` that can be used as a fixture store, typically in `@saved_fixture`.
+ - `results_bag` is a `ResultsBag`-typed results bag.
+ - `session_results_dct` and `module_results_dct` return a synthesis dictionary for all tests completed "so far", respectively in the session or module. They include
+    contents from the default `fixture_store`, including `results_bag`.
+ - `session_results_df` and `module_results_df` are the dataframe equivalents of `session_results_dct` and `module_results_dct`
+
+The documentation has been updated so that users can get started more quickly by leveraging them.
+
+In addition:
+
+ - `get_session_synthesis_dct` can now take both a `session` or a `request` input. If a `request` is provided, the status of current item will be marked as 'pending', while not started items will be marked as 'unknown'.
+ - fixed bug in `get_session_synthesis_dct`: fixture parameters and saved fixtures where overriding each other in the final dict in `flatten=True` mode. Now fixture parameters appear as `'<fixture_name>_param'`. Fixed [#15](https://github.com/smarie/python-pytest-harvest/issues/15).
+ - `@saved_fixture` can now be used without arguments. By default it will store fixtures in the default session-scoped `'fixture_store'` fixture.
+ - `HARVEST_PREFIX` moved to `common.py` and is now exported at package level.
+
+
+### 1.0.1 - Ordering bug fix
 
 Fixed pytest ordering issue, by relying on [place_as](https://github.com/pytest-dev/pytest/issues/4429). See [#18](https://github.com/smarie/python-pytest-steps/issues/18)
 
