@@ -59,9 +59,9 @@ def session_results_dct(request, fixture_store):
     every time it is needed (not once at the beginning).
     """
     results_dct = get_session_synthesis_dct(request, durations_in_ms=True,
-                                            test_id_format='full', status_details=False,
+                                            test_id_format='full', status_details=True, pytest_prefix=False,
                                             fixture_store=fixture_store,
-                                            flatten=True, flatten_more='results_bag')
+                                            flatten=False, flatten_more='results_bag')
     return results_dct
 
 
@@ -77,15 +77,15 @@ def module_results_dct(request, fixture_store):
     every time it is needed (not once at the beginning).
     """
     results_dct = get_session_synthesis_dct(request, durations_in_ms=True,
-                                            filter=request.module.__name__,
-                                            test_id_format='function', status_details=False,
+                                            filter=request.module.__name__, pytest_prefix=False,
+                                            test_id_format='function', status_details=True,
                                             fixture_store=fixture_store,
-                                            flatten=True, flatten_more='results_bag')
+                                            flatten=False, flatten_more='results_bag')
     return results_dct
 
 
 @pytest.fixture(scope='function')
-def session_results_df(session_results_dct):
+def session_results_df(request, fixture_store):
     """
     This fixture contains a synthesis dataframe for all tests completed "so far" in the module of the caller,
     with 'function' id format. It includes contents from the default `fixture_store`, including `results_bag`.
@@ -97,6 +97,11 @@ def session_results_df(session_results_dct):
     """
     try:
         import pandas as pd
+
+        session_results_dct = get_session_synthesis_dct(request, durations_in_ms=True,
+                                                        test_id_format='full', status_details=False,
+                                                        fixture_store=fixture_store,
+                                                        flatten=True, flatten_more='results_bag')
 
         # convert to a pandas dataframe
         results_df = pd.DataFrame.from_dict(session_results_dct, orient='index')
@@ -112,7 +117,7 @@ def session_results_df(session_results_dct):
 
 
 @pytest.fixture(scope='function')
-def module_results_df(module_results_dct):
+def module_results_df(request, fixture_store):
     """
     This fixture returns a synthesis dataframe for all tests completed "so far" in the module of the caller,
     with 'function' id format. It includes contents from the default `fixture_store`, including `results_bag`.
@@ -124,6 +129,12 @@ def module_results_df(module_results_dct):
     """
     try:
         import pandas as pd
+
+        module_results_dct = get_session_synthesis_dct(request, durations_in_ms=True,
+                                                       filter=request.module.__name__,
+                                                       test_id_format='function', status_details=False,
+                                                       fixture_store=fixture_store,
+                                                       flatten=True, flatten_more='results_bag')
 
         # convert to a pandas dataframe
         results_df = pd.DataFrame.from_dict(module_results_dct, orient='index')
