@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.2.1 - Minor: new low-level API
+
+New method `get_all_pytest_fixture_names` to list all fixture names used by items in a session.
+
+
 ### 1.2.0 - Added column in default dataframe synthesis fixtures
 
 Fixtures `module_results_df` and `session_results_df` now contains the `'pytest_obj'` column.
