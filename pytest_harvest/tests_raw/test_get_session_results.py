@@ -1,12 +1,12 @@
 # META
-# {'passed': 15, 'skipped': 1, 'failed': 1}
+# {'passed': 16, 'skipped': 1, 'failed': 1}
 # END META
 import os
 from itertools import product
 import re
 
 import pytest
-from pytest_harvest import get_session_synthesis_dct, get_all_pytest_param_names
+from pytest_harvest import get_session_synthesis_dct, get_all_pytest_param_names, get_all_pytest_fixture_names
 from pytest_harvest.common import yield_fixture
 
 
@@ -177,6 +177,14 @@ def test_get_all_pytest_param_names(request):
 
     param_names = get_all_pytest_param_names(request.session, filter=test_foo)
     assert param_names == ['p', 'a_number_str_param']
+
+def test_get_all_pytest_fixture_names(request):
+    """Tests that get_all_pytest_fixture_names works"""
+    fixture_names = get_all_pytest_fixture_names(request.session, filter=test_get_all_pytest_param_names.__module__)
+    assert fixture_names == ['a_number_str']
+
+    fixture_names = get_all_pytest_fixture_names(request.session, filter=test_foo)
+    assert fixture_names == ['a_number_str']
 
 
 def test_synthesis_contains_everything(request):

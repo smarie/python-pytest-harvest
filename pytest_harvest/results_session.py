@@ -265,6 +265,39 @@ def get_all_pytest_param_names(session,
                and not dset.add(k)]
 
 
+def get_all_pytest_fixture_names(session,
+                                 filter=None,              # type: Any
+                                 filter_incomplete=False,  # type: bool
+                                 ):
+    """
+    Returns the list of all unique fixture names used in all items in the provided session, with given filter.
+
+    An optional `filter` can be provided, that can be a singleton or iterable of pytest objects (typically test
+    functions) and/or module names.
+
+    If this method is called before the end of the pytest session, some nodes might be incomplete, i.e. they will not
+    have data for the three stages (setup/call/teardown). By default these nodes are filtered out but you can set
+    `filter_incomplete=False` to make them appear. They will have a special 'pending' synthesis status.
+
+    :param session: a pytest session object.
+    :param filter: a singleton or iterable of pytest objects on which to filter the returned dict on (the returned
+        items will only by pytest nodes for which the pytest object is one of the ones provided). One can also use
+        modules or the special `THIS MODULE` item.
+    :param filter_incomplete: a boolean indicating if incomplete nodes (without the three stages setup/call/teardown)
+        should appear in the results (False) or not (True). Note: by default incomplete nodes DO APPEAR (this is
+        different from get_session_synthesis_dct behaviour)
+    :return:
+    """
+    dset = set()
+
+    # relies on the fact that dset.add() always returns None
+    # thanks https://stackoverflow.com/questions/6197409/ordered-sets-python-2-7
+    return [k for item in filter_session_items(session, filter=filter)
+            for k in get_pytest_fixture_names(item)
+            if k not in dset and not (filter_incomplete and is_pytest_incomplete(item))
+               and not dset.add(k)]
+
+
 # ------------ item-related -------------
 def pytest_item_matches_filter(item, filter):
     """
@@ -406,11 +439,24 @@ def get_pytest_params(item):
                     # Non-fixture parameter: ok
                     param_dct[param_name] = item.callspec.params[param_name]
             else:
-                # this is a fixture: it is not available by default in item, this is normal pytest behaviour
-                # (hence the @saved_fixture decorator)
+                # this is a non-parametrized fixture: it is not available by default in item, this is normal pytest
+                # behaviour (hence the @saved_fixture decorator)
                 pass
 
     return param_dct
+
+
+def get_pytest_fixture_names(item):
+    """ Returns a list containing a pytest session item's fixture names """
+
+    fixture_names = []
+    for param_name in item.fixturenames:  # note: item.funcargnames gives the exact same list
+        if hasattr(item, 'callspec'):
+            if param_name in item.callspec.params:
+                if item.session._fixturemanager.getfixturedefs(param_name, item.nodeid) is not None:
+                    fixture_names.append(param_name)
+
+    return fixture_names
 
 
 # --- misc
