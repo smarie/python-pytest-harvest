@@ -62,6 +62,17 @@ def session_results_dct(request, fixture_store):
                                             test_id_format='full', status_details=True, pytest_prefix=False,
                                             fixture_store=fixture_store,
                                             flatten=False, flatten_more='results_bag')
+
+    # We do not want to post-process according to steps here, this fixture should have as a contract that the keys
+    # are the True test ids.
+    # try:
+    #     # if pytest_steps is installed, separate the test ids from the step ids
+    #     from pytest_steps import handle_steps_in_synthesis_dct
+    #     results_dct = handle_steps_in_synthesis_dct(results_dct, is_flat=False)
+    # except ImportError:
+    #     # pytest_steps is not installed, ok.
+    #     pass
+
     return results_dct
 
 
@@ -81,6 +92,17 @@ def module_results_dct(request, fixture_store):
                                             test_id_format='function', status_details=True,
                                             fixture_store=fixture_store,
                                             flatten=False, flatten_more='results_bag')
+
+    # We do not want to post-process according to steps here, this fixture should have as a contract that the keys
+    # are the True test ids.
+    # try:
+    #     # if pytest_steps is installed, separate the test ids from the step ids
+    #     from pytest_steps import handle_steps_in_synthesis_dct
+    #     results_dct = handle_steps_in_synthesis_dct(results_dct, is_flat=False)
+    # except ImportError:
+    #     # pytest_steps is not installed, ok.
+    #     pass
+
     return results_dct
 
 
@@ -91,6 +113,9 @@ def session_results_df(request, fixture_store):
     with 'function' id format. It includes contents from the default `fixture_store`, including `results_bag`.
 
     It is basically just a transformation of the `session_results_dct` fixture into a pandas DataFrame.
+
+    If `pytest-steps` is installed, the step ids will be extracted and the dataframe index will be multi-level
+    (test id without step, step id).
 
     Note: this might seem counter intuitive but we need a scope=function here because we want this method to be called
     every time it is needed (not once at the beginning).
@@ -103,10 +128,28 @@ def session_results_df(request, fixture_store):
                                                         fixture_store=fixture_store,
                                                         flatten=True, flatten_more='results_bag')
 
+        use_step_id_index = False
+        if len(session_results_dct) > 0:
+            try:
+                # if pytest_steps is installed, separate the test ids from the step ids
+                from pytest_steps import handle_steps_in_synthesis_dct
+                session_results_dct = handle_steps_in_synthesis_dct(session_results_dct, is_flat=True)
+                first_key = next(iter(session_results_dct.keys()))
+                if isinstance(first_key, tuple):
+                    use_step_id_index = True
+            except ImportError:
+                # pytest_steps is not installed, ok.
+                pass
+
         # convert to a pandas dataframe
         results_df = pd.DataFrame.from_dict(session_results_dct, orient='index')
         results_df = results_df.loc[list(session_results_dct.keys()), :]  # fix rows order
-        results_df.index.name = 'test_id'  # set index name
+
+        if use_step_id_index:
+            results_df.index.names = ['test_id', 'step_id']  # set multiindex names
+        else:
+            results_df.index.name = 'test_id'  # set index name
+
         # results_df.drop(['pytest_obj'], axis=1, inplace=True)  # drop pytest object column
 
         return results_df
@@ -124,6 +167,9 @@ def module_results_df(request, fixture_store):
 
     It is basically just a transformation of the `module_results_dct` fixture into a pandas DataFrame.
 
+    If `pytest-steps` is installed, the step ids will be extracted and the dataframe index will be multi-level
+    (test id without step, step id).
+
     Note: this might seem counter intuitive but we need a scope=function here because we want this method to be called
     every time it is needed (not once at the beginning).
     """
@@ -136,10 +182,26 @@ def module_results_df(request, fixture_store):
                                                        fixture_store=fixture_store,
                                                        flatten=True, flatten_more='results_bag')
 
+        use_step_id_index = False
+        try:
+            # if pytest_steps is installed, separate the test ids from the step ids
+            from pytest_steps import handle_steps_in_synthesis_dct
+            module_results_dct = handle_steps_in_synthesis_dct(module_results_dct, is_flat=True)
+            first_key = next(iter(module_results_dct.keys()))
+            if isinstance(first_key, tuple):
+                use_step_id_index = True
+        except ImportError:
+            # pytest_steps is not installed, ok.
+            pass
+
         # convert to a pandas dataframe
         results_df = pd.DataFrame.from_dict(module_results_dct, orient='index')
         results_df = results_df.loc[list(module_results_dct.keys()), :]  # fix rows order
-        results_df.index.name = 'test_id'  # set index name
+
+        if use_step_id_index:
+            results_df.index.names = ['test_id', 'step_id']  # set multiindex names
+        else:
+            results_df.index.name = 'test_id'  # set index name
         # results_df.drop(['pytest_obj'], axis=1, inplace=True)  # drop pytest object column
 
         return results_df
