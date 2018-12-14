@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from warnings import warn
 
 import pytest
 import six
@@ -141,6 +142,9 @@ def session_results_df(request, fixture_store):
             except ImportError:
                 # pytest_steps is not installed, ok.
                 pass
+            except Exception as e:
+                # other issue: warn about it but continue
+                warn(e)
 
         # convert to a pandas dataframe
         results_df = pd.DataFrame.from_dict(session_results_dct, orient='index')
@@ -194,6 +198,9 @@ def module_results_df(request, fixture_store):
         except ImportError:
             # pytest_steps is not installed, ok.
             pass
+        except Exception as e:
+            # other issue: warn about it but continue
+            warn(e)
 
         # convert to a pandas dataframe
         results_df = pd.DataFrame.from_dict(module_results_dct, orient='index')
