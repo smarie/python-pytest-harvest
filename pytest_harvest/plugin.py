@@ -133,7 +133,8 @@ def session_results_df(request, fixture_store):
             try:
                 # if pytest_steps is installed, separate the test ids from the step ids
                 from pytest_steps import handle_steps_in_synthesis_dct
-                session_results_dct = handle_steps_in_synthesis_dct(session_results_dct, is_flat=True)
+                session_results_dct = handle_steps_in_synthesis_dct(session_results_dct, is_flat=True,
+                                                                    keep_orig_id=False)
                 first_key = next(iter(session_results_dct.keys()))
                 if isinstance(first_key, tuple):
                     use_step_id_index = True
@@ -186,7 +187,7 @@ def module_results_df(request, fixture_store):
         try:
             # if pytest_steps is installed, separate the test ids from the step ids
             from pytest_steps import handle_steps_in_synthesis_dct
-            module_results_dct = handle_steps_in_synthesis_dct(module_results_dct, is_flat=True)
+            module_results_dct = handle_steps_in_synthesis_dct(module_results_dct, is_flat=True, keep_orig_id=False)
             first_key = next(iter(module_results_dct.keys()))
             if isinstance(first_key, tuple):
                 use_step_id_index = True
