@@ -1,9 +1,12 @@
 # Changelog
 
+### 1.3.0 - Better integration with `pytest_steps` in default fixtures
+
+Default fixtures `module_results_df` and `session_results_df` now automatically become multi-level indexed when pytest steps is installed and there are steps in the tests.
+
 ### 1.2.1 - Minor: new low-level API
 
 New method `get_all_pytest_fixture_names` to list all fixture names used by items in a session.
-
 
 ### 1.2.0 - Added column in default dataframe synthesis fixtures
 
