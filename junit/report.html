@@ -3,150 +3,8 @@
   <head>
     <meta charset="utf-8"/>
     <title>Test Report</title>
-    <style>body {
-	font-family: Helvetica, Arial, sans-serif;
-	font-size: 12px;
-	min-width: 1200px;
-	color: #999;
-}
-h2 {
-	font-size: 16px;
-	color: black;
-}
-
-p {
-    color: black;
-}
-
-a {
-	color: #999;
-}
-
-table {
-	border-collapse: collapse;
-}
-
-/******************************
- * SUMMARY INFORMATION
- ******************************/
-
-#environment td {
-	padding: 5px;
-	border: 1px solid #E6E6E6;
-}
-
-#environment tr:nth-child(odd) {
-	background-color: #f6f6f6;
-}
-
-/******************************
- * TEST RESULT COLORS
- ******************************/
-span.passed, .passed .col-result {
-	color: green;
-}
-span.skipped, span.xfailed, span.rerun, .skipped .col-result, .xfailed .col-result, .rerun .col-result {
-	color: orange;
-}
-span.error, span.failed, span.xpassed, .error .col-result, .failed .col-result, .xpassed .col-result  {
-	color: red;
-}
-
-
-/******************************
- * RESULTS TABLE
- *
- * 1. Table Layout
- * 2. Extra
- * 3. Sorting items
- *
- ******************************/
-
-/*------------------
- * 1. Table Layout
- *------------------*/
-
-#results-table {
-	border: 1px solid #e6e6e6;
-	color: #999;
-	font-size: 12px;
-	width: 100%
-}
-
-#results-table th, #results-table td {
-	padding: 5px;
-	border: 1px solid #E6E6E6;
-	text-align: left
-}
-#results-table th {
-	font-weight: bold
-}
-
-/*------------------
- * 2. Extra
- *------------------*/
-
-.log:only-child {
-	height: inherit
-}
-.log {
-	background-color: #e6e6e6;
-	border: 1px solid #e6e6e6;
-	color: black;
-	display: block;
-	font-family: "Courier New", Courier, monospace;
-	height: 230px;
-	overflow-y: scroll;
-	padding: 5px;
-	white-space: pre-wrap
-}
-div.image {
-	border: 1px solid #e6e6e6;
-	float: right;
-	height: 240px;
-	margin-left: 5px;
-	overflow: hidden;
-	width: 320px
-}
-div.image img {
-	width: 320px
-}
-
-/*------------------
- * 3. Sorting items
- *------------------*/
-.sortable {
-	cursor: pointer;
-}
-
-.sort-icon {
-	font-size: 0px;
-	float: left;
-	margin-right: 5px;
-	margin-top: 5px;
-	/*triangle*/
-	width: 0;
-	height: 0;
-	border-left: 8px solid transparent;
-	border-right: 8px solid transparent;
-}
-
-.inactive .sort-icon {
-	/*finish triangle*/
-	border-top: 8px solid #E6E6E6;
-}
-
-.asc.active .sort-icon {
-	/*finish triangle*/
-	border-bottom: 8px solid #999;
-}
-
-.desc.active .sort-icon {
-	/*finish triangle*/
-	border-top: 8px solid #999;
-}
-</style></head>
-  <body>
+    <link href="assets/style.css" rel="stylesheet" type="text/css"/></head>
+  <body onLoad="init()">
     <script>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
@@ -187,36 +45,80 @@ function sort_column(elem) {
     sort_table(elem, key(colIndex));
 }
 
-addEventListener("DOMContentLoaded", function() {
+function show_all_extras() {
+    find_all('.col-result').forEach(show_extras);
+}
+
+function hide_all_extras() {
+    find_all('.col-result').forEach(hide_extras);
+}
+
+function show_extras(colresult_elem) {
+    var extras = colresult_elem.parentNode.nextElementSibling;
+    var expandcollapse = colresult_elem.firstElementChild;
+    extras.classList.remove("collapsed");
+    expandcollapse.classList.remove("expander");
+    expandcollapse.classList.add("collapser");
+}
+
+function hide_extras(colresult_elem) {
+    var extras = colresult_elem.parentNode.nextElementSibling;
+    var expandcollapse = colresult_elem.firstElementChild;
+    extras.classList.add("collapsed");
+    expandcollapse.classList.remove("collapser");
+    expandcollapse.classList.add("expander");
+}
+
+function show_filters() {
+    var filter_items = document.getElementsByClassName('filter');
+    for (var i = 0; i < filter_items.length; i++)
+        filter_items[i].hidden = false;
+}
+
+function add_collapse() {
+    // Add links for show/hide all
+    var resulttable = find('table#results-table');
+    var showhideall = document.createElement("p");
+    showhideall.innerHTML = '<a href="javascript:show_all_extras()">Show all details</a> / ' +
+                            '<a href="javascript:hide_all_extras()">Hide all details</a>';
+    resulttable.parentElement.insertBefore(showhideall, resulttable);
+
+    // Add show/hide link to each result
+    find_all('.col-result').forEach(function(elem) {
+        var collapsed = get_query_parameter('collapsed') || 'Passed';
+        var extras = elem.parentNode.nextElementSibling;
+        var expandcollapse = document.createElement("span");
+        if (collapsed.includes(elem.innerHTML)) {
+            extras.classList.add("collapsed");
+            expandcollapse.classList.add("expander");
+        } else {
+            expandcollapse.classList.add("collapser");
+        }
+        elem.appendChild(expandcollapse);
+
+        elem.addEventListener("click", function(event) {
+            if (event.currentTarget.parentNode.nextElementSibling.classList.contains("collapsed")) {
+                show_extras(event.currentTarget);
+            } else {
+                hide_extras(event.currentTarget);
+            }
+        });
+    })
+}
+
+function get_query_parameter(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
+function init () {
     reset_sort_headers();
 
-    sort_column(find('.initial-sort'));
+    add_collapse();
 
-    find_all('.col-links a.image').forEach(function(elem) {
-        elem.addEventListener("click",
-                              function(event) {
-                                  var node = elem;
-                                  while (node && !node.classList.contains('results-table-row')) {
-                                      node = node.parentNode;
-                                  }
-                                  if (node != null) {
-                                      if (node.nextSibling &&
-                                          node.nextSibling.classList.contains("extra")) {
-                                          var href = find('.image img', node.nextSibling).src;
-                                          window.open(href);
-                                      }
-                                  }
-                                  event.preventDefault();
-                              }, false)
-    });
+    show_filters();
 
-    find_all('.image a').forEach(function(elem) {
-        elem.addEventListener("click",
-                              function(event) {
-                                  window.open(find('img', elem).getAttribute('src'));
-                                  event.preventDefault();
-                              }, false)
-    });
+    toggle_sort_states(find('.initial-sort'));
 
     find_all('.sortable').forEach(function(elem) {
         elem.addEventListener("click",
@@ -225,17 +127,24 @@ addEventListener("DOMContentLoaded", function() {
                               }, false)
     });
 
-});
+};
 
 function sort_table(clicked, key_func) {
     var rows = find_all('.results-table-row');
     var reversed = !clicked.classList.contains('asc');
     var sorted_rows = sort(rows, key_func, reversed);
-
-    var parent = document.getElementById('results-table');
+    /* Whole table is removed here because browsers acts much slower
+     * when appending existing elements.
+     */
+    var thead = document.getElementById("results-table-head");
+    document.getElementById('results-table').remove();
+    var parent = document.createElement("table");
+    parent.id = "results-table";
+    parent.appendChild(thead);
     sorted_rows.forEach(function(elem) {
         parent.appendChild(elem);
     });
+    document.getElementsByTagName("BODY")[0].appendChild(parent);
 }
 
 function sort(items, key_func, reversed) {
@@ -270,8 +179,8 @@ function key_num(col_index) {
 
 function key_result(col_index) {
     return function(elem) {
-        var strings = ['Error', 'Failed', 'XFailed', 'XPassed', 'Skipped',
-                       'Passed'];
+        var strings = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed',
+                       'Skipped', 'Passed'];
         return strings.indexOf(elem.childNodes[1].childNodes[col_index].firstChild.data);
     };
 }
@@ -314,76 +223,156 @@ function filter_table(elem) {
     var outcome = elem.getAttribute(outcome_att);
     class_outcome = outcome + " results-table-row";
     var outcome_rows = document.getElementsByClassName(class_outcome);
-   
+
     for(var i = 0; i < outcome_rows.length; i++){
         outcome_rows[i].hidden = !elem.checked;
     }
 
     var rows = find_all('.results-table-row').filter(is_all_rows_hidden);
-    var all_rows_hidden = rows.length == 0 ? true : false;    
+    var all_rows_hidden = rows.length == 0 ? true : false;
     var not_found_message = document.getElementById("not-found-message");
     not_found_message.hidden = !all_rows_hidden;
 }
 </script>
-    <p>Report generated on 17-Dec-2018 at 21:32:44</p>
+    <h1>report.html</h1>
+    <p>Report generated on 17-Dec-2018 at 21:36:41 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
     <h2>Environment</h2>
     <table id="environment">
+      <tr>
+        <td>CI</td>
+        <td>true</td></tr>
+      <tr>
+        <td>JAVA_HOME</td>
+        <td>/usr/lib/jvm/java-8-oracle</td></tr>
+      <tr>
+        <td>Packages</td>
+        <td>{&apos;pytest&apos;: &apos;3.10.1&apos;, &apos;pluggy&apos;: &apos;0.8.0&apos;, &apos;py&apos;: &apos;1.7.0&apos;}</td></tr>
       <tr>
         <td>Platform</td>
         <td>Linux-4.4.0-101-generic-x86_64-with-debian-jessie-sid</td></tr>
       <tr>
+        <td>Plugins</td>
+        <td>{&apos;metadata&apos;: &apos;1.7.0&apos;, &apos;html&apos;: &apos;1.19.0&apos;, &apos;harvest&apos;: &apos;1.4.1&apos;, &apos;cov&apos;: &apos;2.6.0&apos;}</td></tr>
+      <tr>
         <td>Python</td>
-        <td>3.5.6</td></tr></table>
+        <td>3.5.6</td></tr>
+      <tr>
+        <td>TRAVIS_BRANCH</td>
+        <td>master</td></tr>
+      <tr>
+        <td>TRAVIS_BUILD_ID</td>
+        <td>469227293</td></tr>
+      <tr>
+        <td>TRAVIS_BUILD_NUMBER</td>
+        <td>79</td></tr>
+      <tr>
+        <td>TRAVIS_COMMIT</td>
+        <td>43d5577b32c74d5e02acadd39b6e6d4888eb34a3</td></tr>
+      <tr>
+        <td>TRAVIS_COMMIT_MESSAGE</td>
+        <td>Results bags are now compliant with `pytest-steps`: there are now one per step. This fixed #16</td></tr>
+      <tr>
+        <td>TRAVIS_COMMIT_RANGE</td>
+        <td>a57e887e7fd1...43d5577b32c7</td></tr>
+      <tr>
+        <td>TRAVIS_EVENT_TYPE</td>
+        <td>push</td></tr>
+      <tr>
+        <td>TRAVIS_JOB_ID</td>
+        <td>469227298</td></tr>
+      <tr>
+        <td>TRAVIS_JOB_NUMBER</td>
+        <td>79.5</td></tr>
+      <tr>
+        <td>TRAVIS_OS_NAME</td>
+        <td>linux</td></tr>
+      <tr>
+        <td>TRAVIS_PULL_REQUEST</td>
+        <td>false</td></tr>
+      <tr>
+        <td>TRAVIS_REPO_SLUG</td>
+        <td>smarie/python-pytest-harvest</td></tr>
+      <tr>
+        <td>TRAVIS_SUDO</td>
+        <td>true</td></tr></table>
     <h2>Summary</h2>
-    <p>44 tests ran in 5.73 seconds. </p>
-    <p>(Un)check the boxes to filter the results.</p><input checked="true" data-test-result="passed" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">44 passed</span> <input checked="true" data-test-result="skipped" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span> <input checked="true" data-test-result="failed" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span> <input checked="true" data-test-result="error" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span> <input checked="true" data-test-result="xfailed" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span> <input checked="true" data-test-result="xpassed" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span> <input checked="true" data-test-result="rerun" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="rerun">0 rerun</span> 
+    <p>44 tests ran in 5.90 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">44 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
       <thead id="results-table-head">
         <tr>
-          <th class="sortable initial-sort result" col="result">Result</th>
+          <th class="sortable result initial-sort" col="result">Result</th>
           <th class="sortable" col="name">Test</th>
           <th class="sortable numeric" col="duration">Duration</th>
           <th>Links</th></tr>
         <tr hidden="true" id="not-found-message">
-          <th colspan="5">No results found. Try to check the filters</th></tr></thead>
+          <th colspan="4">No results found. Try to check the filters</th></tr></thead>
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_all_together.py]</td>
-          <td class="col-duration">0.07</td>
+          <td class="col-duration">0.10</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_all_together.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 9, &apos;skipped&apos;: 0}
+Testing that running pytest on file test_all_together.py results in {&#x27;failed&#x27;: 0, &#x27;skipped&#x27;: 0, &#x27;passed&#x27;: 9}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests0, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-1.4.1, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.10.1, py-1.7.0, pluggy-0.8.0
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests0, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-1.4.1, cov-2.6.0
 collected 9 items
 
-test_run_all_tests.py .........
+test_run_all_tests.py .........                                          [100%]
 
-=========================== 9 passed in 0.04 seconds ===========================
+=============================== warnings summary ===============================
+test_run_all_tests.py:43
+  test_run_all_tests.py:43: RemovedInPytest4Warning: While trying to determine id of parameter flatten at position 0 the following exception was raised:
+    IndexError: tuple index out of range
+  This warning will be an error error in pytest-4.0.
+    @pytest.mark.parametrize(&#x27;flatten, flatten_more&#x27;, [(False, None), (True, None), (True, &#x27;my_results&#x27;)],
+  test_run_all_tests.py:43: RemovedInPytest4Warning: While trying to determine id of parameter flatten_more at position 0 the following exception was raised:
+    IndexError: tuple index out of range
+  This warning will be an error error in pytest-4.0.
+    @pytest.mark.parametrize(&#x27;flatten, flatten_more&#x27;, [(False, None), (True, None), (True, &#x27;my_results&#x27;)],
+  test_run_all_tests.py:43: RemovedInPytest4Warning: While trying to determine id of parameter flatten at position 1 the following exception was raised:
+    IndexError: tuple index out of range
+  This warning will be an error error in pytest-4.0.
+    @pytest.mark.parametrize(&#x27;flatten, flatten_more&#x27;, [(False, None), (True, None), (True, &#x27;my_results&#x27;)],
+  test_run_all_tests.py:43: RemovedInPytest4Warning: While trying to determine id of parameter flatten_more at position 1 the following exception was raised:
+    IndexError: tuple index out of range
+  This warning will be an error error in pytest-4.0.
+    @pytest.mark.parametrize(&#x27;flatten, flatten_more&#x27;, [(False, None), (True, None), (True, &#x27;my_results&#x27;)],
+  test_run_all_tests.py:43: RemovedInPytest4Warning: While trying to determine id of parameter flatten at position 2 the following exception was raised:
+    IndexError: tuple index out of range
+  This warning will be an error error in pytest-4.0.
+    @pytest.mark.parametrize(&#x27;flatten, flatten_more&#x27;, [(False, None), (True, None), (True, &#x27;my_results&#x27;)],
+  test_run_all_tests.py:43: RemovedInPytest4Warning: While trying to determine id of parameter flatten_more at position 2 the following exception was raised:
+    IndexError: tuple index out of range
+  This warning will be an error error in pytest-4.0.
+    @pytest.mark.parametrize(&#x27;flatten, flatten_more&#x27;, [(False, None), (True, None), (True, &#x27;my_results&#x27;)],
+
+-- Docs: https://docs.pytest.org/en/latest/warnings.html
+===================== 9 passed, 6 warnings in 0.05 seconds =====================
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_saved_fixture_in_fixture.py]</td>
-          <td class="col-duration">0.04</td>
+          <td class="col-duration">0.07</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
+Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&#x27;failed&#x27;: 0, &#x27;passed&#x27;: 2}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-1.4.1, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.10.1, py-1.7.0, pluggy-0.8.0
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests1, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-1.4.1, cov-2.6.0
 collected 2 items
 
-test_run_all_tests.py ..
+test_run_all_tests.py ..                                                 [100%]
 
 =========================== 2 passed in 0.02 seconds ===========================
 </div></td></tr></tbody>
@@ -391,59 +380,59 @@ test_run_all_tests.py ..
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_default_fixtures.py]</td>
-          <td class="col-duration">0.06</td>
+          <td class="col-duration">0.09</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_default_fixtures.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 8, &apos;skipped&apos;: 0}
+Testing that running pytest on file test_default_fixtures.py results in {&#x27;failed&#x27;: 0, &#x27;skipped&#x27;: 0, &#x27;passed&#x27;: 8}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-1.4.1, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.10.1, py-1.7.0, pluggy-0.8.0
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests2, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-1.4.1, cov-2.6.0
 collected 8 items
 
-test_run_all_tests.py ........
+test_run_all_tests.py ........                                           [100%]
 
-=========================== 8 passed in 0.03 seconds ===========================
+=========================== 8 passed in 0.05 seconds ===========================
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_results_bags.py]</td>
-          <td class="col-duration">0.05</td>
+          <td class="col-duration">0.11</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_results_bags.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 6, &apos;skipped&apos;: 0}
+Testing that running pytest on file test_results_bags.py results in {&#x27;failed&#x27;: 0, &#x27;skipped&#x27;: 0, &#x27;passed&#x27;: 6}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests3, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-1.4.1, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.10.1, py-1.7.0, pluggy-0.8.0
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests3, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-1.4.1, cov-2.6.0
 collected 6 items
 
-test_run_all_tests.py ......
+test_run_all_tests.py ......                                             [100%]
 
-=========================== 6 passed in 0.02 seconds ===========================
+=========================== 6 passed in 0.04 seconds ===========================
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_get_session_results.py]</td>
-          <td class="col-duration">0.13</td>
+          <td class="col-duration">0.17</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_get_session_results.py results in {&apos;failed&apos;: 1, &apos;passed&apos;: 16, &apos;skipped&apos;: 1}
+Testing that running pytest on file test_get_session_results.py results in {&#x27;failed&#x27;: 1, &#x27;skipped&#x27;: 1, &#x27;passed&#x27;: 16}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests4, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-1.4.1, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.10.1, py-1.7.0, pluggy-0.8.0
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests4, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-1.4.1, cov-2.6.0
 collected 18 items
 
-test_run_all_tests.py ........sF........
+test_run_all_tests.py ........sF........                                 [100%]
 
 =================================== FAILURES ===================================
 _________________________________ test_failing _________________________________
@@ -453,27 +442,41 @@ _________________________________ test_failing _________________________________
 E       Failed: normal, intended failure here
 
 test_run_all_tests.py:116: Failed
-================ 1 failed, 16 passed, 1 skipped in 0.10 seconds ================
+=============================== warnings summary ===============================
+test_run_all_tests.py::test_foo_synthesis_all_options[duration_in_ms=False-flatten=True]
+  /tmp/pytest-of-travis/pytest-0/test_run_all_tests4/test_run_all_tests.py:69: RemovedInPytest4Warning: MarkInfo objects are deprecated as they contain merged marks which are hard to deal with correctly.
+  Please use node.get_closest_marker(name) or node.iter_markers(name).
+  Docs: https://docs.pytest.org/en/latest/mark.html#updating-code
+    expected_keys.update({mark.args[0] for mark in test_foo.parametrize})
+
+test_run_all_tests.py::test_foo_synthesis_all_options[duration_in_ms=True-flatten=True]
+  /tmp/pytest-of-travis/pytest-0/test_run_all_tests4/test_run_all_tests.py:69: RemovedInPytest4Warning: MarkInfo objects are deprecated as they contain merged marks which are hard to deal with correctly.
+  Please use node.get_closest_marker(name) or node.iter_markers(name).
+  Docs: https://docs.pytest.org/en/latest/mark.html#updating-code
+    expected_keys.update({mark.args[0] for mark in test_foo.parametrize})
+
+-- Docs: https://docs.pytest.org/en/latest/warnings.html
+========== 1 failed, 16 passed, 1 skipped, 2 warnings in 0.12 seconds ==========
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_saved_fixture_in_global_var.py]</td>
-          <td class="col-duration">0.08</td>
+          <td class="col-duration">0.07</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
+Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&#x27;failed&#x27;: 0, &#x27;passed&#x27;: 2}
 ============================= test session starts ==============================
-platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
-rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests5, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-1.4.1, cov-2.6.0
+platform linux -- Python 3.5.6, pytest-3.10.1, py-1.7.0, pluggy-0.8.0
+rootdir: /tmp/pytest-of-travis/pytest-0/test_run_all_tests5, inifile:
+plugins: metadata-1.7.0, html-1.19.0, harvest-1.4.1, cov-2.6.0
 collected 2 items
 
-test_run_all_tests.py ..
+test_run_all_tests.py ..                                                 [100%]
 
-=========================== 2 passed in 0.06 seconds ===========================
+=========================== 2 passed in 0.02 seconds ===========================
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -482,7 +485,7 @@ test_run_all_tests.py ..
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>0
 1
 2
@@ -501,7 +504,7 @@ test_run_all_tests.py ..
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>0
 1
 2
@@ -520,7 +523,7 @@ test_run_all_tests.py ..
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>0
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
@@ -530,7 +533,7 @@ test_run_all_tests.py ..
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>0
 1
 2
@@ -549,7 +552,7 @@ test_run_all_tests.py ..
           <td class="col-duration">0.50</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
    hello, world !
 </div></td></tr></tbody>
@@ -560,7 +563,7 @@ test_run_all_tests.py ..
           <td class="col-duration">0.40</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
    hello, self !
 </div></td></tr></tbody>
@@ -571,22 +574,22 @@ test_run_all_tests.py ..
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
    Available `module_results_dct` keys:
     - test_foo[world]
     - test_foo[self]
 
-   Contents of &apos;test_foo[world]&apos;:
-    - &apos;pytest_obj&apos;: &lt;function test_foo at 0x7ffa3c47cbf8&gt;
-    - &apos;status&apos;: passed
-    - &apos;duration_ms&apos;: 501.1320114135742
-    - &apos;status_details&apos;:
-      - &apos;teardown&apos;: (&apos;passed&apos;, 0.23674964904785156)
-      - &apos;setup&apos;: (&apos;passed&apos;, 1.5363693237304688)
-      - &apos;call&apos;: (&apos;passed&apos;, 501.1320114135742)
-    - &apos;params&apos;: OrderedDict([(&apos;p&apos;, &apos;world&apos;)])
-    - &apos;fixtures&apos;: OrderedDict()
+   Contents of &#x27;test_foo[world]&#x27;:
+    - &#x27;pytest_obj&#x27;: &lt;function test_foo at 0x7f7992a332f0&gt;
+    - &#x27;status&#x27;: passed
+    - &#x27;duration_ms&#x27;: 501.2176036834717
+    - &#x27;status_details&#x27;:
+      - &#x27;setup&#x27;: (&#x27;passed&#x27;, 0.7600784301757812)
+      - &#x27;call&#x27;: (&#x27;passed&#x27;, 501.2176036834717)
+      - &#x27;teardown&#x27;: (&#x27;passed&#x27;, 0.5202293395996094)
+    - &#x27;params&#x27;: OrderedDict([(&#x27;p&#x27;, &#x27;world&#x27;)])
+    - &#x27;fixtures&#x27;: OrderedDict()
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -595,7 +598,7 @@ test_run_all_tests.py ..
           <td class="col-duration">0.50</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
    hello, world !
 </div></td></tr></tbody>
@@ -606,7 +609,7 @@ test_run_all_tests.py ..
           <td class="col-duration">0.40</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
    hello, self !
 </div></td></tr></tbody>
@@ -617,14 +620,14 @@ test_run_all_tests.py ..
           <td class="col-duration">0.01</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
    `module_results_df` dataframe:
 
                                             pytest_obj  ...        p
 test_id                                                 ...         
-test_foo[world]  &lt;function test_foo at 0x7ffa3c461f28&gt;  ...    world
-test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
+test_foo[world]  &lt;function test_foo at 0x7f7992a33378&gt;  ...    world
+test_foo[self]   &lt;function test_foo at 0x7f7992a33378&gt;  ...     self
 
 [2 rows x 4 columns]
 </div></td></tr></tbody>
@@ -635,7 +638,7 @@ test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
           <td class="col-duration">0.50</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
    hello, world !
 </div></td></tr></tbody>
@@ -646,7 +649,7 @@ test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
           <td class="col-duration">1.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
    hello, world !
 </div></td></tr></tbody>
@@ -657,7 +660,7 @@ test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
           <td class="col-duration">0.40</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
    hello, self !
 </div></td></tr></tbody>
@@ -668,7 +671,7 @@ test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
           <td class="col-duration">0.80</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
    hello, self !
 </div></td></tr></tbody>
@@ -679,16 +682,16 @@ test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
    `module_results_df` dataframe:
 
-| test_id           | pytest_obj                            | status   |   duration_ms | double_sleep_time   |   person_param | person   | current_time               |   nb_letters |
-|:------------------|:--------------------------------------|:---------|--------------:|:--------------------|---------------:|:---------|:---------------------------|-------------:|
-| test_foo[0-False] | &lt;function test_foo at 0x7ffa3c429a60&gt; | passed   |       501.253 | False               |              0 | world    | 2018-12-17T21:32:42.097634 |            5 |
-| test_foo[0-True]  | &lt;function test_foo at 0x7ffa3c429a60&gt; | passed   |      1001.78  | True                |              0 | world    | 2018-12-17T21:32:43.103373 |            5 |
-| test_foo[1-False] | &lt;function test_foo at 0x7ffa3c429a60&gt; | passed   |       401.073 | False               |              1 | self     | 2018-12-17T21:32:43.509818 |            4 |
-| test_foo[1-True]  | &lt;function test_foo at 0x7ffa3c429a60&gt; | passed   |       801.346 | True                |              1 | self     | 2018-12-17T21:32:44.314421 |            4 |
+| test_id           | pytest_obj                            | status   |   duration_ms | double_sleep_time   |   person_param | person   |   nb_letters | current_time               |
+|:------------------|:--------------------------------------|:---------|--------------:|:--------------------|---------------:|:---------|-------------:|:---------------------------|
+| test_foo[0-False] | &lt;function test_foo at 0x7f799299d378&gt; | passed   |       501.118 | False               |              0 | world    |            5 | 2018-12-17T21:36:38.832052 |
+| test_foo[0-True]  | &lt;function test_foo at 0x7f799299d378&gt; | passed   |      1001.68  | True                |              0 | world    |            5 | 2018-12-17T21:36:39.837627 |
+| test_foo[1-False] | &lt;function test_foo at 0x7f799299d378&gt; | passed   |       400.994 | False               |              1 | self     |            4 | 2018-12-17T21:36:40.242735 |
+| test_foo[1-True]  | &lt;function test_foo at 0x7f799299d378&gt; | passed   |       801.586 | True                |              1 | self     |            4 | 2018-12-17T21:36:41.048300 |
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -697,7 +700,7 @@ test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
    hello, world !
 </div></td></tr></tbody>
@@ -708,7 +711,7 @@ test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
    hello, self !
 </div></td></tr></tbody>
@@ -719,31 +722,31 @@ test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
    Available `fixture_store` keys:
-    - &apos;person&apos;
-    - &apos;results_bag&apos;
+    - &#x27;person&#x27;
+    - &#x27;results_bag&#x27;
 
-   Contents of `fixture_store[&apos;results_bag&apos;]`:
-    - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[0-False]&apos;:
-      - &apos;current_time&apos;: 2018-12-17T21:32:42.097634
-      - &apos;nb_letters&apos;: 5
-    - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[0-True]&apos;:
-      - &apos;current_time&apos;: 2018-12-17T21:32:43.103373
-      - &apos;nb_letters&apos;: 5
-    - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[1-False]&apos;:
-      - &apos;current_time&apos;: 2018-12-17T21:32:43.509818
-      - &apos;nb_letters&apos;: 4
-    - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[1-True]&apos;:
-      - &apos;current_time&apos;: 2018-12-17T21:32:44.314421
-      - &apos;nb_letters&apos;: 4
-    - &apos;pytest_harvest/tests/test_doc_basic_results_bag.py::test_foo[world]&apos;:
-      - &apos;current_time&apos;: 2018-12-17T21:32:44.327426
-      - &apos;nb_letters&apos;: 5
-    - &apos;pytest_harvest/tests/test_doc_basic_results_bag.py::test_foo[self]&apos;:
-      - &apos;current_time&apos;: 2018-12-17T21:32:44.331071
-      - &apos;nb_letters&apos;: 4
+   Contents of `fixture_store[&#x27;results_bag&#x27;]`:
+    - &#x27;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[0-False]&#x27;:
+      - &#x27;nb_letters&#x27;: 5
+      - &#x27;current_time&#x27;: 2018-12-17T21:36:38.832052
+    - &#x27;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[0-True]&#x27;:
+      - &#x27;nb_letters&#x27;: 5
+      - &#x27;current_time&#x27;: 2018-12-17T21:36:39.837627
+    - &#x27;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[1-False]&#x27;:
+      - &#x27;nb_letters&#x27;: 4
+      - &#x27;current_time&#x27;: 2018-12-17T21:36:40.242735
+    - &#x27;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[1-True]&#x27;:
+      - &#x27;nb_letters&#x27;: 4
+      - &#x27;current_time&#x27;: 2018-12-17T21:36:41.048300
+    - &#x27;pytest_harvest/tests/test_doc_basic_results_bag.py::test_foo[world]&#x27;:
+      - &#x27;nb_letters&#x27;: 5
+      - &#x27;current_time&#x27;: 2018-12-17T21:36:41.061549
+    - &#x27;pytest_harvest/tests/test_doc_basic_results_bag.py::test_foo[self]&#x27;:
+      - &#x27;nb_letters&#x27;: 4
+      - &#x27;current_time&#x27;: 2018-12-17T21:36:41.064818
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -752,7 +755,7 @@ test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
    hello, world !
 </div></td></tr></tbody>
@@ -763,7 +766,7 @@ test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
    hello, self !
 </div></td></tr></tbody>
@@ -774,19 +777,19 @@ test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
    Available `fixture_store` keys:
-    - &apos;person&apos;
-    - &apos;results_bag&apos;
+    - &#x27;person&#x27;
+    - &#x27;results_bag&#x27;
 
-   Contents of `fixture_store[&apos;person&apos;]`:
-    - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[0-False]&apos;: world
-    - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[0-True]&apos;: world
-    - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[1-False]&apos;: self
-    - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[1-True]&apos;: self
-    - &apos;pytest_harvest/tests/test_doc_basic_saved_fixture.py::test_foo[0]&apos;: world
-    - &apos;pytest_harvest/tests/test_doc_basic_saved_fixture.py::test_foo[1]&apos;: self
+   Contents of `fixture_store[&#x27;person&#x27;]`:
+    - &#x27;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[0-False]&#x27;: world
+    - &#x27;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[0-True]&#x27;: world
+    - &#x27;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[1-False]&#x27;: self
+    - &#x27;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[1-True]&#x27;: self
+    - &#x27;pytest_harvest/tests/test_doc_basic_saved_fixture.py::test_foo[0]&#x27;: world
+    - &#x27;pytest_harvest/tests/test_doc_basic_saved_fixture.py::test_foo[1]&#x27;: self
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -795,7 +798,7 @@ test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="empty log">No log output captured.</div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -804,7 +807,7 @@ test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="empty log">No log output captured.</div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -813,7 +816,7 @@ test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="empty log">No log output captured.</div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -822,7 +825,7 @@ test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="empty log">No log output captured.</div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -831,7 +834,7 @@ test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="empty log">No log output captured.</div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -840,7 +843,7 @@ test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="empty log">No log output captured.</div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -849,7 +852,7 @@ test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="empty log">No log output captured.</div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -858,16 +861,16 @@ test_foo[self]   &lt;function test_foo at 0x7ffa3c461f28&gt;  ...     self
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
-            <div class="log">----------------------------- Captured stdout call -----------------------------<br/>test_id                 pytest_obj                                      status      duration_ms    algo_param  dataset_param      accuracy  dataset
-----------------------  ----------------------------------------------  --------  -------------  ------------  ---------------  ----------  -------------
-test_my_app_bench[A-1]  &lt;function test_my_app_bench at 0x7ffa3c4382f0&gt;  passed         0.252008             1  A                  0.456136  my dataset #A
-test_my_app_bench[A-2]  &lt;function test_my_app_bench at 0x7ffa3c4382f0&gt;  passed         0.288248             2  A                  0.268812  my dataset #A
-test_my_app_bench[B-1]  &lt;function test_my_app_bench at 0x7ffa3c4382f0&gt;  passed         0.296354             1  B                  0.834739  my dataset #B
-test_my_app_bench[B-2]  &lt;function test_my_app_bench at 0x7ffa3c4382f0&gt;  passed         0.218391             2  B                  0.641943  my dataset #B
-test_my_app_bench[C-1]  &lt;function test_my_app_bench at 0x7ffa3c4382f0&gt;  passed         0.252962             1  C                  0.463791  my dataset #C
-test_my_app_bench[C-2]  &lt;function test_my_app_bench at 0x7ffa3c4382f0&gt;  passed         0.164747             2  C                  0.861631  my dataset #C
-test_basic              &lt;function test_basic at 0x7ffa3c438488&gt;         passed         0.165224           nan  nan              nan         nan
+          <td class="extra" colspan="4">
+            <div class="log">----------------------------- Captured stdout call -----------------------------<br/>test_id                 pytest_obj                                      status      duration_ms    algo_param  dataset_param       accuracy  dataset
+----------------------  ----------------------------------------------  --------  -------------  ------------  ---------------  -----------  -------------
+test_my_app_bench[A-1]  &lt;function test_my_app_bench at 0x7f799299dbf8&gt;  passed         0.218868             1  A                  0.0939965  my dataset #A
+test_my_app_bench[A-2]  &lt;function test_my_app_bench at 0x7f799299dbf8&gt;  passed         0.230789             2  A                  0.489123   my dataset #A
+test_my_app_bench[B-1]  &lt;function test_my_app_bench at 0x7f799299dbf8&gt;  passed         0.355959             1  B                  0.727797   my dataset #B
+test_my_app_bench[B-2]  &lt;function test_my_app_bench at 0x7f799299dbf8&gt;  passed         0.380516             2  B                  0.642472   my dataset #B
+test_my_app_bench[C-1]  &lt;function test_my_app_bench at 0x7f799299dbf8&gt;  passed         0.483036             1  C                  0.511388   my dataset #C
+test_my_app_bench[C-2]  &lt;function test_my_app_bench at 0x7f799299dbf8&gt;  passed         0.424147             2  C                  0.265527   my dataset #C
+test_basic              &lt;function test_basic at 0x7f799299dc80&gt;         passed         0.356674           nan  nan              nan          nan
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -876,7 +879,7 @@ test_basic              &lt;function test_basic at 0x7ffa3c438488&gt;         pa
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="empty log">No log output captured.</div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -885,7 +888,7 @@ test_basic              &lt;function test_basic at 0x7ffa3c438488&gt;         pa
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="empty log">No log output captured.</div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -894,7 +897,7 @@ test_basic              &lt;function test_basic at 0x7ffa3c438488&gt;         pa
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="empty log">No log output captured.</div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -903,7 +906,7 @@ test_basic              &lt;function test_basic at 0x7ffa3c438488&gt;         pa
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="empty log">No log output captured.</div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -912,7 +915,7 @@ test_basic              &lt;function test_basic at 0x7ffa3c438488&gt;         pa
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="empty log">No log output captured.</div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -921,7 +924,7 @@ test_basic              &lt;function test_basic at 0x7ffa3c438488&gt;         pa
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="empty log">No log output captured.</div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -930,7 +933,7 @@ test_basic              &lt;function test_basic at 0x7ffa3c438488&gt;         pa
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="empty log">No log output captured.</div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -939,7 +942,7 @@ test_basic              &lt;function test_basic at 0x7ffa3c438488&gt;         pa
           <td class="col-duration">0.01</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
 Keys:
 test_my_app_bench[A-1]
@@ -951,22 +954,22 @@ test_my_app_bench[C-2]
 test_basic
 
 First node:
-&apos;pytest_obj&apos;: &lt;function test_my_app_bench at 0x7ffa2a58db70&gt;
-&apos;status&apos;: &apos;passed&apos;
-&apos;duration_ms&apos;: 0.21266937255859375
-&apos;algo_param&apos;: 1
-&apos;dataset_param&apos;: &apos;A&apos;
-&apos;dataset&apos;: &apos;my dataset #A&apos;
-&apos;accuracy&apos;: 0.36543949687505717
+&#x27;pytest_obj&#x27;: &lt;function test_my_app_bench at 0x7f798136a8c8&gt;
+&#x27;status&#x27;: &#x27;passed&#x27;
+&#x27;duration_ms&#x27;: 0.3185272216796875
+&#x27;algo_param&#x27;: 1
+&#x27;dataset_param&#x27;: &#x27;A&#x27;
+&#x27;dataset&#x27;: &#x27;my dataset #A&#x27;
+&#x27;accuracy&#x27;: 0.8977347611850969
 test_id                 status      duration_ms    algo_param  dataset_param    dataset           accuracy
 ----------------------  --------  -------------  ------------  ---------------  -------------  -----------
-test_my_app_bench[A-1]  passed         0.212669             1  A                my dataset #A    0.365439
-test_my_app_bench[A-2]  passed         0.235081             2  A                my dataset #A    0.0354653
-test_my_app_bench[B-1]  passed         0.179291             1  B                my dataset #B    0.689837
-test_my_app_bench[B-2]  passed         0.26536              2  B                my dataset #B    0.0378077
-test_my_app_bench[C-1]  passed         0.240564             1  C                my dataset #C    0.732995
-test_my_app_bench[C-2]  passed         0.209093             2  C                my dataset #C    0.360421
-test_basic              passed         0.177383           nan  nan              nan            nan
+test_my_app_bench[A-1]  passed         0.318527             1  A                my dataset #A    0.897735
+test_my_app_bench[A-2]  passed         0.354528             2  A                my dataset #A    0.0605295
+test_my_app_bench[B-1]  passed         0.394821             1  B                my dataset #B    0.723414
+test_my_app_bench[B-2]  passed         0.370979             2  B                my dataset #B    0.35089
+test_my_app_bench[C-1]  passed         0.363111             1  C                my dataset #C    0.247227
+test_my_app_bench[C-2]  passed         0.355244             2  C                my dataset #C    0.49257
+test_basic              passed         0.340462           nan  nan              nan            nan
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -975,5 +978,5 @@ test_basic              passed         0.177383           nan  nan              
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
-          <td class="extra" colspan="5">
+          <td class="extra" colspan="4">
             <div class="empty log">No log output captured.</div></td></tr></tbody></table></body></html>
