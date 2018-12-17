@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.4.2 - Fixed results bags in presence of steps (2)
+
+Another import error was causing results bag to be saved incorrectly in presence of steps.
+
 ### 1.4.1 - Fixed results bags in presence of steps
 
 Results bags are now compliant with `pytest-steps`: there are now one per step. This fixed [#16](https://github.com/smarie/python-pytest-harvest/issues/16).
