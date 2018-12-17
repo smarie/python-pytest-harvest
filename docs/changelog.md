@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.4.0 - Removed integration with `pytest_steps` in default fixtures
+
+Integrating `pytest-steps` in default fixtures seemed like a bad idea because it led to automatic behaviour that could silently raise warnings. Let `pytest-steps` handle it on its side.
+
 ### 1.3.0 - Better integration with `pytest_steps` in default fixtures
 
 Default fixtures `module_results_df` and `session_results_df` now automatically become multi-level indexed when pytest steps is installed and there are steps in the tests.
