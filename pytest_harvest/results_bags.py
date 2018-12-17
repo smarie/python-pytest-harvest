@@ -8,13 +8,6 @@ try:  # python 3+
 except ImportError:
     pass
 
-try:
-    from pytest_harvest import one_per_step
-except ImportError:
-    # pytest steps not installed: define as a transparent decorator
-    def one_per_step(f):
-        return f
-
 from pytest_harvest.common import yield_fixture
 from pytest_harvest.fixture_cache import saved_fixture
 
@@ -105,8 +98,13 @@ def create_results_bag_fixture(storage,                        # type: Union[str
         for res in gen:
             yield res
 
-    # Create one result bag per step if needed (if pytest_harvest is present)
-    _results_bag = one_per_step(_results_bag)
+    # Create one result bag per step if needed (if pytest_steps is present)
+    try:
+        from pytest_steps import one_per_step
+        _results_bag = one_per_step(_results_bag)
+    except ImportError:
+        # pytest steps not installed: transparent
+        pass
 
     # Declare that this fixture should be saved
     _results_bag = saved_fixture(storage, key=name)(_results_bag)

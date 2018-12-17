@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.4.1 - Fixed results bags in presence of steps
+
+Results bags are now compliant with `pytest-steps`: there are now one per step. This fixed [#16](https://github.com/smarie/python-pytest-harvest/issues/16).
+
 ### 1.4.0 - Removed integration with `pytest_steps` in default fixtures
 
 Integrating `pytest-steps` in default fixtures seemed like a bad idea because it led to automatic behaviour that could silently raise warnings. Let `pytest-steps` handle it on its side.
