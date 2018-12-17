@@ -96,6 +96,7 @@ def module_results_dct(request, fixture_store):
 
     # We do not want to post-process according to steps here, this fixture should have as a contract that the keys
     # are the True test ids.
+    #
     # try:
     #     # if pytest_steps is installed, separate the test ids from the step ids
     #     from pytest_steps import handle_steps_in_synthesis_dct
@@ -124,38 +125,30 @@ def session_results_df(request, fixture_store):
     try:
         import pandas as pd
 
+        # get the synthesis dictionary, merged with default fixture store and flattening default results_bag
         session_results_dct = get_session_synthesis_dct(request, durations_in_ms=True,
                                                         test_id_format='full', status_details=False,
                                                         fixture_store=fixture_store,
                                                         flatten=True, flatten_more='results_bag')
 
-        use_step_id_index = False
-        if len(session_results_dct) > 0:
-            try:
-                # if pytest_steps is installed, separate the test ids from the step ids
-                from pytest_steps import handle_steps_in_synthesis_dct
-                session_results_dct = handle_steps_in_synthesis_dct(session_results_dct, is_flat=True,
-                                                                    keep_orig_id=False)
-                first_key = next(iter(session_results_dct.keys()))
-                if isinstance(first_key, tuple):
-                    use_step_id_index = True
-            except ImportError:
-                # pytest_steps is not installed, ok.
-                pass
-            except Exception as e:
-                # other issue: warn about it but continue
-                warn(e)
-
         # convert to a pandas dataframe
         results_df = pd.DataFrame.from_dict(session_results_dct, orient='index')
         results_df = results_df.loc[list(session_results_dct.keys()), :]  # fix rows order
+        results_df.index.name = 'test_id'  # set index name
 
-        if use_step_id_index:
-            results_df.index.names = ['test_id', 'step_id']  # set multiindex names
-        else:
-            results_df.index.name = 'test_id'  # set index name
-
-        # results_df.drop(['pytest_obj'], axis=1, inplace=True)  # drop pytest object column
+        # We do not want to post-process according to steps here, this fixture should have as a contract that the keys
+        # are the True test ids.
+        #
+        # try:
+        #     # if pytest_steps is installed, separate the test ids from the step ids
+        #     from pytest_steps import handle_steps_in_results_df
+        #     results_df = handle_steps_in_results_df(results_df, keep_orig_id=True, no_steps_policy='skip')
+        # except ImportError:
+        #     # pytest_steps is not installed, ok.
+        #     pass
+        # except Exception as e:
+        #     # other issue: warn about it but continue
+        #     warn("%s: %s" % (e, type(e)))
 
         return results_df
 
@@ -181,36 +174,31 @@ def module_results_df(request, fixture_store):
     try:
         import pandas as pd
 
+        # get the synthesis dictionary, merged with default fixture store and flattening default results_bag
         module_results_dct = get_session_synthesis_dct(request, durations_in_ms=True,
                                                        filter=request.module.__name__,
                                                        test_id_format='function', status_details=False,
                                                        fixture_store=fixture_store,
                                                        flatten=True, flatten_more='results_bag')
 
-        use_step_id_index = False
-        try:
-            # if pytest_steps is installed, separate the test ids from the step ids
-            from pytest_steps import handle_steps_in_synthesis_dct
-            module_results_dct = handle_steps_in_synthesis_dct(module_results_dct, is_flat=True, keep_orig_id=False)
-            first_key = next(iter(module_results_dct.keys()))
-            if isinstance(first_key, tuple):
-                use_step_id_index = True
-        except ImportError:
-            # pytest_steps is not installed, ok.
-            pass
-        except Exception as e:
-            # other issue: warn about it but continue
-            warn(e)
-
         # convert to a pandas dataframe
         results_df = pd.DataFrame.from_dict(module_results_dct, orient='index')
         results_df = results_df.loc[list(module_results_dct.keys()), :]  # fix rows order
+        results_df.index.name = 'test_id'  # set index name
 
-        if use_step_id_index:
-            results_df.index.names = ['test_id', 'step_id']  # set multiindex names
-        else:
-            results_df.index.name = 'test_id'  # set index name
-        # results_df.drop(['pytest_obj'], axis=1, inplace=True)  # drop pytest object column
+        # We do not want to post-process according to steps here, this fixture should have as a contract that the keys
+        # are the True test ids.
+        #
+        # try:
+        #     # if pytest_steps is installed, separate the test ids from the step ids
+        #     from pytest_steps import handle_steps_in_results_df
+        #     results_df = handle_steps_in_results_df(results_df, keep_orig_id=True, no_steps_policy='skip')
+        # except ImportError:
+        #     # pytest_steps is not installed, ok.
+        #     pass
+        # except Exception as e:
+        #     # other issue: warn about it but continue
+        #     warn("%s: %s" % (e, type(e)))
 
         return results_df
 
