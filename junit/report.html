@@ -325,7 +325,7 @@ function filter_table(elem) {
     not_found_message.hidden = !all_rows_hidden;
 }
 </script>
-    <p>Report generated on 17-Dec-2018 at 21:55:18</p>
+    <p>Report generated on 17-Dec-2018 at 21:55:28</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -335,7 +335,7 @@ function filter_table(elem) {
         <td>Python</td>
         <td>3.5.6</td></tr></table>
     <h2>Summary</h2>
-    <p>44 tests ran in 5.63 seconds. </p>
+    <p>44 tests ran in 5.67 seconds. </p>
     <p>(Un)check the boxes to filter the results.</p><input checked="true" data-test-result="passed" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">44 passed</span> <input checked="true" data-test-result="skipped" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span> <input checked="true" data-test-result="failed" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span> <input checked="true" data-test-result="error" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span> <input checked="true" data-test-result="xfailed" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span> <input checked="true" data-test-result="xpassed" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span> <input checked="true" data-test-result="rerun" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="rerun">0 rerun</span> 
     <h2>Results</h2>
     <table id="results-table">
@@ -356,7 +356,7 @@ function filter_table(elem) {
         <tr>
           <td class="extra" colspan="5">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_all_together.py results in {&apos;skipped&apos;: 0, &apos;passed&apos;: 9, &apos;failed&apos;: 0}
+Testing that running pytest on file test_all_together.py results in {&apos;passed&apos;: 9, &apos;skipped&apos;: 0, &apos;failed&apos;: 0}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests0, inifile: 
@@ -365,7 +365,7 @@ collected 9 items
 
 test_run_all_tests.py .........
 
-=========================== 9 passed in 0.04 seconds ===========================
+=========================== 9 passed in 0.05 seconds ===========================
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -396,7 +396,7 @@ test_run_all_tests.py ..
         <tr>
           <td class="extra" colspan="5">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_default_fixtures.py results in {&apos;skipped&apos;: 0, &apos;passed&apos;: 8, &apos;failed&apos;: 0}
+Testing that running pytest on file test_default_fixtures.py results in {&apos;passed&apos;: 8, &apos;skipped&apos;: 0, &apos;failed&apos;: 0}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2, inifile: 
@@ -416,7 +416,7 @@ test_run_all_tests.py ........
         <tr>
           <td class="extra" colspan="5">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_results_bags.py results in {&apos;skipped&apos;: 0, &apos;passed&apos;: 6, &apos;failed&apos;: 0}
+Testing that running pytest on file test_results_bags.py results in {&apos;passed&apos;: 6, &apos;skipped&apos;: 0, &apos;failed&apos;: 0}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests3, inifile: 
@@ -431,12 +431,12 @@ test_run_all_tests.py ......
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all.py::test_run_all_tests[test_get_session_results.py]</td>
-          <td class="col-duration">0.11</td>
+          <td class="col-duration">0.13</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="5">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_get_session_results.py results in {&apos;skipped&apos;: 1, &apos;passed&apos;: 16, &apos;failed&apos;: 1}
+Testing that running pytest on file test_get_session_results.py results in {&apos;passed&apos;: 16, &apos;skipped&apos;: 1, &apos;failed&apos;: 1}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.7.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests4, inifile: 
@@ -453,7 +453,7 @@ _________________________________ test_failing _________________________________
 E       Failed: normal, intended failure here
 
 test_run_all_tests.py:116: Failed
-================ 1 failed, 16 passed, 1 skipped in 0.09 seconds ================
+================ 1 failed, 16 passed, 1 skipped in 0.10 seconds ================
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -578,13 +578,13 @@ test_run_all_tests.py ..
     - test_foo[self]
 
    Contents of &apos;test_foo[world]&apos;:
-    - &apos;pytest_obj&apos;: &lt;function test_foo at 0x7f0412d07bf8&gt;
+    - &apos;pytest_obj&apos;: &lt;function test_foo at 0x7f5d4c925b70&gt;
     - &apos;status&apos;: passed
-    - &apos;duration_ms&apos;: 501.07693672180176
+    - &apos;duration_ms&apos;: 500.98276138305664
     - &apos;status_details&apos;:
-      - &apos;teardown&apos;: (&apos;passed&apos;, 0.22935867309570312)
-      - &apos;call&apos;: (&apos;passed&apos;, 501.07693672180176)
-      - &apos;setup&apos;: (&apos;passed&apos;, 0.5431175231933594)
+      - &apos;teardown&apos;: (&apos;passed&apos;, 0.6270408630371094)
+      - &apos;setup&apos;: (&apos;passed&apos;, 0.8883476257324219)
+      - &apos;call&apos;: (&apos;passed&apos;, 500.98276138305664)
     - &apos;params&apos;: OrderedDict([(&apos;p&apos;, &apos;world&apos;)])
     - &apos;fixtures&apos;: OrderedDict()
 </div></td></tr></tbody>
@@ -623,8 +623,8 @@ test_run_all_tests.py ..
 
                                             pytest_obj  ...        p
 test_id                                                 ...         
-test_foo[world]  &lt;function test_foo at 0x7f0412ceff28&gt;  ...    world
-test_foo[self]   &lt;function test_foo at 0x7f0412ceff28&gt;  ...     self
+test_foo[world]  &lt;function test_foo at 0x7f5d4c90df28&gt;  ...    world
+test_foo[self]   &lt;function test_foo at 0x7f5d4c90df28&gt;  ...     self
 
 [2 rows x 4 columns]
 </div></td></tr></tbody>
@@ -683,12 +683,12 @@ test_foo[self]   &lt;function test_foo at 0x7f0412ceff28&gt;  ...     self
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
    `module_results_df` dataframe:
 
-| test_id           | pytest_obj                            | status   |   duration_ms | double_sleep_time   |   person_param | person   | current_time               |   nb_letters |
-|:------------------|:--------------------------------------|:---------|--------------:|:--------------------|---------------:|:---------|:---------------------------|-------------:|
-| test_foo[0-False] | &lt;function test_foo at 0x7f0412cb4a60&gt; | passed   |       500.964 | False               |              0 | world    | 2018-12-17T21:55:16.262211 |            5 |
-| test_foo[0-True]  | &lt;function test_foo at 0x7f0412cb4a60&gt; | passed   |      1001.45  | True                |              0 | world    | 2018-12-17T21:55:17.268896 |            5 |
-| test_foo[1-False] | &lt;function test_foo at 0x7f0412cb4a60&gt; | passed   |       400.918 | False               |              1 | self     | 2018-12-17T21:55:17.674813 |            4 |
-| test_foo[1-True]  | &lt;function test_foo at 0x7f0412cb4a60&gt; | passed   |       801.227 | True                |              1 | self     | 2018-12-17T21:55:18.481005 |            4 |
+| test_id           | pytest_obj                            | status   |   duration_ms | double_sleep_time   |   person_param | person   |   nb_letters | current_time               |
+|:------------------|:--------------------------------------|:---------|--------------:|:--------------------|---------------:|:---------|-------------:|:---------------------------|
+| test_foo[0-False] | &lt;function test_foo at 0x7f5d4c8d2a60&gt; | passed   |       500.948 | False               |              0 | world    |            5 | 2018-12-17T21:55:25.913973 |
+| test_foo[0-True]  | &lt;function test_foo at 0x7f5d4c8d2a60&gt; | passed   |      1001.49  | True                |              0 | world    |            5 | 2018-12-17T21:55:26.919646 |
+| test_foo[1-False] | &lt;function test_foo at 0x7f5d4c8d2a60&gt; | passed   |       401.493 | False               |              1 | self     |            4 | 2018-12-17T21:55:27.325055 |
+| test_foo[1-True]  | &lt;function test_foo at 0x7f5d4c8d2a60&gt; | passed   |       801.409 | True                |              1 | self     |            4 | 2018-12-17T21:55:28.131787 |
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -727,23 +727,23 @@ test_foo[self]   &lt;function test_foo at 0x7f0412ceff28&gt;  ...     self
 
    Contents of `fixture_store[&apos;results_bag&apos;]`:
     - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[0-False]&apos;:
-      - &apos;current_time&apos;: 2018-12-17T21:55:16.262211
       - &apos;nb_letters&apos;: 5
+      - &apos;current_time&apos;: 2018-12-17T21:55:25.913973
     - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[0-True]&apos;:
-      - &apos;current_time&apos;: 2018-12-17T21:55:17.268896
       - &apos;nb_letters&apos;: 5
+      - &apos;current_time&apos;: 2018-12-17T21:55:26.919646
     - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[1-False]&apos;:
-      - &apos;current_time&apos;: 2018-12-17T21:55:17.674813
       - &apos;nb_letters&apos;: 4
+      - &apos;current_time&apos;: 2018-12-17T21:55:27.325055
     - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[1-True]&apos;:
-      - &apos;current_time&apos;: 2018-12-17T21:55:18.481005
       - &apos;nb_letters&apos;: 4
+      - &apos;current_time&apos;: 2018-12-17T21:55:28.131787
     - &apos;pytest_harvest/tests/test_doc_basic_results_bag.py::test_foo[world]&apos;:
-      - &apos;current_time&apos;: 2018-12-17T21:55:18.494303
       - &apos;nb_letters&apos;: 5
+      - &apos;current_time&apos;: 2018-12-17T21:55:28.144911
     - &apos;pytest_harvest/tests/test_doc_basic_results_bag.py::test_foo[self]&apos;:
-      - &apos;current_time&apos;: 2018-12-17T21:55:18.498219
       - &apos;nb_letters&apos;: 4
+      - &apos;current_time&apos;: 2018-12-17T21:55:28.148541
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -861,13 +861,13 @@ test_foo[self]   &lt;function test_foo at 0x7f0412ceff28&gt;  ...     self
           <td class="extra" colspan="5">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>test_id                 pytest_obj                                      status      duration_ms    algo_param  dataset_param      accuracy  dataset
 ----------------------  ----------------------------------------------  --------  -------------  ------------  ---------------  ----------  -------------
-test_my_app_bench[A-1]  &lt;function test_my_app_bench at 0x7f0412cc62f0&gt;  passed         0.137806             1  A                  0.431593  my dataset #A
-test_my_app_bench[A-2]  &lt;function test_my_app_bench at 0x7f0412cc62f0&gt;  passed         0.114679             2  A                  0.636623  my dataset #A
-test_my_app_bench[B-1]  &lt;function test_my_app_bench at 0x7f0412cc62f0&gt;  passed         0.115395             1  B                  0.351388  my dataset #B
-test_my_app_bench[B-2]  &lt;function test_my_app_bench at 0x7f0412cc62f0&gt;  passed         0.16737              2  B                  0.274906  my dataset #B
-test_my_app_bench[C-1]  &lt;function test_my_app_bench at 0x7f0412cc62f0&gt;  passed         0.117064             1  C                  0.150273  my dataset #C
-test_my_app_bench[C-2]  &lt;function test_my_app_bench at 0x7f0412cc62f0&gt;  passed         0.125408             2  C                  0.794702  my dataset #C
-test_basic              &lt;function test_basic at 0x7f0412cc6488&gt;         passed         0.23365            nan  nan              nan         nan
+test_my_app_bench[A-1]  &lt;function test_my_app_bench at 0x7f5d4c8e42f0&gt;  passed         0.135183             1  A                  0.597084  my dataset #A
+test_my_app_bench[A-2]  &lt;function test_my_app_bench at 0x7f5d4c8e42f0&gt;  passed         0.139952             2  A                  0.896031  my dataset #A
+test_my_app_bench[B-1]  &lt;function test_my_app_bench at 0x7f5d4c8e42f0&gt;  passed         0.185013             1  B                  0.363303  my dataset #B
+test_my_app_bench[B-2]  &lt;function test_my_app_bench at 0x7f5d4c8e42f0&gt;  passed         0.124216             2  B                  0.681     my dataset #B
+test_my_app_bench[C-1]  &lt;function test_my_app_bench at 0x7f5d4c8e42f0&gt;  passed         0.142813             1  C                  0.700142  my dataset #C
+test_my_app_bench[C-2]  &lt;function test_my_app_bench at 0x7f5d4c8e42f0&gt;  passed         0.152826             2  C                  0.453422  my dataset #C
+test_basic              &lt;function test_basic at 0x7f5d4c8e4488&gt;         passed         0.253201           nan  nan              nan         nan
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -951,22 +951,22 @@ test_my_app_bench[C-2]
 test_basic
 
 First node:
-&apos;pytest_obj&apos;: &lt;function test_my_app_bench at 0x7f0400e1fb70&gt;
+&apos;pytest_obj&apos;: &lt;function test_my_app_bench at 0x7f5d3a05bb70&gt;
 &apos;status&apos;: &apos;passed&apos;
-&apos;duration_ms&apos;: 0.13709068298339844
+&apos;duration_ms&apos;: 0.1442432403564453
 &apos;algo_param&apos;: 1
 &apos;dataset_param&apos;: &apos;A&apos;
 &apos;dataset&apos;: &apos;my dataset #A&apos;
-&apos;accuracy&apos;: 0.7152212362029063
-test_id                 status      duration_ms    algo_param  dataset_param    dataset           accuracy
-----------------------  --------  -------------  ------------  ---------------  -------------  -----------
-test_my_app_bench[A-1]  passed         0.137091             1  A                my dataset #A    0.715221
-test_my_app_bench[A-2]  passed         0.132322             2  A                my dataset #A    0.0479749
-test_my_app_bench[B-1]  passed         0.130653             1  B                my dataset #B    0.525351
-test_my_app_bench[B-2]  passed         0.198126             2  B                my dataset #B    0.677876
-test_my_app_bench[C-1]  passed         0.253439             1  C                my dataset #C    0.438641
-test_my_app_bench[C-2]  passed         0.132561             2  C                my dataset #C    0.806005
-test_basic              passed         0.175476           nan  nan              nan            nan
+&apos;accuracy&apos;: 0.13603640528702143
+test_id                 status      duration_ms    algo_param  dataset_param    dataset          accuracy
+----------------------  --------  -------------  ------------  ---------------  -------------  ----------
+test_my_app_bench[A-1]  passed         0.144243             1  A                my dataset #A    0.136036
+test_my_app_bench[A-2]  passed         0.129461             2  A                my dataset #A    0.262521
+test_my_app_bench[B-1]  passed         0.128269             1  B                my dataset #B    0.41274
+test_my_app_bench[B-2]  passed         0.195503             2  B                my dataset #B    0.557814
+test_my_app_bench[C-1]  passed         0.234365             1  C                my dataset #C    0.717155
+test_my_app_bench[C-2]  passed         0.224352             2  C                my dataset #C    0.819243
+test_basic              passed         0.212669           nan  nan              nan            nan
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
