@@ -10,13 +10,6 @@ except ImportError:
     pass
 
 
-try:
-    from pytest_steps.steps_generator import get_underlying_fixture
-except ImportError:
-    def get_underlying_fixture(x):
-        return x
-
-
 def saved_fixture(store='fixture_store',  # type: Union[str, Dict[str, Any]]
                   key=None                # type: str
                   ):
@@ -87,6 +80,14 @@ def _saved_fixture(*args, **kwargs):
 #             return str(fixture_fun)
 
 
+def _get_underlying_fixture(f):
+    try:
+        from pytest_steps.steps_generator import get_underlying_fixture
+        return get_underlying_fixture(f)
+    except ImportError:
+        return f
+
+
 def make_saved_fixture(fixture_fun,
                        store='fixture_store',  # type: Union[str, Dict[str, Any]]
                        key=None                # type: str
@@ -147,9 +148,9 @@ def make_saved_fixture(fixture_fun,
                 # use the variable from outer scope (from `make_saved_fixture`)
                 store_ = store
             _init_and_check(request, store_)
-            fixture_value = f(*args, **kwargs)                                       # Get the fixture
-            store_[key][request.node.nodeid] = get_underlying_fixture(fixture_value)  # Store it
-            return fixture_value                                                     # Return it
+            fixture_value = f(*args, **kwargs)                                        # Get the fixture
+            store_[key][request.node.nodeid] = _get_underlying_fixture(fixture_value)  # Store it
+            return fixture_value                                                      # Return it
 
     else:
         def fixture_wrapper(f, request, *args, **kwargs):
@@ -164,7 +165,7 @@ def make_saved_fixture(fixture_fun,
             _init_and_check(request, store_)
             gen = f(*args, **kwargs)
             fixture_value = next(gen)                                                # Get the fixture
-            store_[key][request.node.nodeid] = get_underlying_fixture(fixture_value)  # Store it
+            store_[key][request.node.nodeid] = _get_underlying_fixture(fixture_value)  # Store it
             yield fixture_value                                                      # Return it
 
             # Make sure to terminate the underlying generator
