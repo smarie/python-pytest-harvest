@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from inspect import isgeneratorfunction
 
+from pytest_harvest.common import get_scope
 from pytest_harvest.decorator_hack import my_decorate
 
 
@@ -128,9 +129,18 @@ def make_saved_fixture(fixture_fun,
     # Note: we can not init the storage[key] entry here because when storage is a fixture, it does not yet exist.
 
     def _init_and_check(request, store):
+        scope = get_scope(request)
+
+        if scope != 'function':
+            # session- or module-scope
+            raise Exception("The `@saved_fixture` decorator is only applicable to function-scope fixtures. `%s`"
+                            " seems to have scope='%s'. Consider removing `@saved_fixture` or changing "
+                            "the scope to 'function'." % (fixture_fun, scope))
+
         # Init storage if needed
         if key not in store:
             store[key] = OrderedDict()
+
         # Check that the node id is unique
         if request.node.nodeid in store[key]:
             raise KeyError("Internal Error - This fixture '%s' was already "

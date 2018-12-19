@@ -27,3 +27,17 @@ if int(pytest.__version__.split('.', 1)[0]) < 3:
     yield_fixture = pytest.yield_fixture
 else:
     yield_fixture = pytest.fixture
+
+
+def get_scope(request):
+    """
+    Utility method to return the scope of a pytest request
+    :param request:
+    :return:
+    """
+    if request.node is request.session:
+        return 'session'
+    elif hasattr(request.node, 'function'):
+        return 'function'
+    else:
+        return 'module'
