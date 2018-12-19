@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.4.3 - Better exceptions for `@saved_fixture`
+
+Now raising a better exception if `@saved_fixture` is used on session- or module-scope fixtures. Fixes [#18](https://github.com/smarie/python-pytest-harvest/issues/18)
+
 ### 1.4.2 - Fixed results bags in presence of steps (2)
 
 Another import error was causing results bag to be saved incorrectly in presence of steps.
