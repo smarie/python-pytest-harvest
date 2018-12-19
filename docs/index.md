@@ -283,13 +283,13 @@ yields:
 ============================= test session starts =============================
 ...
 collecting ... collected 3 items
-test_doc_basic_dct.py::test_foo[world] 
+test_doc_basic.py::test_foo[world] 
    hello, world !
 PASSED
-test_doc_basic_dct.py::test_foo[self] 
+test_doc_basic.py::test_foo[self] 
    hello, self !
 PASSED
-test_doc_basic_df.py::test_synthesis 
+test_doc_basic.py::test_synthesis 
    `module_results_df` dataframe:
    
                  status  duration_ms      p
