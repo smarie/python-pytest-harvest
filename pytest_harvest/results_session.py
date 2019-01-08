@@ -451,10 +451,10 @@ def get_pytest_fixture_names(item):
 
     fixture_names = []
     for param_name in item.fixturenames:  # note: item.funcargnames gives the exact same list
-        if hasattr(item, 'callspec'):
-            if param_name in item.callspec.params:
-                if item.session._fixturemanager.getfixturedefs(param_name, item.nodeid) is not None:
-                    fixture_names.append(param_name)
+        # if hasattr(item, 'callspec'):  # NO! it would only return fixtures when they are parametrized
+            # if param_name in item.callspec.params: NO ! it would only return fixtures when they are *directly* parametrized
+        if item.session._fixturemanager.getfixturedefs(param_name, item.nodeid) is not None:
+            fixture_names.append(param_name)
 
     return fixture_names
 

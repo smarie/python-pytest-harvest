@@ -178,13 +178,14 @@ def test_get_all_pytest_param_names(request):
     param_names = get_all_pytest_param_names(request.session, filter=test_foo)
     assert param_names == ['p', 'a_number_str_param']
 
+
 def test_get_all_pytest_fixture_names(request):
     """Tests that get_all_pytest_fixture_names works"""
-    fixture_names = get_all_pytest_fixture_names(request.session, filter=test_get_all_pytest_param_names.__module__)
-    assert fixture_names == ['a_number_str']
+    fixture_names = get_all_pytest_fixture_names(request.session, filter=test_get_all_pytest_fixture_names.__module__)
+    assert fixture_names == ['make_synthesis', 'a_number_str', 'dummy']
 
     fixture_names = get_all_pytest_fixture_names(request.session, filter=test_foo)
-    assert fixture_names == ['a_number_str']
+    assert fixture_names == ['make_synthesis', 'a_number_str', 'dummy']
 
 
 def test_synthesis_contains_everything(request):
