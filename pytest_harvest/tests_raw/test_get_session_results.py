@@ -182,9 +182,11 @@ def test_get_all_pytest_param_names(request):
 def test_get_all_pytest_fixture_names(request):
     """Tests that get_all_pytest_fixture_names works"""
     fixture_names = get_all_pytest_fixture_names(request.session, filter=test_get_all_pytest_fixture_names.__module__)
+    clear_environment_fixture(fixture_names)
     assert fixture_names == ['make_synthesis', 'a_number_str', 'dummy']
 
     fixture_names = get_all_pytest_fixture_names(request.session, filter=test_foo)
+    clear_environment_fixture(fixture_names)
     assert fixture_names == ['make_synthesis', 'a_number_str', 'dummy']
 
 
@@ -206,3 +208,14 @@ def make_synthesis(request):
     """This checks that the session-scoped fixture teardown hook works as well"""
     yield
     test_synthesis_contains_everything(request)
+
+
+def clear_environment_fixture(fixture_names):
+    """
+    sometimes (at least in Travis), an autouse=True 'environment' session fixture appears.
+    This utility function can be used to remove it.
+    """
+    try:
+        fixture_names.remove('environment')
+    except ValueError:
+        pass

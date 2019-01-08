@@ -27,6 +27,7 @@ def test_foo(a_number_str):
 def test_get_all_pytest_fixture_names_indirect(request):
     """Tests that get_all_pytest_fixture_names works"""
     fixture_names = get_all_pytest_fixture_names(request.session, filter=test_foo)
+    clear_environment_fixture(fixture_names)
     assert fixture_names == ['a_number_str', 'a_number_str_p']
 
 
@@ -44,4 +45,16 @@ def test_foo2(dummy):
 def test_get_all_pytest_fixture_names_no_param(request):
     """Tests that get_all_pytest_fixture_names works"""
     fixture_names = get_all_pytest_fixture_names(request.session, filter=test_foo2)
+    clear_environment_fixture(fixture_names)
     assert fixture_names == ['dummy']
+
+
+def clear_environment_fixture(fixture_names):
+    """
+    sometimes (at least in Travis), an autouse=True 'environment' session fixture appears.
+    This utility function can be used to remove it.
+    """
+    try:
+        fixture_names.remove('environment')
+    except ValueError:
+        pass
