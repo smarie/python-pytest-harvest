@@ -35,7 +35,7 @@ def pytest_runtest_makereport(item, call):
 
 
 # ------------- To collect benchmark results ------------
-@pytest.fixture(autouse=True, scope='session')
+@pytest.fixture(scope='session')  # no need for autouse=True
 def fixture_store():
     """
     A 'fixture store' fixture. It is used as the store for the default 'results_bag' fixture, and the default store
