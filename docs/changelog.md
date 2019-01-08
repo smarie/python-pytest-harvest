@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.5.0 - Bug fixes concerning fixtures
+
+The `fixture_store` fixture, provided by the plugin, does not have `autouse=True` anymore. Fixed [#20](https://github.com/smarie/python-pytest-harvest/issues/20).
+
+`get_all_pytest_fixture_names` now returns fixtures that are indirectly parametrized, as well as fixtures that are not parametrized. Fixed [#19](https://github.com/smarie/python-pytest-harvest/issues/19).
+
 ### 1.4.3 - Better exceptions for `@saved_fixture`
 
 Now raising a better exception if `@saved_fixture` is used on session- or module-scope fixtures. Fixes [#18](https://github.com/smarie/python-pytest-harvest/issues/18)
