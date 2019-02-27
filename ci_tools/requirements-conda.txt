@@ -5,7 +5,7 @@ pandoc
 pypandoc
 
 # --- to install
-decorator
+# makefun
 
 # --- to run the tests
 pandas

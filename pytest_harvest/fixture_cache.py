@@ -1,14 +1,19 @@
 from collections import OrderedDict
 from inspect import isgeneratorfunction
 
-from pytest_harvest.common import get_scope
-from pytest_harvest.decorator_hack import my_decorate
+from makefun import with_signature, add_signature_parameters
 
+from pytest_harvest.common import get_scope
 
 try:  # python 3+
     from typing import Union, Any, Dict
 except ImportError:
     pass
+
+try:  # python 3.3+
+    from inspect import signature, Parameter
+except ImportError:
+    from funcsigs import signature, Parameter
 
 
 def saved_fixture(store='fixture_store',  # type: Union[str, Dict[str, Any]]
@@ -146,34 +151,49 @@ def make_saved_fixture(fixture_fun,
             raise KeyError("Internal Error - This fixture '%s' was already "
                            "stored for test id '%s'" % (key, request.node.nodeid))
 
+    # We will expose a new signature with additional arguments
+    orig_sig = signature(fixture_fun)
+    needs_request = 'request' in orig_sig.parameters
+    new_args = (Parameter('request', kind=Parameter.POSITIONAL_OR_KEYWORD), ) if not needs_request \
+        else () + (Parameter(store, kind=Parameter.POSITIONAL_OR_KEYWORD), ) if store_is_a_fixture else ()
+    new_sig = add_signature_parameters(orig_sig, first=new_args)
+
     # Wrap the fixture in the correct mode (generator or not)
     if not isgeneratorfunction(fixture_fun):
-        def fixture_wrapper(f, request, *args, **kwargs):
+        @with_signature(new_sig)
+        def stored_fixture_function(*args, **kwargs):
             """Wraps a fixture so as to store it before it is returned"""
             # get the actual store object
             if store_is_a_fixture:
-                store_ = args[0]
-                args = args[1:]
+                store_ = kwargs.pop(store)  # read and remove it
             else:
                 # use the variable from outer scope (from `make_saved_fixture`)
                 store_ = store
+            if needs_request:
+                request = kwargs['request']  # read it but leave it there
+            else:
+                request = kwargs.pop('request')  # read and remove it
             _init_and_check(request, store_)
-            fixture_value = f(*args, **kwargs)                                        # Get the fixture
+            fixture_value = fixture_fun(*args, **kwargs)                                        # Get the fixture
             store_[key][request.node.nodeid] = _get_underlying_fixture(fixture_value)  # Store it
             return fixture_value                                                      # Return it
 
     else:
-        def fixture_wrapper(f, request, *args, **kwargs):
+        @with_signature(new_sig)
+        def stored_fixture_function(*args, **kwargs):
             """Wraps a fixture so as to store it before it is returned (generator mode)"""
             # get the actual store object
             if store_is_a_fixture:
-                store_ = args[0]
-                args = args[1:]
+                store_ = kwargs.pop(store)
             else:
                 # use the variable from outer scope (from `make_saved_fixture`)
                 store_ = store
+            if needs_request:
+                request = kwargs['request']
+            else:
+                request = kwargs.pop('request')
             _init_and_check(request, store_)
-            gen = f(*args, **kwargs)
+            gen = fixture_fun(*args, **kwargs)
             fixture_value = next(gen)                                                # Get the fixture
             store_[key][request.node.nodeid] = _get_underlying_fixture(fixture_value)  # Store it
             yield fixture_value                                                      # Return it
@@ -183,11 +203,5 @@ def make_saved_fixture(fixture_fun,
                 next(gen)
             except StopIteration:
                 pass
-
-    if store_is_a_fixture:
-        # add 'store' as second positional argument
-        stored_fixture_function = my_decorate(fixture_fun, fixture_wrapper, additional_args=('request', store))
-    else:
-        stored_fixture_function = my_decorate(fixture_fun, fixture_wrapper, additional_args=('request', ))
 
     return stored_fixture_function
