@@ -18,11 +18,18 @@ trap "cleanup" INT TERM EXIT
 #    echo "pytest not found. Trying py.test"
 #fi
 
-# First the raw for coverage
-echo -e "\n\n****** Running tests : 1/2 RAW******\n\n"
-coverage run --source pytest_harvest -m pytest -v pytest_harvest/tests_raw/
-#python -m pytest --cov-report term-missing --cov=./pytest_harvest -v pytest_harvest/tests_raw/
+if [ "${TRAVIS_PYTHON_VERSION}" = "3.5" ]; then
+   # full
+   # First the raw for coverage
+    echo -e "\n\n****** Running tests : 1/2 RAW******\n\n"
+    coverage run --source pytest_harvest -m pytest -v pytest_harvest/tests_raw/
+    #python -m pytest --cov-report term-missing --cov=./pytest_harvest -v pytest_harvest/tests_raw/
 
-# Then the meta (appended)
-echo -e "\n\n****** Running tests : 2/2 META******\n\n"
-python -m pytest --junitxml=reports/junit/junit.xml --html=reports/junit/report.html --cov-report term-missing --cov=./pytest_harvest --cov-append -v pytest_harvest/tests/
+    # Then the meta (appended)
+    echo -e "\n\n****** Running tests : 2/2 META******\n\n"
+    python -m pytest --junitxml=reports/junit/junit.xml --html=reports/junit/report.html --cov-report term-missing --cov=./pytest_harvest --cov-append -v pytest_harvest/tests/
+else
+   # faster - skip coverage and html report
+    echo -e "\n\n****** Running tests******\n\n"
+    python -m pytest --junitxml=reports/junit/junit.xml -v pytest_harvest/tests/
+fi
