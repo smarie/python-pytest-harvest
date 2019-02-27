@@ -185,8 +185,8 @@ def make_saved_fixture(fixture_fun,
     # We will expose a new signature with additional arguments
     orig_sig = signature(fixture_fun)
     needs_request = 'request' in orig_sig.parameters
-    new_args = (Parameter('request', kind=Parameter.POSITIONAL_OR_KEYWORD), ) if not needs_request \
-        else () + (Parameter(store, kind=Parameter.POSITIONAL_OR_KEYWORD), ) if store_is_a_fixture else ()
+    new_args = (Parameter(store, kind=Parameter.POSITIONAL_OR_KEYWORD), ) if store_is_a_fixture else () \
+               + (Parameter('request', kind=Parameter.POSITIONAL_OR_KEYWORD), ) if not needs_request else ()
     new_sig = add_signature_parameters(orig_sig, first=new_args)
 
     # Wrap the fixture in the correct mode (generator or not)
@@ -235,8 +235,10 @@ def make_saved_fixture(fixture_fun,
             except StopIteration:
                 pass
 
-    assert str(signature(stored_fixture_function)) == str(new_sig)
-
+    sig_str = str(signature(stored_fixture_function))
+    assert sig_str == str(new_sig)
+    if store_is_a_fixture:
+        assert sig_str.startswith('(' + store)
     return stored_fixture_function
 
 
