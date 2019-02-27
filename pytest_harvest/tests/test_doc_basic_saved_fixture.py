@@ -32,6 +32,8 @@ def test_synthesis(fixture_store):
     for k in fixture_store:
         print("    - '%s'" % k)
 
+    assert 'person' in fixture_store
+
     # print what is available for the 'person' entry
     print("\n   Contents of `fixture_store['person']`:")
     for k, v in fixture_store['person'].items():
