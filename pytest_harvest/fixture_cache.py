@@ -235,6 +235,8 @@ def make_saved_fixture(fixture_fun,
             except StopIteration:
                 pass
 
+    assert str(signature(stored_fixture_function)) == str(new_sig)
+
     return stored_fixture_function
 
 
