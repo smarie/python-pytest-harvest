@@ -275,6 +275,19 @@
     a- Storing fixture instances
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#storing-fixture-views" title="Storing fixture views" class="md-nav__link">
+    Storing fixture views
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -426,6 +439,19 @@
     a- Storing fixture instances
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#storing-fixture-views" title="Storing fixture views" class="md-nav__link">
+    Storing fixture views
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -523,7 +549,8 @@
                 
                 <h1 id="pytest-harvest">pytest-harvest<a class="headerlink" href="#pytest-harvest" title="Permanent link">&para;</a></h1>
 <p><em>Store data created during your <code>pytest</code> tests execution, and retrieve it at the end of the session, e.g. for applicative benchmarking purposes.</em></p>
-<p><a href="https://travis-ci.org/smarie/python-pytest-harvest"><img alt="Build Status" src="https://travis-ci.org/smarie/python-pytest-harvest.svg?branch=master" /></a> <a href="https://smarie.github.io/python-pytest-harvest/junit/report.html"><img alt="Tests Status" src="https://smarie.github.io/python-pytest-harvest/junit/junit-badge.svg?dummy=8484744" /></a> <a href="https://codecov.io/gh/smarie/python-pytest-harvest"><img alt="codecov" src="https://codecov.io/gh/smarie/python-pytest-harvest/branch/master/graph/badge.svg" /></a> <a href="https://smarie.github.io/python-pytest-harvest/"><img alt="Documentation" src="https://img.shields.io/badge/docs-latest-blue.svg" /></a> <a href="https://pypi.python.org/pypi/pytest_harvest/"><img alt="PyPI" src="https://img.shields.io/badge/PyPI-pytest_harvest-blue.svg" /></a></p>
+<p><a href="https://pypi.python.org/pypi/pytest-harvest/"><img alt="Python versions" src="https://img.shields.io/pypi/pyversions/pytest-harvest.svg" /></a> <a href="https://travis-ci.org/smarie/python-pytest-harvest"><img alt="Build Status" src="https://travis-ci.org/smarie/python-pytest-harvest.svg?branch=master" /></a> <a href="https://smarie.github.io/python-pytest-harvest/junit/report.html"><img alt="Tests Status" src="https://smarie.github.io/python-pytest-harvest/junit/junit-badge.svg?dummy=8484744" /></a> <a href="https://codecov.io/gh/smarie/python-pytest-harvest"><img alt="codecov" src="https://codecov.io/gh/smarie/python-pytest-harvest/branch/master/graph/badge.svg" /></a></p>
+<p><a href="https://smarie.github.io/python-pytest-harvest/"><img alt="Documentation" src="https://img.shields.io/badge/doc-latest-blue.svg" /></a> <a href="https://pypi.python.org/pypi/pytest-harvest/"><img alt="PyPI" src="https://img.shields.io/pypi/v/pytest-harvest.svg" /></a> <a href="https://pepy.tech/project/pytest-harvest"><img alt="Downloads" src="https://pepy.tech/badge/pytest-harvest" /></a> <a href="https://pepy.tech/project/pytest-harvest"><img alt="Downloads per week" src="https://pepy.tech/badge/pytest-harvest/week" /></a> <a href="https://github.com/smarie/python-pytest-harvest/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/smarie/python-pytest-harvest.svg" /></a></p>
 <div class="admonition success">
 <p class="admonition-title">New simplified usage: with the default fixtures provided, you can now start collecting data from your tests in minutes !</p>
 </div>
@@ -532,7 +559,7 @@
 <p>With <code>pytest-harvest</code>:</p>
 <ul>
 <li>
-<p>you can <strong>store all instances of a fixture</strong> with <code>@saved_fixture</code>, so that they remain available until the end of the test session. </p>
+<p>you can <strong>store all instances of a fixture</strong> with <code>@saved_fixture</code>, so that they remain available until the end of the test session. If you're only interested in some aspects of the fixture, you can store "<em>views</em>" instead.</p>
 </li>
 <li>
 <p>you can use the special <code>results_bag</code> fixture to <strong>collect interesting results</strong> within your tests.</p>
@@ -620,6 +647,25 @@ test_doc_basic_saved_fixture.py::test_synthesis
 
 
 <p>As you can see, the <code>fixture_store</code> contains one entry for each saved fixture, and this entry's value is a dictionary of <code>{&lt;test_id&gt;: &lt;fixture_value&gt;}</code>.  We will see <a href="#d-collecting-all-at-once">below</a> how to combine this information with information already available in pytest (test status, duration...).</p>
+<h4 id="storing-fixture-views">Storing fixture views<a class="headerlink" href="#storing-fixture-views" title="Permanent link">&para;</a></h4>
+<p>Sometimes you are not interested in storing the whole fixture but maybe just some aspect of it. For example maybe the fixture is a huge dataset, and you just wish to remember a few characteristics about it.</p>
+<p>Simply use the <code>views=</code> argument in <code>@saved_fixture</code> to save views instead of the fixture itself. That argument should contain a dictionary of <code>{&lt;view_key&gt;: &lt;view_creation_function&gt;}</code>.</p>
+<p>In the previous example if we only want to save the first and last character of the <code>person</code> fixture, we can do:</p>
+<div class="codehilite"><pre><span></span><span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="nd">@saved_fixture</span><span class="p">(</span><span class="n">views</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;person_initial&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                      <span class="s1">&#39;person_last_char&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]})</span>
+<span class="k">def</span> <span class="nf">person</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A dummy fixture, parametrized so that it has two instances</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;world&quot;</span>
+    <span class="k">elif</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;self&quot;</span>
+</pre></div>
+
+
+<p>The fixture store will then contain as many entries as there are views.</p>
 <h3 id="b-collecting-test-artifacts">b- Collecting test artifacts<a class="headerlink" href="#b-collecting-test-artifacts" title="Permanent link">&para;</a></h3>
 <p>Simply use the <code>results_bag</code> fixture in your tests and you'll be able to store items in it. This object behaves like a munch: if you create/read a field it will create/read a dictionary entry. By default the <code>results_bag</code> fixture is stored in the <code>fixture_store</code> so you can retrieve it at the end as shown previously.</p>
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
