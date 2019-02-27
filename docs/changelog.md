@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.6.0 - improved `@saved_fixture` + minor dependency change
+
+Users can now use `@saved_fixture` to save not only the fixture, but also some views created from it. This is interesting if each fixture is huge but users just want to save small aspects of it (name, size, etc.). Fixed [#21](https://github.com/smarie/python-pytest-harvest/issues/21).
+
+Dependency to `decorator` has been dropped and replaced with `makefun`.
+
 ### 1.5.0 - Bug fixes concerning fixtures
 
 The `fixture_store` fixture, provided by the plugin, does not have `autouse=True` anymore. Fixed [#20](https://github.com/smarie/python-pytest-harvest/issues/20).
