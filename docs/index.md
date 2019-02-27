@@ -12,7 +12,7 @@ At the end of a test session, you can already **collect various data** about the
 
 With `pytest-harvest`:
 
- * you can **store all instances of a fixture** with `@saved_fixture`, so that they remain available until the end of the test session. 
+ * you can **store all instances of a fixture** with `@saved_fixture`, so that they remain available until the end of the test session. If you're only interested in some aspects of the fixture, you can store "*views*" instead.
  
  * you can use the special `results_bag` fixture to **collect interesting results** within your tests.
  
@@ -102,6 +102,30 @@ PASSED
 ```
 
 As you can see, the `fixture_store` contains one entry for each saved fixture, and this entry's value is a dictionary of `{<test_id>: <fixture_value>}`.  We will see [below](#d-collecting-all-at-once) how to combine this information with information already available in pytest (test status, duration...).
+
+#### Storing fixture views
+
+Sometimes you are not interested in storing the whole fixture but maybe just some aspect of it. For example maybe the fixture is a huge dataset, and you just wish to remember a few characteristics about it.
+
+Simply use the `views=` argument in `@saved_fixture` to save views instead of the fixture itself. That argument should contain a dictionary of `{<view_key>: <view_creation_function>}`.
+
+In the previous example if we only want to save the first and last character of the `person` fixture, we can do:
+
+```python
+@pytest.fixture(params=range(2))
+@saved_fixture(views={'person_initial': lambda p: p[0], 
+                      'person_last_char': lambda p: p[-1]})
+def person(request):
+    """
+    A dummy fixture, parametrized so that it has two instances
+    """
+    if request.param == 0:
+        return "world"
+    elif request.param == 1:
+        return "self"
+```
+
+The fixture store will then contain as many entries as there are views.
 
 ### b- Collecting test artifacts
 

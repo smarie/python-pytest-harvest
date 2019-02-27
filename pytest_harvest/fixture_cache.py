@@ -6,7 +6,7 @@ from makefun import with_signature, add_signature_parameters
 from pytest_harvest.common import get_scope
 
 try:  # python 3+
-    from typing import Union, Any, Dict
+    from typing import Union, Any, Dict, Callable
 except ImportError:
     pass
 
@@ -17,15 +17,17 @@ except ImportError:
 
 
 def saved_fixture(store='fixture_store',  # type: Union[str, Dict[str, Any]]
-                  key=None                # type: str
+                  key=None,               # type: str
+                  views=None,             # type: Dict[str, Callable[[Any], Any]]
+                  save_raw=None           # type: bool
                   ):
     """
     Decorates a fixture so that it is saved in `store`. `store` can be a dict-like variable or a string
     representing a fixture name to a dict-like session-scoped fixture. By default it uses the global 'fixture_store'
     fixture provided by this plugin.
 
-    After executing all tests, <store> will contain a new item under key <name>. This item is a dictionary
-    <test_id>: <fixture_value> for each test node.
+    After executing all tests, `<store>` will contain a new item under key `<key>` (default is the name of the fixture).
+    This item is a dictionary <test_id>: <fixture_value> for each test node.
 
     ```python
     from random import random
@@ -36,22 +38,35 @@ def saved_fixture(store='fixture_store',  # type: Union[str, Dict[str, Any]]
          return random()
     ```
 
+    Users can save additional views created from the fixture instance by applying transforms (callable functions). To
+    do this, users can provide a dictionary under the `views` argument, containing a `{<key>: <procedure>}` dict-like.
+    For each entry, `<procedure>` will be applied on the fixture instance, and the result will be stored under `<key>`.
+    `save_raw` controls whether the fixture instance should still be saved in this case (default: `True` if
+    `views is None`, `False` otherwise).
+
     :param store: a dict-like object or a fixture name corresponding to a dict-like object. in this dictionary, a new
         entry will be added for the fixture. This entry will contain a dictionary <test_id>: <fixture_value> for each
         test node.
     :param key: the name associated with the stored fixture in the store. By default this is the fixture name.
+    :param views: an optional dictionary that can be provided to store views created from the fixture, rather than (or
+        in addition to, if `save_raw=True`) the fixture itself. The dict should contain a `{<key>: <procedure>}`
+        dict-like. For each entry, `<procedure>` will be applied on the fixture instance, and the result will be stored
+        under `<key>`.
+    :param save_raw: controls whether the fixture instance should be saved. `None` (Default) is an automatic behaviour
+        meaning "`True` if `views is None`, `False` otherwise".
     :return: a fixture that will be stored
     """
     # trick to support both with-args and without args usage
     # if only one argument is provided (the first)
-    if key is None:
+    if key is None and views is None and save_raw is None:  # all defaults
         return _saved_fixture(store)
     else:
-        return _saved_fixture(store, key)
+        return _saved_fixture(store, key, views, save_raw)
 
 
 def _saved_fixture(*args, **kwargs):
     """ Inner decorator creation method to support no-arg calls """
+
     if len(args) == 1 and callable(args[0]):
         # called without arguments, directly decorates a function
         f = args[0]
@@ -96,7 +111,9 @@ def _get_underlying_fixture(f):
 
 def make_saved_fixture(fixture_fun,
                        store='fixture_store',  # type: Union[str, Dict[str, Any]]
-                       key=None                # type: str
+                       key=None,               # type: str
+                       views=None,             # type: Dict[str, Callable[[Any], Any]]
+                       save_raw=None           # type: bool
                        ):
     """
     Manual decorator to decorate a (future) fixture function so that it is saved in a storage.
@@ -114,6 +131,10 @@ def make_saved_fixture(fixture_fun,
 
     See `@saved_fixture` decorator for parameter details.
     """
+
+    # default: if views is None, we save the raw fixture. If user wants to save views, we do not save the raw
+    if save_raw is None:
+        save_raw = views is None
 
     # Simply get the function name
     fixture_name = getattr(fixture_fun, '__name__', None) or str(fixture_fun)
@@ -143,13 +164,23 @@ def make_saved_fixture(fixture_fun,
                             "the scope to 'function'." % (fixture_fun, scope))
 
         # Init storage if needed
-        if key not in store:
-            store[key] = OrderedDict()
+        if save_raw:
+            # init
+            if key not in store:
+                store[key] = OrderedDict()
+            # Check that the node id is unique
+            if request.node.nodeid in store[key]:
+                raise KeyError("Internal Error - This fixture '%s' was already "
+                               "stored for test id '%s'" % (key, request.node.nodeid))
 
-        # Check that the node id is unique
-        if request.node.nodeid in store[key]:
-            raise KeyError("Internal Error - This fixture '%s' was already "
-                           "stored for test id '%s'" % (key, request.node.nodeid))
+        if views is not None:
+            for k in views.keys():
+                if k not in store:
+                    store[k] = OrderedDict()
+                # Check that the node id is unique
+                if request.node.nodeid in store[k]:
+                    raise KeyError("Internal Error - This fixture view '%s' was already "
+                                   "stored for test id '%s'" % (k, request.node.nodeid))
 
     # We will expose a new signature with additional arguments
     orig_sig = signature(fixture_fun)
@@ -175,7 +206,7 @@ def make_saved_fixture(fixture_fun,
                 request = kwargs.pop('request')  # read and remove it
             _init_and_check(request, store_)
             fixture_value = fixture_fun(*args, **kwargs)                                        # Get the fixture
-            store_[key][request.node.nodeid] = _get_underlying_fixture(fixture_value)  # Store it
+            _store_fixture_and_views(store_, request.node.nodeid, key, fixture_value, views, save_raw)  # Store it
             return fixture_value                                                      # Return it
 
     else:
@@ -195,7 +226,7 @@ def make_saved_fixture(fixture_fun,
             _init_and_check(request, store_)
             gen = fixture_fun(*args, **kwargs)
             fixture_value = next(gen)                                                # Get the fixture
-            store_[key][request.node.nodeid] = _get_underlying_fixture(fixture_value)  # Store it
+            _store_fixture_and_views(store_, request.node.nodeid, key, fixture_value, views, save_raw)  # Store it
             yield fixture_value                                                      # Return it
 
             # Make sure to terminate the underlying generator
@@ -205,3 +236,31 @@ def make_saved_fixture(fixture_fun,
                 pass
 
     return stored_fixture_function
+
+
+def _store_fixture_and_views(store_,
+                             node_id,
+                             main_key,
+                             fixture_value,
+                             views,
+                             save_raw):
+    """
+
+    :param store_:
+    :param node_id:
+    :param main_key:
+    :param fixture_value:
+    :param views:
+    :param save_raw:
+    :return:
+    """
+    fix_val = _get_underlying_fixture(fixture_value)
+
+    if save_raw:
+        # store the fixture value itself
+        store_[main_key][node_id] = fix_val
+
+    if views is not None:
+        for key, proc in views.items():
+            # store each view
+            store_[key][node_id] = proc(fix_val)
