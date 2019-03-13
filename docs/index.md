@@ -432,7 +432,7 @@ This plugin mostly relies on the fixtures mechanism and the `pytest_runtest_make
 
  * **Collect test execution information easily**: with the default `[module/session]_results_[dct/df]` fixtures, and with `get_session_synthesis_dct(session)` (advanced users), you can collect all the information you need, without the hassle of writing hooks. 
 
- * **Store selected fixtures declaratively**: simply decorate your fixture with `@saved_fixture` and all fixture values will be stored in the default storage. You can use the advanced `@saved_fixture(storage)` to customize the storage (a variable or another fixture).
+ * **Store selected fixtures declaratively**: simply decorate your fixture with `@saved_fixture` and all fixture values will be stored in the default storage. You can use the advanced `@saved_fixture(store)` to customize the storage (a variable or another fixture).
  
  * **Collect test artifacts**: simply use the `results_bag` fixture to start collecting results from your tests. You can also create your own "results bags" fixtures (advanced). It makes it very easy to create applicative benchmarks, for example for [data science](https://smarie.github.io/pytest-patterns/).
  
