@@ -943,7 +943,7 @@ PASSED
 <p><strong>Collect test execution information easily</strong>: with the default <code>[module/session]_results_[dct/df]</code> fixtures, and with <code>get_session_synthesis_dct(session)</code> (advanced users), you can collect all the information you need, without the hassle of writing hooks. </p>
 </li>
 <li>
-<p><strong>Store selected fixtures declaratively</strong>: simply decorate your fixture with <code>@saved_fixture</code> and all fixture values will be stored in the default storage. You can use the advanced <code>@saved_fixture(storage)</code> to customize the storage (a variable or another fixture).</p>
+<p><strong>Store selected fixtures declaratively</strong>: simply decorate your fixture with <code>@saved_fixture</code> and all fixture values will be stored in the default storage. You can use the advanced <code>@saved_fixture(store)</code> to customize the storage (a variable or another fixture).</p>
 </li>
 <li>
 <p><strong>Collect test artifacts</strong>: simply use the <code>results_bag</code> fixture to start collecting results from your tests. You can also create your own "results bags" fixtures (advanced). It makes it very easy to create applicative benchmarks, for example for <a href="https://smarie.github.io/pytest-patterns/">data science</a>.</p>
