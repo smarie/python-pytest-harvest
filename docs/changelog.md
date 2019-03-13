@@ -1,5 +1,13 @@
 # Changelog
 
+### 1.6.1 - Minor improvements
+
+Renamed argument in `create_results_bag_fixture` to align with the name used in `saved_fixture` (`store` instead of `storage`)
+
+Now using `decopatch` for decorator creation. `make_saved_fixture` can thus be removed, and `saved_fixture` simplified.
+
+Now using latest `makefun>=1.5` so that `saved_fixture` create proper fixture wrappers, using `@makefun.wraps`.
+
 ### 1.6.0 - improved `@saved_fixture` + minor dependency change
 
 Users can now use `@saved_fixture` to save not only the fixture, but also some views created from it. This is interesting if each fixture is huge but users just want to save small aspects of it (name, size, etc.). Fixed [#21](https://github.com/smarie/python-pytest-harvest/issues/21).
