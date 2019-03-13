@@ -2,7 +2,8 @@
 pytest-runner
 
 # --- to install
-makefun
+makefun>=1.5.0
+decopatch
 
 # --- to generate the reports (see scripts in ci_tools, called by .travis)
 pytest-html$PYTEST_HTML_VERSION

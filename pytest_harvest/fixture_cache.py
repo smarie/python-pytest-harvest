@@ -1,7 +1,8 @@
 from collections import OrderedDict
 from inspect import isgeneratorfunction
 
-from makefun import with_signature, add_signature_parameters
+from decopatch import DECORATED, function_decorator
+from makefun import wraps, add_signature_parameters
 
 from pytest_harvest.common import get_scope
 
@@ -16,10 +17,12 @@ except ImportError:
     from funcsigs import signature, Parameter
 
 
+@function_decorator
 def saved_fixture(store='fixture_store',  # type: Union[str, Dict[str, Any]]
                   key=None,               # type: str
                   views=None,             # type: Dict[str, Callable[[Any], Any]]
-                  save_raw=None           # type: bool
+                  save_raw=None,          # type: bool
+                  fixture_fun=DECORATED
                   ):
     """
     Decorates a fixture so that it is saved in `store`. `store` can be a dict-like variable or a string
@@ -56,82 +59,6 @@ def saved_fixture(store='fixture_store',  # type: Union[str, Dict[str, Any]]
         meaning "`True` if `views is None`, `False` otherwise".
     :return: a fixture that will be stored
     """
-    # trick to support both with-args and without args usage
-    # if only one argument is provided (the first)
-    if key is None and views is None and save_raw is None:  # all defaults
-        return _saved_fixture(store)
-    else:
-        return _saved_fixture(store, key, views, save_raw)
-
-
-def _saved_fixture(*args, **kwargs):
-    """ Inner decorator creation method to support no-arg calls """
-
-    if len(args) == 1 and callable(args[0]):
-        # called without arguments, directly decorates a function
-        f = args[0]
-        return make_saved_fixture(f)
-    else:
-        # return a function decorator
-        def _decorator(f):
-            return make_saved_fixture(f, *args, **kwargs)
-        return _decorator
-
-
-# def get_fixture_name(fixture_fun):
-#     """
-#     Internal utility to retrieve the fixture name corresponding to the given fixture function .
-#     Indeed there is currently no pytest API to do this.
-#
-#     :param fixture_fun:
-#     :return:
-#     """
-#     custom_fixture_name = getattr(fixture_fun._pytestfixturefunction, 'name', None)
-#
-#     if custom_fixture_name is not None:
-#         # there is a custom fixture name
-#         return custom_fixture_name
-#     else:
-#         obj__name = getattr(fixture_fun, '__name__', None)
-#         if obj__name is not None:
-#             # a function, probably
-#             return obj__name
-#         else:
-#             # a callable object probably
-#             return str(fixture_fun)
-
-
-def _get_underlying_fixture(f):
-    try:
-        from pytest_steps.steps_generator import get_underlying_fixture
-        return get_underlying_fixture(f)
-    except ImportError:
-        return f
-
-
-def make_saved_fixture(fixture_fun,
-                       store='fixture_store',  # type: Union[str, Dict[str, Any]]
-                       key=None,               # type: str
-                       views=None,             # type: Dict[str, Callable[[Any], Any]]
-                       save_raw=None           # type: bool
-                       ):
-    """
-    Manual decorator to decorate a (future) fixture function so that it is saved in a storage.
-
-    ```python
-    def f():
-        return "dummy"
-
-    # manually declare that it should be saved
-    f = make_saved_fixture(f)
-
-    # manually make a fixture from f
-    f = pytest.fixture(f)
-    ```
-
-    See `@saved_fixture` decorator for parameter details.
-    """
-
     # default: if views is None, we save the raw fixture. If user wants to save views, we do not save the raw
     if save_raw is None:
         save_raw = views is None
@@ -184,14 +111,14 @@ def make_saved_fixture(fixture_fun,
 
     # We will expose a new signature with additional arguments
     orig_sig = signature(fixture_fun)
-    needs_request = 'request' in orig_sig.parameters
-    new_args = ((Parameter('request', kind=Parameter.POSITIONAL_OR_KEYWORD),) if not needs_request else ()) \
+    func_needs_request = 'request' in orig_sig.parameters
+    new_args = ((Parameter('request', kind=Parameter.POSITIONAL_OR_KEYWORD),) if not func_needs_request else ()) \
                + ((Parameter(store, kind=Parameter.POSITIONAL_OR_KEYWORD),) if store_is_a_fixture else ())
     new_sig = add_signature_parameters(orig_sig, first=new_args)
 
     # Wrap the fixture in the correct mode (generator or not)
     if not isgeneratorfunction(fixture_fun):
-        @with_signature(new_sig)
+        @wraps(fixture_fun, new_sig=new_sig)
         def stored_fixture_function(*args, **kwargs):
             """Wraps a fixture so as to store it before it is returned"""
             # get the actual store object
@@ -200,17 +127,14 @@ def make_saved_fixture(fixture_fun,
             else:
                 # use the variable from outer scope (from `make_saved_fixture`)
                 store_ = store
-            if needs_request:
-                request = kwargs['request']  # read it but leave it there
-            else:
-                request = kwargs.pop('request')  # read and remove it
+            request = kwargs['request'] if func_needs_request else kwargs.pop('request')
             _init_and_check(request, store_)
             fixture_value = fixture_fun(*args, **kwargs)                                        # Get the fixture
             _store_fixture_and_views(store_, request.node.nodeid, key, fixture_value, views, save_raw)  # Store it
             return fixture_value                                                      # Return it
 
     else:
-        @with_signature(new_sig)
+        @wraps(fixture_fun, new_sig=new_sig)
         def stored_fixture_function(*args, **kwargs):
             """Wraps a fixture so as to store it before it is returned (generator mode)"""
             # get the actual store object
@@ -219,10 +143,7 @@ def make_saved_fixture(fixture_fun,
             else:
                 # use the variable from outer scope (from `make_saved_fixture`)
                 store_ = store
-            if needs_request:
-                request = kwargs['request']
-            else:
-                request = kwargs.pop('request')
+            request = kwargs['request'] if func_needs_request else kwargs.pop('request')
             _init_and_check(request, store_)
             gen = fixture_fun(*args, **kwargs)
             fixture_value = next(gen)                                                # Get the fixture
@@ -264,3 +185,11 @@ def _store_fixture_and_views(store_,
         for key, proc in views.items():
             # store each view
             store_[key][node_id] = proc(fix_val)
+
+
+def _get_underlying_fixture(f):
+    try:
+        from pytest_steps.steps_generator import get_underlying_fixture
+        return get_underlying_fixture(f)
+    except ImportError:
+        return f

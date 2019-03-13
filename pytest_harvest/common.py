@@ -4,6 +4,29 @@ import pytest
 HARVEST_PREFIX = "harvest_rep_"
 
 
+# def get_fixture_name(fixture_fun):
+#     """
+#     Internal utility to retrieve the fixture name corresponding to the given fixture function .
+#     Indeed there is currently no pytest API to do this.
+#
+#     :param fixture_fun:
+#     :return:
+#     """
+#     custom_fixture_name = getattr(fixture_fun._pytestfixturefunction, 'name', None)
+#
+#     if custom_fixture_name is not None:
+#         # there is a custom fixture name
+#         return custom_fixture_name
+#     else:
+#         obj__name = getattr(fixture_fun, '__name__', None)
+#         if obj__name is not None:
+#             # a function, probably
+#             return obj__name
+#         else:
+#             # a callable object probably
+#             return str(fixture_fun)
+
+
 def get_fixture_value(request, fixture_name):
     """
     Returns the value associated with fixture named `fixture_name`, in provided request context.
