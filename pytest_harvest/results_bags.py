@@ -77,18 +77,18 @@ def _results_bag_fixture_impl(bag_type=None,                  # type: Type[Any]
     # results_bag[exec_time_key] = (end - start).total_seconds()
 
 
-def create_results_bag_fixture(storage,                        # type: Union[str, Dict[str, Any]]
+def create_results_bag_fixture(store,                        # type: Union[str, Dict[str, Any]]
                                name='results_bag',             # type: str
                                bag_type=None,                  # type: Type[Any]
                                ):
     """
-    Creates a "results bag" fixture with name <name> stored in the given storage (under key=<name>). By default results
+    Creates a "results bag" fixture with name <name> stored in the given store (under key=<name>). By default results
     bags are instances of `ResultsBag` but you can provide another `bag_type` if needed.
 
-    :param storage: a dict-like object or a fixture name corresponding to a dict-like object. in this dictionary, a new
+    :param store: a dict-like object or a fixture name corresponding to a dict-like object. in this dictionary, a new
         entry will be added for the fixture. This entry will contain a dictionary <test_id>: <fixture_value> for each
         test node.
-    :param name: the name associated with the stored fixture in the global storage. By default this is 'results_bag'.
+    :param name: the name associated with the stored fixture in the global store. By default this is 'results_bag'.
     :param bag_type: the type of object to create as a results bag. Default: `ResultsBag`
     :return:
     """
@@ -107,7 +107,7 @@ def create_results_bag_fixture(storage,                        # type: Union[str
         pass
 
     # Declare that this fixture should be saved
-    _results_bag = saved_fixture(storage, key=name)(_results_bag)
+    _results_bag = saved_fixture(store, key=name)(_results_bag)
 
     # Decorate manually as a fixture
     _results_bag.__name__ = name
