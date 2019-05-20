@@ -1,5 +1,4 @@
 from collections import OrderedDict
-from warnings import warn
 
 import pytest
 import six
