@@ -43,8 +43,13 @@ def test_synthesis(request, fixture_store):
 def get_prefix(request, test_func):
     """
     Utility method to return the prefix to use for node ids, that will work whatever the invocation method.
-    If this is not used the test might work when executed in "raw" mode, but might hang when executed using the
-    "pytester" plugin (from tests/test_all_raw_with_meta_check)
+
+    If this is not used the test might work when executed in "raw" mode, but might fail when executed using the
+    "pytester" plugin (from tests/test_all_raw_with_meta_check). Indeed the "pytester" plugin replaces the module
+    name by 'test_all_raw_with_meta_check.py'.
+
+    IMPORTANT: the pytester plugin hangs instead of failing on windows, so a bug is hard to debug. The linux
+    version does not so a run on the travis CI usually helps.
 
     :param request:
     :param test_func:
