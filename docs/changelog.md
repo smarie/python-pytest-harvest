@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.7.0 - `@saved_fixture` supports all scopes
+
+ * Session-scoped and Module-scoped fixtures are now supported by `@saved_fixture`. Fixes [#17](https://github.com/smarie/python-pytest-harvest/issues/17).
+
+ * Documentation: new [API reference](https://smarie.github.io/python-pytest-harvest/api_reference) page.
+
 ### 1.6.1 - Minor improvements
 
 Renamed argument in `create_results_bag_fixture` to align with the name used in `saved_fixture` (`store` instead of `storage`)
