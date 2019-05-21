@@ -8,10 +8,24 @@ In order to be able to **retrieve** all the information that we will store, we w
 
 `pytest` currently provides several ways to do this:
 
- * through the session finish [hook](https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_sessionfinish) (you have to write this function in the `conftest.py` file):
+ * through a test (put it at the end of the latest test file to ensure execution at the end):
 
 ```python
-def pytest_sessionfinish(session, exitstatus):
+def test_synthesis(request):
+    # you can access the session from the injected 'request':
+    session = request.session
+    print("<Put here your synthesis code>")
+```
+
+ * through a generator (yield) session-scoped fixture (put this in any of your test files or in the `conftest.py` file):
+
+```python
+# Note: for pytest<3.0 you have to use @pytest.yield_fixture instead
+@pytest.fixture(scope='session', autouse=True)
+def my_cooler_session_finish(request):
+    yield
+    # you can access the session from the injected 'request':
+    session = request.session
     print("<Put here your synthesis code>")
 ```
 
@@ -27,15 +41,10 @@ def my_session_finish(request):
     request.addfinalizer(_end)
 ```
 
- * through a generator (yield) session-scoped fixture (put this in any of your test files or in the `conftest.py` file):
+ * through the session finish [hook](https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_sessionfinish) (you have to write this function in the `conftest.py` file):
 
 ```python
-# Note: for pytest<3.0 you have to use @pytest.yield_fixture instead
-@pytest.fixture(scope='session', autouse=True)
-def my_cooler_session_finish(request):
-    yield
-    # you can access the session from the injected 'request':
-    session = request.session
+def pytest_sessionfinish(session, exitstatus):
     print("<Put here your synthesis code>")
 ```
 
@@ -80,12 +89,14 @@ path/to/test_file.py::test_foo[2-world] PASSED [100%]
 ========================== 4 passed in 0.11 seconds ===========================
 ```
 
-let's retrieve the available information at the end of the session (put this in your [session teardown](#0-prerequisite-how-to-write-session-teardown-code) so that you have the session object):
+let's retrieve the available information at the end of the session. The easiest way is to write a "last test" and make sure it is executed after all the other as shown below, but there are other ways as [shown above](#0-prerequisite-how-to-write-session-teardown-code):
 
 ```python
 from pytest_harvest import get_session_synthesis_dct
-synth_dct = get_session_synthesis_dct(session, status_details=True)
-print(dict(synth_dct))
+
+def test_synthesis(request):
+    synth_dct = get_session_synthesis_dct(request.session, status_details=True)
+    print(dict(synth_dct))
 ```
 
 It yields
@@ -146,6 +157,7 @@ As you can see for each test node id you get a dictionary containing
     that the global status corresponds to an aggregation of the status of each of those stages (setup, call, teardown), but the global duration is only the duration of the "call" stage - after all we do not care about how long it took to setup and teardown.
 
 In addition, you can also use the following companion methods : 
+
  - `filter_session_items(session, filter=None)` is the filtering method used behind the scenes. `pytest_item_matches_filter` is the inner method used to test if a single item matches the filter.
  - `get_all_pytest_param_names(session)` lists all unique parameter names used, with optional filtering capabilities
  - `is_pytest_incomplete(item)`, `get_pytest_status(item)`, `get_pytest_param_names(item)` and `get_pytest_params(item)` can be used to analyse a specific item in `session.items` directly without creating the dictionary.
