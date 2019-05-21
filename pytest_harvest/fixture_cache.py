@@ -92,13 +92,17 @@ def saved_fixture(store='fixture_store',  # type: Union[str, Dict[str, Any]]
     # Note: we can not init the storage[key] entry here because when storage is a fixture, it does not yet exist.
 
     def _init_and_check(request, store):
+        """Performs a few checks and returns the key to use for saving (the node id)"""
+        # find the current node id depending on the scope
         scope = get_scope(request)
-
-        if scope != 'function':
+        if scope == 'function':
+            nodeid = request.node.nodeid
+        else:
             # session- or module-scope
-            raise Exception("The `@saved_fixture` decorator is only applicable to function-scope fixtures. `%s`"
-                            " seems to have scope='%s'. Consider removing `@saved_fixture` or changing "
-                            "the scope to 'function'." % (fixture_fun, scope))
+            # raise Exception("The `@saved_fixture` decorator is only applicable to function-scope fixtures. `%s`"
+            #                 " seems to have scope='%s'. Consider removing `@saved_fixture` or changing "
+            #                 "the scope to 'function'." % (fixture_fun, scope))
+            nodeid = request._pyfuncitem.nodeid
 
         # Init storage if needed
         if save_raw:
@@ -106,18 +110,20 @@ def saved_fixture(store='fixture_store',  # type: Union[str, Dict[str, Any]]
             if key not in store:
                 store[key] = OrderedDict()
             # Check that the node id is unique
-            if request.node.nodeid in store[key]:
+            if nodeid in store[key]:
                 raise KeyError("Internal Error - This fixture '%s' was already "
-                               "stored for test id '%s'" % (key, request.node.nodeid))
+                               "stored for test id '%s'" % (key, nodeid))
 
         if views is not None:
             for k in views.keys():
                 if k not in store:
                     store[k] = OrderedDict()
                 # Check that the node id is unique
-                if request.node.nodeid in store[k]:
+                if nodeid in store[k]:
                     raise KeyError("Internal Error - This fixture view '%s' was already "
-                                   "stored for test id '%s'" % (k, request.node.nodeid))
+                                   "stored for test id '%s'" % (k, nodeid))
+
+        return nodeid
 
     # We will expose a new signature with additional arguments
     orig_sig = signature(fixture_fun)
@@ -138,9 +144,9 @@ def saved_fixture(store='fixture_store',  # type: Union[str, Dict[str, Any]]
                 # use the variable from outer scope (from `make_saved_fixture`)
                 store_ = store
             request = kwargs['request'] if func_needs_request else kwargs.pop('request')
-            _init_and_check(request, store_)
+            nodeid = _init_and_check(request, store_)
             fixture_value = fixture_fun(*args, **kwargs)                                        # Get the fixture
-            _store_fixture_and_views(store_, request.node.nodeid, key, fixture_value, views, save_raw)  # Store it
+            _store_fixture_and_views(store_, nodeid, key, fixture_value, views, save_raw)  # Store it
             return fixture_value                                                      # Return it
 
     else:
@@ -154,10 +160,10 @@ def saved_fixture(store='fixture_store',  # type: Union[str, Dict[str, Any]]
                 # use the variable from outer scope (from `make_saved_fixture`)
                 store_ = store
             request = kwargs['request'] if func_needs_request else kwargs.pop('request')
-            _init_and_check(request, store_)
+            nodeid = _init_and_check(request, store_)
             gen = fixture_fun(*args, **kwargs)
             fixture_value = next(gen)                                                # Get the fixture
-            _store_fixture_and_views(store_, request.node.nodeid, key, fixture_value, views, save_raw)  # Store it
+            _store_fixture_and_views(store_, nodeid, key, fixture_value, views, save_raw)  # Store it
             yield fixture_value                                                      # Return it
 
             # Make sure to terminate the underlying generator
