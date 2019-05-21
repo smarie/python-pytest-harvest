@@ -19,7 +19,7 @@ def test_dummy(dummy):
 def test_synthesis(request, fixture_store):
     print(fixture_store['dummy'])
     prefix = get_prefix(request, test_synthesis)
-    assert dict(fixture_store['dummy']) == {'%stest_saved_fixture_basic.py::test_dummy' % prefix: 1}
+    assert dict(fixture_store['dummy']) == {'%s::test_dummy' % prefix: 1}
 
 
 def get_prefix(request, test_func):
@@ -34,7 +34,5 @@ def get_prefix(request, test_func):
     """
     items = filter_session_items(request.session, filter=test_func.__module__)
     last_node_id = items[-1].nodeid
-    module_short_name = test_func.__module__.split('.')[-1]
-    module_idx = last_node_id.index(module_short_name)
-    prefix = last_node_id[0:module_idx]
+    prefix = last_node_id.split('::')[0]
     return prefix
