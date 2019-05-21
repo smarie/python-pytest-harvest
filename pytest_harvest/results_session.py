@@ -230,7 +230,7 @@ def filter_session_items(session,
     """
     if filter is not None:
         filterset = _get_filterset(filter)
-        filtered_items = (item for item in session.items if _pytest_item_matches_filter(item, filterset))
+        filtered_items = tuple(item for item in session.items if _pytest_item_matches_filter(item, filterset))
     else:
         filtered_items = session.items
     return filtered_items
