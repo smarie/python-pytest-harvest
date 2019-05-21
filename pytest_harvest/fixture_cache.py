@@ -30,16 +30,26 @@ def saved_fixture(store='fixture_store',  # type: Union[str, Dict[str, Any]]
     fixture provided by this plugin.
 
     After executing all tests, `<store>` will contain a new item under key `<key>` (default is the name of the fixture).
-    This item is a dictionary <test_id>: <fixture_value> for each test node.
+    This item is a dictionary <test_id>: <fixture_value> for each test node where the fixture was setup.
 
     ```python
-    from random import random
+    import pytest
+    from pytest_harvest import saved_fixture
 
-    @saved_fixture('storage')
     @pytest.fixture
+    @saved_fixture
     def dummy():
-         return random()
+        return 1
+
+    def test_dummy(dummy):
+        pass
+
+    def test_synthesis(fixture_store):
+        print(fixture_store['dummy'])
     ```
+
+    Note that for session-scoped and module-scoped fixtures, not all test ids will appear in the store - only those
+    for which the fixture was (re)created.
 
     Users can save additional views created from the fixture instance by applying transforms (callable functions). To
     do this, users can provide a dictionary under the `views` argument, containing a `{<key>: <procedure>}` dict-like.
@@ -49,7 +59,7 @@ def saved_fixture(store='fixture_store',  # type: Union[str, Dict[str, Any]]
 
     :param store: a dict-like object or a fixture name corresponding to a dict-like object. in this dictionary, a new
         entry will be added for the fixture. This entry will contain a dictionary <test_id>: <fixture_value> for each
-        test node.
+        test node. By default fixtures are stored in the `fixture_store``fixture.
     :param key: the name associated with the stored fixture in the store. By default this is the fixture name.
     :param views: an optional dictionary that can be provided to store views created from the fixture, rather than (or
         in addition to, if `save_raw=True`) the fixture itself. The dict should contain a `{<key>: <procedure>}`

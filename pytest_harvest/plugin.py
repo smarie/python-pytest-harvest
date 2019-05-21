@@ -37,26 +37,59 @@ def pytest_runtest_makereport(item, call):
 @pytest.fixture(scope='session')  # no need for autouse=True
 def fixture_store():
     """
-    A 'fixture store' fixture. It is used as the store for the default 'results_bag' fixture, and the default store
-    where the `@saved_fixture` decorator stores fixtures.
+    A "fixture store" fixture: a dictionary where fixture instances can be saved.
+
+    By default
+
+     - all fixtures decorated with `@saved_fixture` are saved in this store.
+     - the `results_bag` fixture is also saved in this store.
+
+    To retrieve the contents of the store, you can:
+
+     * create a test using this fixture and make sure that it is executed after all others.
+     * access this fixture from a dependent fixture and read its value in the setup or teardown script.
+     * access this fixture from the `request` fixture using the `get_fixture_value` helper method.
+
+    This fixture has session scope so it is unique across the whole session.
     """
     return OrderedDict()
 
 
 results_bag = create_results_bag_fixture('fixture_store', name='results_bag')
-"""The fixture where we will put all our benchmark results"""
+"""
+A "results bag" fixture: a dictionary where you can store anything (results, context, etc.) during your tests execution.
+It offers a "much"-like api: you can access all entries using the object protocol such as in `results_bag.a = 1`.
+
+This fixture has function-scope so a new, empty instance is injected in each test node. 
+
+There are several ways to gather all results after they have been stored. 
+
+ * To get the raw stored results, use the `fixture_store` fixture: `fixture_store['results_bag']` will contain all 
+   result bags for all tests.
+   
+ * If you are interested in both the stored results AND some stored fixture values (through `@saved_fixture`), you 
+   might rather wish to leverage the following helpers:
+
+     - use one of the `session_results_dct`, `module_results_dct`, `session_results_df` or `module_results_df` 
+       fixtures. They contain all available information, in a nicely summarized way.
+       
+     - use the `get_session_synthesis_dct(session)` helper method to create a similar synthesis than the above with 
+       more customization capabilities.
+
+If you wish to create custom results bags similar to this one (for example to create several with different names), 
+use `create_results_bag_fixture`.
+"""
 
 
 @pytest.fixture(scope='function')
 def session_results_dct(request, fixture_store):
     """
-    This fixture returns a synthesis dictionary for all tests completed "so far", with 'full' id format. It includes
+    This fixture contains a synthesis dictionary for all tests completed "so far", with 'full' id format. It includes
     contents from the default `fixture_store`, including `results_bag`.
 
     Behind the scenes it relies on `get_session_synthesis_dct`.
 
-    Note: this might seem counter intuitive but we need a scope=function here because we want this method to be called
-    every time it is needed (not once at the beginning).
+    This fixture has a function scope because we want its contents to be refreshed every time it is needed.
     """
     results_dct = get_session_synthesis_dct(request, durations_in_ms=True,
                                             test_id_format='full', status_details=True, pytest_prefix=False,
@@ -84,8 +117,7 @@ def module_results_dct(request, fixture_store):
 
     Behind the scenes it relies on `get_session_synthesis_dct`.
 
-    Note: this might seem counter intuitive but we need a scope=function here because we want this method to be called
-    every time it is needed (not once at the beginning).
+    This fixture has a function scope because we want its contents to be refreshed every time it is needed.
     """
     results_dct = get_session_synthesis_dct(request, durations_in_ms=True,
                                             filter=request.module.__name__, pytest_prefix=False,
@@ -113,13 +145,12 @@ def session_results_df(request, fixture_store):
     This fixture contains a synthesis dataframe for all tests completed "so far" in the module of the caller,
     with 'function' id format. It includes contents from the default `fixture_store`, including `results_bag`.
 
-    It is basically just a transformation of the `session_results_dct` fixture into a pandas DataFrame.
+    It is basically just a transformation of the `session_results_dct` fixture into a pandas `DataFrame`.
 
     If `pytest-steps` is installed, the step ids will be extracted and the dataframe index will be multi-level
     (test id without step, step id).
 
-    Note: this might seem counter intuitive but we need a scope=function here because we want this method to be called
-    every time it is needed (not once at the beginning).
+    This fixture has a function scope because we want its contents to be refreshed every time it is needed.
     """
     try:
         import pandas as pd
@@ -167,8 +198,7 @@ def module_results_df(request, fixture_store):
     If `pytest-steps` is installed, the step ids will be extracted and the dataframe index will be multi-level
     (test id without step, step id).
 
-    Note: this might seem counter intuitive but we need a scope=function here because we want this method to be called
-    every time it is needed (not once at the beginning).
+    This fixture has a function scope because we want its contents to be refreshed every time it is needed.
     """
     try:
         import pandas as pd

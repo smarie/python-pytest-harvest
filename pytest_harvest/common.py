@@ -29,9 +29,9 @@ HARVEST_PREFIX = "harvest_rep_"
 
 def get_fixture_value(request, fixture_name):
     """
-    Returns the value associated with fixture named `fixture_name`, in provided request context.
-    This is just an easy way to use `getfixturevalue` or `getfuncargvalue` according to whichever is availabl in
-    current pytest version
+    Returns the value associated with fixture named `fixture_name`, in provided `request` context.
+    This is just an easy way to use `getfixturevalue` or `getfuncargvalue` according to whichever is available in
+    current `pytest` version.
 
     :param request:
     :param fixture_name:

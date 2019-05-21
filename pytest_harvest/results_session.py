@@ -26,27 +26,28 @@ def get_session_synthesis_dct(session_or_request,
                               flatten_more=None        # type: Union[str, Iterable[str], Mapping[str, str]]
                               ):
     """
-    Returns a dictionary containing a synthesis of what is available currently in the `pytest` session object provided.
+    Returns a dictionary containing a synthesis of what is available currently in the provided `pytest` `session`
+    object.
 
     For each entry, the key is the test id, and the value is a dictionary containing:
-     - 'pytest_obj': the object under test, typically a test function
-     - 'pytest_status': the overall status ('failing', 'skipped', 'passed')
-     - 'pytest_duration': the duration of the 'call' step. By default this is the pytest unit (s) but if you set
-     `durations_in_ms=True` it becomes (ms)
-     - 'pytest_status_details': a dictionary containing step-by-step status details for all pytest steps ('setup',
-     'call', 'teardown'). This is only included if `status_details=True` (not by default)
+     - `'pytest_obj'`: the object under test, typically a test function
+     - `'pytest_status'`: the overall status (`'failing'`, `'skipped'`, `'passed'`)
+     - `'pytest_duration'`: the duration of the `'call'` step. By default this is the pytest unit (s) but if you set
+       `durations_in_ms=True` it becomes (ms)
+     - `'pytest_status_details'`: a dictionary containing step-by-step status details for all pytest steps (`'setup'`,
+       `'call'`, `'teardown'`). This is only included if `status_details=True` (not by default)
 
     It is possible to process the test id (the keys) using the `test_id_format` option. Let's assume that the id is
     `pytest_steps/tests_raw/test_wrapped_in_class.py::TestX::()::test_easy[p1-p2]`. Here are the returned test ids
     depending on the selected `test_id_format`
-     - 'function' will return `test_easy[p1-p2]`
-     - 'class' will return `TestX::()::test_easy[p1-p2]`
-     - 'module' will return `test_wrapped_in_class.py::TestX::()::test_easy[...]`
-     - 'full' will return the original id (this is the default behaviour)
+     - `'function'` will return `test_easy[p1-p2]`
+     - `'class'` will return `TestX::()::test_easy[p1-p2]`
+     - `'module'` will return `test_wrapped_in_class.py::TestX::()::test_easy[...]`
+     - `'full'` will return the original id (this is the default behaviour)
     In addition one can provide a custom string handling function that will be called for each test id to process.
 
     The 'pytest' prefix in front of all these items (except `pytest_obj`) is by default added in non-flatten mode and
-    removed in flatten mode. To force one of these you can set `pytest_prefix` to True or False.
+    removed in flatten mode. To force one of these you can set `pytest_prefix` to `True` or `False`.
 
     An optional `filter` can be provided, that can be a singleton or iterable of pytest objects (typically test
     functions) and/or module names.
@@ -80,8 +81,9 @@ def get_session_synthesis_dct(session_or_request,
         will have their contents directly copied in the first level (with a prefix added in case of pytest status
         details).
     :param fixture_store: a singleton or iterable containing dict-like fixture storage objects (see
-        `@saved_fixture` and `create_results_bag`). If flatten=`False` the contents of these dictionaries will be added
-        to the output in a dedicated 'fixtures' entry. If flatten=True all of their contents will be included directly.
+        `@saved_fixture` and `create_results_bag_fixture`). If flatten=`False` the contents of these dictionaries will
+        be added to the output in a dedicated 'fixtures' entry. If flatten=True all of their contents will be included
+        directly. A fixture name can also be provided.
     :param flatten_more: a singleton, iterable or dictionary containing fixture names to flatten one level more in case
         flatten=True. If a dictionary is provided, the key should be the fixture name, and the value should be a prefix
         used for flattening its contents
@@ -214,15 +216,17 @@ def filter_session_items(session,
                          filter=None,  # type: Any
                          ):
     """
-    Filters pytest session item in the provided `session`
+    Filters pytest session item in the provided `session`.
     An optional `filter` can be provided, that can be a singleton or iterable of pytest objects (typically test
     functions) and/or module names.
 
-    :param session:
+    Used in `get_session_synthesis_dct`.
+
+    :param session: a pytest session
     :param filter: a singleton or iterable of pytest objects on which to filter the returned dict on (the returned
         items will only by pytest nodes for which the pytest object is one of the ones provided). One can also use
         module names.
-    :return:
+    :return: an iterable containing possibly filtered session items
     """
     if filter is not None:
         filterset = _get_filterset(filter)
@@ -249,11 +253,11 @@ def get_all_pytest_param_names(session,
     :param session: a pytest session object.
     :param filter: a singleton or iterable of pytest objects on which to filter the returned dict on (the returned
         items will only by pytest nodes for which the pytest object is one of the ones provided). One can also use
-        modules or the special `THIS MODULE` item.
+        modules.
     :param filter_incomplete: a boolean indicating if incomplete nodes (without the three stages setup/call/teardown)
         should appear in the results (False) or not (True). Note: by default incomplete nodes DO APPEAR (this is
         different from get_session_synthesis_dct behaviour)
-    :return:
+    :return: a list of parameter names corresponding to the desired filters
     """
     dset = set()
 
@@ -282,11 +286,11 @@ def get_all_pytest_fixture_names(session,
     :param session: a pytest session object.
     :param filter: a singleton or iterable of pytest objects on which to filter the returned dict on (the returned
         items will only by pytest nodes for which the pytest object is one of the ones provided). One can also use
-        modules or the special `THIS MODULE` item.
+        modules.
     :param filter_incomplete: a boolean indicating if incomplete nodes (without the three stages setup/call/teardown)
         should appear in the results (False) or not (True). Note: by default incomplete nodes DO APPEAR (this is
         different from get_session_synthesis_dct behaviour)
-    :return:
+    :return: a list of fixture names corresponding to the desired filters
     """
     dset = set()
 
@@ -301,7 +305,7 @@ def get_all_pytest_fixture_names(session,
 # ------------ item-related -------------
 def pytest_item_matches_filter(item, filter):
     """
-    Returns True if pytest session item `item` matches filter `filter`
+    Returns True if pytest session item `item` matches filter `filter`, `False` otherwise.
 
     :param item: an item inside a pytest session
     :param filter:
@@ -357,6 +361,13 @@ def _get_pytest_status_keys(item):
 
 
 def is_pytest_incomplete(item):
+    """
+    Returns `True` if a pytest item is incomplete - in other words if at least one of the 3 steps (setup/call/teardown)
+    is missing from the available pytest report attached to this item.
+
+    :param item:
+    :return:
+    """
     return len(_get_pytest_status_keys(item)) < 3
 
 
@@ -421,7 +432,7 @@ def get_pytest_status(item, durations_in_ms=False, current_request=None):
 
 
 def get_pytest_param_names(item):
-    """ Returns a list containing a pytest session item's parameter """
+    """ Returns a list containing a pytest session item's parameters """
     return list(get_pytest_params(item).keys())
 
 

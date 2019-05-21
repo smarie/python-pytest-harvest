@@ -14,8 +14,10 @@ from pytest_harvest.fixture_cache import saved_fixture
 
 class ResultsBag(dict):
     """
-    A simple 'Munch', that is, a dual object/dict.
-    It is hashable with a not very interesting hash, but at least a unique one in a python session (id(self))
+    The default type for result bags, used in the `results_bag` fixture and `create_results_bag_fixture` method.
+
+    It is a simple 'Munch', that is, a dual object/dict.
+    It is hashable with a not very interesting hash, but at least a unique one in a python session (id(self)).
     """
 
     # object
@@ -82,7 +84,7 @@ def create_results_bag_fixture(store,                        # type: Union[str, 
                                bag_type=None,                  # type: Type[Any]
                                ):
     """
-    Creates a "results bag" fixture with name <name> stored in the given store (under key=<name>). By default results
+    Creates a "results bag" fixture with name `name` stored in the given store (under key=`name`). By default results
     bags are instances of `ResultsBag` but you can provide another `bag_type` if needed.
 
     :param store: a dict-like object or a fixture name corresponding to a dict-like object. in this dictionary, a new
