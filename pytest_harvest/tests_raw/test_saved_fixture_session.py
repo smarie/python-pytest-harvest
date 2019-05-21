@@ -17,7 +17,7 @@ this_file_name = os.path.split(__file__)[1]
 unique_numbers = [random(), random()]
 
 
-@pytest.fixture(params=unique_numbers)
+@pytest.fixture(params=unique_numbers, scope='session')
 @saved_fixture('store')
 def my_fix(request):
     """Our saved fixture, that will be saved in the store fixture"""
@@ -40,6 +40,7 @@ def store(request):
     store = OrderedDict()
     yield store
 
+    # --------- TEARDOWN: CHECK THAT EVERYTHING IS OK -----------
     # check that this util works
     assert get_fixture_value(request, 'store') == store
 
