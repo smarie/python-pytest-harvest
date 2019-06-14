@@ -10,7 +10,11 @@
 
 `pytest` is a great tool to write test logic once and then generate multiple tests from *parameters*. Its *fixture* mechanism provides a cool way to inject dependencies in your tests.
 
-At the end of a test session, you can already **collect various data** about the tests that have been run. However as opposed to *parameters* (`@pytest.mark.parametrize`), `pytest` purposedly does not keep *fixtures* (`@pytest.fixture`) in memory, because in general that would just be a waste of memory. Therefore you are currently **not able to retrieve fixture values at the end of the session**.
+At the end of a test session, you can already **collect various data** about the tests that have been run. But it is a bit cumbersome to get it right, and requires you to write a plugin (see [this advice](https://docs.pytest.org/en/latest/example/simple.html#making-test-result-information-available-in-fixtures)).
+
+Besides, as opposed to *parameters* (`@pytest.mark.parametrize`), `pytest` purposedly does not keep *fixtures* (`@pytest.fixture`) in memory, because in general that would just be a waste of memory. Therefore you are currently **not able to retrieve fixture values at the end of the session**.
+
+Finally, what about other kind of results that you produce during test execution ? There is no current mechanism in `pytest` to manage that.
 
 With `pytest-harvest`:
 
