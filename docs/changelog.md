@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.7.1 - added `six` dependency
+
+It was missing from `setup.py`.
+
 ### 1.7.0 - `@saved_fixture` supports all scopes
 
  * Session-scoped and Module-scoped fixtures are now supported by `@saved_fixture`. Fixes [#17](https://github.com/smarie/python-pytest-harvest/issues/17).
