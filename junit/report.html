@@ -325,7 +325,7 @@ function filter_table(elem) {
     not_found_message.hidden = !all_rows_hidden;
 }
 </script>
-    <p>Report generated on 02-Aug-2019 at 11:43:32</p>
+    <p>Report generated on 02-Aug-2019 at 12:31:26</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -335,7 +335,7 @@ function filter_table(elem) {
         <td>Python</td>
         <td>3.5.6</td></tr></table>
     <h2>Summary</h2>
-    <p>48 tests ran in 6.01 seconds. </p>
+    <p>48 tests ran in 6.08 seconds. </p>
     <p>(Un)check the boxes to filter the results.</p><input checked="true" data-test-result="passed" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">48 passed</span> <input checked="true" data-test-result="skipped" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span> <input checked="true" data-test-result="failed" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span> <input checked="true" data-test-result="error" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span> <input checked="true" data-test-result="xfailed" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span> <input checked="true" data-test-result="xpassed" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span> <input checked="true" data-test-result="rerun" disabled="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="rerun">0 rerun</span> 
     <h2>Results</h2>
     <table id="results-table">
@@ -356,11 +356,11 @@ function filter_table(elem) {
         <tr>
           <td class="extra" colspan="5">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_results_bags.py results in {&apos;passed&apos;: 6, &apos;failed&apos;: 0, &apos;skipped&apos;: 0}
+Testing that running pytest on file test_results_bags.py results in {&apos;skipped&apos;: 0, &apos;failed&apos;: 0, &apos;passed&apos;: 6}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.8.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests0, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1.dev3+g044d6a2, cov-2.6.0
+plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1, cov-2.6.0
 collected 6 items
 
 test_run_all_tests.py ......
@@ -371,16 +371,16 @@ test_run_all_tests.py ......
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_saved_fixture_in_global_var.py]</td>
-          <td class="col-duration">0.04</td>
+          <td class="col-duration">0.05</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="5">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0}
+Testing that running pytest on file test_saved_fixture_in_global_var.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.8.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests1, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1.dev3+g044d6a2, cov-2.6.0
+plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1, cov-2.6.0
 collected 2 items
 
 test_run_all_tests.py ..
@@ -396,11 +396,11 @@ test_run_all_tests.py ..
         <tr>
           <td class="extra" colspan="5">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_all_together.py results in {&apos;passed&apos;: 9, &apos;failed&apos;: 0, &apos;skipped&apos;: 0}
+Testing that running pytest on file test_all_together.py results in {&apos;skipped&apos;: 0, &apos;failed&apos;: 0, &apos;passed&apos;: 9}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.8.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests2, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1.dev3+g044d6a2, cov-2.6.0
+plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1, cov-2.6.0
 collected 9 items
 
 test_run_all_tests.py .........
@@ -416,11 +416,11 @@ test_run_all_tests.py .........
         <tr>
           <td class="extra" colspan="5">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_saved_fixture_session.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0}
+Testing that running pytest on file test_saved_fixture_session.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.8.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests3, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1.dev3+g044d6a2, cov-2.6.0
+plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1, cov-2.6.0
 collected 2 items
 
 test_run_all_tests.py ..
@@ -431,16 +431,16 @@ test_run_all_tests.py ..
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_saved_fixture_in_fixture.py]</td>
-          <td class="col-duration">0.04</td>
+          <td class="col-duration">0.05</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="5">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0}
+Testing that running pytest on file test_saved_fixture_in_fixture.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 2}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.8.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests4, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1.dev3+g044d6a2, cov-2.6.0
+plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1, cov-2.6.0
 collected 2 items
 
 test_run_all_tests.py ..
@@ -456,11 +456,11 @@ test_run_all_tests.py ..
         <tr>
           <td class="extra" colspan="5">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_default_fixtures.py results in {&apos;passed&apos;: 8, &apos;failed&apos;: 0, &apos;skipped&apos;: 0}
+Testing that running pytest on file test_default_fixtures.py results in {&apos;skipped&apos;: 0, &apos;failed&apos;: 0, &apos;passed&apos;: 8}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.8.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests5, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1.dev3+g044d6a2, cov-2.6.0
+plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1, cov-2.6.0
 collected 8 items
 
 test_run_all_tests.py ........
@@ -476,11 +476,11 @@ test_run_all_tests.py ........
         <tr>
           <td class="extra" colspan="5">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_saved_fixture_basic.py results in {&apos;passed&apos;: 2, &apos;failed&apos;: 0, &apos;skipped&apos;: 0}
+Testing that running pytest on file test_saved_fixture_basic.py results in {&apos;skipped&apos;: 0, &apos;failed&apos;: 0, &apos;passed&apos;: 2}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.8.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests6, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1.dev3+g044d6a2, cov-2.6.0
+plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1, cov-2.6.0
 collected 2 items
 
 test_run_all_tests.py ..
@@ -491,21 +491,21 @@ test_run_all_tests.py ..
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_saved_fixture_session_module.py]</td>
-          <td class="col-duration">0.09</td>
+          <td class="col-duration">0.10</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="5">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_saved_fixture_session_module.py results in {&apos;passed&apos;: 3, &apos;failed&apos;: 0}
+Testing that running pytest on file test_saved_fixture_session_module.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 3}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.8.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests7, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1.dev3+g044d6a2, cov-2.6.0
+plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1, cov-2.6.0
 collected 3 items
 
 test_run_all_tests.py ...
 
-=========================== 3 passed in 0.07 seconds ===========================
+=========================== 3 passed in 0.08 seconds ===========================
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -516,11 +516,11 @@ test_run_all_tests.py ...
         <tr>
           <td class="extra" colspan="5">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_get_session_results_indirect_and_noparam.py results in {&apos;passed&apos;: 5, &apos;failed&apos;: 0, &apos;skipped&apos;: 0}
+Testing that running pytest on file test_get_session_results_indirect_and_noparam.py results in {&apos;skipped&apos;: 0, &apos;failed&apos;: 0, &apos;passed&apos;: 5}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.8.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests8, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1.dev3+g044d6a2, cov-2.6.0
+plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1, cov-2.6.0
 collected 5 items
 
 test_run_all_tests.py .....
@@ -531,16 +531,16 @@ test_run_all_tests.py .....
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_get_session_results.py]</td>
-          <td class="col-duration">0.12</td>
+          <td class="col-duration">0.13</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="5">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_get_session_results.py results in {&apos;passed&apos;: 16, &apos;failed&apos;: 1, &apos;skipped&apos;: 1}
+Testing that running pytest on file test_get_session_results.py results in {&apos;skipped&apos;: 1, &apos;failed&apos;: 1, &apos;passed&apos;: 16}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.8.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests9, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1.dev3+g044d6a2, cov-2.6.0
+plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1, cov-2.6.0
 collected 18 items
 
 test_run_all_tests.py ........sF........
@@ -559,16 +559,16 @@ test_run_all_tests.py:116: Failed
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_saved_fixture_module_params.py]</td>
-          <td class="col-duration">0.05</td>
+          <td class="col-duration">0.06</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="5">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-Testing that running pytest on file test_saved_fixture_module_params.py results in {&apos;passed&apos;: 7, &apos;failed&apos;: 0}
+Testing that running pytest on file test_saved_fixture_module_params.py results in {&apos;failed&apos;: 0, &apos;passed&apos;: 7}
 ============================= test session starts ==============================
 platform linux -- Python 3.5.6, pytest-2.9.2, py-1.8.0, pluggy-0.3.1
 rootdir: /tmp/pytest-of-travis/pytest-0/testdir/test_run_all_tests10, inifile: 
-plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1.dev3+g044d6a2, cov-2.6.0
+plugins: logging-2015.11.4, html-1.9.0, harvest-1.7.1, cov-2.6.0
 collected 7 items
 
 test_run_all_tests.py .......
@@ -611,13 +611,13 @@ test_run_all_tests.py .......
     - test_foo[self]
 
    Contents of &apos;test_foo[world]&apos;:
-    - &apos;pytest_obj&apos;: &lt;function test_foo at 0x7f2527e3a598&gt;
+    - &apos;pytest_obj&apos;: &lt;function test_foo at 0x7fbc9fa66598&gt;
     - &apos;status&apos;: passed
-    - &apos;duration_ms&apos;: 501.13773345947266
+    - &apos;duration_ms&apos;: 501.1868476867676
     - &apos;status_details&apos;:
-      - &apos;teardown&apos;: (&apos;passed&apos;, 0.23174285888671875)
-      - &apos;call&apos;: (&apos;passed&apos;, 501.13773345947266)
-      - &apos;setup&apos;: (&apos;passed&apos;, 0.5726814270019531)
+      - &apos;teardown&apos;: (&apos;passed&apos;, 0.2167224884033203)
+      - &apos;call&apos;: (&apos;passed&apos;, 501.1868476867676)
+      - &apos;setup&apos;: (&apos;passed&apos;, 0.7328987121582031)
     - &apos;params&apos;: OrderedDict([(&apos;p&apos;, &apos;world&apos;)])
     - &apos;fixtures&apos;: OrderedDict()
 </div></td></tr></tbody>
@@ -656,8 +656,8 @@ test_run_all_tests.py .......
 
                                             pytest_obj  ...        p
 test_id                                                 ...         
-test_foo[world]  &lt;function test_foo at 0x7f2527e5c8c8&gt;  ...    world
-test_foo[self]   &lt;function test_foo at 0x7f2527e5c8c8&gt;  ...     self
+test_foo[world]  &lt;function test_foo at 0x7fbc9fa918c8&gt;  ...    world
+test_foo[self]   &lt;function test_foo at 0x7fbc9fa918c8&gt;  ...     self
 
 [2 rows x 4 columns]
 </div></td></tr></tbody>
@@ -716,12 +716,12 @@ test_foo[self]   &lt;function test_foo at 0x7f2527e5c8c8&gt;  ...     self
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
    `module_results_df` dataframe:
 
-| test_id           | pytest_obj                            | status   |   duration_ms | double_sleep_time   |   person_param | person   | current_time               |   nb_letters |
-|:------------------|:--------------------------------------|:---------|--------------:|:--------------------|---------------:|:---------|:---------------------------|-------------:|
-| test_foo[0-False] | &lt;function test_foo at 0x7f2527e20ae8&gt; | passed   |       501.243 | False               |              0 | world    | 2019-08-02T11:43:30.549624 |            5 |
-| test_foo[0-True]  | &lt;function test_foo at 0x7f2527e20ae8&gt; | passed   |      1001.66  | True                |              0 | world    | 2019-08-02T11:43:31.556674 |            5 |
-| test_foo[1-False] | &lt;function test_foo at 0x7f2527e20ae8&gt; | passed   |       401.047 | False               |              1 | self     | 2019-08-02T11:43:31.962561 |            4 |
-| test_foo[1-True]  | &lt;function test_foo at 0x7f2527e20ae8&gt; | passed   |       801.558 | True                |              1 | self     | 2019-08-02T11:43:32.768729 |            4 |
+| test_id           | pytest_obj                            | status   |   duration_ms | double_sleep_time   |   person_param | person   |   nb_letters | current_time               |
+|:------------------|:--------------------------------------|:---------|--------------:|:--------------------|---------------:|:---------|-------------:|:---------------------------|
+| test_foo[0-False] | &lt;function test_foo at 0x7fbc9fa52ae8&gt; | passed   |       501.127 | False               |              0 | world    |            5 | 2019-08-02T12:31:23.553732 |
+| test_foo[0-True]  | &lt;function test_foo at 0x7fbc9fa52ae8&gt; | passed   |      1001.62  | True                |              0 | world    |            5 | 2019-08-02T12:31:24.562532 |
+| test_foo[1-False] | &lt;function test_foo at 0x7fbc9fa52ae8&gt; | passed   |       401.027 | False               |              1 | self     |            4 | 2019-08-02T12:31:24.969315 |
+| test_foo[1-True]  | &lt;function test_foo at 0x7fbc9fa52ae8&gt; | passed   |       801.468 | True                |              1 | self     |            4 | 2019-08-02T12:31:25.776142 |
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -760,23 +760,23 @@ test_foo[self]   &lt;function test_foo at 0x7f2527e5c8c8&gt;  ...     self
 
    Contents of `fixture_store[&apos;results_bag&apos;]`:
     - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[0-False]&apos;:
-      - &apos;current_time&apos;: 2019-08-02T11:43:30.549624
       - &apos;nb_letters&apos;: 5
+      - &apos;current_time&apos;: 2019-08-02T12:31:23.553732
     - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[0-True]&apos;:
-      - &apos;current_time&apos;: 2019-08-02T11:43:31.556674
       - &apos;nb_letters&apos;: 5
+      - &apos;current_time&apos;: 2019-08-02T12:31:24.562532
     - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[1-False]&apos;:
-      - &apos;current_time&apos;: 2019-08-02T11:43:31.962561
       - &apos;nb_letters&apos;: 4
+      - &apos;current_time&apos;: 2019-08-02T12:31:24.969315
     - &apos;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[1-True]&apos;:
-      - &apos;current_time&apos;: 2019-08-02T11:43:32.768729
       - &apos;nb_letters&apos;: 4
+      - &apos;current_time&apos;: 2019-08-02T12:31:25.776142
     - &apos;pytest_harvest/tests/test_doc_basic_results_bag.py::test_foo[world]&apos;:
-      - &apos;current_time&apos;: 2019-08-02T11:43:32.783761
       - &apos;nb_letters&apos;: 5
+      - &apos;current_time&apos;: 2019-08-02T12:31:25.791119
     - &apos;pytest_harvest/tests/test_doc_basic_results_bag.py::test_foo[self]&apos;:
-      - &apos;current_time&apos;: 2019-08-02T11:43:32.787354
       - &apos;nb_letters&apos;: 4
+      - &apos;current_time&apos;: 2019-08-02T12:31:25.795329
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -855,8 +855,8 @@ test_foo[self]   &lt;function test_foo at 0x7f2527e5c8c8&gt;  ...     self
    Available `fixture_store` keys:
     - &apos;person&apos;
     - &apos;results_bag&apos;
-    - &apos;other_person_last&apos;
     - &apos;other_person_initial&apos;
+    - &apos;other_person_last&apos;
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -931,13 +931,13 @@ test_foo[self]   &lt;function test_foo at 0x7f2527e5c8c8&gt;  ...     self
           <td class="extra" colspan="5">
             <div class="log">----------------------------- Captured stdout call -----------------------------<br/>test_id                 pytest_obj                                      status      duration_ms    algo_param  dataset_param      accuracy  dataset
 ----------------------  ----------------------------------------------  --------  -------------  ------------  ---------------  ----------  -------------
-test_my_app_bench[A-1]  &lt;function test_my_app_bench at 0x7f2527e198c8&gt;  passed         0.26083              1  A                  0.270112  my dataset #A
-test_my_app_bench[A-2]  &lt;function test_my_app_bench at 0x7f2527e198c8&gt;  passed         0.240326             2  A                  0.46618   my dataset #A
-test_my_app_bench[B-1]  &lt;function test_my_app_bench at 0x7f2527e198c8&gt;  passed         0.277519             1  B                  0.326691  my dataset #B
-test_my_app_bench[B-2]  &lt;function test_my_app_bench at 0x7f2527e198c8&gt;  passed         0.244379             2  B                  0.796402  my dataset #B
-test_my_app_bench[C-1]  &lt;function test_my_app_bench at 0x7f2527e198c8&gt;  passed         0.252485             1  C                  0.713943  my dataset #C
-test_my_app_bench[C-2]  &lt;function test_my_app_bench at 0x7f2527e198c8&gt;  passed         0.266552             2  C                  0.363659  my dataset #C
-test_basic              &lt;function test_basic at 0x7f2527e19a60&gt;         passed         0.215054           nan  nan              nan         nan
+test_my_app_bench[A-1]  &lt;function test_my_app_bench at 0x7fbc9fa588c8&gt;  passed         0.287533             1  A                  0.733555  my dataset #A
+test_my_app_bench[A-2]  &lt;function test_my_app_bench at 0x7fbc9fa588c8&gt;  passed         0.329018             2  A                  0.779079  my dataset #A
+test_my_app_bench[B-1]  &lt;function test_my_app_bench at 0x7fbc9fa588c8&gt;  passed         0.144243             1  B                  0.522612  my dataset #B
+test_my_app_bench[B-2]  &lt;function test_my_app_bench at 0x7fbc9fa588c8&gt;  passed         0.157118             2  B                  0.335818  my dataset #B
+test_my_app_bench[C-1]  &lt;function test_my_app_bench at 0x7fbc9fa588c8&gt;  passed         0.147343             1  C                  0.663545  my dataset #C
+test_my_app_bench[C-2]  &lt;function test_my_app_bench at 0x7fbc9fa588c8&gt;  passed         0.14925              2  C                  0.945168  my dataset #C
+test_basic              &lt;function test_basic at 0x7fbc9fa58a60&gt;         passed         0.273943           nan  nan              nan         nan
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -1021,22 +1021,22 @@ test_my_app_bench[C-2]
 test_basic
 
 First node:
-&apos;pytest_obj&apos;: &lt;function test_my_app_bench at 0x7f251f4ea598&gt;
+&apos;pytest_obj&apos;: &lt;function test_my_app_bench at 0x7fbc97120598&gt;
 &apos;status&apos;: &apos;passed&apos;
-&apos;duration_ms&apos;: 0.1430511474609375
+&apos;duration_ms&apos;: 0.15616416931152344
 &apos;algo_param&apos;: 1
 &apos;dataset_param&apos;: &apos;A&apos;
 &apos;dataset&apos;: &apos;my dataset #A&apos;
-&apos;accuracy&apos;: 0.6906899851475536
-test_id                 status      duration_ms    algo_param  dataset_param    dataset          accuracy
-----------------------  --------  -------------  ------------  ---------------  -------------  ----------
-test_my_app_bench[A-1]  passed         0.143051             1  A                my dataset #A    0.69069
-test_my_app_bench[A-2]  passed         0.136852             2  A                my dataset #A    0.144494
-test_my_app_bench[B-1]  passed         0.253916             1  B                my dataset #B    0.654715
-test_my_app_bench[B-2]  passed         0.278473             2  B                my dataset #B    0.769395
-test_my_app_bench[C-1]  passed         0.277519             1  C                my dataset #C    0.851888
-test_my_app_bench[C-2]  passed         0.287056             2  C                my dataset #C    0.97008
-test_basic              passed         0.225782           nan  nan              nan            nan
+&apos;accuracy&apos;: 0.16788151143643015
+test_id                 status      duration_ms    algo_param  dataset_param    dataset           accuracy
+----------------------  --------  -------------  ------------  ---------------  -------------  -----------
+test_my_app_bench[A-1]  passed         0.156164             1  A                my dataset #A    0.167882
+test_my_app_bench[A-2]  passed         0.322342             2  A                my dataset #A    0.294139
+test_my_app_bench[B-1]  passed         0.160456             1  B                my dataset #B    0.166971
+test_my_app_bench[B-2]  passed         0.173569             2  B                my dataset #B    0.0518346
+test_my_app_bench[C-1]  passed         0.263929             1  C                my dataset #C    0.580967
+test_my_app_bench[C-2]  passed         0.156403             2  C                my dataset #C    0.0544497
+test_basic              passed         0.263929           nan  nan              nan            nan
 </div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
