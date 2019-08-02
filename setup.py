@@ -11,9 +11,9 @@ from setuptools import setup, find_packages
 here = path.abspath(path.dirname(__file__))
 
 # *************** Dependencies *********
-INSTALL_REQUIRES = ['decopatch', 'makefun>=1.5', 'funcsigs;python_version<"3.3"']
+INSTALL_REQUIRES = ['decopatch', 'makefun>=1.5', 'funcsigs;python_version<"3.3"', 'six']
 DEPENDENCY_LINKS = []
-SETUP_REQUIRES = ['pytest-runner', 'setuptools_scm', 'pypandoc', 'pandoc']
+SETUP_REQUIRES = ['pytest-runner', 'setuptools_scm', 'pypandoc', 'pandoc', 'six']
 TESTS_REQUIRE = ['pytest', 'pytest-logging', 'pytest-cov', 'pandas', 'tabulate']
 EXTRAS_REQUIRE = {}
 
