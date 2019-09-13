@@ -66,7 +66,7 @@ def test_foo_synthesis_all_options(request, flatten, durations_in_ms):
     else:
         expected_keys.update({(prefix + 'status__' + stage) for stage in stages})
         # add parameters
-        expected_keys.update({mark.args[0] for mark in test_foo.parametrize})
+        expected_keys.update({mark.args[0] for mark in get_pytest_parametrize_marks(test_foo)})
         # add parametrized fixtures
         expected_keys.update({parametrized_fixture.__name__ + '_param' for parametrized_fixture in [a_number_str]})
 
@@ -154,15 +154,22 @@ def test_synthesis_id_formatting(request):
 
     fmt = 'class'
     results_dct = get_session_synthesis_dct(request.session, filter=TestX.test_easy, test_id_format=fmt)
-    assert list(results_dct.keys())[0] == 'TestX::()::test_easy[True]'
+    ref_pytest_23 = 'TestX::()::test_easy[True]'
+    ref_pytest_45 = ref_pytest_23.replace('()::', '')
+    assert list(results_dct.keys())[0] in {ref_pytest_23, ref_pytest_45}
 
     fmt = 'module'
     results_dct = get_session_synthesis_dct(request.session, filter=TestX.test_easy, test_id_format=fmt)
     # this does not work when we run the test from the meta-tester
     # assert list(results_dct.keys())[0] == 'test_get_session_results.py::TestX::()::test_easy[True]'
-    pattern_str = re.escape("test_get_session_results.py::TestX::()::test_easy[True]") \
-                            .replace(re.escape('test_get_session_results'), '^[a-zA-Z0-9_]*?')  # replace the file name with a non-greedy capturer
-    assert re.match(pattern_str, list(results_dct.keys())[0])
+    ref_pytest_23_b = "test_get_session_results.py::TestX::()::test_easy[True]"
+    pattern_str_pytest_23 = re.escape(ref_pytest_23_b)\
+        .replace(re.escape('test_get_session_results'), '^[a-zA-Z0-9_]*?')  # replace the file name with a non-greedy capturer
+    ref_pytest_45_b = "test_get_session_results.py::TestX::test_easy[True]"
+    pattern_str_pytest_45 = re.escape(ref_pytest_45_b)\
+        .replace(re.escape('test_get_session_results'), '^[a-zA-Z0-9_]*?')  # replace the file name with a non-greedy capturer
+    assert re.match(pattern_str_pytest_23, list(results_dct.keys())[0]) \
+           or re.match(pattern_str_pytest_45, list(results_dct.keys())[0])
 
     def fmt(test_id):
         return test_id.split('::')[-1].lower()
@@ -219,3 +226,43 @@ def clear_environment_fixture(fixture_names):
         fixture_names.remove('environment')
     except ValueError:
         pass
+
+
+# -------- tools to get the parametrization mark whatever the pytest version
+class _LegacyMark:
+    __slots__ = "args", "kwargs"
+
+    def __init__(self, *args, **kwargs):
+        self.args = args
+        self.kwargs = kwargs
+
+
+def get_pytest_parametrize_marks(f):
+    """
+    Returns the @pytest.mark.parametrize marks associated with a function (and only those)
+
+    :param f:
+    :return: a tuple containing all 'parametrize' marks
+    """
+    # pytest > 3.2.0
+    marks = getattr(f, 'pytestmark', None)
+    if marks is not None:
+        return tuple(m for m in marks if m.name == 'parametrize')
+    else:
+        # older versions
+        mark_info = getattr(f, 'parametrize', None)
+        if mark_info is not None:
+            # mark_info.args contains a list of (name, values)
+            if len(mark_info.args) % 2 != 0:
+                raise ValueError("internal pytest compatibility error - please report")
+            nb_parameters = len(mark_info.args) // 2
+            if nb_parameters > 1 and len(mark_info.kwargs) > 0:
+                raise ValueError("Unfortunately with this old pytest version it is not possible to have several "
+                                 "parametrization decorators")
+            res = []
+            for i in range(nb_parameters):
+                param_name, param_values = mark_info.args[2*i:2*(i+1)]
+                res.append(_LegacyMark(param_name, param_values, **mark_info.kwargs))
+            return tuple(res)
+        else:
+            return ()
