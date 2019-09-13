@@ -40,8 +40,10 @@ def test_complete(p, my_fix, my_results):
     my_results.what = 'hello ' + my_fix
 
 
-@pytest.mark.parametrize('flatten, flatten_more', [(False, None), (True, None), (True, 'my_results')],
-                         ids="flatten={}, flatten_more={}".format)
+@pytest.mark.parametrize('flatten, flatten_more', [(False, None),
+                                                   (True, None),
+                                                   (True, 'my_results')],
+                         ids=str)  # "flatten={}, flatten_more={}".format BUG in pytest>=4 see https://github.com/pytest-dev/pytest/issues/5846
 def test_synthesis(flatten, flatten_more, request, store):
     """Tests that the synthesis dictionary combined with with fixture store is ok"""
 
