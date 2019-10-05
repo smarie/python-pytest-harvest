@@ -16,4 +16,6 @@ def test_results_bag_basic():
     assert dict(r) == {}
     assert str(r) == "ResultsBag:\n{}"
 
-    assert hash(r) == id(r)
+    # We need to call hash(), because id() might return a result outside of the
+    # range of hash(), Py_hash_t/Py_ssize_t. hash() is idempotent.
+    assert hash(r) == hash(id(r))
