@@ -1,7 +1,7 @@
 import sys
 from collections import OrderedDict
 from itertools import chain
-from warnings import warn
+from six import string_types
 
 try: # python 3.5+
     from typing import Union, Iterable, Mapping, Any
@@ -142,7 +142,7 @@ def get_session_synthesis_dct(session_or_request,
     if flatten_more is not None:
         if isinstance(flatten_more, dict):
             flatten_more_prefixes_dct = flatten_more.items()
-        elif isinstance(flatten_more, str):
+        elif isinstance(flatten_more, string_types):
             # single name ?
             flatten_more_prefixes_dct = {flatten_more: ''}
         else:
@@ -477,7 +477,7 @@ def _get_filterset(filter):
     :param filter:
     :return:
     """
-    if isinstance(filter, str):
+    if isinstance(filter, string_types):
         filter = {filter}
     else:
         try:

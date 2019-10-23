@@ -1,7 +1,7 @@
 # META
 # {'passed': 2, 'failed': 0}
 # END META
-
+from __future__ import unicode_literals  # this is to make sure python 2 unicode string are ok
 import os
 import pytest
 

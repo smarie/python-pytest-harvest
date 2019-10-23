@@ -3,6 +3,7 @@ from inspect import isgeneratorfunction
 
 from decopatch import DECORATED, function_decorator
 from makefun import wraps, add_signature_parameters
+from six import string_types
 
 from pytest_harvest.common import get_scope
 
@@ -80,7 +81,7 @@ def saved_fixture(store='fixture_store',  # type: Union[str, Dict[str, Any]]
     key = key or fixture_name
 
     # is the store a fixture or an object ?
-    store_is_a_fixture = isinstance(store, str)
+    store_is_a_fixture = isinstance(store, string_types)
 
     # if the store object is already available, we can ensure that it is initialized. Otherwise trust pytest for that
     if not store_is_a_fixture:

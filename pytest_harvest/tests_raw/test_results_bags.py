@@ -1,6 +1,7 @@
 # META
 # {'passed': 6, 'skipped': 0, 'failed': 0}
 # END META
+from __future__ import unicode_literals  # this is to make sure python 2 unicode string are ok
 from collections import OrderedDict
 from random import random
 import pytest
@@ -37,7 +38,7 @@ def test_my_app_bench(algo_param, dataset, results_bag):
 # note: depending on your pytest version, the name used by pytest might be
 # the variable name (left) or the one you provide in the 'name' argument so
 # make sure they are identical!
-results_bag = create_results_bag_fixture('store', name="results_bag")
+results_bag = create_results_bag_fixture('store', name=str("results_bag"))
 
 
 @yield_fixture(scope='module', autouse=True)
