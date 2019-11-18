@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.7.4 - `pyproject.toml`
+
+Added a `pyproject.toml` file.
+
 ### 1.7.3 - python 2 bugfix
 
 Fixed issue happening with python 2 when `unicode_literals` are used in the parameters receiving string types. Fixed [#28](https://github.com/smarie/python-pytest-harvest/issues/28)
