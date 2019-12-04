@@ -32,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.5.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.5.1">
     
     
       
@@ -475,7 +475,7 @@
 <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">test_synthesis</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="c1"># you can access the session from the injected &#39;request&#39;:</span>
     <span class="n">session</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&lt;Put here your synthesis code&gt;&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;Put here your synthesis code&gt;&quot;</span><span class="p">)</span>
 </pre></div>
 
 
@@ -483,24 +483,24 @@
 <li>through a generator (yield) session-scoped fixture (put this in any of your test files or in the <code>conftest.py</code> file):</li>
 </ul>
 <div class="codehilite"><pre><span></span><span class="c1"># Note: for pytest&lt;3.0 you have to use @pytest.yield_fixture instead</span>
-<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;session&#39;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;session&#39;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_cooler_session_finish</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="k">yield</span>
     <span class="c1"># you can access the session from the injected &#39;request&#39;:</span>
     <span class="n">session</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&lt;Put here your synthesis code&gt;&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;Put here your synthesis code&gt;&quot;</span><span class="p">)</span>
 </pre></div>
 
 
 <ul>
 <li>through a normal session-scoped fixture (put this in any of your test files or in the <code>conftest.py</code> file):</li>
 </ul>
-<div class="codehilite"><pre><span></span><span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_session_finish</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">_end</span><span class="p">():</span>
         <span class="c1"># you can access the session from the injected &#39;request&#39;:</span>
         <span class="n">session</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&lt;Put here your synthesis code&gt;&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;Put here your synthesis code&gt;&quot;</span><span class="p">)</span>
     <span class="n">request</span><span class="o">.</span><span class="n">addfinalizer</span><span class="p">(</span><span class="n">_end</span><span class="p">)</span>
 </pre></div>
 
@@ -509,7 +509,7 @@
 <li>through the session finish <a href="https://docs.pytest.org/en/latest/reference.html#_pytest.hookspec.pytest_sessionfinish">hook</a> (you have to write this function in the <code>conftest.py</code> file):</li>
 </ul>
 <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">exitstatus</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&lt;Put here your synthesis code&gt;&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;Put here your synthesis code&gt;&quot;</span><span class="p">)</span>
 </pre></div>
 
 
@@ -518,19 +518,19 @@
 <p>Pytest already stores some information out of the box concerning tests that have run. In addition you can follow <a href="https://docs.pytest.org/en/latest/example/simple.html#making-test-result-information-available-in-fixtures">this example</a> to retrieve more, but it requires you to write a hook so it is not very convenient. </p>
 <p>Instead, you can easily retrieve all of that thanks to the <code>get_session_synthesis_dct(session)</code> utility function. For example let's assume you have this parametrized test with a parametrized fixture:</p>
 <div class="codehilite"><pre><span></span><span class="c1"># unparametrized fixture</span>
-<span class="nd">@pytest.fixture</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
 <span class="k">def</span> <span class="nf">dummy</span><span class="p">():</span>
     <span class="k">return</span> <span class="s2">&quot;hey there !&quot;</span>
 
 <span class="c1"># parametrized fixture</span>
-<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">param</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">param</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">a_number_str</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="k">return</span> <span class="s2">&quot;my_fix #</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span>
 
 <span class="c1"># parametrized test using the fixtures</span>
-<span class="nd">@pytest.mark.parametrize</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;world&#39;</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;world&#39;</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_foo</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">a_number_str</span><span class="p">,</span> <span class="n">dummy</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="n">a_number_str</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="n">a_number_str</span><span class="p">)</span>
 </pre></div>
 
 
@@ -553,8 +553,8 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">get_session_synthesis_dct</span>
 
 <span class="k">def</span> <span class="nf">test_synthesis</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-    <span class="n">synth_dct</span> <span class="o">=</span> <span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">,</span> <span class="n">status_details</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">synth_dct</span><span class="p">))</span>
+    <span class="n">synth_dct</span> <span class="o">=</span> <span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">,</span> <span class="n">status_details</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">synth_dct</span><span class="p">))</span>
 </pre></div>
 
 
@@ -636,7 +636,7 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pytest</span>
 <span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">saved_fixture</span>
 
-<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 <span class="nd">@saved_fixture</span><span class="p">(</span><span class="n">STORE</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_fix</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Each returned fixture value will be saved in the global store&quot;&quot;&quot;</span>
@@ -645,7 +645,7 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 
 
 <p>You can then retrieve the available information at the end of the session (put this in your <a href="#0-prerequisite-how-to-write-session-teardown-code">session teardown</a>):</p>
-<div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">STORE</span><span class="p">[</span><span class="s1">&#39;my_fix&#39;</span><span class="p">]))</span>
+<div class="codehilite"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">STORE</span><span class="p">[</span><span class="s1">&#39;my_fix&#39;</span><span class="p">]))</span>
 </pre></div>
 
 
@@ -662,20 +662,20 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pytest</span>
 <span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">saved_fixture</span>
 
-<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 <span class="nd">@saved_fixture</span><span class="p">(</span><span class="s2">&quot;store&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_fix</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Each returned fixture value will be saved in the global store&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s2">&quot;my_fix #</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span>
 
 <span class="c1"># -- the global storage fixture and synthesis creator --</span>
-<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;session&#39;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;session&#39;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">store</span><span class="p">():</span>
     <span class="c1"># setup: init the store</span>
     <span class="n">store</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
     <span class="k">yield</span> <span class="n">store</span>
     <span class="c1"># teardown: here you can collect all</span>
-    <span class="k">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">store</span><span class="p">[</span><span class="s1">&#39;my_fix&#39;</span><span class="p">]))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">store</span><span class="p">[</span><span class="s1">&#39;my_fix&#39;</span><span class="p">]))</span>
 </pre></div>
 
 
@@ -699,11 +699,11 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
     <span class="c1"># let&#39;s return a random accuracy !</span>
     <span class="k">return</span> <span class="n">random</span><span class="p">()</span>
 
-<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">dataset</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="k">return</span> <span class="s2">&quot;my dataset #</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span>
 
-<span class="nd">@pytest.mark.parametrize</span><span class="p">(</span><span class="s2">&quot;algo_param&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;algo_param&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_my_app_bench</span><span class="p">(</span><span class="n">algo_param</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">results_bag</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This test applies the algorithm with various parameters (`algo_param`)</span>
@@ -722,13 +722,13 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 <span class="n">results_bag</span> <span class="o">=</span> <span class="n">create_results_bag_fixture</span><span class="p">(</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;results_bag&quot;</span><span class="p">)</span>
 
 <span class="c1"># -- the global storage fixture and synthesis creator --</span>
-<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;session&#39;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;session&#39;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">store</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="c1"># setup: init the store</span>
     <span class="n">store</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
     <span class="k">yield</span> <span class="n">store</span>
     <span class="c1"># teardown: here you can collect all</span>
-    <span class="k">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">store</span><span class="p">[</span><span class="s1">&#39;results_bag&#39;</span><span class="p">]))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">store</span><span class="p">[</span><span class="s1">&#39;results_bag&#39;</span><span class="p">]))</span>
 </pre></div>
 
 
@@ -765,8 +765,8 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 <p>We can create a synthesis table containing all information available. This is very easy: instead of calling <code>get_session_synthesis_dct</code> with no parameters, give it your <code>store</code> object. Since we want to create a table, we will use the <code>flatten</code> and <code>flatten_more</code> options so that the result does not contain nested dictionaries for the parameters, fixtures, and result bags. Finally we decide that we want the durations expressed in ms (pytest measures them in seconds by default).</p>
 <div class="codehilite"><pre><span></span><span class="c1"># retrieve the synthesis, merged with the fixture store</span>
 <span class="n">results_dct</span> <span class="o">=</span> <span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">fixture_store</span><span class="o">=</span><span class="n">store</span><span class="p">,</span> 
-                                        <span class="n">flatten</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">flatten_more</span><span class="o">=</span><span class="s1">&#39;results_bag&#39;</span><span class="p">,</span>
-                                        <span class="n">durations_in_ms</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                                        <span class="n">flatten</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">flatten_more</span><span class="o">=</span><span class="s1">&#39;results_bag&#39;</span><span class="p">,</span>
+                                        <span class="n">durations_in_ms</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
 
@@ -784,23 +784,23 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 
 <p>We see that all information is available at the same level: pytest status and duration, parameters (<code>dataset</code> and <code>algo_param</code>), and results (<code>accuracy</code>).</p>
 <p>Transforming such a flattened dictionary in a table is very easy with <code>pandas</code>:</p>
-<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">results_dct</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
 <span class="c1"># (a) remove the full test id path</span>
 <span class="n">results_df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span> \
                              <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">test_id</span><span class="p">:</span> <span class="n">test_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;::&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 <span class="c1"># (b) drop pytest object column</span>
-<span class="n">results_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;pytest_obj&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">results_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;pytest_obj&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
 
 <p>And finally we can use <code>pandas</code> or <code>tabulate</code> to export the result in csv or markdown format:</p>
 <div class="codehilite"><pre><span></span><span class="c1"># csv format</span>
-<span class="k">print</span><span class="p">(</span><span class="n">results_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">())</span>
 
 <span class="c1"># github markdown format</span>
 <span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
-<span class="k">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">results_df</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;keys&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">results_df</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;keys&#39;</span><span class="p">))</span>
 </pre></div>
 
 
@@ -874,7 +874,7 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 <p>We have seen <a href="#1-collecting-tests-status-and-parameters">above</a> that you can get the pytest <code>session</code> object from many different teardown hooks. In addition, you can even access it from inside a test! In that case all information will not be available, but if the synthesis test is located <strong>after</strong> the test function of interest in execution order, it will be ok.</p>
 <p>To be sure to only get results you're interested in, the special <code>filter</code> argument allows you to only select parts of the test nodes to create the synthesis:</p>
 <div class="codehilite"><pre><span></span><span class="c1"># a module-scoped store</span>
-<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;module&#39;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;module&#39;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">store</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">OrderedDict</span><span class="p">()</span>
 
@@ -955,7 +955,7 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
       
     </div>
     
-      <script src="../assets/javascripts/application.a8b5e56f.js"></script>
+      <script src="../assets/javascripts/application.8e03edeb.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       

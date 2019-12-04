@@ -32,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.5.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.5.1">
     
     
       
@@ -586,7 +586,7 @@
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
 <span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">saved_fixture</span>
 
-<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <span class="nd">@saved_fixture</span>
 <span class="k">def</span> <span class="nf">person</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -601,7 +601,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A dummy test, executed for each `person` fixture available</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">   hello, &#39;</span> <span class="o">+</span> <span class="n">person</span> <span class="o">+</span> <span class="s1">&#39; !&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">   hello, &#39;</span> <span class="o">+</span> <span class="n">person</span> <span class="o">+</span> <span class="s1">&#39; !&#39;</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">test_synthesis</span><span class="p">(</span><span class="n">fixture_store</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -609,14 +609,14 @@
 <span class="sd">    and check that the &#39;person&#39; entry contains a dict &lt;test_id&gt;: &lt;person&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># print the keys in the store</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   Available `fixture_store` keys:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   Available `fixture_store` keys:&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">fixture_store</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;    - &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">k</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    - &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">k</span><span class="p">)</span>
 
     <span class="c1"># print what is available for the &#39;person&#39; entry</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   Contents of `fixture_store[&#39;person&#39;]`:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   Contents of `fixture_store[&#39;person&#39;]`:&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">fixture_store</span><span class="p">[</span><span class="s1">&#39;person&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;    - &#39;</span><span class="si">%s</span><span class="s2">&#39;: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    - &#39;</span><span class="si">%s</span><span class="s2">&#39;: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
 </pre></div>
 
 
@@ -650,7 +650,7 @@ test_doc_basic_saved_fixture.py::test_synthesis
 <p>Sometimes you are not interested in storing the whole fixture but maybe just some aspect of it. For example maybe the fixture is a huge dataset, and you just wish to remember a few characteristics about it.</p>
 <p>Simply use the <code>views=</code> argument in <code>@saved_fixture</code> to save views instead of the fixture itself. That argument should contain a dictionary of <code>{&lt;view_key&gt;: &lt;view_creation_function&gt;}</code>.</p>
 <p>In the previous example if we only want to save the first and last character of the <code>person</code> fixture, we can do:</p>
-<div class="codehilite"><pre><span></span><span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<div class="codehilite"><pre><span></span><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <span class="nd">@saved_fixture</span><span class="p">(</span><span class="n">views</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;person_initial&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
                       <span class="s1">&#39;person_last_char&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]})</span>
 <span class="k">def</span> <span class="nf">person</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
@@ -670,12 +670,12 @@ test_doc_basic_saved_fixture.py::test_synthesis
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">import</span> <span class="nn">pytest</span>
 
-<span class="nd">@pytest.mark.parametrize</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;world&#39;</span><span class="p">,</span> <span class="s1">&#39;self&#39;</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;world&#39;</span><span class="p">,</span> <span class="s1">&#39;self&#39;</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_foo</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">results_bag</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A dummy test, parametrized so that it is executed twice</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">   hello, &#39;</span> <span class="o">+</span> <span class="n">p</span> <span class="o">+</span> <span class="s1">&#39; !&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">   hello, &#39;</span> <span class="o">+</span> <span class="n">p</span> <span class="o">+</span> <span class="s1">&#39; !&#39;</span><span class="p">)</span>
 
     <span class="c1"># Let&#39;s store some things in the results bag</span>
     <span class="n">results_bag</span><span class="o">.</span><span class="n">nb_letters</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
@@ -687,16 +687,16 @@ test_doc_basic_saved_fixture.py::test_synthesis
 <span class="sd">    check that the &#39;results_bag&#39; entry contains a dict &lt;test_id&gt;: &lt;results_bag&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># print the keys in the store</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   Available `fixture_store` keys:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   Available `fixture_store` keys:&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">fixture_store</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;    - &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">k</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    - &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">k</span><span class="p">)</span>
 
     <span class="c1"># print what is available for the &#39;results_bag&#39; entry</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   Contents of `fixture_store[&#39;results_bag&#39;]`:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   Contents of `fixture_store[&#39;results_bag&#39;]`:&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">fixture_store</span><span class="p">[</span><span class="s1">&#39;results_bag&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;    - &#39;</span><span class="si">%s</span><span class="s2">&#39;:&quot;</span> <span class="o">%</span> <span class="n">k</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    - &#39;</span><span class="si">%s</span><span class="s2">&#39;:&quot;</span> <span class="o">%</span> <span class="n">k</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">kk</span><span class="p">,</span> <span class="n">vv</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;      - &#39;</span><span class="si">%s</span><span class="s2">&#39;: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">kk</span><span class="p">,</span> <span class="n">vv</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;      - &#39;</span><span class="si">%s</span><span class="s2">&#39;: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">kk</span><span class="p">,</span> <span class="n">vv</span><span class="p">))</span>
 </pre></div>
 
 
@@ -737,12 +737,12 @@ test_doc_basic_results_bag.py::test_synthesis
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
-<span class="nd">@pytest.mark.parametrize</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;world&#39;</span><span class="p">,</span> <span class="s1">&#39;self&#39;</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;world&#39;</span><span class="p">,</span> <span class="s1">&#39;self&#39;</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_foo</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A dummy test, parametrized so that it is executed twice</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">   hello, &#39;</span> <span class="o">+</span> <span class="n">p</span> <span class="o">+</span> <span class="s1">&#39; !&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">   hello, &#39;</span> <span class="o">+</span> <span class="n">p</span> <span class="o">+</span> <span class="s1">&#39; !&#39;</span><span class="p">)</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">test_synthesis</span><span class="p">(</span><span class="n">module_results_dct</span><span class="p">):</span>
@@ -751,19 +751,19 @@ test_doc_basic_results_bag.py::test_synthesis
 <span class="sd">    executed before it, in that module.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># print the keys in the synthesis dictionary</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   Available `module_results_dct` keys:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   Available `module_results_dct` keys:&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">module_results_dct</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;    - &quot;</span> <span class="o">+</span> <span class="n">k</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    - &quot;</span> <span class="o">+</span> <span class="n">k</span><span class="p">)</span>
 
     <span class="c1"># print what is available for a single test</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   Contents of &#39;test_foo[world]&#39;:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   Contents of &#39;test_foo[world]&#39;:&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">module_results_dct</span><span class="p">[</span><span class="s1">&#39;test_foo[world]&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s1">&#39;status_details&#39;</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;    - &#39;</span><span class="si">%s</span><span class="s2">&#39;: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    - &#39;</span><span class="si">%s</span><span class="s2">&#39;: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;    - &#39;</span><span class="si">%s</span><span class="s2">&#39;:&quot;</span> <span class="o">%</span> <span class="n">k</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;    - &#39;</span><span class="si">%s</span><span class="s2">&#39;:&quot;</span> <span class="o">%</span> <span class="n">k</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">kk</span><span class="p">,</span> <span class="n">vv</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;      - &#39;</span><span class="si">%s</span><span class="s2">&#39;: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">kk</span><span class="p">,</span> <span class="n">vv</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;      - &#39;</span><span class="si">%s</span><span class="s2">&#39;: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">kk</span><span class="p">,</span> <span class="n">vv</span><span class="p">))</span>
 </pre></div>
 
 
@@ -818,8 +818,8 @@ test_doc_basic.py::test_synthesis
 <span class="sd">    In this variant we use the &#39;dataframe&#39; fixture</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># print the synthesis dataframe</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   `module_results_df` dataframe:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">module_results_df</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   `module_results_df` dataframe:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">module_results_df</span><span class="p">)</span>
 </pre></div>
 
 
@@ -861,7 +861,7 @@ test_foo<span class="o">[</span>self<span class="o">]</span>   passed   <span cl
 <span class="kn">import</span> <span class="nn">pytest</span>
 <span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">saved_fixture</span>
 
-<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <span class="nd">@saved_fixture</span>
 <span class="k">def</span> <span class="nf">person</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -872,12 +872,12 @@ test_foo<span class="o">[</span>self<span class="o">]</span>   passed   <span cl
     <span class="k">elif</span> <span class="n">request</span><span class="o">.</span><span class="n">param</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;self&quot;</span>
 
-<span class="nd">@pytest.mark.parametrize</span><span class="p">(</span><span class="s1">&#39;double_sleep_time&#39;</span><span class="p">,</span> <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="bp">True</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s1">&#39;double_sleep_time&#39;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_foo</span><span class="p">(</span><span class="n">double_sleep_time</span><span class="p">,</span> <span class="n">person</span><span class="p">,</span> <span class="n">results_bag</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A dummy test, parametrized so that it is executed twice.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">   hello, &#39;</span> <span class="o">+</span> <span class="n">person</span> <span class="o">+</span> <span class="s1">&#39; !&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">   hello, &#39;</span> <span class="o">+</span> <span class="n">person</span> <span class="o">+</span> <span class="s1">&#39; !&#39;</span><span class="p">)</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">person</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="k">if</span> <span class="n">double_sleep_time</span> <span class="k">else</span> <span class="mi">1</span><span class="p">))</span>
 
     <span class="c1"># Let&#39;s store some things in the results bag</span>
@@ -890,10 +890,10 @@ test_foo<span class="o">[</span>self<span class="o">]</span>   passed   <span cl
 <span class="sd">    executed before it, in that module.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># print the synthesis dataframe</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   `module_results_df` dataframe:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   `module_results_df` dataframe:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="c1"># we use &#39;tabulate&#39; for a nicer output format</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">module_results_df</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;keys&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;pipe&quot;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">module_results_df</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="s1">&#39;keys&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;pipe&quot;</span><span class="p">))</span>
 </pre></div>
 
 
@@ -1016,7 +1016,7 @@ PASSED
       
     </div>
     
-      <script src="assets/javascripts/application.a8b5e56f.js"></script>
+      <script src="assets/javascripts/application.8e03edeb.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"."}})</script>
       

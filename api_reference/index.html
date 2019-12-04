@@ -32,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.5.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.5.1">
     
     
       
@@ -808,9 +808,9 @@ with 'function' id format. It includes contents from the default <code>fixture_s
 <h3 id="a-basic">a- Basic<a class="headerlink" href="#a-basic" title="Permanent link">&para;</a></h3>
 <h4 id="saved_fixture"><code>@saved_fixture</code><a class="headerlink" href="#saved_fixture" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span><span class="nd">@saved_fixture</span><span class="p">(</span><span class="n">store</span><span class="o">=</span><span class="s1">&#39;fixture_store&#39;</span><span class="p">,</span>  <span class="c1"># type: Union[str, Dict[str, Any]]</span>
-               <span class="n">key</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>               <span class="c1"># type: str</span>
-               <span class="n">views</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>             <span class="c1"># type: Dict[str, Callable[[Any], Any]]</span>
-               <span class="n">save_raw</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>          <span class="c1"># type: bool</span>
+               <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>               <span class="c1"># type: str</span>
+               <span class="n">views</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>             <span class="c1"># type: Dict[str, Callable[[Any], Any]]</span>
+               <span class="n">save_raw</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>          <span class="c1"># type: bool</span>
                <span class="p">)</span>
 </pre></div>
 
@@ -820,7 +820,7 @@ with 'function' id format. It includes contents from the default <code>fixture_s
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
 <span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">saved_fixture</span>
 
-<span class="nd">@pytest.fixture</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
 <span class="nd">@saved_fixture</span>
 <span class="k">def</span> <span class="nf">dummy</span><span class="p">():</span>
     <span class="k">return</span> <span class="mi">1</span>
@@ -829,7 +829,7 @@ with 'function' id format. It includes contents from the default <code>fixture_s
     <span class="k">pass</span>
 
 <span class="k">def</span> <span class="nf">test_synthesis</span><span class="p">(</span><span class="n">fixture_store</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">fixture_store</span><span class="p">[</span><span class="s1">&#39;dummy&#39;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fixture_store</span><span class="p">[</span><span class="s1">&#39;dummy&#39;</span><span class="p">])</span>
 </pre></div>
 
 
@@ -851,7 +851,7 @@ with 'function' id format. It includes contents from the default <code>fixture_s
 <h4 id="create_results_bag_fixture"><code>create_results_bag_fixture(...)</code><a class="headerlink" href="#create_results_bag_fixture" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span><span class="n">create_results_bag_fixture</span><span class="p">(</span><span class="n">store</span><span class="p">,</span>               <span class="c1"># type: Union[str, Dict[str, Any]]</span>
                            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;results_bag&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
-                           <span class="n">bag_type</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>       <span class="c1"># type: Type[Any]</span>
+                           <span class="n">bag_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>       <span class="c1"># type: Type[Any]</span>
                            <span class="p">)</span>
 </pre></div>
 
@@ -873,14 +873,14 @@ with 'function' id format. It includes contents from the default <code>fixture_s
 <h4 id="get_session_synthesis_dct"><code>get_session_synthesis_dct(...)</code><a class="headerlink" href="#get_session_synthesis_dct" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span><span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">session_or_request</span><span class="p">,</span>
                           <span class="n">test_id_format</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span>   <span class="c1">#</span>
-                          <span class="n">status_details</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>    <span class="c1"># type: bool</span>
-                          <span class="n">durations_in_ms</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>   <span class="c1"># type: bool</span>
-                          <span class="n">pytest_prefix</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>      <span class="c1"># type: bool</span>
-                          <span class="nb">filter</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>             <span class="c1"># type: Any</span>
-                          <span class="n">filter_incomplete</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>  <span class="c1"># type: bool</span>
-                          <span class="n">flatten</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>           <span class="c1"># type: bool</span>
-                          <span class="n">fixture_store</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>      <span class="c1"># type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]</span>
-                          <span class="n">flatten_more</span><span class="o">=</span><span class="bp">None</span>        <span class="c1"># type: Union[str, Iterable[str], Mapping[str, str]]</span>
+                          <span class="n">status_details</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>    <span class="c1"># type: bool</span>
+                          <span class="n">durations_in_ms</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>   <span class="c1"># type: bool</span>
+                          <span class="n">pytest_prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>      <span class="c1"># type: bool</span>
+                          <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>             <span class="c1"># type: Any</span>
+                          <span class="n">filter_incomplete</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># type: bool</span>
+                          <span class="n">flatten</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>           <span class="c1"># type: bool</span>
+                          <span class="n">fixture_store</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>      <span class="c1"># type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]</span>
+                          <span class="n">flatten_more</span><span class="o">=</span><span class="kc">None</span>        <span class="c1"># type: Union[str, Iterable[str], Mapping[str, str]]</span>
                           <span class="p">)</span>
 </pre></div>
 
@@ -925,7 +925,7 @@ with 'function' id format. It includes contents from the default <code>fixture_s
 <p><strong>Returns</strong>: a dictionary where the keys are pytest node ids. Each value is also a dictionary, containing information available from pytest concerning the test node, and optionally storage contents if <code>storage_dcts</code> is provided.</p>
 <h4 id="filter_session_items"><code>filter_session_items(...)</code><a class="headerlink" href="#filter_session_items" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span><span class="n">filter_session_items</span><span class="p">(</span><span class="n">session</span><span class="p">,</span>
-                     <span class="nb">filter</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>  <span class="c1"># type: Any</span>
+                     <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Any</span>
                      <span class="p">)</span>
 </pre></div>
 
@@ -947,8 +947,8 @@ with 'function' id format. It includes contents from the default <code>fixture_s
 <h3 id="d-pytest-utils">d- Pytest utils<a class="headerlink" href="#d-pytest-utils" title="Permanent link">&para;</a></h3>
 <h4 id="get_all_pytest_fixture_names"><code>get_all_pytest_fixture_names(...)</code><a class="headerlink" href="#get_all_pytest_fixture_names" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span><span class="n">get_all_pytest_fixture_names</span><span class="p">(</span><span class="n">session</span><span class="p">,</span>
-                             <span class="nb">filter</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>              <span class="c1"># type: Any</span>
-                             <span class="n">filter_incomplete</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>  <span class="c1"># type: bool</span>
+                             <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>              <span class="c1"># type: Any</span>
+                             <span class="n">filter_incomplete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># type: bool</span>
                              <span class="p">)</span>
 </pre></div>
 
@@ -965,8 +965,8 @@ with 'function' id format. It includes contents from the default <code>fixture_s
 <p><strong>Returns</strong>: a list of fixture names corresponding to the desired filters</p>
 <h4 id="get_all_pytest_param_names"><code>get_all_pytest_param_names(...)</code><a class="headerlink" href="#get_all_pytest_param_names" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span><span class="n">get_all_pytest_param_names</span><span class="p">(</span><span class="n">session</span><span class="p">,</span>
-                           <span class="nb">filter</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>              <span class="c1"># type: Any</span>
-                           <span class="n">filter_incomplete</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>  <span class="c1"># type: bool</span>
+                           <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>              <span class="c1"># type: Any</span>
+                           <span class="n">filter_incomplete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># type: bool</span>
                            <span class="p">)</span>
 </pre></div>
 
@@ -1074,7 +1074,7 @@ each pytest phase, and a tuple synthesizing the information.</p>
       
     </div>
     
-      <script src="../assets/javascripts/application.a8b5e56f.js"></script>
+      <script src="../assets/javascripts/application.8e03edeb.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       
