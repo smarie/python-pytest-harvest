@@ -26,7 +26,7 @@ pytest -v pytest_harvest/tests/
 You may need to install requirements for setup beforehand, using 
 
 ```bash
-pip install -r ci_tools/requirements-test.txt
+pip install -r ci_tools/requirements-pip.txt
 ```
 
 ## Packaging
@@ -40,7 +40,7 @@ python setup.py egg_info bdist_wheel rotate -m.whl -k3
 You may need to install requirements for setup beforehand, using 
 
 ```bash
-pip install -r ci_tools/requirements-setup.txt
+pip install -r ci_tools/requirements-pip.txt
 ```
 
 ## Generating the documentation page
@@ -54,7 +54,7 @@ mkdocs build -f docs/mkdocs.yml
 You may need to install requirements for doc beforehand, using 
 
 ```bash
-pip install -r ci_tools/requirements-doc.txt
+pip install -r ci_tools/requirements-pip.txt
 ```
 
 ## Generating the test reports
