@@ -22,5 +22,6 @@ coverage
 requests
 
 # --- to generate the doc (see .travis)
-mkdocs-material  #==3.3.0
-mkdocs  # ==1.0.4  # this is to prevent a version non-compliant with mkdocs-material to be installed.
+# does not work on python 2 anymore
+#mkdocs-material  #==3.3.0
+#mkdocs  # ==1.0.4  # this is to prevent a version non-compliant with mkdocs-material to be installed.
