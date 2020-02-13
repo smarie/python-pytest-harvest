@@ -39,6 +39,10 @@ def pytest_runtest_makereport(item, call):
 
 
 # ------------- To collect benchmark results ------------
+FIXTURE_STORE = OrderedDict()
+"""The default fixture store, that is also available through the `fixture_store` fixture."""
+
+
 @pytest.fixture(scope='session')  # no need for autouse=True
 def fixture_store():
     """
@@ -54,10 +58,11 @@ def fixture_store():
      * create a test using this fixture and make sure that it is executed after all others.
      * access this fixture from a dependent fixture and read its value in the setup or teardown script.
      * access this fixture from the `request` fixture using the `get_fixture_value` helper method.
+     * access the `FIXTURE_STORE` symbol directly
 
     This fixture has session scope so it is unique across the whole session.
     """
-    return OrderedDict()
+    return FIXTURE_STORE
 
 
 results_bag = create_results_bag_fixture('fixture_store', name='results_bag')
@@ -87,7 +92,7 @@ use `create_results_bag_fixture`.
 
 
 def get_session_results_dct(session_or_request,
-                            fixture_store=None,                     # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
+                            fixture_store=FIXTURE_STORE,            # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
                             results_bag_fixture_name='results_bag'  # type: str
                             ):
     # type: (...) -> Mapping[str, Mapping[str, Any]]
@@ -137,7 +142,7 @@ def session_results_dct(request, fixture_store):
 
 def get_module_results_dct(session_or_request,
                            module_name,                            # type: str
-                           fixture_store=None,                     # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
+                           fixture_store=FIXTURE_STORE,            # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
                            results_bag_fixture_name='results_bag'  # type: str
                            ):
     # type: (...) -> Mapping[str, Mapping[str, Any]]
@@ -192,7 +197,7 @@ try:
     import pandas as pd
 
     def get_session_results_df(session_or_request,
-                               fixture_store=None,                     # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
+                               fixture_store=FIXTURE_STORE,            # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
                                results_bag_fixture_name='results_bag'  # type: str
                                ):
         # type: (...) -> pd.DataFrame
@@ -264,7 +269,7 @@ try:
     def get_filtered_results_df(session,
                                 filter=None,                            # type: Any
                                 test_id_format='full',                  # type: str
-                                fixture_store=None,                     # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
+                                fixture_store=FIXTURE_STORE,            # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
                                 results_bag_fixture_name='results_bag'  # type: str
                                 ):
         # type: (...) -> pd.DataFrame
@@ -315,7 +320,7 @@ except ImportError as e:
 
 def get_module_results_df(session,
                           module_name,                            # type: str
-                          fixture_store=None,                     # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
+                          fixture_store=FIXTURE_STORE,            # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
                           results_bag_fixture_name='results_bag'  # type: str
                           ):
     """
