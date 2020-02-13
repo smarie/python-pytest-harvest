@@ -255,7 +255,7 @@ def session_results_df(request, fixture_store):
 
     This fixture has a function scope because we want its contents to be refreshed every time it is needed.
     """
-    return get_session_results_df(request)
+    return get_session_results_df(request, fixture_store=fixture_store)
 
 
 try:
@@ -348,4 +348,4 @@ def module_results_df(request, fixture_store):
 
     This fixture has a function scope because we want its contents to be refreshed every time it is needed.
     """
-    return get_module_results_df(request.session, request.module.__name__, fixture_store)
+    return get_module_results_df(request.session, module_name=request.module.__name__, fixture_store=fixture_store)
