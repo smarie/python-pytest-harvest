@@ -15,7 +15,7 @@ PYTEST_OBJ_NAME = 'pytest_obj'
 
 
 def get_session_synthesis_dct(session_or_request,
-                              test_id_format='full',   #
+                              test_id_format='full',   # type: str
                               status_details=False,    # type: bool
                               durations_in_ms=False,   # type: bool
                               pytest_prefix=None,      # type: bool
@@ -25,6 +25,7 @@ def get_session_synthesis_dct(session_or_request,
                               fixture_store=None,      # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
                               flatten_more=None        # type: Union[str, Iterable[str], Mapping[str, str]]
                               ):
+    # type: (...) -> Mapping[str, Mapping[str, Any]]
     """
     Returns a dictionary containing a synthesis of what is available currently in the provided `pytest` `session`
     object.
