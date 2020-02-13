@@ -313,6 +313,19 @@
     Compliance with the pytest ecosystem
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pytest-x-dist" class="md-nav__link">
+    pytest x-dist
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -488,6 +501,19 @@
   <a href="#compliance-with-the-pytest-ecosystem" class="md-nav__link">
     Compliance with the pytest ecosystem
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pytest-x-dist" class="md-nav__link">
+    pytest x-dist
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -936,6 +962,50 @@ PASSED
 <p>All the behaviours described above are pre-wired to help most users getting started. However they are nothing but pre-wiring of more generic capabilities, that are offered in this library as well. For details on how to create <strong>custom synthesis</strong>, <strong>custom store objects</strong>, <strong>custom results bags</strong>... see <a href="./advanced_usage">advanced usage page</a>.</p>
 <h2 id="compliance-with-the-pytest-ecosystem">Compliance with the pytest ecosystem<a class="headerlink" href="#compliance-with-the-pytest-ecosystem" title="Permanent link">&para;</a></h2>
 <p>This plugin mostly relies on the fixtures mechanism and the <code>pytest_runtest_makereport</code> hook. It should therefore be quite portable across pytest versions (at least it is tested against pytest 2 and 3, for both python 2 and 3).</p>
+<h3 id="pytest-x-dist">pytest x-dist<a class="headerlink" href="#pytest-x-dist" title="Permanent link">&para;</a></h3>
+<p>You may wish to rely on <code>pytest-xdist</code> to parallelize/distribute your tests. In that case, you can not rely on the <code>[module/session]_results_[dct/df]</code> fixtures described previously to collect your synthesis. To cover this case, <code>pytest-harvest</code> provides equivalent methods <code>get_[module/session]_results_[dct/df](session, [module_name])</code>. You can use these methods in any pytest hook, for example in the <code>pytest_sessionfinish</code> hook.</p>
+<p>Below is a complete example of <code>conftest.py</code> that works both <em>with</em> and <em>without</em> <code>pytest-xdist</code> enabled.  </p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">get_session_results_df</span>
+
+<span class="c1"># Define the folder in which temporary worker&#39;s results will be stored when xdist is enabled</span>
+<span class="n">RESULTS_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;./.xdist_results/&#39;</span><span class="p">)</span>
+<span class="n">RESULTS_PATH</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Gather all results, in a way that works both with and without pytest-x-dist &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># x-dist mode: retrieve x-dist worker id and save its partial results</span>
+        <span class="n">pytest_worker_id</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">slaveinput</span><span class="p">[</span><span class="s1">&#39;slaveid&#39;</span><span class="p">]</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;PARTIAL pytest session finish for x-dist worker </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">pytest_worker_id</span><span class="p">)</span>
+        <span class="n">session_results_df</span> <span class="o">=</span> <span class="n">get_session_results_df</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+        <span class="n">session_results_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">RESULTS_PATH</span> <span class="o">/</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">_session_results.csv&#39;</span> <span class="o">%</span> <span class="n">pytest_worker_id</span><span class="p">))</span>
+
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="c1"># x-dist master OR no x-dist at all: put everything available together</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;MAIN pytest session finish&#39;</span><span class="p">)</span>
+        <span class="n">session_results_dfs</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># try to collect master results in case x-dist was not active</span>
+            <span class="n">session_results_dfs</span><span class="p">[</span><span class="s1">&#39;master&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_session_results_df</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="c1"># x-dist master process - read all partial x-dist results files if any</span>
+            <span class="k">for</span> <span class="n">results_file</span> <span class="ow">in</span> <span class="n">RESULTS_PATH</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*_session_results.csv&#39;</span><span class="p">):</span>
+                <span class="n">wid</span> <span class="o">=</span> <span class="n">results_file</span><span class="o">.</span><span class="n">name</span><span class="p">[:</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="s1">&#39;_session_results.csv&#39;</span><span class="p">)]</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">session_results_dfs</span><span class="p">[</span><span class="n">wid</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">results_file</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Unable to read results from worker </span><span class="si">%s</span><span class="s1">: [</span><span class="si">%s</span><span class="s1">] </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">wid</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+
+        <span class="c1"># concatenate all pandas tables and for example write them in a final csv</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">results_df</span> <span class="k">for</span> <span class="n">results_df</span> <span class="ow">in</span> <span class="n">session_results_dfs</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;all_results.csv&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
 <h2 id="main-features-benefits">Main features / benefits<a class="headerlink" href="#main-features-benefits" title="Permanent link">&para;</a></h2>
 <ul>
 <li>

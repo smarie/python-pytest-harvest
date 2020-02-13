@@ -265,6 +265,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#180-pytest-xdist-compliance" class="md-nav__link">
+    1.8.0 - pytest-xdist compliance
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#174-pyprojecttoml" class="md-nav__link">
     1.7.4 - pyproject.toml
   </a>
@@ -476,6 +483,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#180-pytest-xdist-compliance" class="md-nav__link">
+    1.8.0 - pytest-xdist compliance
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#174-pyprojecttoml" class="md-nav__link">
     1.7.4 - pyproject.toml
   </a>
@@ -663,6 +677,15 @@
                 
                 
                 <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
+<h3 id="180-pytest-xdist-compliance">1.8.0 - pytest-xdist compliance<a class="headerlink" href="#180-pytest-xdist-compliance" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>For each of the <code>[module/session]_results_[dct/df]</code> fixtures, an equivalent <code>get_&lt;fixture_name&gt;(session, ...)</code> helper function is available. This allows users to access the same level of functionality than the fixture, in places where fixtures are not available (typically in a pytest hook such as the <code>pytest_sessionfinish</code> session finish hook). In addition the default <code>FIXTURE_STORE</code> is now a package variable, available directly or through the session-scoped <code>fixture_store</code> fixture. Fixed <a href="https://github.com/smarie/python-pytest-harvest/issues/33">#33</a> and <a href="https://github.com/smarie/python-pytest-harvest/issues/34">#34</a>.</p>
+</li>
+<li>
+<p>Added an example in the documentation on how to use with pytest-xdist. Fixes <a href="https://github.com/smarie/python-pytest-harvest/issues/32">#32</a></p>
+</li>
+</ul>
 <h3 id="174-pyprojecttoml">1.7.4 - <code>pyproject.toml</code><a class="headerlink" href="#174-pyprojecttoml" title="Permanent link">&para;</a></h3>
 <p>Added a <code>pyproject.toml</code> file.</p>
 <h3 id="173-python-2-bugfix">1.7.3 - python 2 bugfix<a class="headerlink" href="#173-python-2-bugfix" title="Permanent link">&para;</a></h3>
