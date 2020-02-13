@@ -74,6 +74,11 @@ See [documentation](./index.md#c--collecting-a-synthesis) for details.
 Same than [`session_results_df`](#session_results_df) but with module scope.
 
 
+### Associated getter functions
+
+For each of the above `[module/session]_results_[dct/df]` fixtures, an equivalent `get_<fixture_name>(session, ...)` is available. This allows users to access the same level of functionality than the fixture, in places where fixtures are not available (typically in a pytest hook such as the `pytest_sessionfinish` session finish hook)
+
+
 ## 2. Additional symbols
 
 ### a- Basic
@@ -151,6 +156,10 @@ Creates a "results bag" fixture with name `name` stored in the given store (unde
  * bag_type: the type of object to create as a results bag. Default: `ResultsBag`
 
 ### c- Advanced
+
+#### `FIXTURE_STORE`
+
+The default fixture store, that is also available through the `fixture_store` fixture. Accessing it directly might be needed in some cases where fixtures are not available (typically in some pytest hooks).
 
 #### `get_session_synthesis_dct(...)`
 
