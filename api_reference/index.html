@@ -302,6 +302,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#associated-getter-functions" class="md-nav__link">
+    Associated getter functions
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -369,6 +376,13 @@
   
     <nav class="md-nav">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixture_store_1" class="md-nav__link">
+    FIXTURE_STORE
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#get_session_synthesis_dct" class="md-nav__link">
@@ -568,6 +582,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#associated-getter-functions" class="md-nav__link">
+    Associated getter functions
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -635,6 +656,13 @@
   
     <nav class="md-nav">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixture_store_1" class="md-nav__link">
+    FIXTURE_STORE
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#get_session_synthesis_dct" class="md-nav__link">
@@ -804,6 +832,8 @@ with 'function' id format. It includes contents from the default <code>fixture_s
 <p>See <a href="..#c--collecting-a-synthesis">documentation</a> for details.</p>
 <h3 id="module_results_df"><em><code>module_results_df</code></em><a class="headerlink" href="#module_results_df" title="Permanent link">&para;</a></h3>
 <p>Same than <a href="#session_results_df"><code>session_results_df</code></a> but with module scope.</p>
+<h3 id="associated-getter-functions">Associated getter functions<a class="headerlink" href="#associated-getter-functions" title="Permanent link">&para;</a></h3>
+<p>For each of the above <code>[module/session]_results_[dct/df]</code> fixtures, an equivalent <code>get_&lt;fixture_name&gt;(session, ...)</code> is available. This allows users to access the same level of functionality than the fixture, in places where fixtures are not available (typically in a pytest hook such as the <code>pytest_sessionfinish</code> session finish hook)</p>
 <h2 id="2-additional-symbols">2. Additional symbols<a class="headerlink" href="#2-additional-symbols" title="Permanent link">&para;</a></h2>
 <h3 id="a-basic">a- Basic<a class="headerlink" href="#a-basic" title="Permanent link">&para;</a></h3>
 <h4 id="saved_fixture"><code>@saved_fixture</code><a class="headerlink" href="#saved_fixture" title="Permanent link">&para;</a></h4>
@@ -870,6 +900,8 @@ with 'function' id format. It includes contents from the default <code>fixture_s
 </li>
 </ul>
 <h3 id="c-advanced">c- Advanced<a class="headerlink" href="#c-advanced" title="Permanent link">&para;</a></h3>
+<h4 id="fixture_store_1"><code>FIXTURE_STORE</code><a class="headerlink" href="#fixture_store_1" title="Permanent link">&para;</a></h4>
+<p>The default fixture store, that is also available through the <code>fixture_store</code> fixture. Accessing it directly might be needed in some cases where fixtures are not available (typically in some pytest hooks).</p>
 <h4 id="get_session_synthesis_dct"><code>get_session_synthesis_dct(...)</code><a class="headerlink" href="#get_session_synthesis_dct" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span><code><span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">session_or_request</span><span class="p">,</span>
                           <span class="n">test_id_format</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span>   <span class="c1">#</span>
