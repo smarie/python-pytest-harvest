@@ -32,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.2">
     
     
       
@@ -40,12 +40,12 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.1b62728e.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.adb8469c.css">
       
       
     
     
-      <script src="../assets/javascripts/modernizr.268332fc.js"></script>
+      <script src="../assets/javascripts/modernizr.86422ebf.js"></script>
     
     
       
@@ -77,7 +77,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#api-reference" tabindex="1" class="md-skip">
+      <a href="#api-reference" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -86,7 +86,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href=".." title="pytest_harvest" class="md-header-nav__button md-logo">
+        <a href=".." title="pytest_harvest" aria-label="pytest_harvest" class="md-header-nav__button md-logo">
           
             <i class="md-icon"></i>
           
@@ -117,7 +117,7 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
       <label class="md-icon md-search__icon" for="__search"></label>
       <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
         &#xE5CD;
@@ -807,17 +807,17 @@ with 'function' id format. It includes contents from the default <code>fixture_s
 <h2 id="2-additional-symbols">2. Additional symbols<a class="headerlink" href="#2-additional-symbols" title="Permanent link">&para;</a></h2>
 <h3 id="a-basic">a- Basic<a class="headerlink" href="#a-basic" title="Permanent link">&para;</a></h3>
 <h4 id="saved_fixture"><code>@saved_fixture</code><a class="headerlink" href="#saved_fixture" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="nd">@saved_fixture</span><span class="p">(</span><span class="n">store</span><span class="o">=</span><span class="s1">&#39;fixture_store&#39;</span><span class="p">,</span>  <span class="c1"># type: Union[str, Dict[str, Any]]</span>
+<div class="codehilite"><pre><span></span><code><span class="nd">@saved_fixture</span><span class="p">(</span><span class="n">store</span><span class="o">=</span><span class="s1">&#39;fixture_store&#39;</span><span class="p">,</span>  <span class="c1"># type: Union[str, Dict[str, Any]]</span>
                <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>               <span class="c1"># type: str</span>
                <span class="n">views</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>             <span class="c1"># type: Dict[str, Callable[[Any], Any]]</span>
                <span class="n">save_raw</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>          <span class="c1"># type: bool</span>
                <span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Decorates a fixture so that it is saved in <code>store</code>. <code>store</code> can be a dict-like variable or a string representing a fixture name to a dict-like session-scoped fixture. By default it uses the global 'fixture_store' fixture provided by this plugin.</p>
 <p>After executing all tests, <code>&lt;store&gt;</code> will contain a new item under key <code>&lt;key&gt;</code> (default is the name of the fixture). This item is a dictionary <test_id>: <fixture_value> for each test node where the fixture was setup.</p>
-<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">pytest</span>
 <span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">saved_fixture</span>
 
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
@@ -830,7 +830,7 @@ with 'function' id format. It includes contents from the default <code>fixture_s
 
 <span class="k">def</span> <span class="nf">test_synthesis</span><span class="p">(</span><span class="n">fixture_store</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">fixture_store</span><span class="p">[</span><span class="s1">&#39;dummy&#39;</span><span class="p">])</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Note that for session-scoped and module-scoped fixtures, not all test ids will appear in the store - only those for which the fixture was (re)created.</p>
@@ -849,11 +849,11 @@ with 'function' id format. It includes contents from the default <code>fixture_s
 <p>It is a simple 'Munch', that is, a dual object/dict. It is hashable with a not very interesting hash, but at least a unique one in a python session (id(self)).</p>
 <h3 id="b-intermediate">b- Intermediate<a class="headerlink" href="#b-intermediate" title="Permanent link">&para;</a></h3>
 <h4 id="create_results_bag_fixture"><code>create_results_bag_fixture(...)</code><a class="headerlink" href="#create_results_bag_fixture" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">create_results_bag_fixture</span><span class="p">(</span><span class="n">store</span><span class="p">,</span>               <span class="c1"># type: Union[str, Dict[str, Any]]</span>
+<div class="codehilite"><pre><span></span><code><span class="n">create_results_bag_fixture</span><span class="p">(</span><span class="n">store</span><span class="p">,</span>               <span class="c1"># type: Union[str, Dict[str, Any]]</span>
                            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;results_bag&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
                            <span class="n">bag_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>       <span class="c1"># type: Type[Any]</span>
                            <span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Creates a "results bag" fixture with name <code>name</code> stored in the given store (under key=<code>name</code>). By default results bags are instances of <a href="#resultsbag_class"><code>ResultsBag</code></a> but you can provide another <code>bag_type</code> if needed.</p>
@@ -871,7 +871,7 @@ with 'function' id format. It includes contents from the default <code>fixture_s
 </ul>
 <h3 id="c-advanced">c- Advanced<a class="headerlink" href="#c-advanced" title="Permanent link">&para;</a></h3>
 <h4 id="get_session_synthesis_dct"><code>get_session_synthesis_dct(...)</code><a class="headerlink" href="#get_session_synthesis_dct" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">session_or_request</span><span class="p">,</span>
+<div class="codehilite"><pre><span></span><code><span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">session_or_request</span><span class="p">,</span>
                           <span class="n">test_id_format</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span>   <span class="c1">#</span>
                           <span class="n">status_details</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>    <span class="c1"># type: bool</span>
                           <span class="n">durations_in_ms</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>   <span class="c1"># type: bool</span>
@@ -882,7 +882,7 @@ with 'function' id format. It includes contents from the default <code>fixture_s
                           <span class="n">fixture_store</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>      <span class="c1"># type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]</span>
                           <span class="n">flatten_more</span><span class="o">=</span><span class="kc">None</span>        <span class="c1"># type: Union[str, Iterable[str], Mapping[str, str]]</span>
                           <span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Returns a dictionary containing a synthesis of what is available currently in the provided <code>pytest</code> <code>session</code> object.</p>
@@ -924,10 +924,10 @@ with 'function' id format. It includes contents from the default <code>fixture_s
 </ul>
 <p><strong>Returns</strong>: a dictionary where the keys are pytest node ids. Each value is also a dictionary, containing information available from pytest concerning the test node, and optionally storage contents if <code>storage_dcts</code> is provided.</p>
 <h4 id="filter_session_items"><code>filter_session_items(...)</code><a class="headerlink" href="#filter_session_items" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">filter_session_items</span><span class="p">(</span><span class="n">session</span><span class="p">,</span>
+<div class="codehilite"><pre><span></span><code><span class="n">filter_session_items</span><span class="p">(</span><span class="n">session</span><span class="p">,</span>
                      <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Any</span>
                      <span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Filters pytest session item in the provided <code>session</code>. An optional <code>filter</code> can be provided, that can be a singleton or iterable of pytest objects (typically test functions) and/or module names.</p>
@@ -939,18 +939,18 @@ with 'function' id format. It includes contents from the default <code>fixture_s
 </ul>
 <p><strong>Returns</strong>: an iterable containing possibly filtered session items</p>
 <h4 id="pytest_item_matches_filter"><code>pytest_item_matches_filter(...)</code><a class="headerlink" href="#pytest_item_matches_filter" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">pytest_item_matches_filter</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
-</pre></div>
+<div class="codehilite"><pre><span></span><code><span class="n">pytest_item_matches_filter</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">filter</span><span class="p">)</span>
+</code></pre></div>
 
 
 <p>Returns <code>True</code> if pytest session item <code>item</code> matches filter <code>filter</code>, <code>False</code> otherwise.</p>
 <h3 id="d-pytest-utils">d- Pytest utils<a class="headerlink" href="#d-pytest-utils" title="Permanent link">&para;</a></h3>
 <h4 id="get_all_pytest_fixture_names"><code>get_all_pytest_fixture_names(...)</code><a class="headerlink" href="#get_all_pytest_fixture_names" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">get_all_pytest_fixture_names</span><span class="p">(</span><span class="n">session</span><span class="p">,</span>
+<div class="codehilite"><pre><span></span><code><span class="n">get_all_pytest_fixture_names</span><span class="p">(</span><span class="n">session</span><span class="p">,</span>
                              <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>              <span class="c1"># type: Any</span>
                              <span class="n">filter_incomplete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># type: bool</span>
                              <span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Returns the list of all unique fixture names used in all items in the provided session, with given filter.</p>
@@ -964,11 +964,11 @@ with 'function' id format. It includes contents from the default <code>fixture_s
 </ul>
 <p><strong>Returns</strong>: a list of fixture names corresponding to the desired filters</p>
 <h4 id="get_all_pytest_param_names"><code>get_all_pytest_param_names(...)</code><a class="headerlink" href="#get_all_pytest_param_names" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">get_all_pytest_param_names</span><span class="p">(</span><span class="n">session</span><span class="p">,</span>
+<div class="codehilite"><pre><span></span><code><span class="n">get_all_pytest_param_names</span><span class="p">(</span><span class="n">session</span><span class="p">,</span>
                            <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>              <span class="c1"># type: Any</span>
                            <span class="n">filter_incomplete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># type: bool</span>
                            <span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>Returns the list of all unique parameter names used in all items in the provided session, with given filter.</p>
@@ -1063,9 +1063,9 @@ each pytest phase, and a tuple synthesizing the information.</p>
       <div class="md-footer-copyright">
         
         powered by
-        <a href="https://www.mkdocs.org">MkDocs</a>
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
         and
-        <a href="https://squidfunk.github.io/mkdocs-material/">
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
           Material for MkDocs</a>
       </div>
       
@@ -1075,7 +1075,7 @@ each pytest phase, and a tuple synthesizing the information.</p>
       
     </div>
     
-      <script src="../assets/javascripts/application.808e90bb.js"></script>
+      <script src="../assets/javascripts/application.c33a9706.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       
