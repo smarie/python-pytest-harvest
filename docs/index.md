@@ -432,6 +432,54 @@ All the behaviours described above are pre-wired to help most users getting star
 
 This plugin mostly relies on the fixtures mechanism and the `pytest_runtest_makereport` hook. It should therefore be quite portable across pytest versions (at least it is tested against pytest 2 and 3, for both python 2 and 3).
 
+### pytest x-dist 
+
+You may wish to rely on `pytest-xdist` to parallelize/distribute your tests. In that case, you can not rely on the `[module/session]_results_[dct/df]` fixtures described previously to collect your synthesis. To cover this case, `pytest-harvest` provides equivalent methods `get_[module/session]_results_[dct/df](session, [module_name])`. You can use these methods in any pytest hook, for example in the `pytest_sessionfinish` hook.
+
+Below is a complete example of `conftest.py` that works both *with* and *without* `pytest-xdist` enabled.  
+
+```python
+from collections import OrderedDict
+import logging
+import pandas as pd
+from pathlib import Path
+from pytest_harvest import get_session_results_df
+
+# Define the folder in which temporary worker's results will be stored when xdist is enabled
+RESULTS_PATH = Path('./.xdist_results/')
+RESULTS_PATH.mkdir(exist_ok=True)
+
+def pytest_sessionfinish(session):
+    """ Gather all results, in a way that works both with and without pytest-x-dist """
+    try:
+        # x-dist mode: retrieve x-dist worker id and save its partial results
+        pytest_worker_id = session.config.slaveinput['slaveid']
+        logging.warning('PARTIAL pytest session finish for x-dist worker %s' % pytest_worker_id)
+        session_results_df = get_session_results_df(session)
+        session_results_df.to_csv(RESULTS_PATH / ('%s_session_results.csv' % pytest_worker_id))
+
+    except AttributeError:
+        # x-dist master OR no x-dist at all: put everything available together
+        logging.warning('MAIN pytest session finish')
+        session_results_dfs = OrderedDict()
+        try:
+            # try to collect master results in case x-dist was not active
+            session_results_dfs['master'] = get_session_results_df(session)
+        except:
+            # x-dist master process - read all partial x-dist results files if any
+            for results_file in RESULTS_PATH.glob('*_session_results.csv'):
+                wid = results_file.name[:-len('_session_results.csv')]
+                try:
+                    session_results_dfs[wid] = pd.read_csv(results_file)
+                except Exception as e:
+                    logging.warning('Unable to read results from worker %s: [%s] %s' % (wid, e.__class__, e))
+
+        # concatenate all pandas tables and for example write them in a final csv
+        df = pd.concat([results_df for results_df in session_results_dfs.values()]).reset_index()
+        df.to_csv('all_results.csv')
+
+```
+
 ## Main features / benefits
 
  * **Collect test execution information easily**: with the default `[module/session]_results_[dct/df]` fixtures, and with `get_session_synthesis_dct(session)` (advanced users), you can collect all the information you need, without the hassle of writing hooks. 
