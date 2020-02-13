@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.8.0 - pytest-xdist compliance
+
+ - For each of the `[module/session]_results_[dct/df]` fixtures, an equivalent `get_<fixture_name>(session, ...)` helper function is available. This allows users to access the same level of functionality than the fixture, in places where fixtures are not available (typically in a pytest hook such as the `pytest_sessionfinish` session finish hook). In addition the default `FIXTURE_STORE` is now a package variable, available directly or through the session-scoped `fixture_store` fixture. Fixed [#33](https://github.com/smarie/python-pytest-harvest/issues/33) and [#34](https://github.com/smarie/python-pytest-harvest/issues/34).
+
+ - Added an example in the documentation on how to use with pytest-xdist. Fixes [#32](https://github.com/smarie/python-pytest-harvest/issues/32)
+
 ### 1.7.4 - `pyproject.toml`
 
 Added a `pyproject.toml` file.
