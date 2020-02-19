@@ -256,16 +256,16 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#a-storing-fixture-instances" class="md-nav__link">
-    a- Storing fixture instances
+  <a href="#a-collecting-fixture-instances" class="md-nav__link">
+    a- Collecting fixture instances
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#storing-fixture-views" class="md-nav__link">
-    Storing fixture views
+  <a href="#collecting-fixture-views" class="md-nav__link">
+    Collecting fixture views
   </a>
   
 </li>
@@ -297,8 +297,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#e-customization" class="md-nav__link">
-    e- customization
+  <a href="#e-advanced-usage" class="md-nav__link">
+    e- advanced usage
   </a>
   
 </li>
@@ -445,16 +445,16 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#a-storing-fixture-instances" class="md-nav__link">
-    a- Storing fixture instances
+  <a href="#a-collecting-fixture-instances" class="md-nav__link">
+    a- Collecting fixture instances
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#storing-fixture-views" class="md-nav__link">
-    Storing fixture views
+  <a href="#collecting-fixture-views" class="md-nav__link">
+    Collecting fixture views
   </a>
   
 </li>
@@ -486,8 +486,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#e-customization" class="md-nav__link">
-    e- customization
+  <a href="#e-advanced-usage" class="md-nav__link">
+    e- advanced usage
   </a>
   
 </li>
@@ -575,12 +575,12 @@
 <p><a href="https://pypi.python.org/pypi/pytest-harvest/"><img alt="Python versions" src="https://img.shields.io/pypi/pyversions/pytest-harvest.svg" /></a> <a href="https://travis-ci.org/smarie/python-pytest-harvest"><img alt="Build Status" src="https://travis-ci.org/smarie/python-pytest-harvest.svg?branch=master" /></a> <a href="https://smarie.github.io/python-pytest-harvest/junit/report.html"><img alt="Tests Status" src="https://smarie.github.io/python-pytest-harvest/junit/junit-badge.svg?dummy=8484744" /></a> <a href="https://codecov.io/gh/smarie/python-pytest-harvest"><img alt="codecov" src="https://codecov.io/gh/smarie/python-pytest-harvest/branch/master/graph/badge.svg" /></a></p>
 <p><a href="https://smarie.github.io/python-pytest-harvest/"><img alt="Documentation" src="https://img.shields.io/badge/doc-latest-blue.svg" /></a> <a href="https://pypi.python.org/pypi/pytest-harvest/"><img alt="PyPI" src="https://img.shields.io/pypi/v/pytest-harvest.svg" /></a> <a href="https://pepy.tech/project/pytest-harvest"><img alt="Downloads" src="https://pepy.tech/badge/pytest-harvest" /></a> <a href="https://pepy.tech/project/pytest-harvest"><img alt="Downloads per week" src="https://pepy.tech/badge/pytest-harvest/week" /></a> <a href="https://github.com/smarie/python-pytest-harvest/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/smarie/python-pytest-harvest.svg" /></a></p>
 <div class="admonition success">
-<p class="admonition-title">New simplified usage: with the default fixtures provided, you can now start collecting data from your tests in minutes !</p>
+<p class="admonition-title">now compliant with <code>pytest-xdist</code>! <a href="#pytest-x-dist">check it out</a></p>
 </div>
 <p><code>pytest</code> is a great tool to write test logic once and then generate multiple tests from <em>parameters</em>. Its <em>fixture</em> mechanism provides a cool way to inject dependencies in your tests.</p>
 <p>At the end of a test session, you can already <strong>collect various data</strong> about the tests that have been run. But it is a bit cumbersome to get it right, and requires you to write a plugin (see <a href="https://docs.pytest.org/en/latest/example/simple.html#making-test-result-information-available-in-fixtures">this advice</a>).</p>
 <p>Besides, as opposed to <em>parameters</em> (<code>@pytest.mark.parametrize</code>), <code>pytest</code> purposedly does not keep <em>fixtures</em> (<code>@pytest.fixture</code>) in memory, because in general that would just be a waste of memory. Therefore you are currently <strong>not able to retrieve fixture values at the end of the session</strong>.</p>
-<p>Finally, what about other kind of results that you produce during test execution ? There is no current mechanism in <code>pytest</code> to manage that.</p>
+<p>Finally, what about other kind of <strong>applicative results</strong> that you produce during test execution ? There is no current mechanism in <code>pytest</code> to manage that.</p>
 <p>With <code>pytest-harvest</code>:</p>
 <ul>
 <li>
@@ -597,17 +597,13 @@
 </li>
 </ul>
 <p>With all that, you can now easily create <strong>applicative benchmarks</strong>. See <a href="https://smarie.github.io/pytest-patterns/">pytest-patterns</a> for an example of data science benchmark.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><code>pytest-harvest</code> has not yet been tested with pytest-xdist. See <a href="https://github.com/smarie/python-pytest-harvest/issues/1">#1</a></p>
-</div>
 <h2 id="installing">Installing<a class="headerlink" href="#installing" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span><code>&gt; pip install pytest_harvest
 </code></pre></div>
 
 
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<h3 id="a-storing-fixture-instances">a- Storing fixture instances<a class="headerlink" href="#a-storing-fixture-instances" title="Permanent link">&para;</a></h3>
+<h3 id="a-collecting-fixture-instances">a- Collecting fixture instances<a class="headerlink" href="#a-collecting-fixture-instances" title="Permanent link">&para;</a></h3>
 <p>Simply use the <code>@saved_fixture</code> decorator on your fixtures to declare that their instances must be saved. By default they are saved in a session-scoped <code>fixture_store</code> fixture that you can therefore grab and inspect in other tests or in any compliant pytest entry point:</p>
 <div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">pytest</span>
 <span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">saved_fixture</span>
@@ -672,7 +668,7 @@ test_doc_basic_saved_fixture.py::test_synthesis
 
 
 <p>As you can see, the <code>fixture_store</code> contains one entry for each saved fixture, and this entry's value is a dictionary of <code>{&lt;test_id&gt;: &lt;fixture_value&gt;}</code>.  We will see <a href="#d-collecting-all-at-once">below</a> how to combine this information with information already available in pytest (test status, duration...).</p>
-<h4 id="storing-fixture-views">Storing fixture views<a class="headerlink" href="#storing-fixture-views" title="Permanent link">&para;</a></h4>
+<h4 id="collecting-fixture-views">Collecting fixture views<a class="headerlink" href="#collecting-fixture-views" title="Permanent link">&para;</a></h4>
 <p>Sometimes you are not interested in storing the whole fixture but maybe just some aspect of it. For example maybe the fixture is a huge dataset, and you just wish to remember a few characteristics about it.</p>
 <p>Simply use the <code>views=</code> argument in <code>@saved_fixture</code> to save views instead of the fixture itself. That argument should contain a dictionary of <code>{&lt;view_key&gt;: &lt;view_creation_function&gt;}</code>.</p>
 <p>In the previous example if we only want to save the first and last character of the <code>person</code> fixture, we can do:</p>
@@ -835,7 +831,7 @@ test_doc_basic.py::test_synthesis
 <li><code>'params'</code>the parameters used in this test (both in the test function AND the fixtures)</li>
 <li><code>'fixtures'</code> the saved fixture instances (not parameters) for this test. Here we see the saved fixtures and result bags, if any (see <a href="#d-collecting-all-at-once">below</a> for a complete example) </li>
 </ul>
-<p>Note: if you need the synthesis to contain all tests of the <em>session</em> instead of just the current <em>module</em>, use fixtures <code>session_results_dct</code> instead.</p>
+<p>Note: if you need the synthesis to contain all tests of the <em>session</em> instead of just the current <em>module</em>, use fixture <code>session_results_dct</code> instead.</p>
 <p><strong>as a</strong> <code>DataFrame</code></p>
 <p>Simply use the <code>module_results_df</code> fixture instead of <code>module_results_dct</code> (note the <code>df</code> suffix instead of <code>dct</code>) to get the same contents as a table, which might be more convenient for statistics and aggregations of all sorts. Note: you have to have <code>pandas</code> installed for this fixture to be available.</p>
 <p>Replacing the above <code>test_synthesis</code> function with </p>
@@ -875,7 +871,7 @@ test_foo<span class="o">[</span>self<span class="o">]</span>   passed   <span cl
 
 
 <p>As can be seen above, each row in the dataframe corresponds to a test (the index is the test id), and the various information are presented in columns. As opposed to the dictionary version, status details are not provided.</p>
-<p>Note: as for the dict version, if you need the synthesis to contain all tests of the <em>session</em> instead of just the current <em>module</em>, use fixtures <code>session_results_df</code> instead.</p>
+<p>Note: as for the dict version, if you need the synthesis to contain all tests of the <em>session</em> instead of just the current <em>module</em>, use fixture <code>session_results_df</code> instead.</p>
 <h3 id="d-collecting-all-at-once">d- collecting all at once<a class="headerlink" href="#d-collecting-all-at-once" title="Permanent link">&para;</a></h3>
 <p>We have seen first how to collect <em>saved fixtures</em>, and <em>test artifacts</em> thanks to results bags. Then we saw how to collect <em>pytest status and duration information, as well as parameters</em>. </p>
 <p>You may now wonder how to collect all of this in a single handy object ? Well, the answer is quite simple: you have nothing more to do. Indeed, the <code>[module/session]_results_[dct/df]</code> fixtures that we saw in previous chapter will by default contain <em>all</em> saved fixtures and results bags. </p>
@@ -958,51 +954,75 @@ PASSED
 
 <p>So we see here that we get all the information in a single handy table object: for each test, we get its status, duration, parameters (<code>double_sleep_time</code>, <code>person_param</code>), fixtures (<code>person</code>) and results (<code>nb_letters</code>, <code>current_time</code>).</p>
 <p>Of course you can still get the same information as a dictionary, and chose to get it for the whole session or for a specific module (see previous <a href="#c-collecting-a-synthesis">chapter</a>). </p>
-<h3 id="e-customization">e- customization<a class="headerlink" href="#e-customization" title="Permanent link">&para;</a></h3>
-<p>All the behaviours described above are pre-wired to help most users getting started. However they are nothing but pre-wiring of more generic capabilities, that are offered in this library as well. For details on how to create <strong>custom synthesis</strong>, <strong>custom store objects</strong>, <strong>custom results bags</strong>... see <a href="./advanced_usage">advanced usage page</a>.</p>
+<h3 id="e-advanced-usage">e- advanced usage<a class="headerlink" href="#e-advanced-usage" title="Permanent link">&para;</a></h3>
+<p>All the behaviours described above are pre-wired using fixtures, to help most users getting started. For each fixture described above there is an equivalent method in <code>pytest-harvest</code> <a href="api_reference/#associated-getter-functions">API</a>, so that you may access the same information from within a pytest hook such as <code>pytest_sessionfinish(session)</code>:</p>
+<ul>
+<li><code>fixture_store</code> fixture: <code>get_fixture_store(session)</code></li>
+<li><code>module_results_dct</code> fixture: <code>get_module_results_dct(session, module_name)</code></li>
+<li><code>module_results_df</code> fixture: <code>get_module_results_df(session, module_name)</code></li>
+<li><code>session_results_dct</code> fixture: <code>get_session_results_dct(session)</code></li>
+<li><code>session_results_df</code> fixture: <code>get_session_results_df(session)</code></li>
+</ul>
+<p>Finally, these fixtures and equivalent methods are nothing but pre-wiring of more generic capabilities, that are offered in this library as well. So if these pre-wired objects do not suit your needs and you wish to create <strong>custom synthesis</strong>, <strong>custom store objects</strong>, <strong>custom results bags</strong>... see <a href="./advanced_usage">advanced usage page</a>.</p>
 <h2 id="compliance-with-the-pytest-ecosystem">Compliance with the pytest ecosystem<a class="headerlink" href="#compliance-with-the-pytest-ecosystem" title="Permanent link">&para;</a></h2>
-<p>This plugin mostly relies on the fixtures mechanism and the <code>pytest_runtest_makereport</code> hook. It should therefore be quite portable across pytest versions (at least it is tested against pytest 2 and 3, for both python 2 and 3).</p>
+<p>This plugin mostly relies on the fixtures mechanism and the <code>pytest_runtest_makereport</code> hook. It should therefore be quite portable across pytest versions (at least it is tested against pytest 2, 3, 4, 5, for both python 2 and 3).</p>
 <h3 id="pytest-x-dist">pytest x-dist<a class="headerlink" href="#pytest-x-dist" title="Permanent link">&para;</a></h3>
-<p>You may wish to rely on <code>pytest-xdist</code> to parallelize/distribute your tests. In that case, you can not rely on the <code>[module/session]_results_[dct/df]</code> fixtures described previously to collect your synthesis. To cover this case, <code>pytest-harvest</code> provides equivalent methods <code>get_[module/session]_results_[dct/df](session, [module_name])</code>. You can use these methods in any pytest hook, for example in the <code>pytest_sessionfinish</code> hook.</p>
-<p>Below is a complete example of <code>conftest.py</code> that works both <em>with</em> and <em>without</em> <code>pytest-xdist</code> enabled.  </p>
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">get_session_results_df</span>
+<p>You may wish to rely on <code>pytest-xdist</code> to parallelize/distribute your tests. In that case, you can not rely on the <code>[module/session]_results_[dct/df]</code> fixtures described previously to collect your synthesis because as of today there is no way to ensure that these methods will run last on the workers, and to run them at all on the master. So instead of using these fixtures, simply use the equivalent methods <code>get_[module/session]_results_[dct/df](session, [module_name])</code> in a pytest hook, and <code>pytest-harvest</code> will take care of the rest.</p>
+<p>More precisely, when <code>pytest-xdist</code> is used to distribute tests, worker node results are automatically stored by <code>pytest-harvest</code> in a file at the end of their respective pytest session using pickle, in a temporary <code>.xdist_harvested/</code> folder. These results are automatically retrieved and consolidated when any of the <code>get_[module/session]_results_[dct/df]</code> method is called from the master node. Finally, the temporary folder is deleted at the end of master node session. You can use the <code>get_[module/session]_results_[dct/df]</code> methods in any pytest hook on the "master" node, for example in the <code>pytest_sessionfinish</code> hook. The methods continue to work on worker nodes, so to know if you are in the master node, a <code>is_main_process</code> function is provided.</p>
+<p>Below is an example of <code>conftest.py</code> that works both <em>with</em> and <em>without</em> <code>pytest-xdist</code> enabled, and within both master an worker nodes:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">is_main_process</span><span class="p">,</span> <span class="n">get_xdist_worker_id</span><span class="p">,</span> \
+                           <span class="n">get_session_results_df</span>
 
-<span class="c1"># Define the folder in which temporary worker&#39;s results will be stored when xdist is enabled</span>
+<span class="k">def</span> <span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Gather all results and save them to a csv. </span>
+<span class="sd">    Works both on worker and master nodes, and also with xdist disabled&quot;&quot;&quot;</span>
+
+    <span class="n">session_results_df</span> <span class="o">=</span> <span class="n">get_session_results_df</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+    <span class="n">suffix</span> <span class="o">=</span> <span class="s1">&#39;all&#39;</span> <span class="k">if</span> <span class="n">is_main_process</span><span class="p">(</span><span class="n">session</span><span class="p">)</span> <span class="k">else</span> <span class="n">get_xdist_worker_id</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+    <span class="n">session_results_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;results_</span><span class="si">%s</span><span class="s1">.csv&#39;</span> <span class="o">%</span> <span class="n">suffix</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>Note: you can also do the persist/restore operation yourself using the hooks provided. See <a href="https://github.com/smarie/python-pytest-harvest/blob/master/pytest_harvest/newhooks.py"><code>newhooks</code></a> for details. Below is a <code>contest.py</code> example doing the same than the default behaviour, but with a different temporary folder:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">rmtree</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">warning</span>
+
+<span class="c1"># Define the folder in which temporary worker&#39;s results will be stored</span>
 <span class="n">RESULTS_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;./.xdist_results/&#39;</span><span class="p">)</span>
 <span class="n">RESULTS_PATH</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Gather all results, in a way that works both with and without pytest-x-dist &quot;&quot;&quot;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># x-dist mode: retrieve x-dist worker id and save its partial results</span>
-        <span class="n">pytest_worker_id</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">slaveinput</span><span class="p">[</span><span class="s1">&#39;slaveid&#39;</span><span class="p">]</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;PARTIAL pytest session finish for x-dist worker </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">pytest_worker_id</span><span class="p">)</span>
-        <span class="n">session_results_df</span> <span class="o">=</span> <span class="n">get_session_results_df</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
-        <span class="n">session_results_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">RESULTS_PATH</span> <span class="o">/</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">_session_results.csv&#39;</span> <span class="o">%</span> <span class="n">pytest_worker_id</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">pytest_harvest_xdist_init</span><span class="p">():</span>
+    <span class="c1"># reset the recipient folder</span>
+    <span class="k">if</span> <span class="n">RESULTS_PATH</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">rmtree</span><span class="p">(</span><span class="n">RESULTS_PATH</span><span class="p">)</span>
+    <span class="n">RESULTS_PATH</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span>
 
-    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-        <span class="c1"># x-dist master OR no x-dist at all: put everything available together</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;MAIN pytest session finish&#39;</span><span class="p">)</span>
-        <span class="n">session_results_dfs</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">pytest_harvest_xdist_worker_dump</span><span class="p">(</span><span class="n">worker_id</span><span class="p">,</span> <span class="n">session_items</span><span class="p">,</span> <span class="n">fixture_store</span><span class="p">):</span>
+    <span class="c1"># persist session_items and fixture_store in the file system</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">RESULTS_PATH</span> <span class="o">/</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.pkl&#39;</span> <span class="o">%</span> <span class="n">worker_id</span><span class="p">),</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># try to collect master results in case x-dist was not active</span>
-            <span class="n">session_results_dfs</span><span class="p">[</span><span class="s1">&#39;master&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_session_results_df</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="c1"># x-dist master process - read all partial x-dist results files if any</span>
-            <span class="k">for</span> <span class="n">results_file</span> <span class="ow">in</span> <span class="n">RESULTS_PATH</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*_session_results.csv&#39;</span><span class="p">):</span>
-                <span class="n">wid</span> <span class="o">=</span> <span class="n">results_file</span><span class="o">.</span><span class="n">name</span><span class="p">[:</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="s1">&#39;_session_results.csv&#39;</span><span class="p">)]</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">session_results_dfs</span><span class="p">[</span><span class="n">wid</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">results_file</span><span class="p">)</span>
-                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                    <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Unable to read results from worker </span><span class="si">%s</span><span class="s1">: [</span><span class="si">%s</span><span class="s1">] </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">wid</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">((</span><span class="n">session_items</span><span class="p">,</span> <span class="n">fixture_store</span><span class="p">),</span> <span class="n">f</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Error while pickling worker </span><span class="si">%s</span><span class="s2">&#39;s harvested results: &quot;</span> 
+                    <span class="s2">&quot;[</span><span class="si">%s</span><span class="s2">] </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">worker_id</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+    <span class="k">return</span> <span class="kc">True</span>
 
-        <span class="c1"># concatenate all pandas tables and for example write them in a final csv</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">results_df</span> <span class="k">for</span> <span class="n">results_df</span> <span class="ow">in</span> <span class="n">session_results_dfs</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;all_results.csv&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">pytest_harvest_xdist_load</span><span class="p">():</span>
+    <span class="c1"># restore the saved objects from file system</span>
+    <span class="n">workers_saved_material</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">pkl_file</span> <span class="ow">in</span> <span class="n">RESULTS_PATH</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.pkl&#39;</span><span class="p">):</span>
+        <span class="n">wid</span> <span class="o">=</span> <span class="n">pkl_file</span><span class="o">.</span><span class="n">stem</span>
+        <span class="k">with</span> <span class="n">pkl_file</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">workers_saved_material</span><span class="p">[</span><span class="n">wid</span><span class="p">]</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">workers_saved_material</span>
+
+<span class="k">def</span> <span class="nf">pytest_harvest_xdist_cleanup</span><span class="p">():</span>
+    <span class="c1"># delete all temporary pickle files</span>
+    <span class="n">rmtree</span><span class="p">(</span><span class="n">RESULTS_PATH</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span>
 </code></pre></div>
 
 

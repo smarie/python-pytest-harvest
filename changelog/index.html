@@ -265,6 +265,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#190-better-pytest-xdist-support" class="md-nav__link">
+    1.9.0 - better pytest-xdist support
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#180-pytest-xdist-compliance" class="md-nav__link">
     1.8.0 - pytest-xdist compliance
   </a>
@@ -483,6 +490,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#190-better-pytest-xdist-support" class="md-nav__link">
+    1.9.0 - better pytest-xdist support
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#180-pytest-xdist-compliance" class="md-nav__link">
     1.8.0 - pytest-xdist compliance
   </a>
@@ -677,6 +691,9 @@
                 
                 
                 <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
+<h3 id="190-better-pytest-xdist-support">1.9.0 - better pytest-xdist support<a class="headerlink" href="#190-better-pytest-xdist-support" title="Permanent link">&para;</a></h3>
+<p>When <code>pytest-xdist</code> is used to distribute tests, worker node results are automatically stored in a file at the end of their respective pytest session using pickle, in a temporary <code>.xdist_harvested/</code> folder. These results are automatically retrived and consolidated when any of the <code>get_[module/session]_results_[dct/df]</code> method is called from the master node. Finally, the temporary folder is deleted at the end of master node session. Fixes <a href="https://github.com/smarie/python-pytest-harvest/issues/36">#36</a></p>
+<p>New function <code>get_fixture_store(session)</code> to replace <code>FIXTURE_STORE</code>. It is robust to xdist distribution, hence preferred over direct use of <code>FIXTURE_STORE</code>.</p>
 <h3 id="180-pytest-xdist-compliance">1.8.0 - pytest-xdist compliance<a class="headerlink" href="#180-pytest-xdist-compliance" title="Permanent link">&para;</a></h3>
 <ul>
 <li>

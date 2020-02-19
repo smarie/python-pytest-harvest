@@ -378,8 +378,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#fixture_store_1" class="md-nav__link">
-    FIXTURE_STORE
+  <a href="#get_fixture_storesession" class="md-nav__link">
+    get_fixture_store(session)
   </a>
   
 </li>
@@ -658,8 +658,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#fixture_store_1" class="md-nav__link">
-    FIXTURE_STORE
+  <a href="#get_fixture_storesession" class="md-nav__link">
+    get_fixture_store(session)
   </a>
   
 </li>
@@ -900,8 +900,8 @@ with 'function' id format. It includes contents from the default <code>fixture_s
 </li>
 </ul>
 <h3 id="c-advanced">c- Advanced<a class="headerlink" href="#c-advanced" title="Permanent link">&para;</a></h3>
-<h4 id="fixture_store_1"><code>FIXTURE_STORE</code><a class="headerlink" href="#fixture_store_1" title="Permanent link">&para;</a></h4>
-<p>The default fixture store, that is also available through the <code>fixture_store</code> fixture. Accessing it directly might be needed in some cases where fixtures are not available (typically in some pytest hooks).</p>
+<h4 id="get_fixture_storesession"><code>get_fixture_store(session)</code><a class="headerlink" href="#get_fixture_storesession" title="Permanent link">&para;</a></h4>
+<p>The default fixture store, that is also available through the <code>fixture_store</code> fixture, is <code>FIXTURE_STORE</code>. Accessing it directly might be needed in some cases where fixtures are not available (typically in some pytest hooks). However to be pytest xdist compliant, users should rather use <code>get_fixture_store(session)</code> in these cases.</p>
 <h4 id="get_session_synthesis_dct"><code>get_session_synthesis_dct(...)</code><a class="headerlink" href="#get_session_synthesis_dct" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span><code><span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">session_or_request</span><span class="p">,</span>
                           <span class="n">test_id_format</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span>   <span class="c1">#</span>
