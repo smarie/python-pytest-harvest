@@ -270,9 +270,10 @@ try:
         return results_df
 
 except ImportError as e:
+    saved_e = e
     def get_session_results_df(*args, **kwargs):
         six.raise_from(Exception("There was an error importing `pandas` module. Fixture `session_results_df` and method"
-                                 "`get_session_results_df` can not be used in this session."), e)
+                                 "`get_session_results_df` can not be used in this session."), saved_e)
 
 
 @pytest.fixture(scope='function')
@@ -343,10 +344,11 @@ try:
         return results_df
 
 except ImportError as e:
+    saved_e = e
     def get_filtered_results_df(*args, **kwargs):
         six.raise_from(Exception("There was an error importing `pandas` module. Fixture `session_results_df` and "
                                  "methods `get_filtered_results_df` and `get_module_results_df` can not be used in this"
-                                 " session. "), e)
+                                 " session. "), saved_e)
 
 
 def get_module_results_df(session,
