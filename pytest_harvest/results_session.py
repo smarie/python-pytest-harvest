@@ -1,5 +1,5 @@
 import sys
-from collections import OrderedDict
+from collections import OrderedDict, namedtuple
 from itertools import chain
 from six import string_types
 
@@ -440,35 +440,44 @@ def get_pytest_param_names(item):
 def get_pytest_params(item):
     """ Returns a dictionary containing a pytest session item's parameters """
 
-    param_dct = OrderedDict()
-    for param_name in item.fixturenames:  # note: item.funcargnames gives the exact same list
-        if hasattr(item, 'callspec'):
-            if param_name in item.callspec.params:
-                if item.session._fixturemanager.getfixturedefs(param_name, item.nodeid) is not None:
-                    # Fixture parameters have the same name than the fixtures themselves! change it
-                    param_dct[param_name + '_param'] = item.callspec.params[param_name]
+    if isinstance(item, _MinimalItem):
+        # Our special _MinimalItem object - when xdist is used and worker states have been saved + restored
+        return item.get_pytest_params()
+    else:
+        param_dct = OrderedDict()
+        for param_name in item.fixturenames:  # note: item.funcargnames gives the exact same list
+            if hasattr(item, 'callspec'):
+                if param_name in item.callspec.params:
+                    if item.session._fixturemanager.getfixturedefs(param_name, item.nodeid) is not None:
+                        # Fixture parameters have the same name than the fixtures themselves! change it
+                        param_dct[param_name + '_param'] = item.callspec.params[param_name]
+                    else:
+                        # Non-fixture parameter: ok
+                        param_dct[param_name] = item.callspec.params[param_name]
                 else:
-                    # Non-fixture parameter: ok
-                    param_dct[param_name] = item.callspec.params[param_name]
-            else:
-                # this is a non-parametrized fixture: it is not available by default in item, this is normal pytest
-                # behaviour (hence the @saved_fixture decorator)
-                pass
+                    # this is a non-parametrized fixture: it is not available by default in item, this is normal pytest
+                    # behaviour (hence the @saved_fixture decorator)
+                    pass
 
-    return param_dct
+        return param_dct
 
 
 def get_pytest_fixture_names(item):
     """ Returns a list containing a pytest session item's fixture names """
 
-    fixture_names = []
-    for param_name in item.fixturenames:  # note: item.funcargnames gives the exact same list
-        # if hasattr(item, 'callspec'):  # NO! it would only return fixtures when they are parametrized
-            # if param_name in item.callspec.params: NO ! it would only return fixtures when they are *directly* parametrized
-        if item.session._fixturemanager.getfixturedefs(param_name, item.nodeid) is not None:
-            fixture_names.append(param_name)
+    if isinstance(item, _MinimalItem):
+        # Our special _MinimalItem object - when xdist is used and worker states have been saved + restored
+        return item.get_pytest_fixture_names()
+    else:
+        # "normal" item
+        fixture_names = []
+        for param_name in item.fixturenames:  # note: item.funcargnames gives the exact same list
+            # if hasattr(item, 'callspec'):  # NO! it would only return fixtures when they are parametrized
+                # if param_name in item.callspec.params: NO ! it would only return fixtures when they are *directly* parametrized
+            if item.session._fixturemanager.getfixturedefs(param_name, item.nodeid) is not None:
+                fixture_names.append(param_name)
 
-    return fixture_names
+        return fixture_names
 
 
 # --- misc
@@ -488,3 +497,50 @@ def _get_filterset(filter):
             # TypeError: '<....>' object is not iterable
             filter = {filter}
     return filter
+
+
+def get_persistable_session_items(session):
+    """
+    Returns a list containing minimal representation of session items, so that the `get_session_synthesis_dct`
+    function will be able to work if this list is available in place of session.items.
+
+    This method is used for persisted state across distributed pytest workers (e.g. xdist)
+
+    :param session:
+    :return:
+    """
+    return [_MinimalItem(item) for item in session.items]
+
+
+_MinimalCallSpec = namedtuple('_MinimalCallSpec', ('params',))
+
+
+class _MinimalItem(object):
+    def __init__(self, item):
+
+        # all pytest attributes that we rely upon
+        self.obj = item.obj
+        self.nodeid = item.nodeid
+        if hasattr(item, 'callspec'):
+            # only keep the params
+            self.callspec = _MinimalCallSpec(params=item.callspec.params)
+
+        # convert these to simple tuples just in case pytest-cases is around and has messed with fixturenames.
+        self.funcargnames = tuple(item.funcargnames)  # not needed but we can keep it
+        self.fixturenames = tuple(item.fixturenames)
+
+        # We do not store the session object so everything that depends on it should be retrieved:
+        self._validated_pytest_params = get_pytest_params(item)
+        self._validated_fix_names = get_pytest_fixture_names(item)
+
+        # all pytest-harvest attributes
+        for k, v in vars(item).items():
+            if k.startswith(HARVEST_PREFIX):
+                # v is a TestReport object
+                setattr(self, k, v)
+
+    def get_pytest_params(self):
+        return self._validated_pytest_params
+
+    def get_pytest_fixture_names(self):
+        return self._validated_fix_names

@@ -4,8 +4,9 @@ from pytest_harvest.results_bags import create_results_bag_fixture, ResultsBag
 from pytest_harvest.results_session import get_session_synthesis_dct, PYTEST_OBJ_NAME, filter_session_items,\
     get_all_pytest_param_names, get_all_pytest_fixture_names, get_pytest_status, get_pytest_params, \
     get_pytest_param_names, is_pytest_incomplete, pytest_item_matches_filter
-from pytest_harvest.plugin import FIXTURE_STORE, get_session_results_dct, get_module_results_dct, \
+from pytest_harvest.plugin import FIXTURE_STORE, get_fixture_store, get_session_results_dct, get_module_results_dct, \
     get_session_results_df, get_module_results_df, get_filtered_results_df
+from pytest_harvest.xdist_api import is_main_process, get_xdist_worker_id
 
 
 try:
@@ -38,5 +39,8 @@ __all__ = [
 
     # fixture equivalent methods
     'FIXTURE_STORE', 'get_session_results_dct', 'get_module_results_dct', 'get_session_results_df',
-    'get_module_results_df', 'get_filtered_results_df'
+    'get_module_results_df', 'get_filtered_results_df', 'get_fixture_store',
+
+    # xdist api
+    'is_main_process', 'get_xdist_worker_id'
     ]

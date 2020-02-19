@@ -1,7 +1,14 @@
+import pickle
 from collections import OrderedDict
-
+from logging import warning
+from shutil import rmtree
 import pytest
 import six
+
+try:
+    from pathlib import Path
+except ImportError:
+    from pathlib2 import Path  # python 2
 
 try: # python 3.5+
     from typing import Union, Iterable, Mapping, Any
@@ -10,7 +17,8 @@ except ImportError:
 
 from pytest_harvest.common import HARVEST_PREFIX
 from pytest_harvest.results_bags import create_results_bag_fixture
-from pytest_harvest.results_session import get_session_synthesis_dct
+from pytest_harvest.results_session import get_session_synthesis_dct, get_persistable_session_items
+from pytest_harvest.xdist_api import _is_xdist_master, _is_xdist_worker, get_xdist_worker_id
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
@@ -40,11 +48,23 @@ def pytest_runtest_makereport(item, call):
 
 # ------------- To collect benchmark results ------------
 FIXTURE_STORE = OrderedDict()
-"""The default fixture store, that is also available through the `fixture_store` fixture."""
+"""The default fixture store, that is also available through the `fixture_store` fixture. It is recommended to access 
+it through `get_fixture_store(session)` so as to be xdist-compliant"""
+
+
+def get_fixture_store(session_or_request):
+    """
+    pytest-xdist-compliant way to access the default fixture store.
+
+    :param session:
+    :return:
+    """
+    possibly_restore_xdist_workers_structs(session_or_request)
+    return FIXTURE_STORE
 
 
 @pytest.fixture(scope='session')  # no need for autouse=True
-def fixture_store():
+def fixture_store(request):
     """
     A "fixture store" fixture: a dictionary where fixture instances can be saved.
 
@@ -62,7 +82,7 @@ def fixture_store():
 
     This fixture has session scope so it is unique across the whole session.
     """
-    return FIXTURE_STORE
+    return get_fixture_store(request)
 
 
 results_bag = create_results_bag_fixture('fixture_store', name='results_bag')
@@ -108,6 +128,9 @@ def get_session_results_dct(session_or_request,
             "results_bag"
     :return:
     """
+    # in case of xdist, make sure persisted workers results have been reloaded
+    possibly_restore_xdist_workers_structs(session_or_request)
+
     results_dct = get_session_synthesis_dct(session_or_request, durations_in_ms=True,
                                             test_id_format='full', status_details=True, pytest_prefix=False,
                                             fixture_store=fixture_store,
@@ -159,6 +182,9 @@ def get_module_results_dct(session_or_request,
         "results_bag"
     :return:
     """
+    # in case of xdist, make sure persisted workers results have been reloaded
+    possibly_restore_xdist_workers_structs(session_or_request)
+
     results_dct = get_session_synthesis_dct(session_or_request, durations_in_ms=True,
                                             filter=module_name, pytest_prefix=False,
                                             test_id_format='function', status_details=True,
@@ -213,6 +239,8 @@ try:
             "results_bag"
         :return:
         """
+        # in case of xdist, make sure persisted workers results have been reloaded
+        possibly_restore_xdist_workers_structs(session_or_request)
 
         # get the synthesis dictionary, merged with default fixture store and flattening default results_bag
         session_results_dct = get_session_synthesis_dct(session_or_request, durations_in_ms=True,
@@ -283,6 +311,9 @@ try:
             "results_bag"
         :return:
         """
+        # in case of xdist, make sure persisted workers results have been reloaded
+        possibly_restore_xdist_workers_structs(session)
+
         # get the synthesis dictionary, merged with default fixture store and flattening default results_bag
         module_results_dct = get_session_synthesis_dct(session, durations_in_ms=True,
                                                        filter=filter,
@@ -354,3 +385,114 @@ def module_results_df(request, fixture_store):
     This fixture has a function scope because we want its contents to be refreshed every time it is needed.
     """
     return get_module_results_df(request.session, module_name=request.module.__name__, fixture_store=fixture_store)
+
+
+# ----- Support for pytest-xdist: we need to persist results across worker processes
+def pytest_addhooks(pluginmanager):
+    from pytest_harvest import newhooks
+    pluginmanager.add_hookspecs(newhooks)
+
+
+class DefaultXDistHarvester(object):
+    """
+    A pytest plugin which stores results from xdist nodes and gathers everything in the final master worker session
+    """
+    def __init__(self, config):
+        # Folder in which temporary worker's results will be stored
+        self.results_path = Path('./.xdist_harvested/')
+
+    @pytest.hookimpl(trylast=True)
+    def pytest_harvest_xdist_init(self):
+        # reset the recipient folder
+        if self.results_path.exists():
+            rmtree(self.results_path)
+        self.results_path.mkdir(exist_ok=False)
+        return True
+
+    @pytest.hookimpl(trylast=True)
+    def pytest_harvest_xdist_worker_dump(self, worker_id, session_items, fixture_store):
+        with open(self.results_path / ('%s.pkl' % worker_id), 'wb') as f:
+            try:
+                pickle.dump((session_items, fixture_store), f)
+            except Exception as e:
+                warning("Error while pickling worker %s's harvested results: [%s] %s", (worker_id, e.__class__, e))
+        return True
+
+    @pytest.hookimpl(trylast=True)
+    def pytest_harvest_xdist_load(self):
+        workers_saved_material = dict()
+        for pkl_file in self.results_path.glob('*.pkl'):
+            wid = pkl_file.stem
+            with pkl_file.open('rb') as f:
+                workers_saved_material[wid] = pickle.load(f)
+        return workers_saved_material
+
+    @pytest.hookimpl(trylast=True)
+    def pytest_harvest_xdist_cleanup(self):
+        # delete all temporary pickle files
+        rmtree(self.results_path)
+        return True
+
+
+@pytest.mark.trylast
+def pytest_configure(config):
+    config.pluginmanager.register(DefaultXDistHarvester(config))
+
+
+@pytest.hookimpl(tryfirst=True)
+def pytest_sessionstart(session):
+    """ This should run first as it creates the temporary filder when run on the xdist master."""
+    if _is_xdist_master(session):
+        # perform cleanup
+        session.config.hook.pytest_harvest_xdist_init()
+
+        # mark the fixture store as to be reloaded
+        FIXTURE_STORE.disabled = True
+
+
+@pytest.hookimpl(trylast=True)
+def pytest_sessionfinish(session):
+    """ This should run last as it deletes the persisted items when run on the xdist master."""
+    if _is_xdist_worker(session):
+        # persist fixture store and report items in a pickle file with this id
+        wid = get_xdist_worker_id(session)
+        session_items = get_persistable_session_items(session)
+        session.config.hook.pytest_harvest_xdist_worker_dump(worker_id=wid, session_items=session_items,
+                                                             fixture_store=FIXTURE_STORE)
+
+    elif _is_xdist_master(session):
+        # final master cleanup
+        session.config.hook.pytest_harvest_xdist_cleanup()
+
+    else:
+        # xdist not enabled - nothing to do
+        pass
+
+
+def possibly_restore_xdist_workers_structs(session):
+    """
+    If this is the xdist master
+    :param session:
+    :return:
+    """
+    if _is_xdist_master(session) and hasattr(FIXTURE_STORE, 'disabled'):
+        # load saved session items and fixtures
+        workers_saved_material = session.config.hook.pytest_harvest_xdist_load()
+
+        # restore them into the same variables used by pytest-harvest
+        delattr(FIXTURE_STORE, 'disabled')
+        assert len(FIXTURE_STORE) == 0  # make sure nothing was added in there in between
+        session.items = []
+        for wid, (session_items, store) in workers_saved_material.items():
+            # session items
+            session.items += session_items
+
+            # saved fixtures
+            for fixture_name, _saved_fixture_dct in store.items():
+                try:
+                    saved_fixture_dct = FIXTURE_STORE[fixture_name]
+                except KeyError:
+                    FIXTURE_STORE[fixture_name] = _saved_fixture_dct
+                else:
+                    assert len(set(saved_fixture_dct.keys()).intersection(set(_saved_fixture_dct.keys()))) == 0
+                    saved_fixture_dct.update(_saved_fixture_dct)
