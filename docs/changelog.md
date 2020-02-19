@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.9.0 - better pytest-xdist support
+
+When `pytest-xdist` is used to distribute tests, worker node results are automatically stored in a file at the end of their respective pytest session using pickle, in a temporary `.xdist_harvested/` folder. These results are automatically retrived and consolidated when any of the `get_[module/session]_results_[dct/df]` method is called from the master node. Finally, the temporary folder is deleted at the end of master node session. Fixes [#36](https://github.com/smarie/python-pytest-harvest/issues/36)
+
+New function `get_fixture_store(session)` to replace `FIXTURE_STORE`. It is robust to xdist distribution, hence preferred over direct use of `FIXTURE_STORE`.
+
 ### 1.8.0 - pytest-xdist compliance
 
  - For each of the `[module/session]_results_[dct/df]` fixtures, an equivalent `get_<fixture_name>(session, ...)` helper function is available. This allows users to access the same level of functionality than the fixture, in places where fixtures are not available (typically in a pytest hook such as the `pytest_sessionfinish` session finish hook). In addition the default `FIXTURE_STORE` is now a package variable, available directly or through the session-scoped `fixture_store` fixture. Fixed [#33](https://github.com/smarie/python-pytest-harvest/issues/33) and [#34](https://github.com/smarie/python-pytest-harvest/issues/34).
