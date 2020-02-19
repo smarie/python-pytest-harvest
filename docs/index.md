@@ -6,7 +6,7 @@
 
 [![Documentation](https://img.shields.io/badge/doc-latest-blue.svg)](https://smarie.github.io/python-pytest-harvest/) [![PyPI](https://img.shields.io/pypi/v/pytest-harvest.svg)](https://pypi.python.org/pypi/pytest-harvest/) [![Downloads](https://pepy.tech/badge/pytest-harvest)](https://pepy.tech/project/pytest-harvest) [![Downloads per week](https://pepy.tech/badge/pytest-harvest/week)](https://pepy.tech/project/pytest-harvest) [![GitHub stars](https://img.shields.io/github/stars/smarie/python-pytest-harvest.svg)](https://github.com/smarie/python-pytest-harvest/stargazers)
 
-!!! success "New simplified usage: with the default fixtures provided, you can now start collecting data from your tests in minutes !"
+!!! success "now compliant with `pytest-xdist`! [check it out](#pytest-x-dist)"
 
 `pytest` is a great tool to write test logic once and then generate multiple tests from *parameters*. Its *fixture* mechanism provides a cool way to inject dependencies in your tests.
 
@@ -14,7 +14,7 @@ At the end of a test session, you can already **collect various data** about the
 
 Besides, as opposed to *parameters* (`@pytest.mark.parametrize`), `pytest` purposedly does not keep *fixtures* (`@pytest.fixture`) in memory, because in general that would just be a waste of memory. Therefore you are currently **not able to retrieve fixture values at the end of the session**.
 
-Finally, what about other kind of results that you produce during test execution ? There is no current mechanism in `pytest` to manage that.
+Finally, what about other kind of **applicative results** that you produce during test execution ? There is no current mechanism in `pytest` to manage that.
 
 With `pytest-harvest`:
 
@@ -29,8 +29,6 @@ With `pytest-harvest`:
  
 With all that, you can now easily create **applicative benchmarks**. See [pytest-patterns](https://smarie.github.io/pytest-patterns/) for an example of data science benchmark.
 
-!!! note
-    `pytest-harvest` has not yet been tested with pytest-xdist. See [#1](https://github.com/smarie/python-pytest-harvest/issues/1)
 
 ## Installing
 
@@ -40,7 +38,7 @@ With all that, you can now easily create **applicative benchmarks**. See [pytest
 
 ## Usage
 
-### a- Storing fixture instances
+### a- Collecting fixture instances
 
 Simply use the `@saved_fixture` decorator on your fixtures to declare that their instances must be saved. By default they are saved in a session-scoped `fixture_store` fixture that you can therefore grab and inspect in other tests or in any compliant pytest entry point:
 
@@ -109,7 +107,7 @@ PASSED
 
 As you can see, the `fixture_store` contains one entry for each saved fixture, and this entry's value is a dictionary of `{<test_id>: <fixture_value>}`.  We will see [below](#d-collecting-all-at-once) how to combine this information with information already available in pytest (test status, duration...).
 
-#### Storing fixture views
+#### Collecting fixture views
 
 Sometimes you are not interested in storing the whole fixture but maybe just some aspect of it. For example maybe the fixture is a huge dataset, and you just wish to remember a few characteristics about it.
 
@@ -286,7 +284,7 @@ As you can see, for each test node id you get a dictionary containing
  - `'params'`the parameters used in this test (both in the test function AND the fixtures)
  - `'fixtures'` the saved fixture instances (not parameters) for this test. Here we see the saved fixtures and result bags, if any (see [below](#d-collecting-all-at-once) for a complete example) 
 
-Note: if you need the synthesis to contain all tests of the *session* instead of just the current *module*, use fixtures `session_results_dct` instead.
+Note: if you need the synthesis to contain all tests of the *session* instead of just the current *module*, use fixture `session_results_dct` instead.
 
 
 **as a** `DataFrame`
@@ -333,7 +331,7 @@ PASSED
 
 As can be seen above, each row in the dataframe corresponds to a test (the index is the test id), and the various information are presented in columns. As opposed to the dictionary version, status details are not provided.
 
-Note: as for the dict version, if you need the synthesis to contain all tests of the *session* instead of just the current *module*, use fixtures `session_results_df` instead.
+Note: as for the dict version, if you need the synthesis to contain all tests of the *session* instead of just the current *module*, use fixture `session_results_df` instead.
 
 ### d- collecting all at once
 
@@ -424,60 +422,86 @@ So we see here that we get all the information in a single handy table object: f
 
 Of course you can still get the same information as a dictionary, and chose to get it for the whole session or for a specific module (see previous [chapter](#c-collecting-a-synthesis)). 
 
-### e- customization
+### e- advanced usage
 
-All the behaviours described above are pre-wired to help most users getting started. However they are nothing but pre-wiring of more generic capabilities, that are offered in this library as well. For details on how to create **custom synthesis**, **custom store objects**, **custom results bags**... see [advanced usage page](./advanced_usage).
+All the behaviours described above are pre-wired using fixtures, to help most users getting started. For each fixture described above there is an equivalent method in `pytest-harvest` [API](./api_reference.md#associated-getter-functions), so that you may access the same information from within a pytest hook such as `pytest_sessionfinish(session)`:
+
+ * `fixture_store` fixture: `get_fixture_store(session)`
+ * `module_results_dct` fixture: `get_module_results_dct(session, module_name)`
+ * `module_results_df` fixture: `get_module_results_df(session, module_name)`
+ * `session_results_dct` fixture: `get_session_results_dct(session)`
+ * `session_results_df` fixture: `get_session_results_df(session)`
+
+Finally, these fixtures and equivalent methods are nothing but pre-wiring of more generic capabilities, that are offered in this library as well. So if these pre-wired objects do not suit your needs and you wish to create **custom synthesis**, **custom store objects**, **custom results bags**... see [advanced usage page](./advanced_usage).
+
 
 ## Compliance with the pytest ecosystem
 
-This plugin mostly relies on the fixtures mechanism and the `pytest_runtest_makereport` hook. It should therefore be quite portable across pytest versions (at least it is tested against pytest 2 and 3, for both python 2 and 3).
+This plugin mostly relies on the fixtures mechanism and the `pytest_runtest_makereport` hook. It should therefore be quite portable across pytest versions (at least it is tested against pytest 2, 3, 4, 5, for both python 2 and 3).
 
 ### pytest x-dist 
 
-You may wish to rely on `pytest-xdist` to parallelize/distribute your tests. In that case, you can not rely on the `[module/session]_results_[dct/df]` fixtures described previously to collect your synthesis. To cover this case, `pytest-harvest` provides equivalent methods `get_[module/session]_results_[dct/df](session, [module_name])`. You can use these methods in any pytest hook, for example in the `pytest_sessionfinish` hook.
+You may wish to rely on `pytest-xdist` to parallelize/distribute your tests. In that case, you can not rely on the `[module/session]_results_[dct/df]` fixtures described previously to collect your synthesis because as of today there is no way to ensure that these methods will run last on the workers, and to run them at all on the master. So instead of using these fixtures, simply use the equivalent methods `get_[module/session]_results_[dct/df](session, [module_name])` in a pytest hook, and `pytest-harvest` will take care of the rest.
 
-Below is a complete example of `conftest.py` that works both *with* and *without* `pytest-xdist` enabled.  
+More precisely, when `pytest-xdist` is used to distribute tests, worker node results are automatically stored by `pytest-harvest` in a file at the end of their respective pytest session using pickle, in a temporary `.xdist_harvested/` folder. These results are automatically retrieved and consolidated when any of the `get_[module/session]_results_[dct/df]` method is called from the master node. Finally, the temporary folder is deleted at the end of master node session. You can use the `get_[module/session]_results_[dct/df]` methods in any pytest hook on the "master" node, for example in the `pytest_sessionfinish` hook. The methods continue to work on worker nodes, so to know if you are in the master node, a `is_main_process` function is provided.
+
+Below is an example of `conftest.py` that works both *with* and *without* `pytest-xdist` enabled, and within both master an worker nodes:
 
 ```python
-from collections import OrderedDict
-import logging
-import pandas as pd
-from pathlib import Path
-from pytest_harvest import get_session_results_df
+from pytest_harvest import is_main_process, get_xdist_worker_id, \
+                           get_session_results_df
 
-# Define the folder in which temporary worker's results will be stored when xdist is enabled
+def pytest_sessionfinish(session):
+    """ Gather all results and save them to a csv. 
+    Works both on worker and master nodes, and also with xdist disabled"""
+
+    session_results_df = get_session_results_df(session)
+    suffix = 'all' if is_main_process(session) else get_xdist_worker_id(session)
+    session_results_df.to_csv('results_%s.csv' % suffix)
+```
+
+Note: you can also do the persist/restore operation yourself using the hooks provided. See [`newhooks`](https://github.com/smarie/python-pytest-harvest/blob/master/pytest_harvest/newhooks.py) for details. Below is a `contest.py` example doing the same than the default behaviour, but with a different temporary folder:
+
+```python
+from pathlib import Path
+from shutil import rmtree
+import pickle
+from logging import warning
+
+# Define the folder in which temporary worker's results will be stored
 RESULTS_PATH = Path('./.xdist_results/')
 RESULTS_PATH.mkdir(exist_ok=True)
 
-def pytest_sessionfinish(session):
-    """ Gather all results, in a way that works both with and without pytest-x-dist """
-    try:
-        # x-dist mode: retrieve x-dist worker id and save its partial results
-        pytest_worker_id = session.config.slaveinput['slaveid']
-        logging.warning('PARTIAL pytest session finish for x-dist worker %s' % pytest_worker_id)
-        session_results_df = get_session_results_df(session)
-        session_results_df.to_csv(RESULTS_PATH / ('%s_session_results.csv' % pytest_worker_id))
+def pytest_harvest_xdist_init():
+    # reset the recipient folder
+    if RESULTS_PATH.exists():
+        rmtree(RESULTS_PATH)
+    RESULTS_PATH.mkdir(exist_ok=False)
+    return True
 
-    except AttributeError:
-        # x-dist master OR no x-dist at all: put everything available together
-        logging.warning('MAIN pytest session finish')
-        session_results_dfs = OrderedDict()
+def pytest_harvest_xdist_worker_dump(worker_id, session_items, fixture_store):
+    # persist session_items and fixture_store in the file system
+    with open(RESULTS_PATH / ('%s.pkl' % worker_id), 'wb') as f:
         try:
-            # try to collect master results in case x-dist was not active
-            session_results_dfs['master'] = get_session_results_df(session)
-        except:
-            # x-dist master process - read all partial x-dist results files if any
-            for results_file in RESULTS_PATH.glob('*_session_results.csv'):
-                wid = results_file.name[:-len('_session_results.csv')]
-                try:
-                    session_results_dfs[wid] = pd.read_csv(results_file)
-                except Exception as e:
-                    logging.warning('Unable to read results from worker %s: [%s] %s' % (wid, e.__class__, e))
+            pickle.dump((session_items, fixture_store), f)
+        except Exception as e:
+            warning("Error while pickling worker %s's harvested results: " 
+                    "[%s] %s", (worker_id, e.__class__, e))
+    return True
 
-        # concatenate all pandas tables and for example write them in a final csv
-        df = pd.concat([results_df for results_df in session_results_dfs.values()]).reset_index()
-        df.to_csv('all_results.csv')
+def pytest_harvest_xdist_load():
+    # restore the saved objects from file system
+    workers_saved_material = dict()
+    for pkl_file in RESULTS_PATH.glob('*.pkl'):
+        wid = pkl_file.stem
+        with pkl_file.open('rb') as f:
+            workers_saved_material[wid] = pickle.load(f)
+    return workers_saved_material
 
+def pytest_harvest_xdist_cleanup():
+    # delete all temporary pickle files
+    rmtree(RESULTS_PATH)
+    return True
 ```
 
 ## Main features / benefits

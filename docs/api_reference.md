@@ -157,9 +157,9 @@ Creates a "results bag" fixture with name `name` stored in the given store (unde
 
 ### c- Advanced
 
-#### `FIXTURE_STORE`
+#### `get_fixture_store(session)`
 
-The default fixture store, that is also available through the `fixture_store` fixture. Accessing it directly might be needed in some cases where fixtures are not available (typically in some pytest hooks).
+The default fixture store, that is also available through the `fixture_store` fixture, is `FIXTURE_STORE`. Accessing it directly might be needed in some cases where fixtures are not available (typically in some pytest hooks). However to be pytest xdist compliant, users should rather use `get_fixture_store(session)` in these cases.
 
 #### `get_session_synthesis_dct(...)`
 
