@@ -3,26 +3,22 @@ See:
 https://packaging.python.org/en/latest/distributing.html
 https://github.com/pypa/sampleproject
 """
-from six import raise_from
 from os import path
-
+import pkg_resources
 from setuptools import setup, find_packages
 
-here = path.abspath(path.dirname(__file__))
+pkg_resources.require("setuptools>=39.2")
+pkg_resources.require("setuptools_scm")
+
+from setuptools_scm import get_version  # noqa: E402
 
 # *************** Dependencies *********
 INSTALL_REQUIRES = ['decopatch', 'makefun>=1.5', 'funcsigs;python_version<"3.3"', 'six',
                     'pathlib2;python_version<"3.2"']
 DEPENDENCY_LINKS = []
-SETUP_REQUIRES = ['pytest-runner', 'setuptools_scm', 'six']
+SETUP_REQUIRES = ['pytest-runner', 'setuptools_scm']
 TESTS_REQUIRE = ['pytest', 'pytest-logging', 'pandas', 'tabulate']
 EXTRAS_REQUIRE = {}
-
-# simple check
-try:
-    from setuptools_scm import get_version
-except Exception as e:
-    raise_from(Exception("Required packages for setup not found. Please install 'setuptools_scm'"), e)
 
 # ************** ID card *****************
 DISTNAME = 'pytest-harvest'
@@ -31,22 +27,15 @@ DESCRIPTION = 'Store data created during your pytest tests execution, and retrie
 MAINTAINER = 'Sylvain MARIE'
 MAINTAINER_EMAIL = 'sylvain.marie@schneider-electric.com'
 URL = 'https://github.com/smarie/python-pytest-harvest'
+DOWNLOAD_URL = URL + '/tarball/' + get_version()
 LICENSE = 'BSD 3-Clause'
 LICENSE_LONG = 'License :: OSI Approved :: BSD License'
-
-version_for_download_url = get_version()
-DOWNLOAD_URL = URL + '/tarball/' + version_for_download_url
-
 KEYWORDS = 'pytest test result store fixture collect benchmark artifact session'
 
+here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'docs', 'long_description.md')) as f:
     LONG_DESCRIPTION = f.read()
 
-# ************* VERSION **************
-# --Get the Version number from VERSION file, see https://packaging.python.org/single_source_version/ option 4.
-# THIS IS DEPRECATED AS WE NOW USE GIT TO MANAGE VERSION
-# with open(path.join(here, 'VERSION')) as version_file:
-#    VERSION = version_file.read().strip()
 # OBSOLETES = []
 
 setup(
@@ -102,7 +91,7 @@ setup(
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
-    packages=find_packages(exclude=['contrib', 'docs', 'tests']),
+    packages=find_packages(exclude=['contrib', 'docs', '*tests*']),
 
     # Alternatively, if you want to distribute just a my_module.py, uncomment
     # this:
@@ -116,7 +105,7 @@ setup(
     dependency_links=DEPENDENCY_LINKS,
 
     # we're using git
-    use_scm_version={'write_to': 'pytest_harvest/_version.py'}, # this provides the version + adds the date if local non-commited changes.
+    use_scm_version={'write_to': '%s/_version.py' % DISTNAME.replace('-', '_')}, # this provides the version + adds the date if local non-commited changes.
     # use_scm_version={'local_scheme':'dirty-tag'}, # this provides the version + adds '+dirty' if local non-commited changes.
     setup_requires=SETUP_REQUIRES,
 
@@ -135,9 +124,11 @@ setup(
     # If there are data files included in your packages that need to be
     # installed, specify them here.  If using Python 2.6 or less, then these
     # have to be included in MANIFEST.in as well.
-    # package_data={
-    #     'sample': ['package_data.dat'],
-    # },
+    # Note: we use the empty string so that this also works with submodules
+    package_data={"": ['py.typed', '*.pyi']},
+    # IMPORTANT: DO NOT set the `include_package_data` flag !! It triggers inclusion of all git-versioned files
+    # see https://github.com/pypa/setuptools_scm/issues/190#issuecomment-351181286
+    # include_package_data=True,
 
     # Although 'package_data' is the preferred approach, in some case you may
     # need to place data files outside of your packages. See:
@@ -156,4 +147,10 @@ setup(
 
     # the following makes a plugin available to pytest
     entry_points={"pytest11": ["harvest = pytest_harvest.plugin"]},
+
+    # explicitly setting the flag to avoid `ply` being downloaded
+    # see https://github.com/smarie/python-getversion/pull/5
+    # and to make mypy happy
+    # see https://mypy.readthedocs.io/en/latest/installed_packages.html
+    zip_safe=False,
 )
