@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.9.1 - better packaging
+
+ - packaging improvements: set the "universal wheel" flag to 1, and cleaned up the `setup.py`. In particular removed dependency to `six` for setup and added `py.typed` file, as well as set the `zip_safe` flag to False. Removed tests folder from package. Fixes [#38](https://github.com/smarie/python-pytest-harvest/issues/38)
+
+
 ### 1.9.0 - better pytest-xdist support
 
 When `pytest-xdist` is used to distribute tests, worker node results are automatically stored in a file at the end of their respective pytest session using pickle, in a temporary `.xdist_harvested/` folder. These results are automatically retrived and consolidated when any of the `get_[module/session]_results_[dct/df]` method is called from the master node. Finally, the temporary folder is deleted at the end of master node session. Fixes [#36](https://github.com/smarie/python-pytest-harvest/issues/36)
