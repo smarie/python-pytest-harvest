@@ -36,7 +36,7 @@ else:
         :return:
         """
         return (not _is_xdist_worker(request_or_session)
-                and request_or_session.config.option.dist != "no")
+                and getattr(request_or_session.config.option, 'dist', 'no') != "no")
 
     def get_xdist_worker_id(request_or_session):
         """Return the id of the current worker ('gw0', 'gw1', etc) or None
