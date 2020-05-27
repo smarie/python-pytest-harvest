@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.9.2 - bugfix
+
+ - Fixed issue sometimes happening when xdist is not installed. Fixed [#40](https://github.com/smarie/python-pytest-harvest/issues/40)
+
 ### 1.9.1 - better packaging
 
  - packaging improvements: set the "universal wheel" flag to 1, and cleaned up the `setup.py`. In particular removed dependency to `six` for setup and added `py.typed` file, as well as set the `zip_safe` flag to False. Removed tests folder from package. Fixes [#38](https://github.com/smarie/python-pytest-harvest/issues/38)
