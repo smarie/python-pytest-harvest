@@ -376,7 +376,7 @@ print(tabulate(results_df, headers='keys'))
 | test_my_app_bench[C-2] | passed   |       0       |            2 | C         |  0.19437   |
 
 !!! note "Duration calculation"
-    The duration field is directly extracted from `pytest`. Currently `pytest` computes durations using the `time` method, which might not be as accurate as other methods - see opened discussion [here](https://github.com/pytest-dev/pytest/issues/4391). If you need more precise duration benchmarking **now**, of if you need to measure the duration of a specific sub-function instead of the duration of the whole test function call, use [pytest-benchmark](https://github.com/ionelmc/pytest-benchmark). In the long run, the author thinks that `pytest` will hopefully provide more precise duration estimates, and therefore you will be able to get similar results in the table outputted above (+ possibly a `@repeat(n)` parameter on top of your test function if you wish to repeat it several times and compare the durations).
+    The duration field is directly extracted from `pytest`. Before version 6, `pytest` computed durations using the `time` method, which was not as accurate as other methods. From [version 6 on, it uses `perf_counter()`](https://docs.pytest.org/en/latest/changelog.html#pytest-6-0-0rc1-2020-07-08) ([pytest#4391](https://github.com/pytest-dev/pytest/issues/4391) was fixed). If you need to measure the duration of a specific sub-function instead of the duration of the whole test function call, use [pytest-benchmark](https://github.com/ionelmc/pytest-benchmark).
 
 ### 5- Partial synthesis (module, function) and synthesis tests
 
