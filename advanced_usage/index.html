@@ -11,7 +11,7 @@
       
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.2.2">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.4.0">
     
     
       
@@ -19,7 +19,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.a2408e81.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.fe0cca5b.min.css">
       
       
     
@@ -42,6 +42,7 @@
   
     <body dir="ltr">
   
+    
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
@@ -840,7 +841,7 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
 </table>
 <div class="admonition note">
 <p class="admonition-title">Duration calculation</p>
-<p>The duration field is directly extracted from <code>pytest</code>. Currently <code>pytest</code> computes durations using the <code>time</code> method, which might not be as accurate as other methods - see opened discussion <a href="https://github.com/pytest-dev/pytest/issues/4391">here</a>. If you need more precise duration benchmarking <strong>now</strong>, of if you need to measure the duration of a specific sub-function instead of the duration of the whole test function call, use <a href="https://github.com/ionelmc/pytest-benchmark">pytest-benchmark</a>. In the long run, the author thinks that <code>pytest</code> will hopefully provide more precise duration estimates, and therefore you will be able to get similar results in the table outputted above (+ possibly a <code>@repeat(n)</code> parameter on top of your test function if you wish to repeat it several times and compare the durations).</p>
+<p>The duration field is directly extracted from <code>pytest</code>. Before version 6, <code>pytest</code> computed durations using the <code>time</code> method, which was not as accurate as other methods. From <a href="https://docs.pytest.org/en/latest/changelog.html#pytest-6-0-0rc1-2020-07-08">version 6 on, it uses <code>perf_counter()</code></a> (<a href="https://github.com/pytest-dev/pytest/issues/4391">pytest#4391</a> was fixed). If you need to measure the duration of a specific sub-function instead of the duration of the whole test function call, use <a href="https://github.com/ionelmc/pytest-benchmark">pytest-benchmark</a>.</p>
 </div>
 <h3 id="5-partial-synthesis-module-function-and-synthesis-tests">5- Partial synthesis (module, function) and synthesis tests<a class="headerlink" href="#5-partial-synthesis-module-function-and-synthesis-tests" title="Permanent link">&para;</a></h3>
 <p>We have seen <a href="#1-collecting-tests-status-and-parameters">above</a> that you can get the pytest <code>session</code> object from many different teardown hooks. In addition, you can even access it from inside a test! In that case all information will not be available, but if the synthesis test is located <strong>after</strong> the test function of interest in execution order, it will be ok.</p>
@@ -925,14 +926,14 @@ path/to/test_file.py::test_foo<span class="o">[</span><span class="m">2</span>-w
     </div>
     
       <script src="../assets/javascripts/vendor.d710d30a.min.js"></script>
-      <script src="../assets/javascripts/bundle.5f27aba8.min.js"></script><script id="__lang" type="application/json">{"search.config.lang": "en", "search.result.placeholder": "Type to start searching", "search.config.pipeline": "trimmer, stopWordFilter", "search.result.none": "No matching documents", "search.config.separator": "[\\s\\-]+", "clipboard.copy": "Copy to clipboard", "search.result.other": "# matching documents", "clipboard.copied": "Copied to clipboard", "search.result.one": "1 matching document"}</script>
+      <script src="../assets/javascripts/bundle.b39636ac.min.js"></script><script id="__lang" type="application/json">{"search.config.pipeline": "trimmer, stopWordFilter", "search.result.other": "# matching documents", "clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.result.placeholder": "Type to start searching", "search.result.one": "1 matching document", "search.config.separator": "[\\s\\-]+", "search.result.none": "No matching documents"}</script>
       
       <script>
         app = initialize({
           base: "..",
           features: [],
           search: Object.assign({
-            worker: "../assets/javascripts/worker/search.27c6a5e6.min.js"
+            worker: "../assets/javascripts/worker/search.a68abb33.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>
