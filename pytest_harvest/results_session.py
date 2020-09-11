@@ -9,6 +9,7 @@ except ImportError:
     pass
 
 from pytest_harvest.common import HARVEST_PREFIX
+from _pytest.doctest import DoctestItem
 
 
 PYTEST_OBJ_NAME = 'pytest_obj'
@@ -324,6 +325,8 @@ def _pytest_item_matches_filter(item, filterset):
     # support class methods: the item object can be a bound method while the filter is maybe not
     elif _is_unbound_present(item_obj, filterset):
         return True
+    elif item_obj is None:
+        return False
     elif any(item_obj.__module__ == f for f in filterset):
         return True
     else:
@@ -443,6 +446,8 @@ def get_pytest_params(item):
     if isinstance(item, _MinimalItem):
         # Our special _MinimalItem object - when xdist is used and worker states have been saved + restored
         return item.get_pytest_params()
+    elif isinstance(item, DoctestItem):
+        return OrderedDict()
     else:
         param_dct = OrderedDict()
         for param_name in item.fixturenames:  # note: item.funcargnames gives the exact same list

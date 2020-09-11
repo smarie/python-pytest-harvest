@@ -1,5 +1,5 @@
 # META
-# {'passed': 16, 'skipped': 1, 'failed': 1}
+# {'passed': 17, 'skipped': 1, 'failed': 1}
 # END META
 import os
 from itertools import product
@@ -208,6 +208,13 @@ def test_synthesis_contains_everything(request):
     # check that synth_dct contains all these test nodes
     missing = set(these_tests) - set(synth_dct.keys())
     assert len(missing) == 0
+
+
+# For some reason, adding a monkeypatch will cause an extra failure for
+# DoctestItem, possibly because it's a setup/teardown
+def test_deal_with_doctest(dummy):
+    """ Tests that setup/teardown harvesting with DoctestItem works """
+    return
 
 
 @yield_fixture(scope='session', autouse=True)

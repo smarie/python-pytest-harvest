@@ -48,7 +48,7 @@ def pytest_runtest_makereport(item, call):
 
 # ------------- To collect benchmark results ------------
 FIXTURE_STORE = OrderedDict()
-"""The default fixture store, that is also available through the `fixture_store` fixture. It is recommended to access 
+"""The default fixture store, that is also available through the `fixture_store` fixture. It is recommended to access
 it through `get_fixture_store(session)` so as to be xdist-compliant"""
 
 
@@ -90,23 +90,23 @@ results_bag = create_results_bag_fixture('fixture_store', name='results_bag')
 A "results bag" fixture: a dictionary where you can store anything (results, context, etc.) during your tests execution.
 It offers a "much"-like api: you can access all entries using the object protocol such as in `results_bag.a = 1`.
 
-This fixture has function-scope so a new, empty instance is injected in each test node. 
+This fixture has function-scope so a new, empty instance is injected in each test node.
 
-There are several ways to gather all results after they have been stored. 
+There are several ways to gather all results after they have been stored.
 
- * To get the raw stored results, use the `fixture_store` fixture: `fixture_store['results_bag']` will contain all 
+ * To get the raw stored results, use the `fixture_store` fixture: `fixture_store['results_bag']` will contain all
    result bags for all tests.
-   
- * If you are interested in both the stored results AND some stored fixture values (through `@saved_fixture`), you 
+
+ * If you are interested in both the stored results AND some stored fixture values (through `@saved_fixture`), you
    might rather wish to leverage the following helpers:
 
-     - use one of the `session_results_dct`, `module_results_dct`, `session_results_df` or `module_results_df` 
+     - use one of the `session_results_dct`, `module_results_dct`, `session_results_df` or `module_results_df`
        fixtures. They contain all available information, in a nicely summarized way.
-       
-     - use the `get_session_synthesis_dct(session)` helper method to create a similar synthesis than the above with 
+
+     - use the `get_session_synthesis_dct(session)` helper method to create a similar synthesis than the above with
        more customization capabilities.
 
-If you wish to create custom results bags similar to this one (for example to create several with different names), 
+If you wish to create custom results bags similar to this one (for example to create several with different names),
 use `create_results_bag_fixture`.
 """
 
@@ -498,3 +498,14 @@ def possibly_restore_xdist_workers_structs(session):
                 else:
                     assert len(set(saved_fixture_dct.keys()).intersection(set(_saved_fixture_dct.keys()))) == 0
                     saved_fixture_dct.update(_saved_fixture_dct)
+
+
+def doctestable():
+    """Do nothing, but have a doctest.
+
+    Examples
+    --------
+    >>> 1 + 1
+    2
+    """
+    return
