@@ -210,11 +210,24 @@ def test_synthesis_contains_everything(request):
     assert len(missing) == 0
 
 
+def doctestable():
+    """Do nothing, but have a doctest.
+
+    Examples
+    --------
+    >>> 1 + 1
+    2
+    """
+    return
+
+
 # For some reason, adding a monkeypatch will cause an extra failure for
 # DoctestItem, possibly because it's a setup/teardown
-def test_deal_with_doctest(dummy):
+def test_deal_with_doctest(dummy, request):
     """ Tests that setup/teardown harvesting with DoctestItem works """
-    return
+    synth_dct = get_session_synthesis_dct(request, filter_incomplete=False)
+    assert 'pytest_harvest/tests_raw/test_get_session_results.py::pytest_harvest.tests_raw.test_get_session_results.doctestable' \
+        in synth_dct
 
 
 @yield_fixture(scope='session', autouse=True)

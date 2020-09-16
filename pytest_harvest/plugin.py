@@ -498,14 +498,3 @@ def possibly_restore_xdist_workers_structs(session):
                 else:
                     assert len(set(saved_fixture_dct.keys()).intersection(set(_saved_fixture_dct.keys()))) == 0
                     saved_fixture_dct.update(_saved_fixture_dct)
-
-
-def doctestable():
-    """Do nothing, but have a doctest.
-
-    Examples
-    --------
-    >>> 1 + 1
-    2
-    """
-    return

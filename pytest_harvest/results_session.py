@@ -323,10 +323,11 @@ def _pytest_item_matches_filter(item, filterset):
     if item_obj in filterset:
         return True
     # support class methods: the item object can be a bound method while the filter is maybe not
+    elif item_obj is None:
+        # This can happen with DoctestItem
+        return False
     elif _is_unbound_present(item_obj, filterset):
         return True
-    elif item_obj is None:
-        return False
     elif any(item_obj.__module__ == f for f in filterset):
         return True
     else:
@@ -447,6 +448,7 @@ def get_pytest_params(item):
         # Our special _MinimalItem object - when xdist is used and worker states have been saved + restored
         return item.get_pytest_params()
     elif isinstance(item, DoctestItem):
+        # No fixtures or parameters
         return OrderedDict()
     else:
         param_dct = OrderedDict()
