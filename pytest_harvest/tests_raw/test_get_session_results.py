@@ -197,21 +197,8 @@ def test_get_all_pytest_fixture_names(request):
     assert fixture_names == ['make_synthesis', 'a_number_str', 'dummy']
 
 
-def test_synthesis_contains_everything(request):
-    """ Tests that the synthesis contains all test nodes """
-    # retrieve session results
-    synth_dct = get_session_synthesis_dct(request, filter_incomplete=False)
-
-    # asserts
-    these_tests = [item.nodeid for item in request.session.items if this_file_name in item.nodeid]
-
-    # check that synth_dct contains all these test nodes
-    missing = set(these_tests) - set(synth_dct.keys())
-    assert len(missing) == 0
-
-
 def doctestable():
-    """Do nothing, but have a doctest.
+    """Do nothing, but have a doctest so that we check it will be collected.
 
     Examples
     --------
@@ -221,13 +208,19 @@ def doctestable():
     return
 
 
-# For some reason, adding a monkeypatch will cause an extra failure for
-# DoctestItem, possibly because it's a setup/teardown
-def test_deal_with_doctest(dummy, request):
-    """ Tests that setup/teardown harvesting with DoctestItem works """
+def test_synthesis_contains_everything(request):
+    """ Tests that the synthesis contains all test nodes """
+    # retrieve session results
     synth_dct = get_session_synthesis_dct(request, filter_incomplete=False)
-    assert 'pytest_harvest/tests_raw/test_get_session_results.py::pytest_harvest.tests_raw.test_get_session_results.doctestable' \
-        in synth_dct
+
+    # ref list is the list of all test items defined in this file.
+    these_tests = [item.nodeid for item in request.session.items if this_file_name in item.nodeid]
+    print(these_tests)
+    assert len(these_tests) == 19
+
+    # check that synth_dct contains all these test nodes
+    missing = set(these_tests) - set(synth_dct.keys())
+    assert len(missing) == 0
 
 
 @yield_fixture(scope='session', autouse=True)

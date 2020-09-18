@@ -41,6 +41,11 @@ def test_run_all_tests(test_to_run, testdir):
         test_file_contents = f.read()
         testdir.makepyfile(test_file_contents)
 
+        # create a setup.cfg file to set options
+        testdir.makefile(".ini", pytest="""[pytest]
+addopts=--doctest-modules -v
+""")
+
         # Grab the expected things to check when this is executed
         m = META_REGEX.match(test_file_contents)
         assert m is not None, "No META header was detected for file " + test_to_run
@@ -48,7 +53,8 @@ def test_run_all_tests(test_to_run, testdir):
         asserts_dct = ast.literal_eval(asserts_dct_str)
 
         # Here we run pytest
-        print("\nTesting that running pytest on file %s results in %s" % (test_to_run, str(asserts_dct)))
+        print("\nTesting in tmp folder '%s' that running pytest on file '%s' results in %s"
+              % (testdir, test_to_run, asserts_dct))
         result = testdir.runpytest()  # ("-q")
 
         # Here we check that everything is ok
