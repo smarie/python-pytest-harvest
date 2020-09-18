@@ -180,7 +180,7 @@ def test_synthesis_id_formatting(request):
 def test_get_all_pytest_param_names(request):
     """Tests that get_all_pytest_param_names works"""
     param_names = get_all_pytest_param_names(request.session, filter=test_get_all_pytest_param_names.__module__)
-    assert param_names == ['p', 'a_number_str_param', 'flatten', 'durations_in_ms']
+    assert param_names == ['p', 'a_number_str_param', 'durations_in_ms', 'flatten']
 
     param_names = get_all_pytest_param_names(request.session, filter=test_foo)
     assert param_names == ['p', 'a_number_str_param']
