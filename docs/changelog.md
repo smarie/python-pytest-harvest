@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.9.3 - Fixed support for doctests
+
+ - Fixed issue with doctests. PR [#41](https://github.com/smarie/python-pytest-harvest/pull/41) by [@larsoner](https://github.com/larsoner)
+
 ### 1.9.2 - bugfix
 
  - Fixed issue sometimes happening when xdist is not installed. Fixed [#40](https://github.com/smarie/python-pytest-harvest/issues/40)
