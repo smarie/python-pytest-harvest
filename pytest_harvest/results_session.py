@@ -1,7 +1,28 @@
+from distutils.version import LooseVersion
+
+import pytest
 import sys
 from collections import OrderedDict, namedtuple
 from itertools import chain
 from six import string_types
+
+
+pytest53 = LooseVersion(pytest.__version__) >= LooseVersion("5.3.0")
+if pytest53:
+    def is_lazy_value_or_tupleitem_with_int_base(o):
+        return False
+else:
+    # In this version of pytest, pytest-cases creates LazyValue objects that inherit from int, which makes pandas
+    # believe that their dtype should be int instead of object when creating a dataframe. We'll remove the int base here
+    try:
+        from pytest_cases.common_pytest_lazy_values import is_lazy
+
+        def is_lazy_value_or_tupleitem_with_int_base(o):
+            return is_lazy(o) and isinstance(o, int)
+
+    except ImportError:  # noqa
+        def is_lazy_value_or_tupleitem_with_int_base(o):
+            return False
 
 try: # python 3.5+
     from typing import Union, Iterable, Mapping, Any
@@ -455,12 +476,16 @@ def get_pytest_params(item):
         for param_name in item.fixturenames:  # note: item.funcargnames gives the exact same list
             if hasattr(item, 'callspec'):
                 if param_name in item.callspec.params:
+                    param_value = item.callspec.params[param_name]
+                    if is_lazy_value_or_tupleitem_with_int_base(param_value):
+                        # remove the int base so that pandas does not interprete it as an int.
+                        param_value = param_value.clone(remove_int_base=True)
                     if item.session._fixturemanager.getfixturedefs(param_name, item.nodeid) is not None:
                         # Fixture parameters have the same name than the fixtures themselves! change it
-                        param_dct[param_name + '_param'] = item.callspec.params[param_name]
+                        param_dct[param_name + '_param'] = param_value
                     else:
                         # Non-fixture parameter: ok
-                        param_dct[param_name] = item.callspec.params[param_name]
+                        param_dct[param_name] = param_value
                 else:
                     # this is a non-parametrized fixture: it is not available by default in item, this is normal pytest
                     # behaviour (hence the @saved_fixture decorator)

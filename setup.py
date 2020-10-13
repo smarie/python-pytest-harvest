@@ -17,7 +17,7 @@ INSTALL_REQUIRES = ['decopatch', 'makefun>=1.5', 'funcsigs;python_version<"3.3"'
                     'pathlib2;python_version<"3.2"']
 DEPENDENCY_LINKS = []
 SETUP_REQUIRES = ['pytest-runner', 'setuptools_scm']
-TESTS_REQUIRE = ['pytest', 'pytest-logging', 'pandas', 'tabulate']
+TESTS_REQUIRE = ['pytest', 'pytest-logging', 'pandas', 'tabulate', 'pytest-cases>=2.3.0']
 EXTRAS_REQUIRE = {}
 
 # ************** ID card *****************
