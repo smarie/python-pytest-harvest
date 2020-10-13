@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.10.0 - Fixed issue on old pytest
+
+ - On pytest < 5.3, `lazy_value` parameters from `pytest-cases` were wrongly inserted in the `module_results_df` as integer instead of objects. Fixed [#43](https://github.com/smarie/python-pytest-harvest/issues/43) thanks to new `pytest-cases` 2.3.0.
+
 ### 1.9.3 - Fixed support for doctests
 
  - Fixed issue with doctests. PR [#41](https://github.com/smarie/python-pytest-harvest/pull/41) by [@larsoner](https://github.com/larsoner)
