@@ -1,6 +1,4 @@
 
-
-
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
@@ -11,7 +9,7 @@
       
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.5.12">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.0.2">
     
     
       
@@ -19,13 +17,17 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.4dd2dd8d.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.38780c08.min.css">
       
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f72e892.min.css">
+        
       
     
     
     
       
+        
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
@@ -40,9 +42,14 @@
   </head>
   
   
-    <body dir="ltr">
-  
     
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
@@ -133,8 +140,6 @@
     
     <div class="md-container" data-md-component="container">
       
-        
-      
       
         
       
@@ -177,7 +182,7 @@
 
 
   <li class="md-nav__item">
-    <a href=".." title="Home" class="md-nav__link">
+    <a href=".." class="md-nav__link">
       Home
     </a>
   </li>
@@ -189,7 +194,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../api_reference/" title="API reference" class="md-nav__link">
+    <a href="../api_reference/" class="md-nav__link">
       API reference
     </a>
   </li>
@@ -214,7 +219,7 @@
         <span class="md-nav__icon md-icon"></span>
       </label>
     
-    <a href="./" title="Changelog" class="md-nav__link md-nav__link--active">
+    <a href="./" class="md-nav__link md-nav__link--active">
       Changelog
     </a>
     
@@ -230,6 +235,13 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1100-fixed-issue-on-old-pytest" class="md-nav__link">
+    1.10.0 - Fixed issue on old pytest
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#193-fixed-support-for-doctests" class="md-nav__link">
@@ -447,7 +459,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../advanced_usage/" title="Advanced Usage" class="md-nav__link">
+    <a href="../advanced_usage/" class="md-nav__link">
       Advanced Usage
     </a>
   </li>
@@ -475,6 +487,13 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1100-fixed-issue-on-old-pytest" class="md-nav__link">
+    1.10.0 - Fixed issue on old pytest
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#193-fixed-support-for-doctests" class="md-nav__link">
@@ -696,10 +715,11 @@
                   </a>
                 
                 
-                  
-                
-                
                 <h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
+<h3 id="1100-fixed-issue-on-old-pytest">1.10.0 - Fixed issue on old pytest<a class="headerlink" href="#1100-fixed-issue-on-old-pytest" title="Permanent link">&para;</a></h3>
+<ul>
+<li>On pytest &lt; 5.3, <code>lazy_value</code> parameters from <code>pytest-cases</code> were wrongly inserted in the <code>module_results_df</code> as integer instead of objects. Fixed <a href="https://github.com/smarie/python-pytest-harvest/issues/43">#43</a> thanks to new <code>pytest-cases</code> 2.3.0.</li>
+</ul>
 <h3 id="193-fixed-support-for-doctests">1.9.3 - Fixed support for doctests<a class="headerlink" href="#193-fixed-support-for-doctests" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Fixed issue with doctests. PR <a href="https://github.com/smarie/python-pytest-harvest/pull/41">#41</a> by <a href="https://github.com/larsoner">@larsoner</a></li>
@@ -857,7 +877,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../api_reference/" title="API reference" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../api_reference/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -872,7 +892,7 @@
           </a>
         
         
-          <a href="../advanced_usage/" title="Advanced Usage" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../advanced_usage/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
@@ -905,15 +925,15 @@
       
     </div>
     
-      <script src="../assets/javascripts/vendor.3636a4ec.min.js"></script>
-      <script src="../assets/javascripts/bundle.e9fe3281.min.js"></script><script id="__lang" type="application/json">{"search.config.separator": "[\\s\\-]+", "search.result.other": "# matching documents", "search.config.pipeline": "trimmer, stopWordFilter", "clipboard.copy": "Copy to clipboard", "search.result.none": "No matching documents", "search.config.lang": "en", "search.result.placeholder": "Type to start searching", "clipboard.copied": "Copied to clipboard", "search.result.one": "1 matching document"}</script>
+      <script src="../assets/javascripts/vendor.77e55a48.min.js"></script>
+      <script src="../assets/javascripts/bundle.9554a270.min.js"></script><script id="__lang" type="application/json">{"search.result.one": "1 matching document", "search.result.term.missing": "Missing", "clipboard.copy": "Copy to clipboard", "search.config.separator": "[\\s\\-]+", "search.result.more.one": "1 more on this page", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.lang": "en", "search.result.placeholder": "Type to start searching", "search.result.other": "# matching documents", "clipboard.copied": "Copied to clipboard", "search.result.none": "No matching documents", "search.result.more.other": "# more on this page"}</script>
       
       <script>
         app = initialize({
           base: "..",
           features: [],
           search: Object.assign({
-            worker: "../assets/javascripts/worker/search.5eca75d3.min.js"
+            worker: "../assets/javascripts/worker/search.4ac00218.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>
