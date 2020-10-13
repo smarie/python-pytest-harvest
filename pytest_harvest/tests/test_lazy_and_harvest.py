@@ -1,6 +1,12 @@
+import pytest
+from distutils.version import LooseVersion
+
 from pytest_cases import lazy_value, fixture_ref, parametrize, fixture
 
 from pytest_harvest import get_session_synthesis_dct
+
+
+pytest2 = LooseVersion(pytest.__version__) < LooseVersion("3.0.0")
 
 
 @fixture
@@ -50,10 +56,11 @@ def test_synthesis(request, module_results_df):
 
     dct = get_session_synthesis_dct(request, filter=test_foo2, test_id_format="function")
     assert len(dct) == 1
-    i_param = dct["test_foo2[foo]"]["pytest_params"]["i"]
+    name = "test_foo2[foo]" if not pytest2 else "test_foo2[foo[0]-foo[1]]"
+    i_param = dct[name]["pytest_params"]["i"]
     assert not isinstance(i_param, int)
     assert str(i_param) == "foo[0]"
-    j_param = dct["test_foo2[foo]"]["pytest_params"]["j"]
+    j_param = dct[name]["pytest_params"]["j"]
     assert not isinstance(j_param, int)
     assert str(j_param) == "foo[1]"
 
