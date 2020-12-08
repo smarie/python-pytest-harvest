@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.10.1 - Now supporting `::` in test ids
+
+ - `get_session_synthesis_dct` now properly handles test ids where `::` is present in the id. This fix propagates to all `[module/session]_results_[dct/df]` fixtures, too. Fixes [#45](https://github.com/smarie/python-pytest-harvest/issues/45)
+
 ### 1.10.0 - Fixed issue on old pytest
 
  - On pytest < 5.3, `lazy_value` parameters from `pytest-cases` were wrongly inserted in the `module_results_df` as integer instead of objects. Fixed [#43](https://github.com/smarie/python-pytest-harvest/issues/43) thanks to new `pytest-cases` 2.3.0.
