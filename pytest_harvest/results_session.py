@@ -126,15 +126,39 @@ def get_session_synthesis_dct(session_or_request,
     # Optional test id formatter
     if test_id_format == 'function':
         def test_id_format(test_id):
-            return test_id.split('::')[-1]
+            """
+            from: path/to/test_file.py::TestClass::test_fun[param-param2]
+            to:                                    test_fun[param-param2]
+            """
+            # Old
+            # return test_id.split('::')[-1]
+            # New: resistant to '::' in param names
+            try:
+                # is there a bracket indicating parameters (therefore possibly custom ids)
+                _idx = test_id.index('[')
+            except ValueError:
+                return test_id.split('::')[-1]
+            else:
+                return test_id[:_idx].split('::')[-1] + test_id[_idx:]
+
     elif test_id_format == 'class':
         def test_id_format(test_id):
+            """
+            from: path/to/test_file.py::TestClass::test_fun[param-param2]
+            to:                         TestClass::test_fun[param-param2]
+            note: if no class is there, this will be function
+            """
             return '::'.join(test_id.split('::')[1:])
     elif test_id_format == 'module':
         def test_id_format(test_id):
+            """
+            from: path/to/test_file.py::TestClass::test_fun[param-param2]
+            to:           test_file.py::TestClass::test_fun[param-param2]
+            """
             return test_id.replace('\\', '/').split('/')[-1]
     elif test_id_format == 'full':
         def test_id_format(test_id):
+            """ path/to/test_file.py::TestClass::test_fun[param-param2] """
             return test_id
     elif callable(test_id_format):
         pass  # use it directly
