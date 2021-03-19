@@ -72,5 +72,5 @@ def test_synthesis(request, module_results_df):
     # last note: nothing can be done for test_foo3
     # as soon as fixtures are created by @parametrize to handle fixture_ref, you cannot access the values anymore
     # TODO can this make it easier ? https://github.com/smarie/python-pytest-harvest/issues/44
-    assert module_results_df.loc["test_foo3[a_is_foo]", "a_value"] == ['r', 1]
-    assert module_results_df.loc["test_foo3[a_is_b]", "a_value"] == (1, 'hello')
+    assert module_results_df.loc["test_foo3[foo]", "a_value"] == ['r', 1]
+    assert module_results_df.loc["test_foo3[b]", "a_value"] == (1, 'hello')
