@@ -72,6 +72,11 @@ class Folders:
     coverage_xml = coverage_reports / "coverage.xml"
 
 
+@nox.session(venv_backend="none")
+def list_all_tests(session):
+    print('["tests-2.7(env=\'pytest2.x\')", "tests-3.7(env=\'pytest-latest\')"]')
+
+
 @power_session(envs=ENVS, logsdir=Folders.runlogs)
 def tests(session: PowerSession, coverage, pkg_specs):
     """Run the test suite, including test reports generation and coverage reports. """

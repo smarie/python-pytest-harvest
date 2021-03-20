@@ -13,13 +13,43 @@ jobs:
   # TODO
   # - one pre-job to read nox tests matrix
   # see https://tomasvotruba.com/blog/2020/11/16/how-to-make-dynamic-matrix-in-github-actions/
+  # phase 1
+  list_nox_test_sessions:
+      runs-on: ubuntu-latest
+      steps:
+          # 1) Checkout a copy of the repo
+          - uses: actions/checkout@v2
+
+          # 2) Setup python version 3.7
+          - name: Install python 3.7
+            uses: actions/setup-python@v1
+            with:
+              python-version: 3.7
+              architecture: x64
+
+          # 3) Install nox (no need for conda backend here)
+          - name: Install noxfile requirements
+            shell: bash -l {0}
+            run: pip install -r noxfile-requirements.txt
+
+          # 3) create the json, we need the "id:" so we can use it in "outputs" bellow
+          - name: list the sessions
+            id: set-matrix
+            run: echo "::set-output name=matrix::$(nox -s list_all_tests)"
+
+      # here, we save the result of this 1st phase to the "outputs"
+      outputs:
+          matrix: ${{ steps.set-matrix.outputs.matrix }}
+
   run_all_tests:
+    needs: list_nox_test_sessions
     strategy:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest ]  # , macos-latest, windows-latest]
-        # all nox sessions
-        nox_session: ["tests-2.7(env='pytest2.x')", "tests-3.7(env='pytest-latest')"]
+        # all nox sessions: manually > dynamically from previous job
+        # nox_session: ["tests-2.7(env='pytest2.x')", "tests-3.7(env='pytest-latest')"]
+        nox_session: ${{ fromJson(needs.list_nox_test_sessions.outputs.matrix) }}
         include:
           # add a variable for reports + doc publish
           - os: ubuntu-latest
@@ -37,8 +67,6 @@ jobs:
       # 1) Checkout a copy of the repo
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # so that gh-deploy works
 
       # 2) Setup python version 3.8
       # - name: Install python 3.7 for nox
