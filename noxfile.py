@@ -37,7 +37,7 @@ ENVS = {
     (PY37, "pytest3.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<4"}},
     (PY37, "pytest4.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<5"}},
     (PY37, "pytest5.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<6"}},
-    (PY37, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
+    (PY37, "pytest-latest"): {"coverage": True, "pkg_specs": {"pip": ">19", "pytest": ""}},
     # python 3.8
     (PY38, "pytest2.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<3", "pytest-asyncio": DONT_INSTALL}},  # "pytest-html": "1.9.0",
     (PY38, "pytest3.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<4"}},
