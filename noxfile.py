@@ -132,8 +132,10 @@ def tests(session: PowerSession, coverage, pkg_specs):
         #  First the raw for coverage
         print("\n\n****** Running tests : 1/2 RAW (for coverage) ******\n\n")
         session.run2("coverage run --source {pkg_name} "
-                     "-m pytest --junitxml={dst}/junit.xml --html={dst}/report.html -v {pkg_name}/tests_raw/"
-                     "".format(pkg_name=pkg_name, dst=Folders.test_reports))
+                     "-m pytest -v {pkg_name}/tests_raw/"
+                     "".format(pkg_name=pkg_name, dst=Folders.test_reports),
+                     success_codes=(0, 1)  # since some tests are purposedly failing we accept code 1
+                     )
 
         print("\n\n****** Running tests : 2/2 META (appending to coverage) ******\n\n")
         session.run2("coverage run --append --source {pkg_name} "
