@@ -1,4 +1,5 @@
 import logging
+from itertools import product
 
 import nox  # noqa
 from pathlib import Path  # noqa
@@ -70,11 +71,6 @@ class Folders:
     test_reports = reports_root / "junit"
     coverage_reports = reports_root / "coverage"
     coverage_xml = coverage_reports / "coverage.xml"
-
-
-@nox.session(venv_backend="none")
-def list_all_tests(session):
-    print('["tests-2.7(env=\'pytest2.x\')", "tests-3.7(env=\'pytest-latest\')"]')
 
 
 @power_session(envs=ENVS, logsdir=Folders.runlogs)
@@ -194,6 +190,18 @@ def publish(session: PowerSession):
     # codecov_token = keyring.get_password("https://app.codecov.io/gh/<org>/<repo>>", "token")
     # # note: do not use --root nor -f ! otherwise "There was an error processing coverage reports"
     # session.run2('codecov -t %s -f %s' % (codecov_token, Folders.coverage_xml))
+
+
+@nox.session(venv_backend="none")
+def list_all_tests(session):
+    """Prints the list of sessions generated for the 'tests' session so that the github actions workflow knows them"""
+
+    # manual working example
+    # sessions_list = ["tests-2.7(env='pytest2.x')", "tests-3.7(env='pytest-latest')"]
+
+    # dynamically generated
+    sessions_list = ["tests-%s(%s)" % (py, param) for py, param in product(tests.python, tests.parametrize)]
+    print(sessions_list)
 
 
 @power_session(python=[PY37])
