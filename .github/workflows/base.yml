@@ -78,7 +78,7 @@ jobs:
         shell: bash -l {0}  # so that conda works
         # env:
         #   EXCH_AKEY: ${{ secrets.EXCH_AKEY }}
-        run: nox -s ${{ matrix.nox_session }}
+        run: nox -s "${{ matrix.nox_session }}"
 
       # 5) publish reports so that they can be deployed with doc in next job
       - name: Share reports with other jobs
