@@ -10,36 +10,25 @@ on:
     branches:
       - main
 jobs:
-  # TODO
-  # - one pre-job to read nox tests matrix
-  # see https://tomasvotruba.com/blog/2020/11/16/how-to-make-dynamic-matrix-in-github-actions/
-  # phase 1
+  # pre-job to read nox tests matrix - see https://stackoverflow.com/q/66747359/7262247
   list_nox_test_sessions:
-      runs-on: ubuntu-latest
-      steps:
-          # 1) Checkout a copy of the repo
-          - uses: actions/checkout@v2
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+          architecture: x64
 
-          # 2) Setup python version 3.7
-          - name: Install python 3.7
-            uses: actions/setup-python@v1
-            with:
-              python-version: 3.7
-              architecture: x64
+      - name: Install noxfile requirements
+        shell: bash -l {0}
+        run: pip install -r noxfile-requirements.txt
 
-          # 3) Install nox (no need for conda backend here)
-          - name: Install noxfile requirements
-            shell: bash -l {0}
-            run: pip install -r noxfile-requirements.txt
-
-          # 3) create the json, we need the "id:" so we can use it in "outputs" bellow
-          - name: list the sessions
-            id: set-matrix
-            run: echo "::set-output name=matrix::$(nox -s list_all_tests)"
-
-      # here, we save the result of this 1st phase to the "outputs"
-      outputs:
-          matrix: ${{ steps.set-matrix.outputs.matrix }}
+      - name: List 'tests' nox sessions
+        id: set-matrix
+        run: echo "::set-output name=matrix::$(nox -s gha_list -- tests)"
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}  # save nox sessions list to outputs
 
   run_all_tests:
     needs: list_nox_test_sessions
@@ -50,65 +39,34 @@ jobs:
         # all nox sessions: manually > dynamically from previous job
         # nox_session: ["tests-2.7(env='pytest2.x')", "tests-3.7(env='pytest-latest')"]
         nox_session: ${{ fromJson(needs.list_nox_test_sessions.outputs.matrix) }}
-        include:
-          # add a variable for reports + doc publish
-          - os: ubuntu-latest
-            nox_session: "tests-3.7(env='pytest-latest')"
-            name_suffix: "+ publish doc and reports"
-    name: Run all tests on OS ${{ matrix.os }} and env ${{ matrix.nox_session }} ${{ matrix.name_suffix }}
+
+    name: ${{ matrix.os }} ${{ matrix.nox_session }} # ${{ matrix.name_suffix }}
     runs-on: ${{ matrix.os }}
     steps:
-      # 0) check the context of this job
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CONTEXT"
+      - uses: actions/checkout@v2
 
-      # 1) Checkout a copy of the repo
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      # 2) Setup python version 3.8
-      # - name: Install python 3.7 for nox
-      #   uses: actions/setup-python@v1
-      #   with:
-      #     python-version: 3.7
-      #     architecture: x64
-      # 2) Add Conda to PATH
-      # - name: Add conda to system path
-      #   run: |
-      #     # $CONDA is an environment variable pointing to the root of the miniconda directory
-      #     echo $CONDA/bin >> $GITHUB_PATH
-      # 2) Setup conda
+      # Conda install
       - name: Install conda v3.7
         uses: conda-incubator/setup-miniconda@v2
         with:
           # auto-update-conda: true
           python-version: 3.7
           activate-environment: noxenv
-      - name: Initial Conda info
+      - run: conda info
         shell: bash -l {0}  # so that conda works
-        run: conda info
-      - name: Initial Conda list
+      - run: conda list
         shell: bash -l {0}  # so that conda works
-        run: conda list
 
-      # 3) Install nox
+      # Nox install + run
       - name: Install noxfile requirements
         shell: bash -l {0}  # so that conda works
         run: pip install -r noxfile-requirements.txt
-      - name: Conda list after noxfile requirements installation
+      - run: conda list
         shell: bash -l {0}  # so that conda works
-        run: conda list
-
-      # 4) Run nox test session for current build matrix position
-      - name: Run nox ${{ matrix.nox_session }}
+      - run: nox -s "${{ matrix.nox_session }}"
         shell: bash -l {0}  # so that conda works
-        # env:
-        #   EXCH_AKEY: ${{ secrets.EXCH_AKEY }}
-        run: nox -s "${{ matrix.nox_session }}"
 
-      # 5) publish reports so that they can be deployed with doc in next job
+      # Share ./docs/reports so that they can be deployed with doc in next job
       - name: Share reports with other jobs
         # if: matrix.nox_session == '...': not needed, if empty wont be shared
         uses: actions/upload-artifact@master
@@ -120,15 +78,12 @@ jobs:
     needs: run_all_tests
     runs-on: ubuntu-latest
     steps:
-      # 0) check the context of this job
-      - name: Dump GitHub context
+      - name: GitHub context to debug conditional steps
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
         run: echo "$GITHUB_CONTEXT"
 
-      # 1) Checkout a copy of the repo
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0  # so that gh-deploy works
 
@@ -139,38 +94,25 @@ jobs:
           name: reports_dir
           path: ./docs/reports
 
-      # 2) Setup python version 3.8
-#      - name: Install python 3.7 for nox
-#        uses: actions/setup-python@v1
-#        with:
-#          python-version: 3.7
-#          architecture: x64
-      # 2) Add Conda to PATH
-#      - name: Add conda to system path
-#        run: |
-#          # $CONDA is an environment variable pointing to the root of the miniconda directory
-#          echo $CONDA/bin >> $GITHUB_PATH
-      # 2) Setup conda
+      # Conda install
       - name: Install conda v3.7
         uses: conda-incubator/setup-miniconda@v2
         with:
           # auto-update-conda: true
           python-version: 3.7
           activate-environment: noxenv
-      - name: Initial Conda info
+      - run: conda info
         shell: bash -l {0}  # so that conda works
-        run: conda info
-      - name: Initial Conda list
+      - run: conda list
         shell: bash -l {0}  # so that conda works
-        run: conda list
 
-      # 3) Install nox
+      # Nox install
       - name: Install noxfile requirements
         shell: bash -l {0}  # so that conda works
         run: pip install -r noxfile-requirements.txt
-      - name: Conda list after noxfile requirements installation
+      - run: conda list
         shell: bash -l {0}  # so that conda works
-        run: conda list
+
 
       # -------------- only on Ubuntu + MAIN PUSH (no pull request, no tag) -----------
 
@@ -182,7 +124,7 @@ jobs:
 
       # 6) Publish coverage report
       - name: \[not on TAG\] Create codecov.yaml with correct paths
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads')  # startsWith(matrix.os,'ubuntu')
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads')
         shell: bash
         run: |
           cat << EOF > codecov.yml
@@ -191,7 +133,7 @@ jobs:
             - "/home/runner/work/smarie/python-pytest-harvest/::" # Correct paths
           EOF
       - name: \[not on TAG\] Publish coverage report
-        if: startsWith(matrix.os,'ubuntu') && github.event_name == 'push' && startsWith(github.ref, 'refs/heads')
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads')
         uses: codecov/codecov-action@v1
         with:
           files: ./docs/reports/coverage/coverage.xml
@@ -200,13 +142,13 @@ jobs:
 
       # 7) Create github release and build the wheel
       - name: \[TAG only\] Build wheel and create github release
-        if: startsWith(matrix.os,'ubuntu') && github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
         shell: bash -l {0}  # so that conda works
         run: nox -s release -- ${{ secrets.GITHUB_TOKEN }}
 
       # 8) Publish the wheel on PyPi
       - name: \[TAG only\] Deploy on PyPi
-        if: startsWith(matrix.os,'ubuntu') && github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__

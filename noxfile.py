@@ -1,5 +1,6 @@
-import logging
 from itertools import product
+from json import dumps
+import logging
 
 import nox  # noqa
 from pathlib import Path  # noqa
@@ -33,18 +34,19 @@ ENVS = {
     (PY36, "pytest4.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<5"}},
     (PY36, "pytest5.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<6"}},
     (PY36, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
-    # python 3.7
-    (PY37, "pytest2.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<3", "pytest-asyncio": DONT_INSTALL}},  # "pytest-html": "1.9.0",
-    (PY37, "pytest3.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<4"}},
-    (PY37, "pytest4.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<5"}},
-    (PY37, "pytest5.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<6"}},
-    (PY37, "pytest-latest"): {"coverage": True, "pkg_specs": {"pip": ">19", "pytest": ""}},
     # python 3.8
     (PY38, "pytest2.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<3", "pytest-asyncio": DONT_INSTALL}},  # "pytest-html": "1.9.0",
     (PY38, "pytest3.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<4"}},
     (PY38, "pytest4.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<5"}},
     (PY38, "pytest5.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<6"}},
-    (PY38, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}}
+    (PY38, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
+    # python 3.7
+    (PY37, "pytest2.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<3", "pytest-asyncio": DONT_INSTALL}},  # "pytest-html": "1.9.0",
+    (PY37, "pytest3.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<4"}},
+    (PY37, "pytest4.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<5"}},
+    (PY37, "pytest5.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<6"}},
+    # IMPORTANT: this should be last so that the folder docs/reports is not deleted afterwards
+    (PY37, "pytest-latest"): {"coverage": True, "pkg_specs": {"pip": ">19", "pytest": ""}}
 }
 
 
@@ -192,18 +194,6 @@ def publish(session: PowerSession):
     # session.run2('codecov -t %s -f %s' % (codecov_token, Folders.coverage_xml))
 
 
-@nox.session(venv_backend="none")
-def list_all_tests(session):
-    """Prints the list of sessions generated for the 'tests' session so that the github actions workflow knows them"""
-
-    # manual working example
-    # sessions_list = ["tests-2.7(env='pytest2.x')", "tests-3.7(env='pytest-latest')"]
-
-    # dynamically generated
-    sessions_list = ["tests-%s(%s)" % (py, param) for py, param in product(tests.python, tests.parametrize)]
-    print(sessions_list)
-
-
 @power_session(python=[PY37])
 def release(session: PowerSession):
     """Create a release on github corresponding to the latest tag"""
@@ -257,6 +247,32 @@ def release(session: PowerSession):
                  "--repo-slug {gh_org}/{gh_repo} -cf ./docs/changelog.md "
                  "-d https://{gh_org}.github.io/{gh_repo}/changelog/ {tag}"
                  "".format(gh_token=gh_token, gh_org=gh_org, gh_repo=gh_repo, tag=current_tag))
+
+
+@nox.session(python=False)
+def gha_list(session):
+    """(mandatory arg: <base_session_name>) Prints all sessions available for <base_session_name>, for GithubActions."""
+
+    # see https://stackoverflow.com/q/66747359/7262247
+
+    # get the desired base session to generate the list for
+    if len(session.posargs) != 1:
+        raise ValueError("This session has a mandatory argument: <base_session_name>")
+    session_func = globals()[session.posargs[0]]
+
+    # list all sessions for this base session
+    try:
+        session_func.parametrize
+    except AttributeError:
+        sessions_list = ["%s-%s" % (session_func.__name__, py) for py in session_func.python]
+    else:
+        sessions_list = ["%s-%s(%s)" % (session_func.__name__, py, param)
+                         for py, param in product(session_func.python, session_func.parametrize)]
+
+    # print the list so that it can be caught by GHA.
+    # Note that json.dumps is optional since this is a list of string.
+    # However it is to remind us that GHA expects a well-formatted json list of strings.
+    print(dumps(sessions_list))
 
 
 # if __name__ == '__main__':
