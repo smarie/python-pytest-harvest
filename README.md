@@ -90,7 +90,7 @@ This project uses `setuptools_scm` to synchronise the version number. Therefore 
 Ax explained in github ('get commandline instructions'):
 
 ```bash
-git checkout -b <git_name>-<feature_branch> master
+git checkout -b <git_name>-<feature_branch> main
 git pull https://github.com/<git_name>/python-pytest-harvest.git <feature_branch> --no-commit --ff-only
 ```
 

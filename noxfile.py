@@ -18,6 +18,12 @@ gh_repo = "python-pytest-harvest"
 
 
 ENVS = {
+    # python 3.8 - put first to detect easy issues faster.
+    (PY38, "pytest2.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<3", "pytest-asyncio": DONT_INSTALL}},  # "pytest-html": "1.9.0",
+    (PY38, "pytest3.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<4"}},
+    (PY38, "pytest4.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<5"}},
+    (PY38, "pytest5.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<6"}},
+    (PY38, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
     # python 2.7
     (PY27, "pytest2.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<3", "pytest-asyncio": DONT_INSTALL}},  # "pytest-html": "1.9.0",
     (PY27, "pytest3.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<4"}},
@@ -34,12 +40,6 @@ ENVS = {
     (PY36, "pytest4.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<5"}},
     (PY36, "pytest5.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<6"}},
     (PY36, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
-    # python 3.8
-    (PY38, "pytest2.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<3", "pytest-asyncio": DONT_INSTALL}},  # "pytest-html": "1.9.0",
-    (PY38, "pytest3.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<4"}},
-    (PY38, "pytest4.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<5"}},
-    (PY38, "pytest5.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<6"}},
-    (PY38, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
     # python 3.7
     (PY37, "pytest2.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<3", "pytest-asyncio": DONT_INSTALL}},  # "pytest-html": "1.9.0",
     (PY37, "pytest3.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<4"}},
