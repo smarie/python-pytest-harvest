@@ -106,7 +106,7 @@ celerybeat.pid
 .env
 .venv
 env/
-venv/
+venv*/
 ENV/
 env.bak/
 venv.bak/
@@ -135,6 +135,8 @@ dmypy.json
 # OSX
 .DS_Store
 
-# JUnit reports
-/reports
-/ci_tools/reports
+# JUnit and coverage reports
+docs/reports
+
+# ODSClient cache
+.odsclient
