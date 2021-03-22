@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.10.2 - CI/CD change
+
+ - This is a technical release to validate that migration to Github Actions worked.
+
 ### 1.10.1 - Now supporting `::` in test ids
 
  - `get_session_synthesis_dct` now properly handles test ids where `::` is present in the id. This fix propagates to all `[module/session]_results_[dct/df]` fixtures, too. Fixes [#45](https://github.com/smarie/python-pytest-harvest/issues/45)
