@@ -219,61 +219,58 @@ def module_results_dct(request, fixture_store):
     return get_module_results_dct(request, module_name=request.module.__name__, fixture_store=fixture_store)
 
 
-try:
-    import pandas as pd
-
-    def get_session_results_df(session_or_request,
-                               fixture_store=FIXTURE_STORE,            # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
-                               results_bag_fixture_name='results_bag'  # type: str
-                               ):
-        # type: (...) -> pd.DataFrame
-        """
-        Helper method to get exactly the same object than the `session_results_df` fixture, from a session object.
+def get_session_results_df(session_or_request,
+                           fixture_store=FIXTURE_STORE,            # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
+                           results_bag_fixture_name='results_bag'  # type: str
+                           ):
+    # type: (...) -> pd.DataFrame
+    """
+    Helper method to get exactly the same object than the `session_results_df` fixture, from a session object.
     This can be useful to retrieve the results from the `pytest_sessionfinish` hook for example.
 
     See `session_results_df` fixture for details.
 
-        :param session_or_request: the pytest session or request
-        :param fixture_store: an optional fixture store
-        :param results_bag_fixture_name: an optional name for results bag fixture in the fixture store. Default is
-            "results_bag"
-        :return:
-        """
-        # in case of xdist, make sure persisted workers results have been reloaded
-        possibly_restore_xdist_workers_structs(session_or_request)
-
-        # get the synthesis dictionary, merged with default fixture store and flattening default results_bag
-        session_results_dct = get_session_synthesis_dct(session_or_request, durations_in_ms=True,
-                                                        test_id_format='full', status_details=False,
-                                                        fixture_store=fixture_store,
-                                                        flatten=True, flatten_more=results_bag_fixture_name)
-
-        # convert to a pandas dataframe
-        results_df = pd.DataFrame.from_dict(session_results_dct, orient='index')
-        results_df = results_df.loc[list(session_results_dct.keys()), :]  # fix rows order
-        results_df.index.name = 'test_id'  # set index name
-
-        # We do not want to post-process according to steps here, this fixture should have as a contract that the keys
-        # are the True test ids.
-        #
-        # try:
-        #     # if pytest_steps is installed, separate the test ids from the step ids
-        #     from pytest_steps import handle_steps_in_results_df
-        #     results_df = handle_steps_in_results_df(results_df, keep_orig_id=True, no_steps_policy='skip')
-        # except ImportError:
-        #     # pytest_steps is not installed, ok.
-        #     pass
-        # except Exception as e:
-        #     # other issue: warn about it but continue
-        #     warn("%s: %s" % (e, type(e)))
-
-        return results_df
-
-except ImportError as e:
-    saved_e = e
-    def get_session_results_df(*args, **kwargs):
+    :param session_or_request: the pytest session or request
+    :param fixture_store: an optional fixture store
+    :param results_bag_fixture_name: an optional name for results bag fixture in the fixture store. Default is
+        "results_bag"
+    :return:
+    """
+    try:
+        import pandas as pd  # pylint: disable=import-outside-toplevel
+    except ImportError as e:
         six.raise_from(Exception("There was an error importing `pandas` module. Fixture `session_results_df` and method"
-                                 "`get_session_results_df` can not be used in this session."), saved_e)
+                                 "`get_session_results_df` can not be used in this session."), e)
+
+    # in case of xdist, make sure persisted workers results have been reloaded
+    possibly_restore_xdist_workers_structs(session_or_request)
+
+    # get the synthesis dictionary, merged with default fixture store and flattening default results_bag
+    session_results_dct = get_session_synthesis_dct(session_or_request, durations_in_ms=True,
+                                                    test_id_format='full', status_details=False,
+                                                    fixture_store=fixture_store,
+                                                    flatten=True, flatten_more=results_bag_fixture_name)
+
+    # convert to a pandas dataframe
+    results_df = pd.DataFrame.from_dict(session_results_dct, orient='index')
+    results_df = results_df.loc[list(session_results_dct.keys()), :]  # fix rows order
+    results_df.index.name = 'test_id'  # set index name
+
+    # We do not want to post-process according to steps here, this fixture should have as a contract that the keys
+    # are the True test ids.
+    #
+    # try:
+    #     # if pytest_steps is installed, separate the test ids from the step ids
+    #     from pytest_steps import handle_steps_in_results_df
+    #     results_df = handle_steps_in_results_df(results_df, keep_orig_id=True, no_steps_policy='skip')
+    # except ImportError:
+    #     # pytest_steps is not installed, ok.
+    #     pass
+    # except Exception as e:
+    #     # other issue: warn about it but continue
+    #     warn("%s: %s" % (e, type(e)))
+
+    return results_df
 
 
 @pytest.fixture(scope='function')
@@ -292,63 +289,60 @@ def session_results_df(request, fixture_store):
     return get_session_results_df(request, fixture_store=fixture_store)
 
 
-try:
-    import pandas as pd
+def get_filtered_results_df(session,
+                            filter=None,                            # type: Any
+                            test_id_format='full',                  # type: str
+                            fixture_store=FIXTURE_STORE,            # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
+                            results_bag_fixture_name='results_bag'  # type: str
+                            ):
+    # type: (...) -> pd.DataFrame
+    """
+    Combines `get_session_synthesis_dct` with a transformation into a pandas DataFrame.
 
-    def get_filtered_results_df(session,
-                                filter=None,                            # type: Any
-                                test_id_format='full',                  # type: str
-                                fixture_store=FIXTURE_STORE,            # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
-                                results_bag_fixture_name='results_bag'  # type: str
-                                ):
-        # type: (...) -> pd.DataFrame
-        """
-        Combines `get_session_synthesis_dct` with a transformation into a pandas DataFrame.
-
-        :param session: the pytest session object
-        :param filter: any filter, see `get_session_synthesis_dct` for details
-        :param fixture_store: an optional fixture store
-        :param results_bag_fixture_name: an optional name for results bag fixture in the fixture store. Default is
-            "results_bag"
-        :return:
-        """
-        # in case of xdist, make sure persisted workers results have been reloaded
-        possibly_restore_xdist_workers_structs(session)
-
-        # get the synthesis dictionary, merged with default fixture store and flattening default results_bag
-        module_results_dct = get_session_synthesis_dct(session, durations_in_ms=True,
-                                                       filter=filter,
-                                                       test_id_format=test_id_format, status_details=False,
-                                                       fixture_store=fixture_store,
-                                                       flatten=True, flatten_more=results_bag_fixture_name)
-
-        # convert to a pandas dataframe
-        results_df = pd.DataFrame.from_dict(module_results_dct, orient='index')
-        results_df = results_df.loc[list(module_results_dct.keys()), :]  # fix rows order
-        results_df.index.name = 'test_id'  # set index name
-
-        # We do not want to post-process according to steps here, this fixture should have as a contract that the keys
-        # are the True test ids.
-        #
-        # try:
-        #     # if pytest_steps is installed, separate the test ids from the step ids
-        #     from pytest_steps import handle_steps_in_results_df
-        #     results_df = handle_steps_in_results_df(results_df, keep_orig_id=True, no_steps_policy='skip')
-        # except ImportError:
-        #     # pytest_steps is not installed, ok.
-        #     pass
-        # except Exception as e:
-        #     # other issue: warn about it but continue
-        #     warn("%s: %s" % (e, type(e)))
-
-        return results_df
-
-except ImportError as e:
-    saved_e = e
-    def get_filtered_results_df(*args, **kwargs):
+    :param session: the pytest session object
+    :param filter: any filter, see `get_session_synthesis_dct` for details
+    :param fixture_store: an optional fixture store
+    :param results_bag_fixture_name: an optional name for results bag fixture in the fixture store. Default is
+        "results_bag"
+    :return:
+    """
+    try:
+        import pandas as pd  # pylint: disable=import-outside-toplevel
+    except ImportError as e:
         six.raise_from(Exception("There was an error importing `pandas` module. Fixture `session_results_df` and "
                                  "methods `get_filtered_results_df` and `get_module_results_df` can not be used in this"
-                                 " session. "), saved_e)
+                                 " session. "), e)
+
+    # in case of xdist, make sure persisted workers results have been reloaded
+    possibly_restore_xdist_workers_structs(session)
+
+    # get the synthesis dictionary, merged with default fixture store and flattening default results_bag
+    module_results_dct = get_session_synthesis_dct(session, durations_in_ms=True,
+                                                   filter=filter,
+                                                   test_id_format=test_id_format, status_details=False,
+                                                   fixture_store=fixture_store,
+                                                   flatten=True, flatten_more=results_bag_fixture_name)
+
+    # convert to a pandas dataframe
+    results_df = pd.DataFrame.from_dict(module_results_dct, orient='index')
+    results_df = results_df.loc[list(module_results_dct.keys()), :]  # fix rows order
+    results_df.index.name = 'test_id'  # set index name
+
+    # We do not want to post-process according to steps here, this fixture should have as a contract that the keys
+    # are the True test ids.
+    #
+    # try:
+    #     # if pytest_steps is installed, separate the test ids from the step ids
+    #     from pytest_steps import handle_steps_in_results_df
+    #     results_df = handle_steps_in_results_df(results_df, keep_orig_id=True, no_steps_policy='skip')
+    # except ImportError:
+    #     # pytest_steps is not installed, ok.
+    #     pass
+    # except Exception as e:
+    #     # other issue: warn about it but continue
+    #     warn("%s: %s" % (e, type(e)))
+
+    return results_df
 
 
 def get_module_results_df(session,
