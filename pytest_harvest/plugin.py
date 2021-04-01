@@ -239,7 +239,6 @@ def get_session_results_df(session_or_request,
     try:
         import pandas as pd  # pylint: disable=import-outside-toplevel
     except ImportError as e:
-        saved_e = e
         six.raise_from(Exception("There was an error importing `pandas` module. Fixture `session_results_df` and method"
                                  "`get_session_results_df` can not be used in this session."), saved_e)
 
