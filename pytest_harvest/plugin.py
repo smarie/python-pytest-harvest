@@ -240,7 +240,7 @@ def get_session_results_df(session_or_request,
         import pandas as pd  # pylint: disable=import-outside-toplevel
     except ImportError as e:
         six.raise_from(Exception("There was an error importing `pandas` module. Fixture `session_results_df` and method"
-                                 "`get_session_results_df` can not be used in this session."), saved_e)
+                                 "`get_session_results_df` can not be used in this session."), e)
 
     # in case of xdist, make sure persisted workers results have been reloaded
     possibly_restore_xdist_workers_structs(session_or_request)
