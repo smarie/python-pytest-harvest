@@ -311,7 +311,7 @@ def get_filtered_results_df(session,
     except ImportError as e:
         six.raise_from(Exception("There was an error importing `pandas` module. Fixture `session_results_df` and "
                                  "methods `get_filtered_results_df` and `get_module_results_df` can not be used in this"
-                                 " session. "), saved_e)
+                                 " session. "), e)
 
     # in case of xdist, make sure persisted workers results have been reloaded
     possibly_restore_xdist_workers_structs(session)
