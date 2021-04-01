@@ -309,7 +309,6 @@ def get_filtered_results_df(session,
     try:
         import pandas as pd  # pylint: disable=import-outside-toplevel
     except ImportError as e:
-        saved_e = e
         six.raise_from(Exception("There was an error importing `pandas` module. Fixture `session_results_df` and "
                                  "methods `get_filtered_results_df` and `get_module_results_df` can not be used in this"
                                  " session. "), saved_e)
