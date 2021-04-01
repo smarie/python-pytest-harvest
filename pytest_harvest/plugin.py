@@ -220,9 +220,9 @@ def module_results_dct(request, fixture_store):
 
 
 def get_session_results_df(session_or_request,
-                            fixture_store=FIXTURE_STORE,            # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
-                            results_bag_fixture_name='results_bag'  # type: str
-                            ):
+                           fixture_store=FIXTURE_STORE,            # type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]
+                           results_bag_fixture_name='results_bag'  # type: str
+                           ):
     # type: (...) -> pd.DataFrame
     """
     Helper method to get exactly the same object than the `session_results_df` fixture, from a session object.
