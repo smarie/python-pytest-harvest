@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.10.3 - xdist bugfix + lazy `pandas` loading
+
+ - `pandas` is now only imported when used, to speed up boot time. Fixes [#49](https://github.com/smarie/python-pytest-harvest/issues/49)
+
+ - Fixed issue with latest `pytest`+`pytest-xdist` versions: `pytest_harvest_xdist_worker_dump` hook is now called correctly. Fixes [#48](https://github.com/smarie/python-pytest-harvest/issues/48)
+
 ### 1.10.2 - CI/CD change
 
  - This is a technical release to validate that migration to Github Actions worked.
