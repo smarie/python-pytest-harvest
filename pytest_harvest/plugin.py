@@ -18,7 +18,7 @@ except ImportError:
 from pytest_harvest.common import HARVEST_PREFIX
 from pytest_harvest.results_bags import create_results_bag_fixture
 from pytest_harvest.results_session import get_session_synthesis_dct, get_persistable_session_items
-from pytest_harvest.xdist_api import _is_xdist_master, _is_xdist_worker, get_xdist_worker_id
+from pytest_harvest.xdist_api import is_xdist_master, is_xdist_worker, get_xdist_worker_id
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
@@ -437,8 +437,8 @@ def pytest_configure(config):
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_sessionstart(session):
-    """ This should run first as it creates the temporary filder when run on the xdist master."""
-    if _is_xdist_master(session):
+    """ This should run first as it creates the temporary folder when run on the xdist master."""
+    if is_xdist_master(session):
         # perform cleanup
         session.config.hook.pytest_harvest_xdist_init()
 
@@ -449,14 +449,14 @@ def pytest_sessionstart(session):
 @pytest.hookimpl(trylast=True)
 def pytest_sessionfinish(session):
     """ This should run last as it deletes the persisted items when run on the xdist master."""
-    if _is_xdist_worker(session):
+    if is_xdist_worker(session):
         # persist fixture store and report items in a pickle file with this id
         wid = get_xdist_worker_id(session)
         session_items = get_persistable_session_items(session)
         session.config.hook.pytest_harvest_xdist_worker_dump(worker_id=wid, session_items=session_items,
                                                              fixture_store=FIXTURE_STORE)
 
-    elif _is_xdist_master(session):
+    elif is_xdist_master(session):
         # final master cleanup
         session.config.hook.pytest_harvest_xdist_cleanup()
 
@@ -471,7 +471,7 @@ def possibly_restore_xdist_workers_structs(session):
     :param session:
     :return:
     """
-    if _is_xdist_master(session) and hasattr(FIXTURE_STORE, 'disabled'):
+    if is_xdist_master(session) and hasattr(FIXTURE_STORE, 'disabled'):
         # load saved session items and fixtures
         workers_saved_material = session.config.hook.pytest_harvest_xdist_load()
 

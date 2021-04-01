@@ -582,7 +582,11 @@ class _MinimalItem(object):
             self.callspec = _MinimalCallSpec(params=item.callspec.params)
 
         # convert these to simple tuples just in case pytest-cases is around and has messed with fixturenames.
-        self.funcargnames = tuple(item.funcargnames)  # not needed but we can keep it
+        try:
+            # This attribute does not seem to exist in latest pytest
+            self.funcargnames = tuple(item.funcargnames)  # not needed but we can keep it
+        except AttributeError:
+            pass
         self.fixturenames = tuple(item.fixturenames)
 
         # We do not store the session object so everything that depends on it should be retrieved:
