@@ -318,10 +318,10 @@ def get_filtered_results_df(session,
 
     # get the synthesis dictionary, merged with default fixture store and flattening default results_bag
     module_results_dct = get_session_synthesis_dct(session, durations_in_ms=True,
-                                                    filter=filter,
-                                                    test_id_format=test_id_format, status_details=False,
-                                                    fixture_store=fixture_store,
-                                                    flatten=True, flatten_more=results_bag_fixture_name)
+                                                   filter=filter,
+                                                   test_id_format=test_id_format, status_details=False,
+                                                   fixture_store=fixture_store,
+                                                   flatten=True, flatten_more=results_bag_fixture_name)
 
     # convert to a pandas dataframe
     results_df = pd.DataFrame.from_dict(module_results_dct, orient='index')
