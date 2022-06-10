@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.10.4 - python 3.5 xdist bugfix
+
+ - Fixed issue with `pytest-xdist` and python 3.5: `pathlib` objects were not properly handled by other stdlib modules in this python version. Fixed [#59](https://github.com/smarie/python-pytest-harvest/issues/59)
+ - Changed the layout
+
 ### 1.10.3 - xdist bugfix + lazy `pandas` loading
 
  - `pandas` is now only imported when used, to speed up boot time. Fixes [#49](https://github.com/smarie/python-pytest-harvest/issues/49)
