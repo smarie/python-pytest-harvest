@@ -401,13 +401,13 @@ class DefaultXDistHarvester(object):
     def pytest_harvest_xdist_init(self):
         # reset the recipient folder
         if self.results_path.exists():
-            rmtree(self.results_path)
+            rmtree(str(self.results_path))
         self.results_path.mkdir(exist_ok=False)
         return True
 
     @pytest.hookimpl(trylast=True)
     def pytest_harvest_xdist_worker_dump(self, worker_id, session_items, fixture_store):
-        with open(self.results_path / ('%s.pkl' % worker_id), 'wb') as f:
+        with open(str(self.results_path / ('%s.pkl' % worker_id)), 'wb') as f:
             try:
                 pickle.dump((session_items, fixture_store), f)
             except Exception as e:
@@ -426,7 +426,7 @@ class DefaultXDistHarvester(object):
     @pytest.hookimpl(trylast=True)
     def pytest_harvest_xdist_cleanup(self):
         # delete all temporary pickle files
-        rmtree(self.results_path)
+        rmtree(str(self.results_path))
         return True
 
 
