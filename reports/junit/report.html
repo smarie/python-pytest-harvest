@@ -243,7 +243,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
 }
 </script>
     <h1>report.html</h1>
-    <p>Report generated on 01-Apr-2021 at 16:49:13 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.1.1</p>
+    <p>Report generated on 10-Jun-2022 at 08:03:19 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.1.1</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -251,21 +251,21 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <td>true</td></tr>
       <tr>
         <td>JAVA_HOME</td>
-        <td>/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64</td></tr>
+        <td>/usr/lib/jvm/temurin-11-jdk-amd64</td></tr>
       <tr>
         <td>Packages</td>
-        <td>{"pluggy": "0.13.1", "py": "1.10.0", "pytest": "6.2.2"}</td></tr>
+        <td>{"pluggy": "1.0.0", "py": "1.11.0", "pytest": "7.1.2"}</td></tr>
       <tr>
         <td>Platform</td>
-        <td>Linux-5.4.0-1043-azure-x86_64-with-debian-bullseye-sid</td></tr>
+        <td>Linux-5.13.0-1025-azure-x86_64-with-debian-bullseye-sid</td></tr>
       <tr>
         <td>Plugins</td>
-        <td>{"cases": "3.4.3", "harvest": "0.1.dev1+gaa287c2", "html": "3.1.1", "metadata": "1.11.0"}</td></tr>
+        <td>{"cases": "3.6.13", "harvest": "0.1.dev1+g28f16f7", "html": "3.1.1", "metadata": "2.0.1"}</td></tr>
       <tr>
         <td>Python</td>
-        <td>3.7.10</td></tr></table>
+        <td>3.7.13</td></tr></table>
     <h2>Summary</h2>
-    <p>59 tests ran in 6.39 seconds. </p>
+    <p>59 tests ran in 6.49 seconds. </p>
     <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="passed">59 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
@@ -280,71 +280,19 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
-          <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_default_fixtures.py]</td>
-          <td class="col-duration">0.10</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests0&#x27; that running pytest on file &#x27;test_default_fixtures.py&#x27; results in {&#x27;passed&#x27;: 8, &#x27;skipped&#x27;: 0, &#x27;failed&#x27;: 0}
-============================= test session starts ==============================
-platform linux -- Python 3.7.10, pytest-6.2.2, py-1.10.0, pluggy-0.13.1 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
-cachedir: .pytest_cache
-metadata: {&#x27;Python&#x27;: &#x27;3.7.10&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.4.0-1043-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;6.2.2&#x27;, &#x27;py&#x27;: &#x27;1.10.0&#x27;, &#x27;pluggy&#x27;: &#x27;0.13.1&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+gaa287c2&#x27;, &#x27;cases&#x27;: &#x27;3.4.3&#x27;, &#x27;metadata&#x27;: &#x27;1.11.0&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64&#x27;}
-rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests0, configfile: pytest.ini
-plugins: harvest-0.1.dev1+gaa287c2, cases-3.4.3, metadata-1.11.0, html-3.1.1
-collecting ... collected 8 items
-
-test_run_all_tests.py::test_foo[1-hello] PASSED                          [ 12%]
-test_run_all_tests.py::test_foo[1-world] PASSED                          [ 25%]
-test_run_all_tests.py::test_foo[2-hello] PASSED                          [ 37%]
-test_run_all_tests.py::test_foo[2-world] PASSED                          [ 50%]
-test_run_all_tests.py::test_synthesis_default_module_dct PASSED          [ 62%]
-test_run_all_tests.py::test_synthesis_default_module_df PASSED           [ 75%]
-test_run_all_tests.py::test_synthesis_default_session_dct PASSED         [ 87%]
-test_run_all_tests.py::test_synthesis_default_session_df PASSED          [100%]
-
-============================== 8 passed in 0.05s ===============================
-<br/></div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_saved_fixture_basic.py]</td>
-          <td class="col-duration">0.07</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests1&#x27; that running pytest on file &#x27;test_saved_fixture_basic.py&#x27; results in {&#x27;passed&#x27;: 2, &#x27;skipped&#x27;: 0, &#x27;failed&#x27;: 0}
-============================= test session starts ==============================
-platform linux -- Python 3.7.10, pytest-6.2.2, py-1.10.0, pluggy-0.13.1 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
-cachedir: .pytest_cache
-metadata: {&#x27;Python&#x27;: &#x27;3.7.10&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.4.0-1043-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;6.2.2&#x27;, &#x27;py&#x27;: &#x27;1.10.0&#x27;, &#x27;pluggy&#x27;: &#x27;0.13.1&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+gaa287c2&#x27;, &#x27;cases&#x27;: &#x27;3.4.3&#x27;, &#x27;metadata&#x27;: &#x27;1.11.0&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64&#x27;}
-rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests1, configfile: pytest.ini
-plugins: harvest-0.1.dev1+gaa287c2, cases-3.4.3, metadata-1.11.0, html-3.1.1
-collecting ... collected 2 items
-
-test_run_all_tests.py::test_dummy PASSED                                 [ 50%]
-test_run_all_tests.py::test_synthesis PASSED                             [100%]
-
-============================== 2 passed in 0.02s ===============================
-<br/></div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_all_together.py]</td>
-          <td class="col-duration">0.10</td>
+          <td class="col-duration">0.11</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
             <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests2&#x27; that running pytest on file &#x27;test_all_together.py&#x27; results in {&#x27;passed&#x27;: 9, &#x27;skipped&#x27;: 0, &#x27;failed&#x27;: 0}
+Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests0&#x27; that running pytest on file &#x27;test_all_together.py&#x27; results in {&#x27;passed&#x27;: 9, &#x27;skipped&#x27;: 0, &#x27;failed&#x27;: 0}
 ============================= test session starts ==============================
-platform linux -- Python 3.7.10, pytest-6.2.2, py-1.10.0, pluggy-0.13.1 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
+platform linux -- Python 3.7.13, pytest-7.1.2, pluggy-1.0.0 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
 cachedir: .pytest_cache
-metadata: {&#x27;Python&#x27;: &#x27;3.7.10&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.4.0-1043-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;6.2.2&#x27;, &#x27;py&#x27;: &#x27;1.10.0&#x27;, &#x27;pluggy&#x27;: &#x27;0.13.1&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+gaa287c2&#x27;, &#x27;cases&#x27;: &#x27;3.4.3&#x27;, &#x27;metadata&#x27;: &#x27;1.11.0&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64&#x27;}
-rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests2, configfile: pytest.ini
-plugins: harvest-0.1.dev1+gaa287c2, cases-3.4.3, metadata-1.11.0, html-3.1.1
+metadata: {&#x27;Python&#x27;: &#x27;3.7.13&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.13.0-1025-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;7.1.2&#x27;, &#x27;py&#x27;: &#x27;1.11.0&#x27;, &#x27;pluggy&#x27;: &#x27;1.0.0&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+g28f16f7&#x27;, &#x27;cases&#x27;: &#x27;3.6.13&#x27;, &#x27;metadata&#x27;: &#x27;2.0.1&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/temurin-11-jdk-amd64&#x27;}
+rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests0, configfile: pytest.ini
+plugins: harvest-0.1.dev1+g28f16f7, cases-3.6.13, metadata-2.0.1, html-3.1.1
 collecting ... collected 9 items
 
 test_run_all_tests.py::test_complete[A-p=10] PASSED                      [ 11%]
@@ -362,19 +310,65 @@ test_run_all_tests.py::test_synthesis[True-my_results] PASSED            [100%]
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
+          <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_saved_fixture_in_global_var.py]</td>
+          <td class="col-duration">0.08</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
+Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests1&#x27; that running pytest on file &#x27;test_saved_fixture_in_global_var.py&#x27; results in {&#x27;passed&#x27;: 2, &#x27;failed&#x27;: 0}
+============================= test session starts ==============================
+platform linux -- Python 3.7.13, pytest-7.1.2, pluggy-1.0.0 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
+cachedir: .pytest_cache
+metadata: {&#x27;Python&#x27;: &#x27;3.7.13&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.13.0-1025-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;7.1.2&#x27;, &#x27;py&#x27;: &#x27;1.11.0&#x27;, &#x27;pluggy&#x27;: &#x27;1.0.0&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+g28f16f7&#x27;, &#x27;cases&#x27;: &#x27;3.6.13&#x27;, &#x27;metadata&#x27;: &#x27;2.0.1&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/temurin-11-jdk-amd64&#x27;}
+rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests1, configfile: pytest.ini
+plugins: harvest-0.1.dev1+g28f16f7, cases-3.6.13, metadata-2.0.1, html-3.1.1
+collecting ... collected 2 items
+
+test_run_all_tests.py::test_foo[0.2838939545360043] PASSED               [ 50%]
+test_run_all_tests.py::test_foo[0.4289514329991033] PASSED               [100%]
+
+============================== 2 passed in 0.02s ===============================
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_saved_fixture_session.py]</td>
+          <td class="col-duration">0.08</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
+Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests2&#x27; that running pytest on file &#x27;test_saved_fixture_session.py&#x27; results in {&#x27;passed&#x27;: 2, &#x27;failed&#x27;: 0}
+============================= test session starts ==============================
+platform linux -- Python 3.7.13, pytest-7.1.2, pluggy-1.0.0 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
+cachedir: .pytest_cache
+metadata: {&#x27;Python&#x27;: &#x27;3.7.13&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.13.0-1025-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;7.1.2&#x27;, &#x27;py&#x27;: &#x27;1.11.0&#x27;, &#x27;pluggy&#x27;: &#x27;1.0.0&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+g28f16f7&#x27;, &#x27;cases&#x27;: &#x27;3.6.13&#x27;, &#x27;metadata&#x27;: &#x27;2.0.1&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/temurin-11-jdk-amd64&#x27;}
+rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests2, configfile: pytest.ini
+plugins: harvest-0.1.dev1+g28f16f7, cases-3.6.13, metadata-2.0.1, html-3.1.1
+collecting ... collected 2 items
+
+test_run_all_tests.py::test_foo[0.19245578698877086] PASSED              [ 50%]
+test_run_all_tests.py::test_foo[0.7698390069132917] PASSED               [100%]
+
+============================== 2 passed in 0.02s ===============================
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_results_bags.py]</td>
-          <td class="col-duration">0.12</td>
+          <td class="col-duration">0.09</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
             <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
 Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests3&#x27; that running pytest on file &#x27;test_results_bags.py&#x27; results in {&#x27;passed&#x27;: 6, &#x27;skipped&#x27;: 0, &#x27;failed&#x27;: 0}
 ============================= test session starts ==============================
-platform linux -- Python 3.7.10, pytest-6.2.2, py-1.10.0, pluggy-0.13.1 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
+platform linux -- Python 3.7.13, pytest-7.1.2, pluggy-1.0.0 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
 cachedir: .pytest_cache
-metadata: {&#x27;Python&#x27;: &#x27;3.7.10&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.4.0-1043-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;6.2.2&#x27;, &#x27;py&#x27;: &#x27;1.10.0&#x27;, &#x27;pluggy&#x27;: &#x27;0.13.1&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+gaa287c2&#x27;, &#x27;cases&#x27;: &#x27;3.4.3&#x27;, &#x27;metadata&#x27;: &#x27;1.11.0&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64&#x27;}
+metadata: {&#x27;Python&#x27;: &#x27;3.7.13&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.13.0-1025-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;7.1.2&#x27;, &#x27;py&#x27;: &#x27;1.11.0&#x27;, &#x27;pluggy&#x27;: &#x27;1.0.0&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+g28f16f7&#x27;, &#x27;cases&#x27;: &#x27;3.6.13&#x27;, &#x27;metadata&#x27;: &#x27;2.0.1&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/temurin-11-jdk-amd64&#x27;}
 rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests3, configfile: pytest.ini
-plugins: harvest-0.1.dev1+gaa287c2, cases-3.4.3, metadata-1.11.0, html-3.1.1
+plugins: harvest-0.1.dev1+g28f16f7, cases-3.6.13, metadata-2.0.1, html-3.1.1
 collecting ... collected 6 items
 
 test_run_all_tests.py::test_my_app_bench[A-1] PASSED                     [ 16%]
@@ -397,11 +391,11 @@ test_run_all_tests.py::test_my_app_bench[C-2] PASSED                     [100%]
             <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
 Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests4&#x27; that running pytest on file &#x27;test_saved_fixture_module_params.py&#x27; results in {&#x27;passed&#x27;: 7, &#x27;failed&#x27;: 0}
 ============================= test session starts ==============================
-platform linux -- Python 3.7.10, pytest-6.2.2, py-1.10.0, pluggy-0.13.1 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
+platform linux -- Python 3.7.13, pytest-7.1.2, pluggy-1.0.0 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
 cachedir: .pytest_cache
-metadata: {&#x27;Python&#x27;: &#x27;3.7.10&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.4.0-1043-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;6.2.2&#x27;, &#x27;py&#x27;: &#x27;1.10.0&#x27;, &#x27;pluggy&#x27;: &#x27;0.13.1&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+gaa287c2&#x27;, &#x27;cases&#x27;: &#x27;3.4.3&#x27;, &#x27;metadata&#x27;: &#x27;1.11.0&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64&#x27;}
+metadata: {&#x27;Python&#x27;: &#x27;3.7.13&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.13.0-1025-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;7.1.2&#x27;, &#x27;py&#x27;: &#x27;1.11.0&#x27;, &#x27;pluggy&#x27;: &#x27;1.0.0&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+g28f16f7&#x27;, &#x27;cases&#x27;: &#x27;3.6.13&#x27;, &#x27;metadata&#x27;: &#x27;2.0.1&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/temurin-11-jdk-amd64&#x27;}
 rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests4, configfile: pytest.ini
-plugins: harvest-0.1.dev1+gaa287c2, cases-3.4.3, metadata-1.11.0, html-3.1.1
+plugins: harvest-0.1.dev1+g28f16f7, cases-3.6.13, metadata-2.0.1, html-3.1.1
 collecting ... collected 7 items
 
 test_run_all_tests.py::test_foo[1] PASSED                                [ 14%]
@@ -417,69 +411,125 @@ test_run_all_tests.py::test_synthesis PASSED                             [100%]
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
-          <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_saved_fixture_session.py]</td>
-          <td class="col-duration">0.07</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests5&#x27; that running pytest on file &#x27;test_saved_fixture_session.py&#x27; results in {&#x27;passed&#x27;: 2, &#x27;failed&#x27;: 0}
-============================= test session starts ==============================
-platform linux -- Python 3.7.10, pytest-6.2.2, py-1.10.0, pluggy-0.13.1 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
-cachedir: .pytest_cache
-metadata: {&#x27;Python&#x27;: &#x27;3.7.10&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.4.0-1043-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;6.2.2&#x27;, &#x27;py&#x27;: &#x27;1.10.0&#x27;, &#x27;pluggy&#x27;: &#x27;0.13.1&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+gaa287c2&#x27;, &#x27;cases&#x27;: &#x27;3.4.3&#x27;, &#x27;metadata&#x27;: &#x27;1.11.0&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64&#x27;}
-rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests5, configfile: pytest.ini
-plugins: harvest-0.1.dev1+gaa287c2, cases-3.4.3, metadata-1.11.0, html-3.1.1
-collecting ... collected 2 items
-
-test_run_all_tests.py::test_foo[0.2157769972791237] PASSED               [ 50%]
-test_run_all_tests.py::test_foo[0.6036296519256148] PASSED               [100%]
-
-============================== 2 passed in 0.02s ===============================
-<br/></div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_saved_fixture_in_global_var.py]</td>
-          <td class="col-duration">0.07</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests6&#x27; that running pytest on file &#x27;test_saved_fixture_in_global_var.py&#x27; results in {&#x27;passed&#x27;: 2, &#x27;failed&#x27;: 0}
-============================= test session starts ==============================
-platform linux -- Python 3.7.10, pytest-6.2.2, py-1.10.0, pluggy-0.13.1 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
-cachedir: .pytest_cache
-metadata: {&#x27;Python&#x27;: &#x27;3.7.10&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.4.0-1043-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;6.2.2&#x27;, &#x27;py&#x27;: &#x27;1.10.0&#x27;, &#x27;pluggy&#x27;: &#x27;0.13.1&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+gaa287c2&#x27;, &#x27;cases&#x27;: &#x27;3.4.3&#x27;, &#x27;metadata&#x27;: &#x27;1.11.0&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64&#x27;}
-rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests6, configfile: pytest.ini
-plugins: harvest-0.1.dev1+gaa287c2, cases-3.4.3, metadata-1.11.0, html-3.1.1
-collecting ... collected 2 items
-
-test_run_all_tests.py::test_foo[0.7382163379869432] PASSED               [ 50%]
-test_run_all_tests.py::test_foo[0.9612579749003329] PASSED               [100%]
-
-============================== 2 passed in 0.02s ===============================
-<br/></div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_saved_fixture_in_fixture.py]</td>
-          <td class="col-duration">0.07</td>
+          <td class="col-duration">0.08</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
             <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests7&#x27; that running pytest on file &#x27;test_saved_fixture_in_fixture.py&#x27; results in {&#x27;passed&#x27;: 2, &#x27;failed&#x27;: 0}
+Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests5&#x27; that running pytest on file &#x27;test_saved_fixture_in_fixture.py&#x27; results in {&#x27;passed&#x27;: 2, &#x27;failed&#x27;: 0}
 ============================= test session starts ==============================
-platform linux -- Python 3.7.10, pytest-6.2.2, py-1.10.0, pluggy-0.13.1 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
+platform linux -- Python 3.7.13, pytest-7.1.2, pluggy-1.0.0 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
 cachedir: .pytest_cache
-metadata: {&#x27;Python&#x27;: &#x27;3.7.10&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.4.0-1043-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;6.2.2&#x27;, &#x27;py&#x27;: &#x27;1.10.0&#x27;, &#x27;pluggy&#x27;: &#x27;0.13.1&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+gaa287c2&#x27;, &#x27;cases&#x27;: &#x27;3.4.3&#x27;, &#x27;metadata&#x27;: &#x27;1.11.0&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64&#x27;}
-rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests7, configfile: pytest.ini
-plugins: harvest-0.1.dev1+gaa287c2, cases-3.4.3, metadata-1.11.0, html-3.1.1
+metadata: {&#x27;Python&#x27;: &#x27;3.7.13&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.13.0-1025-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;7.1.2&#x27;, &#x27;py&#x27;: &#x27;1.11.0&#x27;, &#x27;pluggy&#x27;: &#x27;1.0.0&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+g28f16f7&#x27;, &#x27;cases&#x27;: &#x27;3.6.13&#x27;, &#x27;metadata&#x27;: &#x27;2.0.1&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/temurin-11-jdk-amd64&#x27;}
+rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests5, configfile: pytest.ini
+plugins: harvest-0.1.dev1+g28f16f7, cases-3.6.13, metadata-2.0.1, html-3.1.1
 collecting ... collected 2 items
 
-test_run_all_tests.py::test_foo[0.539178033769687] PASSED                [ 50%]
-test_run_all_tests.py::test_foo[0.6465712475554476] PASSED               [100%]
+test_run_all_tests.py::test_foo[0.5154080638735569] PASSED               [ 50%]
+test_run_all_tests.py::test_foo[0.34060094117917916] PASSED              [100%]
+
+============================== 2 passed in 0.02s ===============================
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_saved_fixture_session_module.py]</td>
+          <td class="col-duration">0.08</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
+Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests6&#x27; that running pytest on file &#x27;test_saved_fixture_session_module.py&#x27; results in {&#x27;passed&#x27;: 3, &#x27;failed&#x27;: 0}
+============================= test session starts ==============================
+platform linux -- Python 3.7.13, pytest-7.1.2, pluggy-1.0.0 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
+cachedir: .pytest_cache
+metadata: {&#x27;Python&#x27;: &#x27;3.7.13&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.13.0-1025-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;7.1.2&#x27;, &#x27;py&#x27;: &#x27;1.11.0&#x27;, &#x27;pluggy&#x27;: &#x27;1.0.0&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+g28f16f7&#x27;, &#x27;cases&#x27;: &#x27;3.6.13&#x27;, &#x27;metadata&#x27;: &#x27;2.0.1&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/temurin-11-jdk-amd64&#x27;}
+rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests6, configfile: pytest.ini
+plugins: harvest-0.1.dev1+g28f16f7, cases-3.6.13, metadata-2.0.1, html-3.1.1
+collecting ... collected 3 items
+
+test_run_all_tests.py::test_foo PASSED                                   [ 33%]
+test_run_all_tests.py::test_bar PASSED                                   [ 66%]
+test_run_all_tests.py::test_synthesis PASSED                             [100%]
+
+============================== 3 passed in 0.02s ===============================
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_default_fixtures.py]</td>
+          <td class="col-duration">0.10</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
+Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests7&#x27; that running pytest on file &#x27;test_default_fixtures.py&#x27; results in {&#x27;passed&#x27;: 8, &#x27;skipped&#x27;: 0, &#x27;failed&#x27;: 0}
+============================= test session starts ==============================
+platform linux -- Python 3.7.13, pytest-7.1.2, pluggy-1.0.0 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
+cachedir: .pytest_cache
+metadata: {&#x27;Python&#x27;: &#x27;3.7.13&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.13.0-1025-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;7.1.2&#x27;, &#x27;py&#x27;: &#x27;1.11.0&#x27;, &#x27;pluggy&#x27;: &#x27;1.0.0&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+g28f16f7&#x27;, &#x27;cases&#x27;: &#x27;3.6.13&#x27;, &#x27;metadata&#x27;: &#x27;2.0.1&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/temurin-11-jdk-amd64&#x27;}
+rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests7, configfile: pytest.ini
+plugins: harvest-0.1.dev1+g28f16f7, cases-3.6.13, metadata-2.0.1, html-3.1.1
+collecting ... collected 8 items
+
+test_run_all_tests.py::test_foo[1-hello] PASSED                          [ 12%]
+test_run_all_tests.py::test_foo[1-world] PASSED                          [ 25%]
+test_run_all_tests.py::test_foo[2-hello] PASSED                          [ 37%]
+test_run_all_tests.py::test_foo[2-world] PASSED                          [ 50%]
+test_run_all_tests.py::test_synthesis_default_module_dct PASSED          [ 62%]
+test_run_all_tests.py::test_synthesis_default_module_df PASSED           [ 75%]
+test_run_all_tests.py::test_synthesis_default_session_dct PASSED         [ 87%]
+test_run_all_tests.py::test_synthesis_default_session_df PASSED          [100%]
+
+============================== 8 passed in 0.04s ===============================
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_get_session_results_indirect_and_noparam.py]</td>
+          <td class="col-duration">0.08</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
+Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests8&#x27; that running pytest on file &#x27;test_get_session_results_indirect_and_noparam.py&#x27; results in {&#x27;passed&#x27;: 5, &#x27;skipped&#x27;: 0, &#x27;failed&#x27;: 0}
+============================= test session starts ==============================
+platform linux -- Python 3.7.13, pytest-7.1.2, pluggy-1.0.0 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
+cachedir: .pytest_cache
+metadata: {&#x27;Python&#x27;: &#x27;3.7.13&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.13.0-1025-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;7.1.2&#x27;, &#x27;py&#x27;: &#x27;1.11.0&#x27;, &#x27;pluggy&#x27;: &#x27;1.0.0&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+g28f16f7&#x27;, &#x27;cases&#x27;: &#x27;3.6.13&#x27;, &#x27;metadata&#x27;: &#x27;2.0.1&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/temurin-11-jdk-amd64&#x27;}
+rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests8, configfile: pytest.ini
+plugins: harvest-0.1.dev1+g28f16f7, cases-3.6.13, metadata-2.0.1, html-3.1.1
+collecting ... collected 5 items
+
+test_run_all_tests.py::test_foo[1] PASSED                                [ 20%]
+test_run_all_tests.py::test_foo[2] PASSED                                [ 40%]
+test_run_all_tests.py::test_get_all_pytest_fixture_names_indirect PASSED [ 60%]
+test_run_all_tests.py::test_foo2 PASSED                                  [ 80%]
+test_run_all_tests.py::test_get_all_pytest_fixture_names_no_param PASSED [100%]
+
+============================== 5 passed in 0.02s ===============================
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_saved_fixture_basic.py]</td>
+          <td class="col-duration">0.08</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
+Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests9&#x27; that running pytest on file &#x27;test_saved_fixture_basic.py&#x27; results in {&#x27;passed&#x27;: 2, &#x27;skipped&#x27;: 0, &#x27;failed&#x27;: 0}
+============================= test session starts ==============================
+platform linux -- Python 3.7.13, pytest-7.1.2, pluggy-1.0.0 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
+cachedir: .pytest_cache
+metadata: {&#x27;Python&#x27;: &#x27;3.7.13&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.13.0-1025-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;7.1.2&#x27;, &#x27;py&#x27;: &#x27;1.11.0&#x27;, &#x27;pluggy&#x27;: &#x27;1.0.0&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+g28f16f7&#x27;, &#x27;cases&#x27;: &#x27;3.6.13&#x27;, &#x27;metadata&#x27;: &#x27;2.0.1&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/temurin-11-jdk-amd64&#x27;}
+rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests9, configfile: pytest.ini
+plugins: harvest-0.1.dev1+g28f16f7, cases-3.6.13, metadata-2.0.1, html-3.1.1
+collecting ... collected 2 items
+
+test_run_all_tests.py::test_dummy PASSED                                 [ 50%]
+test_run_all_tests.py::test_synthesis PASSED                             [100%]
 
 ============================== 2 passed in 0.02s ===============================
 <br/></div></td></tr></tbody>
@@ -487,18 +537,18 @@ test_run_all_tests.py::test_foo[0.6465712475554476] PASSED               [100%]
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_get_session_results.py]</td>
-          <td class="col-duration">0.23</td>
+          <td class="col-duration">0.29</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
             <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests8&#x27; that running pytest on file &#x27;test_get_session_results.py&#x27; results in {&#x27;passed&#x27;: 17, &#x27;skipped&#x27;: 1, &#x27;failed&#x27;: 1}
+Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests10&#x27; that running pytest on file &#x27;test_get_session_results.py&#x27; results in {&#x27;passed&#x27;: 17, &#x27;skipped&#x27;: 1, &#x27;failed&#x27;: 1}
 ============================= test session starts ==============================
-platform linux -- Python 3.7.10, pytest-6.2.2, py-1.10.0, pluggy-0.13.1 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
+platform linux -- Python 3.7.13, pytest-7.1.2, pluggy-1.0.0 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
 cachedir: .pytest_cache
-metadata: {&#x27;Python&#x27;: &#x27;3.7.10&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.4.0-1043-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;6.2.2&#x27;, &#x27;py&#x27;: &#x27;1.10.0&#x27;, &#x27;pluggy&#x27;: &#x27;0.13.1&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+gaa287c2&#x27;, &#x27;cases&#x27;: &#x27;3.4.3&#x27;, &#x27;metadata&#x27;: &#x27;1.11.0&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64&#x27;}
-rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests8, configfile: pytest.ini
-plugins: harvest-0.1.dev1+gaa287c2, cases-3.4.3, metadata-1.11.0, html-3.1.1
+metadata: {&#x27;Python&#x27;: &#x27;3.7.13&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.13.0-1025-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;7.1.2&#x27;, &#x27;py&#x27;: &#x27;1.11.0&#x27;, &#x27;pluggy&#x27;: &#x27;1.0.0&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+g28f16f7&#x27;, &#x27;cases&#x27;: &#x27;3.6.13&#x27;, &#x27;metadata&#x27;: &#x27;2.0.1&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/temurin-11-jdk-amd64&#x27;}
+rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests10, configfile: pytest.ini
+plugins: harvest-0.1.dev1+g28f16f7, cases-3.6.13, metadata-2.0.1, html-3.1.1
 collecting ... collected 19 items
 
 test_run_all_tests.py::test_run_all_tests.doctestable PASSED             [  5%]
@@ -531,57 +581,7 @@ E       Failed: normal, intended failure here
 test_run_all_tests.py:116: Failed
 =========================== short test summary info ============================
 FAILED test_run_all_tests.py::test_failing - Failed: normal, intended failure...
-=================== 1 failed, 17 passed, 1 skipped in 0.17s ====================
-<br/></div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_saved_fixture_session_module.py]</td>
-          <td class="col-duration">0.07</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests9&#x27; that running pytest on file &#x27;test_saved_fixture_session_module.py&#x27; results in {&#x27;passed&#x27;: 3, &#x27;failed&#x27;: 0}
-============================= test session starts ==============================
-platform linux -- Python 3.7.10, pytest-6.2.2, py-1.10.0, pluggy-0.13.1 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
-cachedir: .pytest_cache
-metadata: {&#x27;Python&#x27;: &#x27;3.7.10&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.4.0-1043-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;6.2.2&#x27;, &#x27;py&#x27;: &#x27;1.10.0&#x27;, &#x27;pluggy&#x27;: &#x27;0.13.1&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+gaa287c2&#x27;, &#x27;cases&#x27;: &#x27;3.4.3&#x27;, &#x27;metadata&#x27;: &#x27;1.11.0&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64&#x27;}
-rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests9, configfile: pytest.ini
-plugins: harvest-0.1.dev1+gaa287c2, cases-3.4.3, metadata-1.11.0, html-3.1.1
-collecting ... collected 3 items
-
-test_run_all_tests.py::test_foo PASSED                                   [ 33%]
-test_run_all_tests.py::test_bar PASSED                                   [ 66%]
-test_run_all_tests.py::test_synthesis PASSED                             [100%]
-
-============================== 3 passed in 0.02s ===============================
-<br/></div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">pytest_harvest/tests/test_all_raw_with_meta_check.py::test_run_all_tests[test_get_session_results_indirect_and_noparam.py]</td>
-          <td class="col-duration">0.07</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
-Testing in tmp folder &#x27;/tmp/pytest-of-runner/pytest-0/test_run_all_tests10&#x27; that running pytest on file &#x27;test_get_session_results_indirect_and_noparam.py&#x27; results in {&#x27;passed&#x27;: 5, &#x27;skipped&#x27;: 0, &#x27;failed&#x27;: 0}
-============================= test session starts ==============================
-platform linux -- Python 3.7.10, pytest-6.2.2, py-1.10.0, pluggy-0.13.1 -- /home/runner/work/python-pytest-harvest/python-pytest-harvest/.nox/tests-3-7-env-pytest-latest/bin/python
-cachedir: .pytest_cache
-metadata: {&#x27;Python&#x27;: &#x27;3.7.10&#x27;, &#x27;Platform&#x27;: &#x27;Linux-5.4.0-1043-azure-x86_64-with-debian-bullseye-sid&#x27;, &#x27;Packages&#x27;: {&#x27;pytest&#x27;: &#x27;6.2.2&#x27;, &#x27;py&#x27;: &#x27;1.10.0&#x27;, &#x27;pluggy&#x27;: &#x27;0.13.1&#x27;}, &#x27;Plugins&#x27;: {&#x27;harvest&#x27;: &#x27;0.1.dev1+gaa287c2&#x27;, &#x27;cases&#x27;: &#x27;3.4.3&#x27;, &#x27;metadata&#x27;: &#x27;1.11.0&#x27;, &#x27;html&#x27;: &#x27;3.1.1&#x27;}, &#x27;CI&#x27;: &#x27;true&#x27;, &#x27;JAVA_HOME&#x27;: &#x27;/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64&#x27;}
-rootdir: /tmp/pytest-of-runner/pytest-0/test_run_all_tests10, configfile: pytest.ini
-plugins: harvest-0.1.dev1+gaa287c2, cases-3.4.3, metadata-1.11.0, html-3.1.1
-collecting ... collected 5 items
-
-test_run_all_tests.py::test_foo[1] PASSED                                [ 20%]
-test_run_all_tests.py::test_foo[2] PASSED                                [ 40%]
-test_run_all_tests.py::test_get_all_pytest_fixture_names_indirect PASSED [ 60%]
-test_run_all_tests.py::test_foo2 PASSED                                  [ 80%]
-test_run_all_tests.py::test_get_all_pytest_fixture_names_no_param PASSED [100%]
-
-============================== 5 passed in 0.02s ===============================
+=================== 1 failed, 17 passed, 1 skipped in 0.23s ====================
 <br/></div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -619,13 +619,13 @@ test_run_all_tests.py::test_get_all_pytest_fixture_names_no_param PASSED [100%]
     - test_foo[self]
 
    Contents of &#x27;test_foo[world]&#x27;:
-    - &#x27;pytest_obj&#x27;: &lt;function test_foo at 0x7f1d2b558d40&gt;
+    - &#x27;pytest_obj&#x27;: &lt;function test_foo at 0x7f4105db6a70&gt;
     - &#x27;status&#x27;: passed
-    - &#x27;duration_ms&#x27;: 501.01291400000036
+    - &#x27;duration_ms&#x27;: 501.2275320000015
     - &#x27;status_details&#x27;:
-      - &#x27;setup&#x27;: (&#x27;passed&#x27;, 0.3930999999965934)
-      - &#x27;call&#x27;: (&#x27;passed&#x27;, 501.01291400000036)
-      - &#x27;teardown&#x27;: (&#x27;passed&#x27;, 0.3060999999888736)
+      - &#x27;setup&#x27;: (&#x27;passed&#x27;, 0.37040600000182167)
+      - &#x27;call&#x27;: (&#x27;passed&#x27;, 501.2275320000015)
+      - &#x27;teardown&#x27;: (&#x27;passed&#x27;, 0.4336069999908432)
     - &#x27;params&#x27;: OrderedDict([(&#x27;p&#x27;, &#x27;world&#x27;)])
     - &#x27;fixtures&#x27;: OrderedDict()
 <br/></div></td></tr></tbody>
@@ -664,8 +664,8 @@ test_run_all_tests.py::test_get_all_pytest_fixture_names_no_param PASSED [100%]
 
                                             pytest_obj  ...      p
 test_id                                                 ...       
-test_foo[world]  &lt;function test_foo at 0x7f1d2b4d3d40&gt;  ...  world
-test_foo[self]   &lt;function test_foo at 0x7f1d2b4d3d40&gt;  ...   self
+test_foo[world]  &lt;function test_foo at 0x7f4105db6cb0&gt;  ...  world
+test_foo[self]   &lt;function test_foo at 0x7f4105db6cb0&gt;  ...   self
 
 [2 rows x 4 columns]
 <br/></div></td></tr></tbody>
@@ -726,10 +726,10 @@ test_foo[self]   &lt;function test_foo at 0x7f1d2b4d3d40&gt;  ...   self
 
 | test_id           | pytest_obj                            | status   |   duration_ms | double_sleep_time   |   person_param | person   |   nb_letters | current_time               |
 |:------------------|:--------------------------------------|:---------|--------------:|:--------------------|---------------:|:---------|-------------:|:---------------------------|
-| test_foo[0-False] | &lt;function test_foo at 0x7f1d2b42b440&gt; | passed   |       501.311 | False               |              0 | world    |            5 | 2021-04-01T16:49:10.967716 |
-| test_foo[0-True]  | &lt;function test_foo at 0x7f1d2b42b440&gt; | passed   |      1001.79  | True                |              0 | world    |            5 | 2021-04-01T16:49:11.974589 |
-| test_foo[1-False] | &lt;function test_foo at 0x7f1d2b42b440&gt; | passed   |       401.014 | False               |              1 | self     |            4 | 2021-04-01T16:49:12.380322 |
-| test_foo[1-True]  | &lt;function test_foo at 0x7f1d2b42b440&gt; | passed   |       801.354 | True                |              1 | self     |            4 | 2021-04-01T16:49:13.184823 |
+| test_foo[0-False] | &lt;function test_foo at 0x7f4105ea9e60&gt; | passed   |       501.264 | False               |              0 | world    |            5 | 2022-06-10T08:03:17.018213 |
+| test_foo[0-True]  | &lt;function test_foo at 0x7f4105ea9e60&gt; | passed   |      1001.76  | True                |              0 | world    |            5 | 2022-06-10T08:03:18.023534 |
+| test_foo[1-False] | &lt;function test_foo at 0x7f4105ea9e60&gt; | passed   |       401.208 | False               |              1 | self     |            4 | 2022-06-10T08:03:18.428825 |
+| test_foo[1-True]  | &lt;function test_foo at 0x7f4105ea9e60&gt; | passed   |       801.542 | True                |              1 | self     |            4 | 2022-06-10T08:03:19.234912 |
 <br/></div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -763,31 +763,31 @@ test_foo[self]   &lt;function test_foo at 0x7f1d2b4d3d40&gt;  ...   self
           <td class="extra" colspan="4">
             <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
    Available `fixture_store` keys:
-    - &#x27;dummy&#x27;
     - &#x27;my_fix&#x27;
     - &#x27;my_fix2&#x27;
+    - &#x27;dummy&#x27;
     - &#x27;person&#x27;
     - &#x27;results_bag&#x27;
 
    Contents of `fixture_store[&#x27;results_bag&#x27;]`:
     - &#x27;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[0-False]&#x27;:
       - &#x27;nb_letters&#x27;: 5
-      - &#x27;current_time&#x27;: 2021-04-01T16:49:10.967716
+      - &#x27;current_time&#x27;: 2022-06-10T08:03:17.018213
     - &#x27;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[0-True]&#x27;:
       - &#x27;nb_letters&#x27;: 5
-      - &#x27;current_time&#x27;: 2021-04-01T16:49:11.974589
+      - &#x27;current_time&#x27;: 2022-06-10T08:03:18.023534
     - &#x27;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[1-False]&#x27;:
       - &#x27;nb_letters&#x27;: 4
-      - &#x27;current_time&#x27;: 2021-04-01T16:49:12.380322
+      - &#x27;current_time&#x27;: 2022-06-10T08:03:18.428825
     - &#x27;pytest_harvest/tests/test_doc_basic_df_all.py::test_foo[1-True]&#x27;:
       - &#x27;nb_letters&#x27;: 4
-      - &#x27;current_time&#x27;: 2021-04-01T16:49:13.184823
+      - &#x27;current_time&#x27;: 2022-06-10T08:03:19.234912
     - &#x27;pytest_harvest/tests/test_doc_basic_results_bag.py::test_foo[world]&#x27;:
       - &#x27;nb_letters&#x27;: 5
-      - &#x27;current_time&#x27;: 2021-04-01T16:49:13.195678
+      - &#x27;current_time&#x27;: 2022-06-10T08:03:19.245881
     - &#x27;pytest_harvest/tests/test_doc_basic_results_bag.py::test_foo[self]&#x27;:
       - &#x27;nb_letters&#x27;: 4
-      - &#x27;current_time&#x27;: 2021-04-01T16:49:13.198163
+      - &#x27;current_time&#x27;: 2022-06-10T08:03:19.249263
 <br/></div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -821,9 +821,9 @@ test_foo[self]   &lt;function test_foo at 0x7f1d2b4d3d40&gt;  ...   self
           <td class="extra" colspan="4">
             <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
    Available `fixture_store` keys:
-    - &#x27;dummy&#x27;
     - &#x27;my_fix&#x27;
     - &#x27;my_fix2&#x27;
+    - &#x27;dummy&#x27;
     - &#x27;person&#x27;
     - &#x27;results_bag&#x27;
 
@@ -867,9 +867,9 @@ test_foo[self]   &lt;function test_foo at 0x7f1d2b4d3d40&gt;  ...   self
           <td class="extra" colspan="4">
             <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>
    Available `fixture_store` keys:
-    - &#x27;dummy&#x27;
     - &#x27;my_fix&#x27;
     - &#x27;my_fix2&#x27;
+    - &#x27;dummy&#x27;
     - &#x27;person&#x27;
     - &#x27;results_bag&#x27;
     - &#x27;other_person_initial&#x27;
@@ -946,15 +946,15 @@ test_foo[self]   &lt;function test_foo at 0x7f1d2b4d3d40&gt;  ...   self
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>test_id                 pytest_obj                                      status      duration_ms    algo_param  dataset_param        accuracy  dataset
-----------------------  ----------------------------------------------  --------  -------------  ------------  ---------------  ------------  -------------
-test_my_app_bench[A-1]  &lt;function test_my_app_bench at 0x7f1d2b3e6050&gt;  passed         0.2884               1  A                  0.560328    my dataset #A
-test_my_app_bench[A-2]  &lt;function test_my_app_bench at 0x7f1d2b3e6050&gt;  passed         0.2235               2  A                  0.00646688  my dataset #A
-test_my_app_bench[B-1]  &lt;function test_my_app_bench at 0x7f1d2b3e6050&gt;  passed         0.224001             1  B                  0.82706     my dataset #B
-test_my_app_bench[B-2]  &lt;function test_my_app_bench at 0x7f1d2b3e6050&gt;  passed         0.223801             2  B                  0.141726    my dataset #B
-test_my_app_bench[C-1]  &lt;function test_my_app_bench at 0x7f1d2b3e6050&gt;  passed         0.2321               1  C                  0.904011    my dataset #C
-test_my_app_bench[C-2]  &lt;function test_my_app_bench at 0x7f1d2b3e6050&gt;  passed         0.2212               2  C                  0.12584     my dataset #C
-test_basic              &lt;function test_basic at 0x7f1d2b3e6200&gt;         passed         0.2243             nan  nan              nan           nan
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>test_id                 pytest_obj                                      status      duration_ms    algo_param  dataset_param       accuracy  dataset
+----------------------  ----------------------------------------------  --------  -------------  ------------  ---------------  -----------  -------------
+test_my_app_bench[A-1]  &lt;function test_my_app_bench at 0x7f4105d3d0e0&gt;  passed         0.228704             1  A                  0.936322   my dataset #A
+test_my_app_bench[A-2]  &lt;function test_my_app_bench at 0x7f4105d3d0e0&gt;  passed         0.224404             2  A                  0.35157    my dataset #A
+test_my_app_bench[B-1]  &lt;function test_my_app_bench at 0x7f4105d3d0e0&gt;  passed         0.221804             1  B                  0.0232186  my dataset #B
+test_my_app_bench[B-2]  &lt;function test_my_app_bench at 0x7f4105d3d0e0&gt;  passed         0.222104             2  B                  0.0263253  my dataset #B
+test_my_app_bench[C-1]  &lt;function test_my_app_bench at 0x7f4105d3d0e0&gt;  passed         0.224703             1  C                  0.224935   my dataset #C
+test_my_app_bench[C-2]  &lt;function test_my_app_bench at 0x7f4105d3d0e0&gt;  passed         0.222804             2  C                  0.870376   my dataset #C
+test_basic              &lt;function test_basic at 0x7f4105d3d290&gt;         passed         0.203003           nan  nan              nan          nan
 <br/></div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
@@ -1038,22 +1038,22 @@ test_my_app_bench[C-2]
 test_basic
 
 First node:
-&#x27;pytest_obj&#x27;: &lt;function test_my_app_bench at 0x7f1d1ae70b90&gt;
+&#x27;pytest_obj&#x27;: &lt;function test_my_app_bench at 0x7f40f356ccb0&gt;
 &#x27;status&#x27;: &#x27;passed&#x27;
-&#x27;duration_ms&#x27;: 0.27330100002131985
+&#x27;duration_ms&#x27;: 0.2256029999898601
 &#x27;algo_param&#x27;: 1
 &#x27;dataset_param&#x27;: &#x27;A&#x27;
 &#x27;dataset&#x27;: &#x27;my dataset #A&#x27;
-&#x27;accuracy&#x27;: 0.3580186888327411
-test_id                 status      duration_ms    algo_param  dataset_param    dataset           accuracy
-----------------------  --------  -------------  ------------  ---------------  -------------  -----------
-test_my_app_bench[A-1]  passed         0.273301             1  A                my dataset #A    0.358019
-test_my_app_bench[A-2]  passed         0.2443               2  A                my dataset #A    0.371115
-test_my_app_bench[B-1]  passed         0.222201             1  B                my dataset #B    0.0563388
-test_my_app_bench[B-2]  passed         0.2232               2  B                my dataset #B    0.739253
-test_my_app_bench[C-1]  passed         0.2375               1  C                my dataset #C    0.56846
-test_my_app_bench[C-2]  passed         0.288401             2  C                my dataset #C    0.767159
-test_basic              passed         0.211801           nan  nan              nan            nan
+&#x27;accuracy&#x27;: 0.9695333342477821
+test_id                 status      duration_ms    algo_param  dataset_param    dataset          accuracy
+----------------------  --------  -------------  ------------  ---------------  -------------  ----------
+test_my_app_bench[A-1]  passed         0.225603             1  A                my dataset #A    0.969533
+test_my_app_bench[A-2]  passed         0.222003             2  A                my dataset #A    0.928792
+test_my_app_bench[B-1]  passed         0.226404             1  B                my dataset #B    0.943006
+test_my_app_bench[B-2]  passed         0.224504             2  B                my dataset #B    0.117087
+test_my_app_bench[C-1]  passed         0.226104             1  C                my dataset #C    0.644958
+test_my_app_bench[C-2]  passed         0.225204             2  C                my dataset #C    0.334772
+test_basic              passed         0.207004           nan  nan              nan            nan
 <br/></div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
