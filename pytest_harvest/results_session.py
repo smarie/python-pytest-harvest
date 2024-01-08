@@ -504,7 +504,11 @@ def get_pytest_params(item):
                     if is_lazy_value_or_tupleitem_with_int_base(param_value):
                         # remove the int base so that pandas does not interprete it as an int.
                         param_value = param_value.clone(remove_int_base=True)
-                    if item.session._fixturemanager.getfixturedefs(param_name, item.nodeid) is not None:
+                    if hasattr(pytest, "version_tuple") and pytest.version_tuple >= (8, 1):
+                        fixturedefs = item.session._fixturemanager.getfixturedefs(param_name, item)
+                    else:
+                        fixturedefs = item.session._fixturemanager.getfixturedefs(param_name, item.nodeid)
+                    if fixturedefs is not None:
                         # Fixture parameters have the same name than the fixtures themselves! change it
                         param_dct[param_name + '_param'] = param_value
                     else:
@@ -530,7 +534,11 @@ def get_pytest_fixture_names(item):
         for param_name in item.fixturenames:  # note: item.funcargnames gives the exact same list
             # if hasattr(item, 'callspec'):  # NO! it would only return fixtures when they are parametrized
                 # if param_name in item.callspec.params: NO ! it would only return fixtures when they are *directly* parametrized
-            if item.session._fixturemanager.getfixturedefs(param_name, item.nodeid) is not None:
+            if hasattr(pytest, "version_tuple") and pytest.version_tuple >= (8, 1):
+                fixturedefs = item.session._fixturemanager.getfixturedefs(param_name, item)
+            else:
+                fixturedefs = item.session._fixturemanager.getfixturedefs(param_name, item.nodeid)
+            if fixturedefs is not None:
                 fixture_names.append(param_name)
 
         return fixture_names
