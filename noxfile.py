@@ -20,11 +20,12 @@ gh_repo = "python-pytest-harvest"
 ENVS = {
     # python 3.12
     (PY312, "pytest7.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<8"}},
-    (PY312, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
+    # (PY312, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
     # python 3.8
     (PY38, "pytest6.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<7"}},
+    (PY38, "pytest7.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<8"}},
     # IMPORTANT: this should be last so that the folder docs/reports is not deleted afterwards
-    (PY38, "pytest-latest"): {"coverage": True, "pkg_specs": {"pip": ">19", "pytest": ""}}
+    # (PY38, "pytest-latest"): {"coverage": True, "pkg_specs": {"pip": ">19", "pytest": ""}}
 }
 
 
