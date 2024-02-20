@@ -715,11 +715,15 @@ def patched_popen(
                 outlines = []
                 await asyncio.wait([
                     # process out is only redirected to STDOUT if not silent
-                    _read_stream(process.stdout, lambda l: tee(l, sinklist=outlines, sinkstream=log_file_stream,
-                                                               quiet=silent, verbosepipe=sys.stdout)),
+                    asyncio.create_task(
+                        _read_stream(process.stdout, lambda l: tee(l, sinklist=outlines, sinkstream=log_file_stream,
+                                                                   quiet=silent, verbosepipe=sys.stdout)),
+                    ),
                     # process err is always redirected to STDOUT (quiet=False) with a specific label
-                    _read_stream(process.stderr, lambda l: tee(l, sinklist=outlines, sinkstream=log_file_stream,
-                                                               quiet=False, verbosepipe=sys.stdout, label="ERR:"))
+                    asyncio.create_task(
+                        _read_stream(process.stderr, lambda l: tee(l, sinklist=outlines, sinkstream=log_file_stream,
+                                                                   quiet=False, verbosepipe=sys.stdout, label="ERR:"))
+                    ),
                 ])
                 return_code = await process.wait()  # make sur the process has ended and retrieve its return code
                 return return_code, outlines
