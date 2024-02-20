@@ -20,6 +20,7 @@ import pkg_resources
 
 pkg_resources.require("setuptools>=39.2")
 pkg_resources.require("setuptools_scm")
+pkg_resources.require("packaging")
 
 
 # (2) Generate download url using git version
@@ -32,6 +33,7 @@ DOWNLOAD_URL = URL + "/tarball/" + get_version()
 # (3) Call setup() with as little args as possible
 setup(
     download_url=DOWNLOAD_URL,
+    python_requires='>=3.8',
     use_scm_version={
         "write_to": "pytest_harvest/_version.py"
     },  # we can't put `use_scm_version` in setup.cfg yet unfortunately

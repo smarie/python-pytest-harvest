@@ -3,7 +3,6 @@ from collections import OrderedDict
 from logging import warning
 from shutil import rmtree
 import pytest
-import six
 
 try:
     from pathlib import Path
@@ -238,9 +237,9 @@ def get_session_results_df(session_or_request,
     """
     try:
         import pandas as pd  # pylint: disable=import-outside-toplevel
-    except ImportError as e:
-        six.raise_from(Exception("There was an error importing `pandas` module. Fixture `session_results_df` and method"
-                                 "`get_session_results_df` can not be used in this session."), e)
+    except ImportError:
+        raise Exception("There was an error importing `pandas` module. Fixture `session_results_df` and method"
+                        "`get_session_results_df` can not be used in this session.")
 
     # in case of xdist, make sure persisted workers results have been reloaded
     possibly_restore_xdist_workers_structs(session_or_request)
@@ -308,10 +307,10 @@ def get_filtered_results_df(session,
     """
     try:
         import pandas as pd  # pylint: disable=import-outside-toplevel
-    except ImportError as e:
-        six.raise_from(Exception("There was an error importing `pandas` module. Fixture `session_results_df` and "
-                                 "methods `get_filtered_results_df` and `get_module_results_df` can not be used in this"
-                                 " session. "), e)
+    except ImportError:
+        raise Exception("There was an error importing `pandas` module. Fixture `session_results_df` and "
+                        "methods `get_filtered_results_df` and `get_module_results_df` can not be used in this"
+                        " session. ")
 
     # in case of xdist, make sure persisted workers results have been reloaded
     possibly_restore_xdist_workers_structs(session)

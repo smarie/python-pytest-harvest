@@ -14,10 +14,10 @@ jobs:
   list_nox_test_sessions:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
         with:
-          python-version: 3.7
+          python-version: "3.7"
           architecture: x64
 
       - name: Install noxfile requirements
@@ -43,14 +43,14 @@ jobs:
     name: ${{ matrix.os }} ${{ matrix.nox_session }} # ${{ matrix.name_suffix }}
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       # Conda install
-      - name: Install conda v3.7
+      - name: Install conda v3.12
         uses: conda-incubator/setup-miniconda@v2
         with:
           # auto-update-conda: true
-          python-version: 3.7
+          python-version: "3.12"
           activate-environment: noxenv
       - run: conda info
         shell: bash -l {0}  # so that conda works
@@ -84,7 +84,7 @@ jobs:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
         run: echo "$GITHUB_CONTEXT"
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # so that gh-deploy works
 
@@ -100,7 +100,7 @@ jobs:
         uses: conda-incubator/setup-miniconda@v2
         with:
           # auto-update-conda: true
-          python-version: 3.7
+          python-version: "3.12"
           activate-environment: noxenv
       - run: conda info
         shell: bash -l {0}  # so that conda works

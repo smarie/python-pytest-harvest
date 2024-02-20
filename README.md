@@ -31,11 +31,8 @@ You should then be able to list all available tasks using:
 >>> nox --list
 Sessions defined in <path>\noxfile.py:
 
-* tests-2.7 -> Run the test suite, including test reports generation and coverage reports.
-* tests-3.5 -> Run the test suite, including test reports generation and coverage reports.
-* tests-3.6 -> Run the test suite, including test reports generation and coverage reports.
+* tests-3.12 -> Run the test suite, including test reports generation and coverage reports.
 * tests-3.8 -> Run the test suite, including test reports generation and coverage reports.
-* tests-3.7 -> Run the test suite, including test reports generation and coverage reports.
 - docs-3.7 -> Generates the doc and serves it on a local http server. Pass '-- build' to build statically instead.
 - publish-3.7 -> Deploy the docs+reports on github pages. Note: this rebuilds the docs
 - release-3.7 -> Create a release on github corresponding to the latest tag
@@ -49,7 +46,7 @@ This project uses `pytest` so running `pytest` at the root folder will execute a
 nox
 ```
 
-Tests and coverage reports are automatically generated under `./docs/reports` for one of the sessions (`tests-3.7`). 
+Tests and coverage reports are automatically generated under `./docs/reports` for one of the sessions (`tests-3.7`).
 
 If you wish to execute tests on a specific environment, use explicit session names, e.g. `nox -s tests-3.6`.
 

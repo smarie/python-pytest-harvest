@@ -1,7 +1,6 @@
 from datetime import datetime
 
 import pytest
-from six import raise_from
 
 try:  # python 3+
     from typing import Type, Set, Union, Any, Dict
@@ -25,19 +24,19 @@ class ResultsBag(dict):
         # try:  No exception can happen: key is always a string, and new entries are allowed in a dict
         self[key] = value
         # except KeyError as e:
-        #     raise_from(AttributeError(key), e)
+        #     raise (AttributeError(key)
 
     def __getattr__(self, key):
         try:
             return self[key]
         except KeyError as e:
-            raise_from(AttributeError(key), e)
+            raise AttributeError(key)
 
     def __delattr__(self, key):
         try:
             del self[key]
         except KeyError as e:
-            raise_from(AttributeError(key), e)
+            raise AttributeError(key)
 
     # object base
     def __str__(self):
