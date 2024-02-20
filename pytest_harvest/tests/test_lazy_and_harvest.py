@@ -1,12 +1,12 @@
 import pytest
-from distutils.version import LooseVersion
+from packaging.version import parse
 
 from pytest_cases import lazy_value, fixture_ref, parametrize, fixture
 
 from pytest_harvest import get_session_synthesis_dct
 
 
-pytest2 = LooseVersion(pytest.__version__) < LooseVersion("3.0.0")
+pytest2 = parse(pytest.__version__) < parse("3.0.0")
 
 
 @fixture

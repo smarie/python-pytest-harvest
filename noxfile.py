@@ -9,7 +9,7 @@ import sys
 # add parent folder to python path so that we can import noxfile_utils.py
 # note that you need to "pip install -r noxfile-requiterements.txt" for this file to work.
 sys.path.append(str(Path(__file__).parent / "ci_tools"))
-from nox_utils import PY27, PY37, PY36, PY35, PY38, power_session, rm_folder, rm_file, PowerSession, DONT_INSTALL  # noqa
+from nox_utils import PY38, PY312, power_session, rm_folder, rm_file, PowerSession, DONT_INSTALL  # noqa
 
 
 pkg_name = "pytest_harvest"
@@ -18,35 +18,16 @@ gh_repo = "python-pytest-harvest"
 
 
 ENVS = {
-    # python 3.8 - put first to detect easy issues faster.
+    # python 3.12
+    (PY312, "pytest7.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<8"}},
+    (PY312, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
+    # python 3.8
     (PY38, "pytest2.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<3", "pytest-asyncio": DONT_INSTALL}},  # "pytest-html": "1.9.0",
     (PY38, "pytest3.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<4"}},
     (PY38, "pytest4.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<5"}},
     (PY38, "pytest5.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<6"}},
-    (PY38, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
-    # python 2.7
-    (PY27, "pytest2.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<3", "pytest-asyncio": DONT_INSTALL}},  # "pytest-html": "1.9.0",
-    (PY27, "pytest3.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<4"}},
-    (PY27, "pytest4.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<5"}},
-    # python 3.5
-    (PY35, "pytest2.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<3", "pytest-asyncio": DONT_INSTALL}},  # "pytest-html": "1.9.0",
-    (PY35, "pytest3.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<4"}},
-    (PY35, "pytest4.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<5"}},
-    (PY35, "pytest5.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<6"}},
-    (PY35, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
-    # python 3.6
-    (PY36, "pytest2.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<3", "pytest-asyncio": DONT_INSTALL}},  # "pytest-html": "1.9.0",
-    (PY36, "pytest3.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<4"}},
-    (PY36, "pytest4.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<5"}},
-    (PY36, "pytest5.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<6"}},
-    (PY36, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
-    # python 3.7
-    (PY37, "pytest2.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<3", "pytest-asyncio": DONT_INSTALL}},  # "pytest-html": "1.9.0",
-    (PY37, "pytest3.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<4"}},
-    (PY37, "pytest4.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<5"}},
-    (PY37, "pytest5.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<6"}},
     # IMPORTANT: this should be last so that the folder docs/reports is not deleted afterwards
-    (PY37, "pytest-latest"): {"coverage": True, "pkg_specs": {"pip": ">19", "pytest": ""}}
+    (PY38, "pytest-latest"): {"coverage": True, "pkg_specs": {"pip": ">19", "pytest": ""}}
 }
 
 
@@ -156,7 +137,7 @@ def tests(session: PowerSession, coverage, pkg_specs):
         session.run2("python ci_tools/generate-junit-badge.py 100 %s" % Folders.test_reports)
 
 
-@power_session(python=[PY37])
+@power_session(python=[PY38])
 def docs(session: PowerSession):
     """Generates the doc and serves it on a local http server. Pass '-- build' to build statically instead."""
 
@@ -169,7 +150,7 @@ def docs(session: PowerSession):
         session.run2("mkdocs serve -f ./docs/mkdocs.yml")
 
 
-@power_session(python=[PY37])
+@power_session(python=[PY38])
 def publish(session: PowerSession):
     """Deploy the docs+reports on github pages. Note: this rebuilds the docs"""
 
@@ -194,7 +175,7 @@ def publish(session: PowerSession):
     # session.run2('codecov -t %s -f %s' % (codecov_token, Folders.coverage_xml))
 
 
-@power_session(python=[PY37])
+@power_session(python=[PY38])
 def release(session: PowerSession):
     """Create a release on github corresponding to the latest tag"""
 

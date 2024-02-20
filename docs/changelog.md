@@ -1,5 +1,9 @@
 # Changelog
 
+### 2.0.0 - updates for Python 3.8+
+
+- Modernized for Python 3.8+ support only.
+
 ### 1.10.4 - python 3.5 xdist bugfix
 
  - Fixed issue with `pytest-xdist` and python 3.5: `pathlib` objects were not properly handled by other stdlib modules in this python version. Fixed [#59](https://github.com/smarie/python-pytest-harvest/issues/59)
@@ -144,31 +148,31 @@ Fixed pytest ordering issue, by relying on [place_as](https://github.com/pytest-
 
 ### 1.0.0 - new methods for pytest session analysis
 
-New methods are provided to analyse pytest session results: 
+New methods are provided to analyse pytest session results:
  - `filter_session_items(session, filter=None)` is the filtering method used behind several functions in this package - it can be used independently. `pytest_item_matches_filter` is the inner method used to test if a single item matches the filter.
  - `get_all_pytest_param_names(session, filter=None, filter_incomplete=False)` lists all unique parameter names used in pytest session items, with optional filtering capabilities. Fixes [#12](https://github.com/smarie/python-pytest-harvest/issues/12)
- - `is_pytest_incomplete(item)`, `get_pytest_status(item)`, `get_pytest_param_names(item)` and `get_pytest_params(item)` allow users to analyse a specific item. 
+ - `is_pytest_incomplete(item)`, `get_pytest_status(item)`, `get_pytest_param_names(item)` and `get_pytest_params(item)` allow users to analyse a specific item.
 
 
 ### 0.9.0 - `get_session_synthesis_dct`: filter bugfix + test id formatter
 
  * `get_session_synthesis_dct`:
-  
+
    - `filter` now correctly handles class methods. Fixed [#11](https://github.com/smarie/python-pytest-harvest/issues/11)
    - new `test_id_format` option to process test ids. Fixed [#9](https://github.com/smarie/python-pytest-harvest/issues/9)
 
 ### 0.8.0 - Documentation + better filters in `get_session_synthesis_dct`
 
  * Documentation: added a section about creating the synthesis table from *inside* a test function (fixes [#4](https://github.com/smarie/python-pytest-harvest/issues/4)). Also, added a link to a complete example file.
- 
+
  * `get_session_synthesis_dct`: `filter` argument can now contain module names (fixed [#7](https://github.com/smarie/python-pytest-harvest/issues/7)). Also now the function filters out incomplete tests by default. A new `filter_incomplete` argument can be used to display them again (fixed [#8](https://github.com/smarie/python-pytest-harvest/issues/8)).
 
 ### 0.7.0 - Documentation + `get_session_synthesis_dct` improvements 2
 
  * Results bags do not measure execution time anymore since this is much less accurate than pytest duration. Fixes [#6](https://github.com/smarie/python-pytest-harvest/issues/6)
- 
+
  * `get_session_synthesis_dct` does not output the stage by stage details (setup/call/teardown) anymore by default, but a new option `status_details` allows users to enable them. Fixes [#5](https://github.com/smarie/python-pytest-harvest/issues/5)
-   
+
  * `get_session_synthesis_dct` has also 2 new options `durations_in_ms` and `pytest_prefix` to better control the output.
 
  * Improved documentation.

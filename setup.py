@@ -20,6 +20,7 @@ import pkg_resources
 
 pkg_resources.require("setuptools>=39.2")
 pkg_resources.require("setuptools_scm")
+pkg_resources.require("packaging")
 
 
 # (2) Generate download url using git version

@@ -1,13 +1,13 @@
-from distutils.version import LooseVersion
+from typing import Union, Iterable, Mapping, Any
+from packaging.version import parse
 
 import pytest
 import sys
 from collections import OrderedDict, namedtuple
 from itertools import chain
-from six import string_types
 
 
-pytest53 = LooseVersion(pytest.__version__) >= LooseVersion("5.3.0")
+pytest53 = parse(pytest.__version__) >= parse("5.3.0")
 if pytest53:
     def is_lazy_value_or_tupleitem_with_int_base(o):
         return False
@@ -24,15 +24,10 @@ else:
         def is_lazy_value_or_tupleitem_with_int_base(o):
             return False
 
-try: # python 3.5+
-    from typing import Union, Iterable, Mapping, Any
-except ImportError:
-    pass
-
 from pytest_harvest.common import HARVEST_PREFIX
 from _pytest.doctest import DoctestItem
 
-
+pytest81 = parse(pytest.__version__) >= parse("8.1")
 PYTEST_OBJ_NAME = 'pytest_obj'
 
 
@@ -189,7 +184,7 @@ def get_session_synthesis_dct(session_or_request,
     if flatten_more is not None:
         if isinstance(flatten_more, dict):
             flatten_more_prefixes_dct = flatten_more.items()
-        elif isinstance(flatten_more, string_types):
+        elif isinstance(flatten_more, str):
             # single name ?
             flatten_more_prefixes_dct = {flatten_more: ''}
         else:
@@ -504,7 +499,9 @@ def get_pytest_params(item):
                     if is_lazy_value_or_tupleitem_with_int_base(param_value):
                         # remove the int base so that pandas does not interprete it as an int.
                         param_value = param_value.clone(remove_int_base=True)
-                    if item.session._fixturemanager.getfixturedefs(param_name, item.nodeid) is not None:
+
+                    arg = item if pytest81 else item.nodeid
+                    if item.session._fixturemanager.getfixturedefs(param_name, arg) is not None:
                         # Fixture parameters have the same name than the fixtures themselves! change it
                         param_dct[param_name + '_param'] = param_value
                     else:
@@ -543,7 +540,7 @@ def _get_filterset(filter):
     :param filter:
     :return:
     """
-    if isinstance(filter, string_types):
+    if isinstance(filter, str):
         filter = {filter}
     else:
         try:
