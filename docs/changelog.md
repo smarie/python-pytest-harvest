@@ -2,7 +2,7 @@
 
 ### 2.0.0 - updates for Python 3.8+
 
-- Modernized for Python 3.8+ support only.
+- Modernized for Python 3.8+ and pytest 6+ support only.
 
 ### 1.10.4 - python 3.5 xdist bugfix
 

@@ -1,5 +1,4 @@
 from typing import Union, Iterable, Mapping, Any
-from packaging.version import parse
 
 import pytest
 import sys
@@ -7,28 +6,16 @@ from collections import OrderedDict, namedtuple
 from itertools import chain
 
 
-pytest53 = parse(pytest.__version__) >= parse("5.3.0")
-if pytest53:
-    def is_lazy_value_or_tupleitem_with_int_base(o):
-        return False
-else:
-    # In this version of pytest, pytest-cases creates LazyValue objects that inherit from int, which makes pandas
-    # believe that their dtype should be int instead of object when creating a dataframe. We'll remove the int base here
-    try:
-        from pytest_cases.common_pytest_lazy_values import is_lazy
-
-        def is_lazy_value_or_tupleitem_with_int_base(o):
-            return is_lazy(o) and isinstance(o, int)
-
-    except ImportError:  # noqa
-        def is_lazy_value_or_tupleitem_with_int_base(o):
-            return False
-
 from pytest_harvest.common import HARVEST_PREFIX
 from _pytest.doctest import DoctestItem
 
-pytest81 = parse(pytest.__version__) >= parse("8.1")
+# version_tuple is new in 7.0
+pytest81 = getattr(pytest, "version_tuple", (0, 0, 0)) >= (8, 1)
 PYTEST_OBJ_NAME = 'pytest_obj'
+
+
+def is_lazy_value_or_tupleitem_with_int_base(o):
+    return False
 
 
 def get_session_synthesis_dct(session_or_request,

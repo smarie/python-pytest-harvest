@@ -22,10 +22,7 @@ ENVS = {
     (PY312, "pytest7.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<8"}},
     (PY312, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
     # python 3.8
-    (PY38, "pytest2.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<3", "pytest-asyncio": DONT_INSTALL}},  # "pytest-html": "1.9.0",
-    (PY38, "pytest3.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<4"}},
-    (PY38, "pytest4.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<5"}},
-    (PY38, "pytest5.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<6"}},
+    (PY38, "pytest6.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<7"}},
     # IMPORTANT: this should be last so that the folder docs/reports is not deleted afterwards
     (PY38, "pytest-latest"): {"coverage": True, "pkg_specs": {"pip": ">19", "pytest": ""}}
 }
