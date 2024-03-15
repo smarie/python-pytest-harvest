@@ -1,5 +1,17 @@
 # Changelog
 
+### 1.10.5 - pytest 8.1 compat
+
+PR [#70](https://github.com/smarie/python-pytest-harvest/pull/70) to ensure pytest 8.1 compatibility, including:
+
+ - Fixed issue with `pytest>=8.1`: Fixed `AttributeError: 'str' object has no attribute 'iter_parents'`,
+   [#68](https://github.com/smarie/python-pytest-harvest/issues/68). Initial proposal in PR
+   [#67](https://github.com/smarie/python-pytest-harvest/pull/67) by [@larsoner](https://github.com/larsoner).
+ - Fixed issue with `pytest>=8.1`: Adapt to `getfixturedefs` signature change, initial proposal in PR
+   [#65](https://github.com/smarie/python-pytest-harvest/pull/65) by [@bluetech](https://github.com/bluetech).
+
+Dropped support for pytest 2. Issue [#66](https://github.com/smarie/python-pytest-harvest/issues/66).
+
 ### 1.10.4 - python 3.5 xdist bugfix
 
  - Fixed issue with `pytest-xdist` and python 3.5: `pathlib` objects were not properly handled by other stdlib modules in this python version. Fixed [#59](https://github.com/smarie/python-pytest-harvest/issues/59)
