@@ -1,4 +1,4 @@
-from distutils.version import LooseVersion
+from packaging.version import Version
 
 import pytest
 import sys
@@ -7,7 +7,8 @@ from itertools import chain
 from six import string_types
 
 
-pytest53 = LooseVersion(pytest.__version__) >= LooseVersion("5.3.0")
+pytest81 = Version(pytest.__version__) >= Version("8.1.0")
+pytest53 = Version(pytest.__version__) >= Version("5.3.0")
 if pytest53:
     def is_lazy_value_or_tupleitem_with_int_base(o):
         return False
@@ -504,7 +505,8 @@ def get_pytest_params(item):
                     if is_lazy_value_or_tupleitem_with_int_base(param_value):
                         # remove the int base so that pandas does not interprete it as an int.
                         param_value = param_value.clone(remove_int_base=True)
-                    if item.session._fixturemanager.getfixturedefs(param_name, item.nodeid) is not None:
+                    arg = item if pytest81 else item.nodeid
+                    if item.session._fixturemanager.getfixturedefs(param_name, arg) is not None:
                         # Fixture parameters have the same name than the fixtures themselves! change it
                         param_dct[param_name + '_param'] = param_value
                     else:
@@ -530,7 +532,8 @@ def get_pytest_fixture_names(item):
         for param_name in item.fixturenames:  # note: item.funcargnames gives the exact same list
             # if hasattr(item, 'callspec'):  # NO! it would only return fixtures when they are parametrized
                 # if param_name in item.callspec.params: NO ! it would only return fixtures when they are *directly* parametrized
-            if item.session._fixturemanager.getfixturedefs(param_name, item.nodeid) is not None:
+            arg = item if pytest81 else item.nodeid
+            if item.session._fixturemanager.getfixturedefs(param_name, arg) is not None:
                 fixture_names.append(param_name)
 
         return fixture_names
