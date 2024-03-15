@@ -23,7 +23,7 @@ ENVS = {
     (PY312, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
     (PY312, "pytest7.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<8"}},
     # python 3.11
-    (PY311, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
+    # We'll run this last for coverage
     # python 3.10
     (PY310, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
     # python 3.9
@@ -55,8 +55,9 @@ ENVS = {
     (PY37, "pytest5.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<6", "pytest-asyncio": DONT_INSTALL}},
     (PY37, "pytest6.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<7"}},
     (PY37, "pytest7.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<8"}},
+    (PY37, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
     # IMPORTANT: this should be last so that the folder docs/reports is not deleted afterwards
-    (PY37, "pytest-latest"): {"coverage": True, "pkg_specs": {"pip": ">19", "pytest": ""}}
+    (PY311, "pytest-latest"): {"coverage": True, "pkg_specs": {"pip": ">19", "pytest": ""}},
 }
 
 
@@ -155,10 +156,21 @@ def tests(session: PowerSession, coverage, pkg_specs):
                              versions_dct=pkg_specs)
 
         # --coverage + junit html reports
+
+        #  First the raw for coverage
+        print("\n\n****** Running tests : 1/2 RAW (for coverage) ******\n\n")
         session.run2("coverage run --source {pkg_name} "
-                     "-m pytest --cache-clear --junitxml={test_xml} --html={test_html} -v {pkg_name}/tests/"
+                     "-m pytest --cache-clear -v {pkg_name}/tests_raw/"
+                     "".format(pkg_name=pkg_name),
+                     success_codes=(0, 1)  # since some tests are purposedly failing we accept code 1
+                     )
+
+        print("\n\n****** Running tests : 2/2 META (appending to coverage) ******\n\n")
+        session.run2("coverage run --append --source {pkg_name} "
+                     "-m pytest --junitxml={test_xml} --html={test_html} -v {pkg_name}/tests/"
                      "".format(pkg_name=pkg_name, test_xml=Folders.test_xml, test_html=Folders.test_html))
-        session.run2("coverage report")
+
+        # session.run2("coverage report")  # this shows in terminal + fails under XX%, same as --cov-report term --cov-fail-under=70  # noqa
         session.run2("coverage xml -o {covxml}".format(covxml=Folders.coverage_xml))
         session.run2("coverage html -d {dst}".format(dst=Folders.coverage_reports))
         # delete this intermediate file, it is not needed anymore
