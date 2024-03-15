@@ -313,8 +313,12 @@ def gha_list(session):
         else:
             sessions_list = ["%s-%s" % (session_func.__name__, py) for py in session_func.python]
     else:
-        sessions_list = ["%s-%s(%s)" % (session_func.__name__, py, param)
-                         for py, param in product(session_func.python, session_func.parametrize)]
+        if additional_args.with_version:
+            sessions_list = [{"python": py, "session": "%s-%s(%s)" % (session_func.__name__, py, param)}
+                             for py, param in product(session_func.python, session_func.parametrize)]
+        else:
+            sessions_list = ["%s-%s(%s)" % (session_func.__name__, py, param)
+                             for py, param in product(session_func.python, session_func.parametrize)]
 
     # print the list so that it can be caught by GHA.
     # Note that json.dumps is optional since this is a list of string.
