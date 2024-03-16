@@ -134,10 +134,11 @@ def tests(session: PowerSession, coverage, pkg_specs):
     # session.run2("conda list", env={"CONDA_PREFIX": str(conda_prefix), "CONDA_DEFAULT_ENV": session.get_session_id()})
 
     # Fail if the assumed python version is not the actual one
-    session.run2("python ci_tools/check_python_version.py %s" % session.python)
+    session.run2(f"python ci_tools/check_python_version.py {session.python}")
 
     # check that it can be imported even from a different folder
-    # session.run2(['python', '-c', '"import os; os.chdir(\'./docs/\'); import %s"' % pkg_name])
+    # Important: do not surround the command into double quotes as in the shell !
+    # session.run('python', '-c', 'import os; os.chdir(\'./docs/\'); import %s' % pkg_name)
 
     # finally run all tests
     if not coverage:
@@ -145,7 +146,7 @@ def tests(session: PowerSession, coverage, pkg_specs):
         session.run2("pip install . --no-deps")
 
         # simple: pytest only
-        session.run2("python -m pytest --cache-clear -v %s/tests/" % pkg_name)
+        session.run2(f"python -m pytest --cache-clear -v {pkg_name}/tests/")
     else:
         # install self in "develop" mode so that coverage can be measured
         session.run2("pip install -e . --no-deps")
@@ -159,28 +160,28 @@ def tests(session: PowerSession, coverage, pkg_specs):
 
         #  First the raw for coverage
         print("\n\n****** Running tests : 1/2 RAW (for coverage) ******\n\n")
-        session.run2("coverage run --source {pkg_name} "
-                     "-m pytest --cache-clear -v {pkg_name}/tests_raw/"
-                     "".format(pkg_name=pkg_name),
+        session.run2(f"coverage run --source {pkg_name} "
+                     f"-m pytest --cache-clear -v {pkg_name}/tests_raw/",
                      success_codes=(0, 1)  # since some tests are purposedly failing we accept code 1
                      )
 
         print("\n\n****** Running tests : 2/2 META (appending to coverage) ******\n\n")
-        session.run2("coverage run --append --source {pkg_name} "
-                     "-m pytest --junitxml={test_xml} --html={test_html} -v {pkg_name}/tests/"
-                     "".format(pkg_name=pkg_name, test_xml=Folders.test_xml, test_html=Folders.test_html))
+        session.run2(f"coverage run --append --source {pkg_name} "
+                     "-m pytest "
+                     f'--junitxml="{Folders.test_xml}" --html="{Folders.test_html}" '
+                     f"-v {pkg_name}/tests/")
 
         # session.run2("coverage report")  # this shows in terminal + fails under XX%, same as --cov-report term --cov-fail-under=70  # noqa
-        session.run2("coverage xml -o {covxml}".format(covxml=Folders.coverage_xml))
-        session.run2("coverage html -d {dst}".format(dst=Folders.coverage_reports))
+        session.run2(f'coverage xml -o "{Folders.coverage_xml}"')
+        session.run2(f'coverage html -d "{Folders.coverage_reports}"')
         # delete this intermediate file, it is not needed anymore
         rm_file(Folders.coverage_intermediate_file)
 
         # --generates the badge for the test results and fail build if less than x% tests pass
         nox_logger.info("Generating badge for tests coverage")
         # Use our own package to generate the badge
-        session.run2("genbadge tests -i %s -o %s -t 100" % (Folders.test_xml, Folders.test_badge))
-        session.run2("genbadge coverage -i %s -o %s" % (Folders.coverage_xml, Folders.coverage_badge))
+        session.run2(f'genbadge tests -i "{Folders.test_xml}" -o "{Folders.test_badge}" -t 100')
+        session.run2(f'genbadge coverage -i "{Folders.coverage_xml}" -o "{Folders.coverage_badge}"')
 
 
 @power_session(python=PY39, logsdir=Folders.runlogs)
@@ -198,7 +199,7 @@ def flake8(session: PowerSession):
     session.run("flake8", pkg_name, "--exit-zero", "--format=html", "--htmldir", str(Folders.flake8_reports),
                 "--statistics", "--tee", "--output-file", str(Folders.flake8_intermediate_file))
     # generate our badge
-    session.run2("genbadge flake8 -i %s -o %s" % (Folders.flake8_intermediate_file, Folders.flake8_badge))
+    session.run2(f'genbadge flake8 -i "{Folders.flake8_intermediate_file}" -o "{Folders.flake8_badge}"')
     rm_file(Folders.flake8_intermediate_file)
 
 
@@ -289,10 +290,9 @@ def release(session: PowerSession):
 
     # create the github release
     session.install_reqs(phase="release", phase_reqs=["click", "PyGithub"])
-    session.run2("python ci_tools/github_release.py -s {gh_token} "
-                 "--repo-slug {gh_org}/{gh_repo} -cf ./docs/changelog.md "
-                 "-d https://{gh_org}.github.io/{gh_repo}/changelog {tag}"
-                 "".format(gh_token=gh_token, gh_org=gh_org, gh_repo=gh_repo, tag=current_tag))
+    session.run2(f"python ci_tools/github_release.py -s {gh_token} "
+                 f"--repo-slug {gh_org}/{gh_repo} -cf ./docs/changelog.md "
+                 f"-d https://{gh_org}.github.io/{gh_repo}/changelog {current_tag}")
 
 
 @nox.session(python=False)
@@ -321,18 +321,18 @@ def gha_list(session):
         session_func.parametrize
     except AttributeError:
         if additional_args.with_version:
-            sessions_list = [{"python": py, "session": "%s-%s" % (session_func.__name__, py)} for py in session_func.python]
+            sessions_list = [{"python": py, "session": f"{session_func.__name__}-{py}"} for py in session_func.python]
         else:
-            sessions_list = ["%s-%s" % (session_func.__name__, py) for py in session_func.python]
+            sessions_list = [f"{session_func.__name__}-{py}" for py in session_func.python]
     else:
         if additional_args.with_version:
-            # sessions_list = [{"python": py, "session": "%s-%s(%s)" % (session_func.__name__, py, param)}
+            # sessions_list = [{"python": py, "session": f"{session_func.__name__}-{py}({param})"}
             #                  for py, param in product(session_func.python, session_func.parametrize)]
             # Hack to return the valid ones only, in order  # TODO remove this hack when ENV is removed
-            sessions_list = [{"python": py, "session": "%s-%s(env='%s')" % (session_func.__name__, py, env)}
+            sessions_list = [{"python": py, "session": f"{session_func.__name__}-{py}(env='{env}')"}
                              for py, env in ENVS.keys()]
         else:
-            sessions_list = ["%s-%s(%s)" % (session_func.__name__, py, param)
+            sessions_list = [f"{session_func.__name__}-{py}({param})"
                              for py, param in product(session_func.python, session_func.parametrize)]
 
     # print the list so that it can be caught by GHA.
