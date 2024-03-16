@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: pytest_harvest/plugin.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="pytest_harvest.plugin.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               pytest_harvest/plugin.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="E501">
+               <span class="count sev-2">
+                  5
+               </span>
+               <strong>E501:</strong> line too long (129 > 120 characters)
+               
+                  (and 2 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Line too long (129 > 120 characters):</p>
+               
+               <a href="pytest_harvest.plugin.source.html#l115">
+                  <tt><i>115</i>                             <span class="n">fixture_store</span><span class="o">=</span><span class="n">FIXTURE_STORE</span><span class="p">,</span>            <span class="c1"># type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Line too long (128 > 120 characters):</p>
+               
+               <a href="pytest_harvest.plugin.source.html#l168">
+                  <tt><i>168</i>                            <span class="n">fixture_store</span><span class="o">=</span><span class="n">FIXTURE_STORE</span><span class="p">,</span>            <span class="c1"># type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Line too long (128 > 120 characters):</p>
+               
+               <a href="pytest_harvest.plugin.source.html#l223">
+                  <tt><i>223</i>                            <span class="n">fixture_store</span><span class="o">=</span><span class="n">FIXTURE_STORE</span><span class="p">,</span>            <span class="c1"># type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Line too long (129 > 120 characters):</p>
+               
+               <a href="pytest_harvest.plugin.source.html#l295">
+                  <tt><i>295</i>                             <span class="n">fixture_store</span><span class="o">=</span><span class="n">FIXTURE_STORE</span><span class="p">,</span>            <span class="c1"># type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Line too long (127 > 120 characters):</p>
+               
+               <a href="pytest_harvest.plugin.source.html#l350">
+                  <tt><i>350</i>                           <span class="n">fixture_store</span><span class="o">=</span><span class="n">FIXTURE_STORE</span><span class="p">,</span>            <span class="c1"># type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E261">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>E261:</strong> at least two spaces before inline comment
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="pytest_harvest.plugin.source.html#l13">
+                  <tt><i>13</i> <span class="k">try</span><span class="p">:</span> <span class="c1"># python 3.5+</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="S101">
+               <span class="count sev-3">
+                  2
+               </span>
+               <strong>S101:</strong> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="pytest_harvest.plugin.source.html#l480">
+                  <tt><i>480</i>         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">FIXTURE_STORE</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>  <span class="c1"># make sure nothing was added in there in between</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="pytest_harvest.plugin.source.html#l493">
+                  <tt><i>493</i>                     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">saved_fixture_dct</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">_saved_fixture_dct</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span> <span class="o">==</span> <span class="mi">0</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="B007">
+               <span class="count sev-3">
+                  1
+               </span>
+               <strong>B007:</strong> Loop control variable 'wid' not used within the loop body. If this is intended, start the name with an underscore.
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="pytest_harvest.plugin.source.html#l482">
+                  <tt><i>482</i>         <span class="k">for</span> <span class="n">wid</span><span class="p">,</span> <span class="p">(</span><span class="n">session_items</span><span class="p">,</span> <span class="n">store</span><span class="p">)</span> <span class="ow">in</span> <span class="n">workers_saved_material</span><span class="o">.</span><span class="n">items</span><span class="p">():</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="S301">
+               <span class="count sev-3">
+                  1
+               </span>
+               <strong>S301:</strong> Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue.
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="pytest_harvest.plugin.source.html#l423">
+                  <tt><i>423</i>                 <span class="n">workers_saved_material</span><span class="p">[</span><span class="n">wid</span><span class="p">]</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="S403">
+               <span class="count sev-3">
+                  1
+               </span>
+               <strong>S403:</strong> Consider possible security implications associated with pickle module.
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="pytest_harvest.plugin.source.html#l1">
+                  <tt><i>1</i> <span class="kn">import</span> <span class="nn">pickle</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

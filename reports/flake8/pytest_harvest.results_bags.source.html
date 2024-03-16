@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>pytest_harvest/results_bags.py - flake8 annotated source</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+   </head>
+   <body>
+      <div id="masthead" class="sev-1"></div>
+      <div id="page">
+         <h1>
+            <a href="pytest_harvest.results_bags.report.html">
+               <img src="back.svg" alt="&#x2B05;">
+               pytest_harvest/results_bags.py source
+            </a>
+         </h1>
+
+         <div id="doc">
+            <div id="l1"
+               class="code sev-1  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-1">
+                        F401
+                     </span>
+                     'datetime.datetime' imported but unused</li>
+               
+               </ul><tt><i>1</i> <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span></tt>
+            </div>
+            <div id="l2"
+               class="code sev- "><tt><i>2</i> &nbsp;</tt>
+            </div>
+            <div id="l3"
+               class="code sev-1  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-1">
+                        F401
+                     </span>
+                     'pytest' imported but unused</li>
+               
+               </ul><tt><i>3</i> <span class="kn">import</span> <span class="nn">pytest</span></tt>
+            </div>
+            <div id="l4"
+               class="code sev- "><tt><i>4</i> <span class="kn">from</span> <span class="nn">six</span> <span class="kn">import</span> <span class="n">raise_from</span></tt>
+            </div>
+            <div id="l5"
+               class="code sev- "><tt><i>5</i> &nbsp;</tt>
+            </div>
+            <div id="l6"
+               class="code sev- "><tt><i>6</i> <span class="k">try</span><span class="p">:</span>  <span class="c1"># python 3+</span></tt>
+            </div>
+            <div id="l7"
+               class="code sev-1  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-1">
+                        F401
+                     </span>
+                     'typing.Set' imported but unused</li>
+               
+               </ul><tt><i>7</i>     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span></tt>
+            </div>
+            <div id="l8"
+               class="code sev- "><tt><i>8</i> <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span></tt>
+            </div>
+            <div id="l9"
+               class="code sev- "><tt><i>9</i>     <span class="k">pass</span></tt>
+            </div>
+            <div id="l10"
+               class="code sev- "><tt><i>10</i> &nbsp;</tt>
+            </div>
+            <div id="l11"
+               class="code sev- "><tt><i>11</i> <span class="kn">from</span> <span class="nn">pytest_harvest.common</span> <span class="kn">import</span> <span class="n">yield_fixture</span></tt>
+            </div>
+            <div id="l12"
+               class="code sev- "><tt><i>12</i> <span class="kn">from</span> <span class="nn">pytest_harvest.fixture_cache</span> <span class="kn">import</span> <span class="n">saved_fixture</span></tt>
+            </div>
+            <div id="l13"
+               class="code sev- "><tt><i>13</i> &nbsp;</tt>
+            </div>
+            <div id="l14"
+               class="code sev- "><tt><i>14</i> &nbsp;</tt>
+            </div>
+            <div id="l15"
+               class="code sev- "><tt><i>15</i> <span class="k">class</span> <span class="nc">ResultsBag</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span></tt>
+            </div>
+            <div id="l16"
+               class="code sev- "><tt><i>16</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l17"
+               class="code sev- "><tt><i>17</i> <span class="sd">    The default type for result bags, used in the `results_bag` fixture and `create_results_bag_fixture` method.</span></tt>
+            </div>
+            <div id="l18"
+               class="code sev- "><tt><i>18</i> &nbsp;</tt>
+            </div>
+            <div id="l19"
+               class="code sev- "><tt><i>19</i> <span class="sd">    It is a simple &#39;Munch&#39;, that is, a dual object/dict.</span></tt>
+            </div>
+            <div id="l20"
+               class="code sev- "><tt><i>20</i> <span class="sd">    It is hashable with a not very interesting hash, but at least a unique one in a python session (id(self)).</span></tt>
+            </div>
+            <div id="l21"
+               class="code sev- "><tt><i>21</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l22"
+               class="code sev- "><tt><i>22</i> &nbsp;</tt>
+            </div>
+            <div id="l23"
+               class="code sev- "><tt><i>23</i>     <span class="c1"># object</span></tt>
+            </div>
+            <div id="l24"
+               class="code sev- "><tt><i>24</i>     <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span></tt>
+            </div>
+            <div id="l25"
+               class="code sev- "><tt><i>25</i>         <span class="c1"># try:  No exception can happen: key is always a string, and new entries are allowed in a dict</span></tt>
+            </div>
+            <div id="l26"
+               class="code sev- "><tt><i>26</i>         <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></tt>
+            </div>
+            <div id="l27"
+               class="code sev- "><tt><i>27</i>         <span class="c1"># except KeyError as e:</span></tt>
+            </div>
+            <div id="l28"
+               class="code sev- "><tt><i>28</i>         <span class="c1">#     raise_from(AttributeError(key), e)</span></tt>
+            </div>
+            <div id="l29"
+               class="code sev- "><tt><i>29</i> &nbsp;</tt>
+            </div>
+            <div id="l30"
+               class="code sev- "><tt><i>30</i>     <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span></tt>
+            </div>
+            <div id="l31"
+               class="code sev- "><tt><i>31</i>         <span class="k">try</span><span class="p">:</span></tt>
+            </div>
+            <div id="l32"
+               class="code sev- "><tt><i>32</i>             <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></tt>
+            </div>
+            <div id="l33"
+               class="code sev- "><tt><i>33</i>         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span></tt>
+            </div>
+            <div id="l34"
+               class="code sev- "><tt><i>34</i>             <span class="n">raise_from</span><span class="p">(</span><span class="ne">AttributeError</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="n">e</span><span class="p">)</span></tt>
+            </div>
+            <div id="l35"
+               class="code sev- "><tt><i>35</i> &nbsp;</tt>
+            </div>
+            <div id="l36"
+               class="code sev- "><tt><i>36</i>     <span class="k">def</span> <span class="fm">__delattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span></tt>
+            </div>
+            <div id="l37"
+               class="code sev- "><tt><i>37</i>         <span class="k">try</span><span class="p">:</span></tt>
+            </div>
+            <div id="l38"
+               class="code sev- "><tt><i>38</i>             <span class="k">del</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></tt>
+            </div>
+            <div id="l39"
+               class="code sev- "><tt><i>39</i>         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span></tt>
+            </div>
+            <div id="l40"
+               class="code sev- "><tt><i>40</i>             <span class="n">raise_from</span><span class="p">(</span><span class="ne">AttributeError</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="n">e</span><span class="p">)</span></tt>
+            </div>
+            <div id="l41"
+               class="code sev- "><tt><i>41</i> &nbsp;</tt>
+            </div>
+            <div id="l42"
+               class="code sev- "><tt><i>42</i>     <span class="c1"># object base</span></tt>
+            </div>
+            <div id="l43"
+               class="code sev- "><tt><i>43</i>     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></tt>
+            </div>
+            <div id="l44"
+               class="code sev- "><tt><i>44</i>         <span class="k">return</span> <span class="nb">dict</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></tt>
+            </div>
+            <div id="l45"
+               class="code sev- "><tt><i>45</i> &nbsp;</tt>
+            </div>
+            <div id="l46"
+               class="code sev- "><tt><i>46</i>     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></tt>
+            </div>
+            <div id="l47"
+               class="code sev- "><tt><i>47</i>         <span class="k">return</span> <span class="s2">&quot;ResultsBag:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">dict</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></tt>
+            </div>
+            <div id="l48"
+               class="code sev- "><tt><i>48</i> &nbsp;</tt>
+            </div>
+            <div id="l49"
+               class="code sev- "><tt><i>49</i>     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></tt>
+            </div>
+            <div id="l50"
+               class="code sev- "><tt><i>50</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;Make the type hashable with a fake hash&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l51"
+               class="code sev- "><tt><i>51</i>         <span class="k">return</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></tt>
+            </div>
+            <div id="l52"
+               class="code sev- "><tt><i>52</i> &nbsp;</tt>
+            </div>
+            <div id="l53"
+               class="code sev- "><tt><i>53</i> &nbsp;</tt>
+            </div>
+            <div id="l54"
+               class="code sev- "><tt><i>54</i> <span class="c1"># Just to be sure</span></tt>
+            </div>
+            <div id="l55"
+               class="code sev-3  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-3">
+                        S101
+                     </span>
+                     Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</li>
+               
+               </ul><tt><i>55</i> <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ResultsBag</span><span class="p">(),</span> <span class="nb">dict</span><span class="p">)</span></tt>
+            </div>
+            <div id="l56"
+               class="code sev- "><tt><i>56</i> &nbsp;</tt>
+            </div>
+            <div id="l57"
+               class="code sev- "><tt><i>57</i> &nbsp;</tt>
+            </div>
+            <div id="l58"
+               class="code sev- "><tt><i>58</i> <span class="k">def</span> <span class="nf">_results_bag_fixture_impl</span><span class="p">(</span><span class="n">bag_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>                  <span class="c1"># type: Type[Any]</span></tt>
+            </div>
+            <div id="l59"
+               class="code sev- "><tt><i>59</i>                               <span class="p">):</span></tt>
+            </div>
+            <div id="l60"
+               class="code sev- "><tt><i>60</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l61"
+               class="code sev- "><tt><i>61</i> <span class="sd">    Implementation of a results bag fixture. It creates a `ResultsBag` by default, or an object of custom `bag_type`.</span></tt>
+            </div>
+            <div id="l62"
+               class="code sev- "><tt><i>62</i> &nbsp;</tt>
+            </div>
+            <div id="l63"
+               class="code sev- "><tt><i>63</i> <span class="sd">    Note: we do not measure time here anymore because it is less precise than pytest duration</span></tt>
+            </div>
+            <div id="l64"
+               class="code sev- "><tt><i>64</i> &nbsp;</tt>
+            </div>
+            <div id="l65"
+               class="code sev- "><tt><i>65</i> <span class="sd">    :param bag_type: the type of object to create as results bag. Default: `ResultsBag`</span></tt>
+            </div>
+            <div id="l66"
+               class="code sev- "><tt><i>66</i> <span class="sd">    :return:</span></tt>
+            </div>
+            <div id="l67"
+               class="code sev- "><tt><i>67</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l68"
+               class="code sev- "><tt><i>68</i> &nbsp;</tt>
+            </div>
+            <div id="l69"
+               class="code sev- "><tt><i>69</i>     <span class="c1"># Create the results bag</span></tt>
+            </div>
+            <div id="l70"
+               class="code sev- "><tt><i>70</i>     <span class="n">bag_type</span> <span class="o">=</span> <span class="n">ResultsBag</span> <span class="k">if</span> <span class="n">bag_type</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">bag_type</span></tt>
+            </div>
+            <div id="l71"
+               class="code sev- "><tt><i>71</i>     <span class="n">results_bag</span> <span class="o">=</span> <span class="n">bag_type</span><span class="p">()</span></tt>
+            </div>
+            <div id="l72"
+               class="code sev- "><tt><i>72</i> &nbsp;</tt>
+            </div>
+            <div id="l73"
+               class="code sev- "><tt><i>73</i>     <span class="c1"># Yield it - note: we do not measure time anymore because it is less precise than pytest duration</span></tt>
+            </div>
+            <div id="l74"
+               class="code sev- "><tt><i>74</i>     <span class="c1"># start = datetime.now()</span></tt>
+            </div>
+            <div id="l75"
+               class="code sev- "><tt><i>75</i>     <span class="k">yield</span> <span class="n">results_bag</span></tt>
+            </div>
+            <div id="l76"
+               class="code sev- "><tt><i>76</i>     <span class="c1"># end = datetime.now()</span></tt>
+            </div>
+            <div id="l77"
+               class="code sev- "><tt><i>77</i> &nbsp;</tt>
+            </div>
+            <div id="l78"
+               class="code sev- "><tt><i>78</i>     <span class="c1"># Fill execution time</span></tt>
+            </div>
+            <div id="l79"
+               class="code sev- "><tt><i>79</i>     <span class="c1"># results_bag[exec_time_key] = (end - start).total_seconds()</span></tt>
+            </div>
+            <div id="l80"
+               class="code sev- "><tt><i>80</i> &nbsp;</tt>
+            </div>
+            <div id="l81"
+               class="code sev- "><tt><i>81</i> &nbsp;</tt>
+            </div>
+            <div id="l82"
+               class="code sev- "><tt><i>82</i> <span class="k">def</span> <span class="nf">create_results_bag_fixture</span><span class="p">(</span><span class="n">store</span><span class="p">,</span>                        <span class="c1"># type: Union[str, Dict[str, Any]]</span></tt>
+            </div>
+            <div id="l83"
+               class="code sev- "><tt><i>83</i>                                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;results_bag&#39;</span><span class="p">,</span>             <span class="c1"># type: str</span></tt>
+            </div>
+            <div id="l84"
+               class="code sev- "><tt><i>84</i>                                <span class="n">bag_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>                  <span class="c1"># type: Type[Any]</span></tt>
+            </div>
+            <div id="l85"
+               class="code sev- "><tt><i>85</i>                                <span class="p">):</span></tt>
+            </div>
+            <div id="l86"
+               class="code sev- "><tt><i>86</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l87"
+               class="code sev- "><tt><i>87</i> <span class="sd">    Creates a &quot;results bag&quot; fixture with name `name` stored in the given store (under key=`name`). By default results</span></tt>
+            </div>
+            <div id="l88"
+               class="code sev- "><tt><i>88</i> <span class="sd">    bags are instances of `ResultsBag` but you can provide another `bag_type` if needed.</span></tt>
+            </div>
+            <div id="l89"
+               class="code sev- "><tt><i>89</i> &nbsp;</tt>
+            </div>
+            <div id="l90"
+               class="code sev- "><tt><i>90</i> <span class="sd">    :param store: a dict-like object or a fixture name corresponding to a dict-like object. in this dictionary, a new</span></tt>
+            </div>
+            <div id="l91"
+               class="code sev- "><tt><i>91</i> <span class="sd">        entry will be added for the fixture. This entry will contain a dictionary &lt;test_id&gt;: &lt;fixture_value&gt; for each</span></tt>
+            </div>
+            <div id="l92"
+               class="code sev- "><tt><i>92</i> <span class="sd">        test node.</span></tt>
+            </div>
+            <div id="l93"
+               class="code sev- "><tt><i>93</i> <span class="sd">    :param name: the name associated with the stored fixture in the global store. By default this is &#39;results_bag&#39;.</span></tt>
+            </div>
+            <div id="l94"
+               class="code sev- "><tt><i>94</i> <span class="sd">    :param bag_type: the type of object to create as a results bag. Default: `ResultsBag`</span></tt>
+            </div>
+            <div id="l95"
+               class="code sev- "><tt><i>95</i> <span class="sd">    :return:</span></tt>
+            </div>
+            <div id="l96"
+               class="code sev- "><tt><i>96</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l97"
+               class="code sev- "><tt><i>97</i>     <span class="c1"># Create the same function than _results_bag_fixture_impl but with preset arguments (same than functools.partial)</span></tt>
+            </div>
+            <div id="l98"
+               class="code sev- "><tt><i>98</i>     <span class="k">def</span> <span class="nf">_results_bag</span><span class="p">():</span></tt>
+            </div>
+            <div id="l99"
+               class="code sev- "><tt><i>99</i>         <span class="n">gen</span> <span class="o">=</span> <span class="n">_results_bag_fixture_impl</span><span class="p">(</span><span class="n">bag_type</span><span class="o">=</span><span class="n">bag_type</span><span class="p">)</span></tt>
+            </div>
+            <div id="l100"
+               class="code sev- "><tt><i>100</i>         <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">gen</span><span class="p">:</span></tt>
+            </div>
+            <div id="l101"
+               class="code sev- "><tt><i>101</i>             <span class="k">yield</span> <span class="n">res</span></tt>
+            </div>
+            <div id="l102"
+               class="code sev- "><tt><i>102</i> &nbsp;</tt>
+            </div>
+            <div id="l103"
+               class="code sev- "><tt><i>103</i>     <span class="c1"># Create one result bag per step if needed (if pytest_steps is present)</span></tt>
+            </div>
+            <div id="l104"
+               class="code sev- "><tt><i>104</i>     <span class="k">try</span><span class="p">:</span></tt>
+            </div>
+            <div id="l105"
+               class="code sev- "><tt><i>105</i>         <span class="kn">from</span> <span class="nn">pytest_steps</span> <span class="kn">import</span> <span class="n">one_per_step</span></tt>
+            </div>
+            <div id="l106"
+               class="code sev- "><tt><i>106</i>         <span class="n">_results_bag</span> <span class="o">=</span> <span class="n">one_per_step</span><span class="p">(</span><span class="n">_results_bag</span><span class="p">)</span></tt>
+            </div>
+            <div id="l107"
+               class="code sev- "><tt><i>107</i>     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span></tt>
+            </div>
+            <div id="l108"
+               class="code sev- "><tt><i>108</i>         <span class="c1"># pytest steps not installed: transparent</span></tt>
+            </div>
+            <div id="l109"
+               class="code sev- "><tt><i>109</i>         <span class="k">pass</span></tt>
+            </div>
+            <div id="l110"
+               class="code sev- "><tt><i>110</i> &nbsp;</tt>
+            </div>
+            <div id="l111"
+               class="code sev- "><tt><i>111</i>     <span class="c1"># Declare that this fixture should be saved</span></tt>
+            </div>
+            <div id="l112"
+               class="code sev- "><tt><i>112</i>     <span class="n">_results_bag</span> <span class="o">=</span> <span class="n">saved_fixture</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">name</span><span class="p">)(</span><span class="n">_results_bag</span><span class="p">)</span></tt>
+            </div>
+            <div id="l113"
+               class="code sev- "><tt><i>113</i> &nbsp;</tt>
+            </div>
+            <div id="l114"
+               class="code sev- "><tt><i>114</i>     <span class="c1"># Decorate manually as a fixture</span></tt>
+            </div>
+            <div id="l115"
+               class="code sev- "><tt><i>115</i>     <span class="n">_results_bag</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">name</span></tt>
+            </div>
+            <div id="l116"
+               class="code sev- "><tt><i>116</i>     <span class="n">results_bag_fixture</span> <span class="o">=</span> <span class="n">yield_fixture</span><span class="p">(</span><span class="n">_results_bag</span><span class="p">)</span></tt>
+            </div>
+            <div id="l117"
+               class="code sev- "><tt><i>117</i> &nbsp;</tt>
+            </div>
+            <div id="l118"
+               class="code sev- "><tt><i>118</i>     <span class="k">return</span> <span class="n">results_bag_fixture</span></tt>
+            </div>
+            
+         </div>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>pytest_harvest/plugin.py - flake8 annotated source</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <h1>
+            <a href="pytest_harvest.plugin.report.html">
+               <img src="back.svg" alt="&#x2B05;">
+               pytest_harvest/plugin.py source
+            </a>
+         </h1>
+
+         <div id="doc">
+            <div id="l1"
+               class="code sev-3  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-3">
+                        S403
+                     </span>
+                     Consider possible security implications associated with pickle module.</li>
+               
+               </ul><tt><i>1</i> <span class="kn">import</span> <span class="nn">pickle</span></tt>
+            </div>
+            <div id="l2"
+               class="code sev- "><tt><i>2</i> <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span></tt>
+            </div>
+            <div id="l3"
+               class="code sev- "><tt><i>3</i> <span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">warning</span></tt>
+            </div>
+            <div id="l4"
+               class="code sev- "><tt><i>4</i> <span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">rmtree</span></tt>
+            </div>
+            <div id="l5"
+               class="code sev- "><tt><i>5</i> <span class="kn">import</span> <span class="nn">pytest</span></tt>
+            </div>
+            <div id="l6"
+               class="code sev- "><tt><i>6</i> <span class="kn">import</span> <span class="nn">six</span></tt>
+            </div>
+            <div id="l7"
+               class="code sev- "><tt><i>7</i> &nbsp;</tt>
+            </div>
+            <div id="l8"
+               class="code sev- "><tt><i>8</i> <span class="k">try</span><span class="p">:</span></tt>
+            </div>
+            <div id="l9"
+               class="code sev- "><tt><i>9</i>     <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span></tt>
+            </div>
+            <div id="l10"
+               class="code sev- "><tt><i>10</i> <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span></tt>
+            </div>
+            <div id="l11"
+               class="code sev- "><tt><i>11</i>     <span class="kn">from</span> <span class="nn">pathlib2</span> <span class="kn">import</span> <span class="n">Path</span>  <span class="c1"># python 2</span></tt>
+            </div>
+            <div id="l12"
+               class="code sev- "><tt><i>12</i> &nbsp;</tt>
+            </div>
+            <div id="l13"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E261
+                     </span>
+                     At least two spaces before inline comment</li>
+               
+               </ul><tt><i>13</i> <span class="k">try</span><span class="p">:</span> <span class="c1"># python 3.5+</span></tt>
+            </div>
+            <div id="l14"
+               class="code sev- "><tt><i>14</i>     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Any</span></tt>
+            </div>
+            <div id="l15"
+               class="code sev- "><tt><i>15</i> <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span></tt>
+            </div>
+            <div id="l16"
+               class="code sev- "><tt><i>16</i>     <span class="k">pass</span></tt>
+            </div>
+            <div id="l17"
+               class="code sev- "><tt><i>17</i> &nbsp;</tt>
+            </div>
+            <div id="l18"
+               class="code sev- "><tt><i>18</i> <span class="kn">from</span> <span class="nn">pytest_harvest.common</span> <span class="kn">import</span> <span class="n">HARVEST_PREFIX</span></tt>
+            </div>
+            <div id="l19"
+               class="code sev- "><tt><i>19</i> <span class="kn">from</span> <span class="nn">pytest_harvest.results_bags</span> <span class="kn">import</span> <span class="n">create_results_bag_fixture</span></tt>
+            </div>
+            <div id="l20"
+               class="code sev- "><tt><i>20</i> <span class="kn">from</span> <span class="nn">pytest_harvest.results_session</span> <span class="kn">import</span> <span class="n">get_session_synthesis_dct</span><span class="p">,</span> <span class="n">get_persistable_session_items</span></tt>
+            </div>
+            <div id="l21"
+               class="code sev- "><tt><i>21</i> <span class="kn">from</span> <span class="nn">pytest_harvest.xdist_api</span> <span class="kn">import</span> <span class="n">is_xdist_master</span><span class="p">,</span> <span class="n">is_xdist_worker</span><span class="p">,</span> <span class="n">get_xdist_worker_id</span></tt>
+            </div>
+            <div id="l22"
+               class="code sev- "><tt><i>22</i> &nbsp;</tt>
+            </div>
+            <div id="l23"
+               class="code sev- "><tt><i>23</i> &nbsp;</tt>
+            </div>
+            <div id="l24"
+               class="code sev- "><tt><i>24</i> <span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">tryfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hookwrapper</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></tt>
+            </div>
+            <div id="l25"
+               class="code sev- "><tt><i>25</i> <span class="k">def</span> <span class="nf">pytest_runtest_makereport</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">call</span><span class="p">):</span></tt>
+            </div>
+            <div id="l26"
+               class="code sev- "><tt><i>26</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l27"
+               class="code sev- "><tt><i>27</i> <span class="sd">    We use this hook to store the test execution status for each node in the &#39;item&#39; object,</span></tt>
+            </div>
+            <div id="l28"
+               class="code sev- "><tt><i>28</i> <span class="sd">    so that we can use it in `get_session_synthesis_dct`</span></tt>
+            </div>
+            <div id="l29"
+               class="code sev- "><tt><i>29</i> &nbsp;</tt>
+            </div>
+            <div id="l30"
+               class="code sev- "><tt><i>30</i> <span class="sd">    It is called because the whole package is a pytest plugin (it has a pytest entry point in setup.py)</span></tt>
+            </div>
+            <div id="l31"
+               class="code sev- "><tt><i>31</i> &nbsp;</tt>
+            </div>
+            <div id="l32"
+               class="code sev- "><tt><i>32</i> <span class="sd">    Following the example here:</span></tt>
+            </div>
+            <div id="l33"
+               class="code sev- "><tt><i>33</i> <span class="sd">    https://docs.pytest.org/en/latest/example/simple.html#making-test-result-information-available-in-fixtures</span></tt>
+            </div>
+            <div id="l34"
+               class="code sev- "><tt><i>34</i> &nbsp;</tt>
+            </div>
+            <div id="l35"
+               class="code sev- "><tt><i>35</i> <span class="sd">    :param item:</span></tt>
+            </div>
+            <div id="l36"
+               class="code sev- "><tt><i>36</i> <span class="sd">    :param call:</span></tt>
+            </div>
+            <div id="l37"
+               class="code sev- "><tt><i>37</i> <span class="sd">    :return:</span></tt>
+            </div>
+            <div id="l38"
+               class="code sev- "><tt><i>38</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l39"
+               class="code sev- "><tt><i>39</i>     <span class="c1"># execute all other hooks to obtain the report object</span></tt>
+            </div>
+            <div id="l40"
+               class="code sev- "><tt><i>40</i>     <span class="n">outcome</span> <span class="o">=</span> <span class="k">yield</span></tt>
+            </div>
+            <div id="l41"
+               class="code sev- "><tt><i>41</i>     <span class="n">rep</span> <span class="o">=</span> <span class="n">outcome</span><span class="o">.</span><span class="n">get_result</span><span class="p">()</span></tt>
+            </div>
+            <div id="l42"
+               class="code sev- "><tt><i>42</i> &nbsp;</tt>
+            </div>
+            <div id="l43"
+               class="code sev- "><tt><i>43</i>     <span class="c1"># set a report attribute for each phase of a call, which can</span></tt>
+            </div>
+            <div id="l44"
+               class="code sev- "><tt><i>44</i>     <span class="c1"># be &quot;setup&quot;, &quot;call&quot;, &quot;teardown&quot;</span></tt>
+            </div>
+            <div id="l45"
+               class="code sev- "><tt><i>45</i> &nbsp;</tt>
+            </div>
+            <div id="l46"
+               class="code sev- "><tt><i>46</i>     <span class="nb">setattr</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">HARVEST_PREFIX</span> <span class="o">+</span> <span class="n">rep</span><span class="o">.</span><span class="n">when</span><span class="p">,</span> <span class="n">rep</span><span class="p">)</span></tt>
+            </div>
+            <div id="l47"
+               class="code sev- "><tt><i>47</i> &nbsp;</tt>
+            </div>
+            <div id="l48"
+               class="code sev- "><tt><i>48</i> &nbsp;</tt>
+            </div>
+            <div id="l49"
+               class="code sev- "><tt><i>49</i> <span class="c1"># ------------- To collect benchmark results ------------</span></tt>
+            </div>
+            <div id="l50"
+               class="code sev- "><tt><i>50</i> <span class="n">FIXTURE_STORE</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span></tt>
+            </div>
+            <div id="l51"
+               class="code sev- "><tt><i>51</i> <span class="sd">&quot;&quot;&quot;The default fixture store, that is also available through the `fixture_store` fixture. It is recommended to access</span></tt>
+            </div>
+            <div id="l52"
+               class="code sev- "><tt><i>52</i> <span class="sd">it through `get_fixture_store(session)` so as to be xdist-compliant&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l53"
+               class="code sev- "><tt><i>53</i> &nbsp;</tt>
+            </div>
+            <div id="l54"
+               class="code sev- "><tt><i>54</i> &nbsp;</tt>
+            </div>
+            <div id="l55"
+               class="code sev- "><tt><i>55</i> <span class="k">def</span> <span class="nf">get_fixture_store</span><span class="p">(</span><span class="n">session_or_request</span><span class="p">):</span></tt>
+            </div>
+            <div id="l56"
+               class="code sev- "><tt><i>56</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l57"
+               class="code sev- "><tt><i>57</i> <span class="sd">    pytest-xdist-compliant way to access the default fixture store.</span></tt>
+            </div>
+            <div id="l58"
+               class="code sev- "><tt><i>58</i> &nbsp;</tt>
+            </div>
+            <div id="l59"
+               class="code sev- "><tt><i>59</i> <span class="sd">    :param session:</span></tt>
+            </div>
+            <div id="l60"
+               class="code sev- "><tt><i>60</i> <span class="sd">    :return:</span></tt>
+            </div>
+            <div id="l61"
+               class="code sev- "><tt><i>61</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l62"
+               class="code sev- "><tt><i>62</i>     <span class="n">possibly_restore_xdist_workers_structs</span><span class="p">(</span><span class="n">session_or_request</span><span class="p">)</span></tt>
+            </div>
+            <div id="l63"
+               class="code sev- "><tt><i>63</i>     <span class="k">return</span> <span class="n">FIXTURE_STORE</span></tt>
+            </div>
+            <div id="l64"
+               class="code sev- "><tt><i>64</i> &nbsp;</tt>
+            </div>
+            <div id="l65"
+               class="code sev- "><tt><i>65</i> &nbsp;</tt>
+            </div>
+            <div id="l66"
+               class="code sev- "><tt><i>66</i> <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;session&#39;</span><span class="p">)</span>  <span class="c1"># no need for autouse=True</span></tt>
+            </div>
+            <div id="l67"
+               class="code sev- "><tt><i>67</i> <span class="k">def</span> <span class="nf">fixture_store</span><span class="p">(</span><span class="n">request</span><span class="p">):</span></tt>
+            </div>
+            <div id="l68"
+               class="code sev- "><tt><i>68</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l69"
+               class="code sev- "><tt><i>69</i> <span class="sd">    A &quot;fixture store&quot; fixture: a dictionary where fixture instances can be saved.</span></tt>
+            </div>
+            <div id="l70"
+               class="code sev- "><tt><i>70</i> &nbsp;</tt>
+            </div>
+            <div id="l71"
+               class="code sev- "><tt><i>71</i> <span class="sd">    By default</span></tt>
+            </div>
+            <div id="l72"
+               class="code sev- "><tt><i>72</i> &nbsp;</tt>
+            </div>
+            <div id="l73"
+               class="code sev- "><tt><i>73</i> <span class="sd">     - all fixtures decorated with `@saved_fixture` are saved in this store.</span></tt>
+            </div>
+            <div id="l74"
+               class="code sev- "><tt><i>74</i> <span class="sd">     - the `results_bag` fixture is also saved in this store.</span></tt>
+            </div>
+            <div id="l75"
+               class="code sev- "><tt><i>75</i> &nbsp;</tt>
+            </div>
+            <div id="l76"
+               class="code sev- "><tt><i>76</i> <span class="sd">    To retrieve the contents of the store, you can:</span></tt>
+            </div>
+            <div id="l77"
+               class="code sev- "><tt><i>77</i> &nbsp;</tt>
+            </div>
+            <div id="l78"
+               class="code sev- "><tt><i>78</i> <span class="sd">     * create a test using this fixture and make sure that it is executed after all others.</span></tt>
+            </div>
+            <div id="l79"
+               class="code sev- "><tt><i>79</i> <span class="sd">     * access this fixture from a dependent fixture and read its value in the setup or teardown script.</span></tt>
+            </div>
+            <div id="l80"
+               class="code sev- "><tt><i>80</i> <span class="sd">     * access this fixture from the `request` fixture using the `get_fixture_value` helper method.</span></tt>
+            </div>
+            <div id="l81"
+               class="code sev- "><tt><i>81</i> <span class="sd">     * access the `FIXTURE_STORE` symbol directly</span></tt>
+            </div>
+            <div id="l82"
+               class="code sev- "><tt><i>82</i> &nbsp;</tt>
+            </div>
+            <div id="l83"
+               class="code sev- "><tt><i>83</i> <span class="sd">    This fixture has session scope so it is unique across the whole session.</span></tt>
+            </div>
+            <div id="l84"
+               class="code sev- "><tt><i>84</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l85"
+               class="code sev- "><tt><i>85</i>     <span class="k">return</span> <span class="n">get_fixture_store</span><span class="p">(</span><span class="n">request</span><span class="p">)</span></tt>
+            </div>
+            <div id="l86"
+               class="code sev- "><tt><i>86</i> &nbsp;</tt>
+            </div>
+            <div id="l87"
+               class="code sev- "><tt><i>87</i> &nbsp;</tt>
+            </div>
+            <div id="l88"
+               class="code sev- "><tt><i>88</i> <span class="n">results_bag</span> <span class="o">=</span> <span class="n">create_results_bag_fixture</span><span class="p">(</span><span class="s1">&#39;fixture_store&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;results_bag&#39;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l89"
+               class="code sev- "><tt><i>89</i> <span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l90"
+               class="code sev- "><tt><i>90</i> <span class="sd">A &quot;results bag&quot; fixture: a dictionary where you can store anything (results, context, etc.) during your tests execution.</span></tt>
+            </div>
+            <div id="l91"
+               class="code sev- "><tt><i>91</i> <span class="sd">It offers a &quot;much&quot;-like api: you can access all entries using the object protocol such as in `results_bag.a = 1`.</span></tt>
+            </div>
+            <div id="l92"
+               class="code sev- "><tt><i>92</i> &nbsp;</tt>
+            </div>
+            <div id="l93"
+               class="code sev- "><tt><i>93</i> <span class="sd">This fixture has function-scope so a new, empty instance is injected in each test node.</span></tt>
+            </div>
+            <div id="l94"
+               class="code sev- "><tt><i>94</i> &nbsp;</tt>
+            </div>
+            <div id="l95"
+               class="code sev- "><tt><i>95</i> <span class="sd">There are several ways to gather all results after they have been stored.</span></tt>
+            </div>
+            <div id="l96"
+               class="code sev- "><tt><i>96</i> &nbsp;</tt>
+            </div>
+            <div id="l97"
+               class="code sev- "><tt><i>97</i> <span class="sd"> * To get the raw stored results, use the `fixture_store` fixture: `fixture_store[&#39;results_bag&#39;]` will contain all</span></tt>
+            </div>
+            <div id="l98"
+               class="code sev- "><tt><i>98</i> <span class="sd">   result bags for all tests.</span></tt>
+            </div>
+            <div id="l99"
+               class="code sev- "><tt><i>99</i> &nbsp;</tt>
+            </div>
+            <div id="l100"
+               class="code sev- "><tt><i>100</i> <span class="sd"> * If you are interested in both the stored results AND some stored fixture values (through `@saved_fixture`), you</span></tt>
+            </div>
+            <div id="l101"
+               class="code sev- "><tt><i>101</i> <span class="sd">   might rather wish to leverage the following helpers:</span></tt>
+            </div>
+            <div id="l102"
+               class="code sev- "><tt><i>102</i> &nbsp;</tt>
+            </div>
+            <div id="l103"
+               class="code sev- "><tt><i>103</i> <span class="sd">     - use one of the `session_results_dct`, `module_results_dct`, `session_results_df` or `module_results_df`</span></tt>
+            </div>
+            <div id="l104"
+               class="code sev- "><tt><i>104</i> <span class="sd">       fixtures. They contain all available information, in a nicely summarized way.</span></tt>
+            </div>
+            <div id="l105"
+               class="code sev- "><tt><i>105</i> &nbsp;</tt>
+            </div>
+            <div id="l106"
+               class="code sev- "><tt><i>106</i> <span class="sd">     - use the `get_session_synthesis_dct(session)` helper method to create a similar synthesis than the above with</span></tt>
+            </div>
+            <div id="l107"
+               class="code sev- "><tt><i>107</i> <span class="sd">       more customization capabilities.</span></tt>
+            </div>
+            <div id="l108"
+               class="code sev- "><tt><i>108</i> &nbsp;</tt>
+            </div>
+            <div id="l109"
+               class="code sev- "><tt><i>109</i> <span class="sd">If you wish to create custom results bags similar to this one (for example to create several with different names),</span></tt>
+            </div>
+            <div id="l110"
+               class="code sev- "><tt><i>110</i> <span class="sd">use `create_results_bag_fixture`.</span></tt>
+            </div>
+            <div id="l111"
+               class="code sev- "><tt><i>111</i> <span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l112"
+               class="code sev- "><tt><i>112</i> &nbsp;</tt>
+            </div>
+            <div id="l113"
+               class="code sev- "><tt><i>113</i> &nbsp;</tt>
+            </div>
+            <div id="l114"
+               class="code sev- "><tt><i>114</i> <span class="k">def</span> <span class="nf">get_session_results_dct</span><span class="p">(</span><span class="n">session_or_request</span><span class="p">,</span></tt>
+            </div>
+            <div id="l115"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E501
+                     </span>
+                     Line too long (129 > 120 characters)</li>
+               
+               </ul><tt><i>115</i>                             <span class="n">fixture_store</span><span class="o">=</span><span class="n">FIXTURE_STORE</span><span class="p">,</span>            <span class="c1"># type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]</span></tt>
+            </div>
+            <div id="l116"
+               class="code sev- "><tt><i>116</i>                             <span class="n">results_bag_fixture_name</span><span class="o">=</span><span class="s1">&#39;results_bag&#39;</span>  <span class="c1"># type: str</span></tt>
+            </div>
+            <div id="l117"
+               class="code sev- "><tt><i>117</i>                             <span class="p">):</span></tt>
+            </div>
+            <div id="l118"
+               class="code sev- "><tt><i>118</i>     <span class="c1"># type: (...) -&gt; Mapping[str, Mapping[str, Any]]</span></tt>
+            </div>
+            <div id="l119"
+               class="code sev- "><tt><i>119</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l120"
+               class="code sev- "><tt><i>120</i> <span class="sd">    Helper method to get exactly the same object than the `session_results_dct` fixture, from a session object.</span></tt>
+            </div>
+            <div id="l121"
+               class="code sev- "><tt><i>121</i> <span class="sd">    This can be useful to retrieve the results from the `pytest_sessionfinish` hook for example.</span></tt>
+            </div>
+            <div id="l122"
+               class="code sev- "><tt><i>122</i> &nbsp;</tt>
+            </div>
+            <div id="l123"
+               class="code sev- "><tt><i>123</i> <span class="sd">    See `session_results_dct` fixture for details.</span></tt>
+            </div>
+            <div id="l124"
+               class="code sev- "><tt><i>124</i> &nbsp;</tt>
+            </div>
+            <div id="l125"
+               class="code sev- "><tt><i>125</i> <span class="sd">    :param session_or_request: the pytest session or request</span></tt>
+            </div>
+            <div id="l126"
+               class="code sev- "><tt><i>126</i> <span class="sd">    :param fixture_store: an optional fixture store</span></tt>
+            </div>
+            <div id="l127"
+               class="code sev- "><tt><i>127</i> <span class="sd">    :param results_bag_fixture_name: an optional name for results bag fixture in the fixture store. Default is</span></tt>
+            </div>
+            <div id="l128"
+               class="code sev- "><tt><i>128</i> <span class="sd">            &quot;results_bag&quot;</span></tt>
+            </div>
+            <div id="l129"
+               class="code sev- "><tt><i>129</i> <span class="sd">    :return:</span></tt>
+            </div>
+            <div id="l130"
+               class="code sev- "><tt><i>130</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l131"
+               class="code sev- "><tt><i>131</i>     <span class="c1"># in case of xdist, make sure persisted workers results have been reloaded</span></tt>
+            </div>
+            <div id="l132"
+               class="code sev- "><tt><i>132</i>     <span class="n">possibly_restore_xdist_workers_structs</span><span class="p">(</span><span class="n">session_or_request</span><span class="p">)</span></tt>
+            </div>
+            <div id="l133"
+               class="code sev- "><tt><i>133</i> &nbsp;</tt>
+            </div>
+            <div id="l134"
+               class="code sev- "><tt><i>134</i>     <span class="n">results_dct</span> <span class="o">=</span> <span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">session_or_request</span><span class="p">,</span> <span class="n">durations_in_ms</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span></tt>
+            </div>
+            <div id="l135"
+               class="code sev- "><tt><i>135</i>                                             <span class="n">test_id_format</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="n">status_details</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pytest_prefix</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span></tt>
+            </div>
+            <div id="l136"
+               class="code sev- "><tt><i>136</i>                                             <span class="n">fixture_store</span><span class="o">=</span><span class="n">fixture_store</span><span class="p">,</span></tt>
+            </div>
+            <div id="l137"
+               class="code sev- "><tt><i>137</i>                                             <span class="n">flatten</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">flatten_more</span><span class="o">=</span><span class="n">results_bag_fixture_name</span><span class="p">)</span></tt>
+            </div>
+            <div id="l138"
+               class="code sev- "><tt><i>138</i> &nbsp;</tt>
+            </div>
+            <div id="l139"
+               class="code sev- "><tt><i>139</i>     <span class="c1"># We do not want to post-process according to steps here, this fixture should have as a contract that the keys</span></tt>
+            </div>
+            <div id="l140"
+               class="code sev- "><tt><i>140</i>     <span class="c1"># are the True test ids.</span></tt>
+            </div>
+            <div id="l141"
+               class="code sev- "><tt><i>141</i>     <span class="c1"># try:</span></tt>
+            </div>
+            <div id="l142"
+               class="code sev- "><tt><i>142</i>     <span class="c1">#     # if pytest_steps is installed, separate the test ids from the step ids</span></tt>
+            </div>
+            <div id="l143"
+               class="code sev- "><tt><i>143</i>     <span class="c1">#     from pytest_steps import handle_steps_in_synthesis_dct</span></tt>
+            </div>
+            <div id="l144"
+               class="code sev- "><tt><i>144</i>     <span class="c1">#     results_dct = handle_steps_in_synthesis_dct(results_dct, is_flat=False)</span></tt>
+            </div>
+            <div id="l145"
+               class="code sev- "><tt><i>145</i>     <span class="c1"># except ImportError:</span></tt>
+            </div>
+            <div id="l146"
+               class="code sev- "><tt><i>146</i>     <span class="c1">#     # pytest_steps is not installed, ok.</span></tt>
+            </div>
+            <div id="l147"
+               class="code sev- "><tt><i>147</i>     <span class="c1">#     pass</span></tt>
+            </div>
+            <div id="l148"
+               class="code sev- "><tt><i>148</i> &nbsp;</tt>
+            </div>
+            <div id="l149"
+               class="code sev- "><tt><i>149</i>     <span class="k">return</span> <span class="n">results_dct</span></tt>
+            </div>
+            <div id="l150"
+               class="code sev- "><tt><i>150</i> &nbsp;</tt>
+            </div>
+            <div id="l151"
+               class="code sev- "><tt><i>151</i> &nbsp;</tt>
+            </div>
+            <div id="l152"
+               class="code sev- "><tt><i>152</i> <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;function&#39;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l153"
+               class="code sev- "><tt><i>153</i> <span class="k">def</span> <span class="nf">session_results_dct</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">fixture_store</span><span class="p">):</span></tt>
+            </div>
+            <div id="l154"
+               class="code sev- "><tt><i>154</i>     <span class="c1"># type: (...) -&gt; Mapping[str, Mapping[str, Any]]</span></tt>
+            </div>
+            <div id="l155"
+               class="code sev- "><tt><i>155</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l156"
+               class="code sev- "><tt><i>156</i> <span class="sd">    This fixture contains a synthesis dictionary for all tests completed &quot;so far&quot;, with &#39;full&#39; id format. It includes</span></tt>
+            </div>
+            <div id="l157"
+               class="code sev- "><tt><i>157</i> <span class="sd">    contents from the default `fixture_store`, including `results_bag`.</span></tt>
+            </div>
+            <div id="l158"
+               class="code sev- "><tt><i>158</i> &nbsp;</tt>
+            </div>
+            <div id="l159"
+               class="code sev- "><tt><i>159</i> <span class="sd">    Behind the scenes it relies on `get_session_synthesis_dct`.</span></tt>
+            </div>
+            <div id="l160"
+               class="code sev- "><tt><i>160</i> &nbsp;</tt>
+            </div>
+            <div id="l161"
+               class="code sev- "><tt><i>161</i> <span class="sd">    This fixture has a function scope because we want its contents to be refreshed every time it is needed.</span></tt>
+            </div>
+            <div id="l162"
+               class="code sev- "><tt><i>162</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l163"
+               class="code sev- "><tt><i>163</i>     <span class="k">return</span> <span class="n">get_session_results_dct</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">,</span> <span class="n">fixture_store</span><span class="o">=</span><span class="n">fixture_store</span><span class="p">)</span></tt>
+            </div>
+            <div id="l164"
+               class="code sev- "><tt><i>164</i> &nbsp;</tt>
+            </div>
+            <div id="l165"
+               class="code sev- "><tt><i>165</i> &nbsp;</tt>
+            </div>
+            <div id="l166"
+               class="code sev- "><tt><i>166</i> <span class="k">def</span> <span class="nf">get_module_results_dct</span><span class="p">(</span><span class="n">session_or_request</span><span class="p">,</span></tt>
+            </div>
+            <div id="l167"
+               class="code sev- "><tt><i>167</i>                            <span class="n">module_name</span><span class="p">,</span>                            <span class="c1"># type: str</span></tt>
+            </div>
+            <div id="l168"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E501
+                     </span>
+                     Line too long (128 > 120 characters)</li>
+               
+               </ul><tt><i>168</i>                            <span class="n">fixture_store</span><span class="o">=</span><span class="n">FIXTURE_STORE</span><span class="p">,</span>            <span class="c1"># type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]</span></tt>
+            </div>
+            <div id="l169"
+               class="code sev- "><tt><i>169</i>                            <span class="n">results_bag_fixture_name</span><span class="o">=</span><span class="s1">&#39;results_bag&#39;</span>  <span class="c1"># type: str</span></tt>
+            </div>
+            <div id="l170"
+               class="code sev- "><tt><i>170</i>                            <span class="p">):</span></tt>
+            </div>
+            <div id="l171"
+               class="code sev- "><tt><i>171</i>     <span class="c1"># type: (...) -&gt; Mapping[str, Mapping[str, Any]]</span></tt>
+            </div>
+            <div id="l172"
+               class="code sev- "><tt><i>172</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l173"
+               class="code sev- "><tt><i>173</i> <span class="sd">    Helper method to get exactly the same object than the `module_results_dct` fixture, from a session object.</span></tt>
+            </div>
+            <div id="l174"
+               class="code sev- "><tt><i>174</i> <span class="sd">    This can be useful to retrieve the results from the `pytest_sessionfinish` hook for example.</span></tt>
+            </div>
+            <div id="l175"
+               class="code sev- "><tt><i>175</i> &nbsp;</tt>
+            </div>
+            <div id="l176"
+               class="code sev- "><tt><i>176</i> <span class="sd">    See `module_results_dct` fixture for details.</span></tt>
+            </div>
+            <div id="l177"
+               class="code sev- "><tt><i>177</i> &nbsp;</tt>
+            </div>
+            <div id="l178"
+               class="code sev- "><tt><i>178</i> <span class="sd">    :param session_or_request: the pytest session or request</span></tt>
+            </div>
+            <div id="l179"
+               class="code sev- "><tt><i>179</i> <span class="sd">    :param module_name: a string representing the module name to filter on</span></tt>
+            </div>
+            <div id="l180"
+               class="code sev- "><tt><i>180</i> <span class="sd">    :param fixture_store: an optional fixture store</span></tt>
+            </div>
+            <div id="l181"
+               class="code sev- "><tt><i>181</i> <span class="sd">    :param results_bag_fixture_name: an optional name for results bag fixture in the fixture store. Default is</span></tt>
+            </div>
+            <div id="l182"
+               class="code sev- "><tt><i>182</i> <span class="sd">        &quot;results_bag&quot;</span></tt>
+            </div>
+            <div id="l183"
+               class="code sev- "><tt><i>183</i> <span class="sd">    :return:</span></tt>
+            </div>
+            <div id="l184"
+               class="code sev- "><tt><i>184</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l185"
+               class="code sev- "><tt><i>185</i>     <span class="c1"># in case of xdist, make sure persisted workers results have been reloaded</span></tt>
+            </div>
+            <div id="l186"
+               class="code sev- "><tt><i>186</i>     <span class="n">possibly_restore_xdist_workers_structs</span><span class="p">(</span><span class="n">session_or_request</span><span class="p">)</span></tt>
+            </div>
+            <div id="l187"
+               class="code sev- "><tt><i>187</i> &nbsp;</tt>
+            </div>
+            <div id="l188"
+               class="code sev- "><tt><i>188</i>     <span class="n">results_dct</span> <span class="o">=</span> <span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">session_or_request</span><span class="p">,</span> <span class="n">durations_in_ms</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span></tt>
+            </div>
+            <div id="l189"
+               class="code sev- "><tt><i>189</i>                                             <span class="nb">filter</span><span class="o">=</span><span class="n">module_name</span><span class="p">,</span> <span class="n">pytest_prefix</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span></tt>
+            </div>
+            <div id="l190"
+               class="code sev- "><tt><i>190</i>                                             <span class="n">test_id_format</span><span class="o">=</span><span class="s1">&#39;function&#39;</span><span class="p">,</span> <span class="n">status_details</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span></tt>
+            </div>
+            <div id="l191"
+               class="code sev- "><tt><i>191</i>                                             <span class="n">fixture_store</span><span class="o">=</span><span class="n">fixture_store</span><span class="p">,</span></tt>
+            </div>
+            <div id="l192"
+               class="code sev- "><tt><i>192</i>                                             <span class="n">flatten</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">flatten_more</span><span class="o">=</span><span class="n">results_bag_fixture_name</span><span class="p">)</span></tt>
+            </div>
+            <div id="l193"
+               class="code sev- "><tt><i>193</i> &nbsp;</tt>
+            </div>
+            <div id="l194"
+               class="code sev- "><tt><i>194</i>     <span class="c1"># We do not want to post-process according to steps here, this fixture should have as a contract that the keys</span></tt>
+            </div>
+            <div id="l195"
+               class="code sev- "><tt><i>195</i>     <span class="c1"># are the True test ids.</span></tt>
+            </div>
+            <div id="l196"
+               class="code sev- "><tt><i>196</i>     <span class="c1">#</span></tt>
+            </div>
+            <div id="l197"
+               class="code sev- "><tt><i>197</i>     <span class="c1"># try:</span></tt>
+            </div>
+            <div id="l198"
+               class="code sev- "><tt><i>198</i>     <span class="c1">#     # if pytest_steps is installed, separate the test ids from the step ids</span></tt>
+            </div>
+            <div id="l199"
+               class="code sev- "><tt><i>199</i>     <span class="c1">#     from pytest_steps import handle_steps_in_synthesis_dct</span></tt>
+            </div>
+            <div id="l200"
+               class="code sev- "><tt><i>200</i>     <span class="c1">#     results_dct = handle_steps_in_synthesis_dct(results_dct, is_flat=False)</span></tt>
+            </div>
+            <div id="l201"
+               class="code sev- "><tt><i>201</i>     <span class="c1"># except ImportError:</span></tt>
+            </div>
+            <div id="l202"
+               class="code sev- "><tt><i>202</i>     <span class="c1">#     # pytest_steps is not installed, ok.</span></tt>
+            </div>
+            <div id="l203"
+               class="code sev- "><tt><i>203</i>     <span class="c1">#     pass</span></tt>
+            </div>
+            <div id="l204"
+               class="code sev- "><tt><i>204</i> &nbsp;</tt>
+            </div>
+            <div id="l205"
+               class="code sev- "><tt><i>205</i>     <span class="k">return</span> <span class="n">results_dct</span></tt>
+            </div>
+            <div id="l206"
+               class="code sev- "><tt><i>206</i> &nbsp;</tt>
+            </div>
+            <div id="l207"
+               class="code sev- "><tt><i>207</i> &nbsp;</tt>
+            </div>
+            <div id="l208"
+               class="code sev- "><tt><i>208</i> <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;function&#39;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l209"
+               class="code sev- "><tt><i>209</i> <span class="k">def</span> <span class="nf">module_results_dct</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">fixture_store</span><span class="p">):</span></tt>
+            </div>
+            <div id="l210"
+               class="code sev- "><tt><i>210</i>     <span class="c1"># type: (...) -&gt; Mapping[str, Mapping[str, Any]]</span></tt>
+            </div>
+            <div id="l211"
+               class="code sev- "><tt><i>211</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l212"
+               class="code sev- "><tt><i>212</i> <span class="sd">    This fixture returns a synthesis dictionary for all tests completed &quot;so far&quot; in the module of the caller,</span></tt>
+            </div>
+            <div id="l213"
+               class="code sev- "><tt><i>213</i> <span class="sd">    with &#39;function&#39; id format. It includes contents from the default `fixture_store`, including `results_bag`.</span></tt>
+            </div>
+            <div id="l214"
+               class="code sev- "><tt><i>214</i> &nbsp;</tt>
+            </div>
+            <div id="l215"
+               class="code sev- "><tt><i>215</i> <span class="sd">    Behind the scenes it relies on `get_session_synthesis_dct`.</span></tt>
+            </div>
+            <div id="l216"
+               class="code sev- "><tt><i>216</i> &nbsp;</tt>
+            </div>
+            <div id="l217"
+               class="code sev- "><tt><i>217</i> <span class="sd">    This fixture has a function scope because we want its contents to be refreshed every time it is needed.</span></tt>
+            </div>
+            <div id="l218"
+               class="code sev- "><tt><i>218</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l219"
+               class="code sev- "><tt><i>219</i>     <span class="k">return</span> <span class="n">get_module_results_dct</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">module_name</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">fixture_store</span><span class="o">=</span><span class="n">fixture_store</span><span class="p">)</span></tt>
+            </div>
+            <div id="l220"
+               class="code sev- "><tt><i>220</i> &nbsp;</tt>
+            </div>
+            <div id="l221"
+               class="code sev- "><tt><i>221</i> &nbsp;</tt>
+            </div>
+            <div id="l222"
+               class="code sev- "><tt><i>222</i> <span class="k">def</span> <span class="nf">get_session_results_df</span><span class="p">(</span><span class="n">session_or_request</span><span class="p">,</span></tt>
+            </div>
+            <div id="l223"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E501
+                     </span>
+                     Line too long (128 > 120 characters)</li>
+               
+               </ul><tt><i>223</i>                            <span class="n">fixture_store</span><span class="o">=</span><span class="n">FIXTURE_STORE</span><span class="p">,</span>            <span class="c1"># type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]</span></tt>
+            </div>
+            <div id="l224"
+               class="code sev- "><tt><i>224</i>                            <span class="n">results_bag_fixture_name</span><span class="o">=</span><span class="s1">&#39;results_bag&#39;</span>  <span class="c1"># type: str</span></tt>
+            </div>
+            <div id="l225"
+               class="code sev- "><tt><i>225</i>                            <span class="p">):</span></tt>
+            </div>
+            <div id="l226"
+               class="code sev- "><tt><i>226</i>     <span class="c1"># type: (...) -&gt; pd.DataFrame</span></tt>
+            </div>
+            <div id="l227"
+               class="code sev- "><tt><i>227</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l228"
+               class="code sev- "><tt><i>228</i> <span class="sd">    Helper method to get exactly the same object than the `session_results_df` fixture, from a session object.</span></tt>
+            </div>
+            <div id="l229"
+               class="code sev- "><tt><i>229</i> <span class="sd">    This can be useful to retrieve the results from the `pytest_sessionfinish` hook for example.</span></tt>
+            </div>
+            <div id="l230"
+               class="code sev- "><tt><i>230</i> &nbsp;</tt>
+            </div>
+            <div id="l231"
+               class="code sev- "><tt><i>231</i> <span class="sd">    See `session_results_df` fixture for details.</span></tt>
+            </div>
+            <div id="l232"
+               class="code sev- "><tt><i>232</i> &nbsp;</tt>
+            </div>
+            <div id="l233"
+               class="code sev- "><tt><i>233</i> <span class="sd">    :param session_or_request: the pytest session or request</span></tt>
+            </div>
+            <div id="l234"
+               class="code sev- "><tt><i>234</i> <span class="sd">    :param fixture_store: an optional fixture store</span></tt>
+            </div>
+            <div id="l235"
+               class="code sev- "><tt><i>235</i> <span class="sd">    :param results_bag_fixture_name: an optional name for results bag fixture in the fixture store. Default is</span></tt>
+            </div>
+            <div id="l236"
+               class="code sev- "><tt><i>236</i> <span class="sd">        &quot;results_bag&quot;</span></tt>
+            </div>
+            <div id="l237"
+               class="code sev- "><tt><i>237</i> <span class="sd">    :return:</span></tt>
+            </div>
+            <div id="l238"
+               class="code sev- "><tt><i>238</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l239"
+               class="code sev- "><tt><i>239</i>     <span class="k">try</span><span class="p">:</span></tt>
+            </div>
+            <div id="l240"
+               class="code sev- "><tt><i>240</i>         <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  <span class="c1"># pylint: disable=import-outside-toplevel</span></tt>
+            </div>
+            <div id="l241"
+               class="code sev- "><tt><i>241</i>     <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span></tt>
+            </div>
+            <div id="l242"
+               class="code sev- "><tt><i>242</i>         <span class="n">six</span><span class="o">.</span><span class="n">raise_from</span><span class="p">(</span><span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;There was an error importing `pandas` module. Fixture `session_results_df` and method&quot;</span></tt>
+            </div>
+            <div id="l243"
+               class="code sev- "><tt><i>243</i>                                  <span class="s2">&quot;`get_session_results_df` can not be used in this session.&quot;</span><span class="p">),</span> <span class="n">e</span><span class="p">)</span></tt>
+            </div>
+            <div id="l244"
+               class="code sev- "><tt><i>244</i> &nbsp;</tt>
+            </div>
+            <div id="l245"
+               class="code sev- "><tt><i>245</i>     <span class="c1"># in case of xdist, make sure persisted workers results have been reloaded</span></tt>
+            </div>
+            <div id="l246"
+               class="code sev- "><tt><i>246</i>     <span class="n">possibly_restore_xdist_workers_structs</span><span class="p">(</span><span class="n">session_or_request</span><span class="p">)</span></tt>
+            </div>
+            <div id="l247"
+               class="code sev- "><tt><i>247</i> &nbsp;</tt>
+            </div>
+            <div id="l248"
+               class="code sev- "><tt><i>248</i>     <span class="c1"># get the synthesis dictionary, merged with default fixture store and flattening default results_bag</span></tt>
+            </div>
+            <div id="l249"
+               class="code sev- "><tt><i>249</i>     <span class="n">session_results_dct</span> <span class="o">=</span> <span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">session_or_request</span><span class="p">,</span> <span class="n">durations_in_ms</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span></tt>
+            </div>
+            <div id="l250"
+               class="code sev- "><tt><i>250</i>                                                     <span class="n">test_id_format</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="n">status_details</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span></tt>
+            </div>
+            <div id="l251"
+               class="code sev- "><tt><i>251</i>                                                     <span class="n">fixture_store</span><span class="o">=</span><span class="n">fixture_store</span><span class="p">,</span></tt>
+            </div>
+            <div id="l252"
+               class="code sev- "><tt><i>252</i>                                                     <span class="n">flatten</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">flatten_more</span><span class="o">=</span><span class="n">results_bag_fixture_name</span><span class="p">)</span></tt>
+            </div>
+            <div id="l253"
+               class="code sev- "><tt><i>253</i> &nbsp;</tt>
+            </div>
+            <div id="l254"
+               class="code sev- "><tt><i>254</i>     <span class="c1"># convert to a pandas dataframe</span></tt>
+            </div>
+            <div id="l255"
+               class="code sev- "><tt><i>255</i>     <span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">session_results_dct</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l256"
+               class="code sev- "><tt><i>256</i>     <span class="n">results_df</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">session_results_dct</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="p">:]</span>  <span class="c1"># fix rows order</span></tt>
+            </div>
+            <div id="l257"
+               class="code sev- "><tt><i>257</i>     <span class="n">results_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;test_id&#39;</span>  <span class="c1"># set index name</span></tt>
+            </div>
+            <div id="l258"
+               class="code sev- "><tt><i>258</i> &nbsp;</tt>
+            </div>
+            <div id="l259"
+               class="code sev- "><tt><i>259</i>     <span class="c1"># We do not want to post-process according to steps here, this fixture should have as a contract that the keys</span></tt>
+            </div>
+            <div id="l260"
+               class="code sev- "><tt><i>260</i>     <span class="c1"># are the True test ids.</span></tt>
+            </div>
+            <div id="l261"
+               class="code sev- "><tt><i>261</i>     <span class="c1">#</span></tt>
+            </div>
+            <div id="l262"
+               class="code sev- "><tt><i>262</i>     <span class="c1"># try:</span></tt>
+            </div>
+            <div id="l263"
+               class="code sev- "><tt><i>263</i>     <span class="c1">#     # if pytest_steps is installed, separate the test ids from the step ids</span></tt>
+            </div>
+            <div id="l264"
+               class="code sev- "><tt><i>264</i>     <span class="c1">#     from pytest_steps import handle_steps_in_results_df</span></tt>
+            </div>
+            <div id="l265"
+               class="code sev- "><tt><i>265</i>     <span class="c1">#     results_df = handle_steps_in_results_df(results_df, keep_orig_id=True, no_steps_policy=&#39;skip&#39;)</span></tt>
+            </div>
+            <div id="l266"
+               class="code sev- "><tt><i>266</i>     <span class="c1"># except ImportError:</span></tt>
+            </div>
+            <div id="l267"
+               class="code sev- "><tt><i>267</i>     <span class="c1">#     # pytest_steps is not installed, ok.</span></tt>
+            </div>
+            <div id="l268"
+               class="code sev- "><tt><i>268</i>     <span class="c1">#     pass</span></tt>
+            </div>
+            <div id="l269"
+               class="code sev- "><tt><i>269</i>     <span class="c1"># except Exception as e:</span></tt>
+            </div>
+            <div id="l270"
+               class="code sev- "><tt><i>270</i>     <span class="c1">#     # other issue: warn about it but continue</span></tt>
+            </div>
+            <div id="l271"
+               class="code sev- "><tt><i>271</i>     <span class="c1">#     warn(&quot;%s: %s&quot; % (e, type(e)))</span></tt>
+            </div>
+            <div id="l272"
+               class="code sev- "><tt><i>272</i> &nbsp;</tt>
+            </div>
+            <div id="l273"
+               class="code sev- "><tt><i>273</i>     <span class="k">return</span> <span class="n">results_df</span></tt>
+            </div>
+            <div id="l274"
+               class="code sev- "><tt><i>274</i> &nbsp;</tt>
+            </div>
+            <div id="l275"
+               class="code sev- "><tt><i>275</i> &nbsp;</tt>
+            </div>
+            <div id="l276"
+               class="code sev- "><tt><i>276</i> <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;function&#39;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l277"
+               class="code sev- "><tt><i>277</i> <span class="k">def</span> <span class="nf">session_results_df</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">fixture_store</span><span class="p">):</span></tt>
+            </div>
+            <div id="l278"
+               class="code sev- "><tt><i>278</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l279"
+               class="code sev- "><tt><i>279</i> <span class="sd">    This fixture contains a synthesis dataframe for all tests completed &quot;so far&quot; in the module of the caller,</span></tt>
+            </div>
+            <div id="l280"
+               class="code sev- "><tt><i>280</i> <span class="sd">    with &#39;function&#39; id format. It includes contents from the default `fixture_store`, including `results_bag`.</span></tt>
+            </div>
+            <div id="l281"
+               class="code sev- "><tt><i>281</i> &nbsp;</tt>
+            </div>
+            <div id="l282"
+               class="code sev- "><tt><i>282</i> <span class="sd">    It is basically just a transformation of the `session_results_dct` fixture into a pandas `DataFrame`.</span></tt>
+            </div>
+            <div id="l283"
+               class="code sev- "><tt><i>283</i> &nbsp;</tt>
+            </div>
+            <div id="l284"
+               class="code sev- "><tt><i>284</i> <span class="sd">    If `pytest-steps` is installed, the step ids will be extracted and the dataframe index will be multi-level</span></tt>
+            </div>
+            <div id="l285"
+               class="code sev- "><tt><i>285</i> <span class="sd">    (test id without step, step id).</span></tt>
+            </div>
+            <div id="l286"
+               class="code sev- "><tt><i>286</i> &nbsp;</tt>
+            </div>
+            <div id="l287"
+               class="code sev- "><tt><i>287</i> <span class="sd">    This fixture has a function scope because we want its contents to be refreshed every time it is needed.</span></tt>
+            </div>
+            <div id="l288"
+               class="code sev- "><tt><i>288</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l289"
+               class="code sev- "><tt><i>289</i>     <span class="k">return</span> <span class="n">get_session_results_df</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">fixture_store</span><span class="o">=</span><span class="n">fixture_store</span><span class="p">)</span></tt>
+            </div>
+            <div id="l290"
+               class="code sev- "><tt><i>290</i> &nbsp;</tt>
+            </div>
+            <div id="l291"
+               class="code sev- "><tt><i>291</i> &nbsp;</tt>
+            </div>
+            <div id="l292"
+               class="code sev- "><tt><i>292</i> <span class="k">def</span> <span class="nf">get_filtered_results_df</span><span class="p">(</span><span class="n">session</span><span class="p">,</span></tt>
+            </div>
+            <div id="l293"
+               class="code sev- "><tt><i>293</i>                             <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>                            <span class="c1"># type: Any</span></tt>
+            </div>
+            <div id="l294"
+               class="code sev- "><tt><i>294</i>                             <span class="n">test_id_format</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span>                  <span class="c1"># type: str</span></tt>
+            </div>
+            <div id="l295"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E501
+                     </span>
+                     Line too long (129 > 120 characters)</li>
+               
+               </ul><tt><i>295</i>                             <span class="n">fixture_store</span><span class="o">=</span><span class="n">FIXTURE_STORE</span><span class="p">,</span>            <span class="c1"># type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]</span></tt>
+            </div>
+            <div id="l296"
+               class="code sev- "><tt><i>296</i>                             <span class="n">results_bag_fixture_name</span><span class="o">=</span><span class="s1">&#39;results_bag&#39;</span>  <span class="c1"># type: str</span></tt>
+            </div>
+            <div id="l297"
+               class="code sev- "><tt><i>297</i>                             <span class="p">):</span></tt>
+            </div>
+            <div id="l298"
+               class="code sev- "><tt><i>298</i>     <span class="c1"># type: (...) -&gt; pd.DataFrame</span></tt>
+            </div>
+            <div id="l299"
+               class="code sev- "><tt><i>299</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l300"
+               class="code sev- "><tt><i>300</i> <span class="sd">    Combines `get_session_synthesis_dct` with a transformation into a pandas DataFrame.</span></tt>
+            </div>
+            <div id="l301"
+               class="code sev- "><tt><i>301</i> &nbsp;</tt>
+            </div>
+            <div id="l302"
+               class="code sev- "><tt><i>302</i> <span class="sd">    :param session: the pytest session object</span></tt>
+            </div>
+            <div id="l303"
+               class="code sev- "><tt><i>303</i> <span class="sd">    :param filter: any filter, see `get_session_synthesis_dct` for details</span></tt>
+            </div>
+            <div id="l304"
+               class="code sev- "><tt><i>304</i> <span class="sd">    :param fixture_store: an optional fixture store</span></tt>
+            </div>
+            <div id="l305"
+               class="code sev- "><tt><i>305</i> <span class="sd">    :param results_bag_fixture_name: an optional name for results bag fixture in the fixture store. Default is</span></tt>
+            </div>
+            <div id="l306"
+               class="code sev- "><tt><i>306</i> <span class="sd">        &quot;results_bag&quot;</span></tt>
+            </div>
+            <div id="l307"
+               class="code sev- "><tt><i>307</i> <span class="sd">    :return:</span></tt>
+            </div>
+            <div id="l308"
+               class="code sev- "><tt><i>308</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l309"
+               class="code sev- "><tt><i>309</i>     <span class="k">try</span><span class="p">:</span></tt>
+            </div>
+            <div id="l310"
+               class="code sev- "><tt><i>310</i>         <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  <span class="c1"># pylint: disable=import-outside-toplevel</span></tt>
+            </div>
+            <div id="l311"
+               class="code sev- "><tt><i>311</i>     <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span></tt>
+            </div>
+            <div id="l312"
+               class="code sev- "><tt><i>312</i>         <span class="n">six</span><span class="o">.</span><span class="n">raise_from</span><span class="p">(</span><span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;There was an error importing `pandas` module. Fixture `session_results_df` and &quot;</span></tt>
+            </div>
+            <div id="l313"
+               class="code sev- "><tt><i>313</i>                                  <span class="s2">&quot;methods `get_filtered_results_df` and `get_module_results_df` can not be used in this&quot;</span></tt>
+            </div>
+            <div id="l314"
+               class="code sev- "><tt><i>314</i>                                  <span class="s2">&quot; session. &quot;</span><span class="p">),</span> <span class="n">e</span><span class="p">)</span></tt>
+            </div>
+            <div id="l315"
+               class="code sev- "><tt><i>315</i> &nbsp;</tt>
+            </div>
+            <div id="l316"
+               class="code sev- "><tt><i>316</i>     <span class="c1"># in case of xdist, make sure persisted workers results have been reloaded</span></tt>
+            </div>
+            <div id="l317"
+               class="code sev- "><tt><i>317</i>     <span class="n">possibly_restore_xdist_workers_structs</span><span class="p">(</span><span class="n">session</span><span class="p">)</span></tt>
+            </div>
+            <div id="l318"
+               class="code sev- "><tt><i>318</i> &nbsp;</tt>
+            </div>
+            <div id="l319"
+               class="code sev- "><tt><i>319</i>     <span class="c1"># get the synthesis dictionary, merged with default fixture store and flattening default results_bag</span></tt>
+            </div>
+            <div id="l320"
+               class="code sev- "><tt><i>320</i>     <span class="n">module_results_dct</span> <span class="o">=</span> <span class="n">get_session_synthesis_dct</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">durations_in_ms</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span></tt>
+            </div>
+            <div id="l321"
+               class="code sev- "><tt><i>321</i>                                                    <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">,</span></tt>
+            </div>
+            <div id="l322"
+               class="code sev- "><tt><i>322</i>                                                    <span class="n">test_id_format</span><span class="o">=</span><span class="n">test_id_format</span><span class="p">,</span> <span class="n">status_details</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span></tt>
+            </div>
+            <div id="l323"
+               class="code sev- "><tt><i>323</i>                                                    <span class="n">fixture_store</span><span class="o">=</span><span class="n">fixture_store</span><span class="p">,</span></tt>
+            </div>
+            <div id="l324"
+               class="code sev- "><tt><i>324</i>                                                    <span class="n">flatten</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">flatten_more</span><span class="o">=</span><span class="n">results_bag_fixture_name</span><span class="p">)</span></tt>
+            </div>
+            <div id="l325"
+               class="code sev- "><tt><i>325</i> &nbsp;</tt>
+            </div>
+            <div id="l326"
+               class="code sev- "><tt><i>326</i>     <span class="c1"># convert to a pandas dataframe</span></tt>
+            </div>
+            <div id="l327"
+               class="code sev- "><tt><i>327</i>     <span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">module_results_dct</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l328"
+               class="code sev- "><tt><i>328</i>     <span class="n">results_df</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">module_results_dct</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="p">:]</span>  <span class="c1"># fix rows order</span></tt>
+            </div>
+            <div id="l329"
+               class="code sev- "><tt><i>329</i>     <span class="n">results_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;test_id&#39;</span>  <span class="c1"># set index name</span></tt>
+            </div>
+            <div id="l330"
+               class="code sev- "><tt><i>330</i> &nbsp;</tt>
+            </div>
+            <div id="l331"
+               class="code sev- "><tt><i>331</i>     <span class="c1"># We do not want to post-process according to steps here, this fixture should have as a contract that the keys</span></tt>
+            </div>
+            <div id="l332"
+               class="code sev- "><tt><i>332</i>     <span class="c1"># are the True test ids.</span></tt>
+            </div>
+            <div id="l333"
+               class="code sev- "><tt><i>333</i>     <span class="c1">#</span></tt>
+            </div>
+            <div id="l334"
+               class="code sev- "><tt><i>334</i>     <span class="c1"># try:</span></tt>
+            </div>
+            <div id="l335"
+               class="code sev- "><tt><i>335</i>     <span class="c1">#     # if pytest_steps is installed, separate the test ids from the step ids</span></tt>
+            </div>
+            <div id="l336"
+               class="code sev- "><tt><i>336</i>     <span class="c1">#     from pytest_steps import handle_steps_in_results_df</span></tt>
+            </div>
+            <div id="l337"
+               class="code sev- "><tt><i>337</i>     <span class="c1">#     results_df = handle_steps_in_results_df(results_df, keep_orig_id=True, no_steps_policy=&#39;skip&#39;)</span></tt>
+            </div>
+            <div id="l338"
+               class="code sev- "><tt><i>338</i>     <span class="c1"># except ImportError:</span></tt>
+            </div>
+            <div id="l339"
+               class="code sev- "><tt><i>339</i>     <span class="c1">#     # pytest_steps is not installed, ok.</span></tt>
+            </div>
+            <div id="l340"
+               class="code sev- "><tt><i>340</i>     <span class="c1">#     pass</span></tt>
+            </div>
+            <div id="l341"
+               class="code sev- "><tt><i>341</i>     <span class="c1"># except Exception as e:</span></tt>
+            </div>
+            <div id="l342"
+               class="code sev- "><tt><i>342</i>     <span class="c1">#     # other issue: warn about it but continue</span></tt>
+            </div>
+            <div id="l343"
+               class="code sev- "><tt><i>343</i>     <span class="c1">#     warn(&quot;%s: %s&quot; % (e, type(e)))</span></tt>
+            </div>
+            <div id="l344"
+               class="code sev- "><tt><i>344</i> &nbsp;</tt>
+            </div>
+            <div id="l345"
+               class="code sev- "><tt><i>345</i>     <span class="k">return</span> <span class="n">results_df</span></tt>
+            </div>
+            <div id="l346"
+               class="code sev- "><tt><i>346</i> &nbsp;</tt>
+            </div>
+            <div id="l347"
+               class="code sev- "><tt><i>347</i> &nbsp;</tt>
+            </div>
+            <div id="l348"
+               class="code sev- "><tt><i>348</i> <span class="k">def</span> <span class="nf">get_module_results_df</span><span class="p">(</span><span class="n">session</span><span class="p">,</span></tt>
+            </div>
+            <div id="l349"
+               class="code sev- "><tt><i>349</i>                           <span class="n">module_name</span><span class="p">,</span>                            <span class="c1"># type: str</span></tt>
+            </div>
+            <div id="l350"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E501
+                     </span>
+                     Line too long (127 > 120 characters)</li>
+               
+               </ul><tt><i>350</i>                           <span class="n">fixture_store</span><span class="o">=</span><span class="n">FIXTURE_STORE</span><span class="p">,</span>            <span class="c1"># type: Union[Mapping[str, Any], Iterable[Mapping[str, Any]]]</span></tt>
+            </div>
+            <div id="l351"
+               class="code sev- "><tt><i>351</i>                           <span class="n">results_bag_fixture_name</span><span class="o">=</span><span class="s1">&#39;results_bag&#39;</span>  <span class="c1"># type: str</span></tt>
+            </div>
+            <div id="l352"
+               class="code sev- "><tt><i>352</i>                           <span class="p">):</span></tt>
+            </div>
+            <div id="l353"
+               class="code sev- "><tt><i>353</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l354"
+               class="code sev- "><tt><i>354</i> <span class="sd">    Helper method to get exactly the same object than the `module_results_df` fixture, from a session object.</span></tt>
+            </div>
+            <div id="l355"
+               class="code sev- "><tt><i>355</i> <span class="sd">    This can be useful to retrieve the results from the `pytest_sessionfinish` hook for example.</span></tt>
+            </div>
+            <div id="l356"
+               class="code sev- "><tt><i>356</i> &nbsp;</tt>
+            </div>
+            <div id="l357"
+               class="code sev- "><tt><i>357</i> <span class="sd">    See `module_results_df` fixture for details.</span></tt>
+            </div>
+            <div id="l358"
+               class="code sev- "><tt><i>358</i> &nbsp;</tt>
+            </div>
+            <div id="l359"
+               class="code sev- "><tt><i>359</i> <span class="sd">    :param session: the pytest session object</span></tt>
+            </div>
+            <div id="l360"
+               class="code sev- "><tt><i>360</i> <span class="sd">    :param module_name: the name of the module</span></tt>
+            </div>
+            <div id="l361"
+               class="code sev- "><tt><i>361</i> <span class="sd">    :param fixture_store: an optional fixture store</span></tt>
+            </div>
+            <div id="l362"
+               class="code sev- "><tt><i>362</i> <span class="sd">    :param results_bag_fixture_name: an optional name for results bag fixture in the fixture store. Default is</span></tt>
+            </div>
+            <div id="l363"
+               class="code sev- "><tt><i>363</i> <span class="sd">        &quot;results_bag&quot;</span></tt>
+            </div>
+            <div id="l364"
+               class="code sev- "><tt><i>364</i> <span class="sd">    :return:</span></tt>
+            </div>
+            <div id="l365"
+               class="code sev- "><tt><i>365</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l366"
+               class="code sev- "><tt><i>366</i>     <span class="k">return</span> <span class="n">get_filtered_results_df</span><span class="p">(</span><span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">,</span> <span class="n">test_id_format</span><span class="o">=</span><span class="s1">&#39;function&#39;</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="n">module_name</span><span class="p">,</span></tt>
+            </div>
+            <div id="l367"
+               class="code sev- "><tt><i>367</i>                                    <span class="n">fixture_store</span><span class="o">=</span><span class="n">fixture_store</span><span class="p">,</span> <span class="n">results_bag_fixture_name</span><span class="o">=</span><span class="n">results_bag_fixture_name</span><span class="p">)</span></tt>
+            </div>
+            <div id="l368"
+               class="code sev- "><tt><i>368</i> &nbsp;</tt>
+            </div>
+            <div id="l369"
+               class="code sev- "><tt><i>369</i> &nbsp;</tt>
+            </div>
+            <div id="l370"
+               class="code sev- "><tt><i>370</i> <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s1">&#39;function&#39;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l371"
+               class="code sev- "><tt><i>371</i> <span class="k">def</span> <span class="nf">module_results_df</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">fixture_store</span><span class="p">):</span></tt>
+            </div>
+            <div id="l372"
+               class="code sev- "><tt><i>372</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l373"
+               class="code sev- "><tt><i>373</i> <span class="sd">    This fixture returns a synthesis dataframe for all tests completed &quot;so far&quot; in the module of the caller,</span></tt>
+            </div>
+            <div id="l374"
+               class="code sev- "><tt><i>374</i> <span class="sd">    with &#39;function&#39; id format. It includes contents from the default `fixture_store`, including `results_bag`.</span></tt>
+            </div>
+            <div id="l375"
+               class="code sev- "><tt><i>375</i> &nbsp;</tt>
+            </div>
+            <div id="l376"
+               class="code sev- "><tt><i>376</i> <span class="sd">    It is basically just a transformation of the `module_results_dct` fixture into a pandas DataFrame.</span></tt>
+            </div>
+            <div id="l377"
+               class="code sev- "><tt><i>377</i> &nbsp;</tt>
+            </div>
+            <div id="l378"
+               class="code sev- "><tt><i>378</i> <span class="sd">    If `pytest-steps` is installed, the step ids will be extracted and the dataframe index will be multi-level</span></tt>
+            </div>
+            <div id="l379"
+               class="code sev- "><tt><i>379</i> <span class="sd">    (test id without step, step id).</span></tt>
+            </div>
+            <div id="l380"
+               class="code sev- "><tt><i>380</i> &nbsp;</tt>
+            </div>
+            <div id="l381"
+               class="code sev- "><tt><i>381</i> <span class="sd">    This fixture has a function scope because we want its contents to be refreshed every time it is needed.</span></tt>
+            </div>
+            <div id="l382"
+               class="code sev- "><tt><i>382</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l383"
+               class="code sev- "><tt><i>383</i>     <span class="k">return</span> <span class="n">get_module_results_df</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">,</span> <span class="n">module_name</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">fixture_store</span><span class="o">=</span><span class="n">fixture_store</span><span class="p">)</span></tt>
+            </div>
+            <div id="l384"
+               class="code sev- "><tt><i>384</i> &nbsp;</tt>
+            </div>
+            <div id="l385"
+               class="code sev- "><tt><i>385</i> &nbsp;</tt>
+            </div>
+            <div id="l386"
+               class="code sev- "><tt><i>386</i> <span class="c1"># ----- Support for pytest-xdist: we need to persist results across worker processes</span></tt>
+            </div>
+            <div id="l387"
+               class="code sev- "><tt><i>387</i> <span class="k">def</span> <span class="nf">pytest_addhooks</span><span class="p">(</span><span class="n">pluginmanager</span><span class="p">):</span></tt>
+            </div>
+            <div id="l388"
+               class="code sev- "><tt><i>388</i>     <span class="kn">from</span> <span class="nn">pytest_harvest</span> <span class="kn">import</span> <span class="n">newhooks</span></tt>
+            </div>
+            <div id="l389"
+               class="code sev- "><tt><i>389</i>     <span class="n">pluginmanager</span><span class="o">.</span><span class="n">add_hookspecs</span><span class="p">(</span><span class="n">newhooks</span><span class="p">)</span></tt>
+            </div>
+            <div id="l390"
+               class="code sev- "><tt><i>390</i> &nbsp;</tt>
+            </div>
+            <div id="l391"
+               class="code sev- "><tt><i>391</i> &nbsp;</tt>
+            </div>
+            <div id="l392"
+               class="code sev- "><tt><i>392</i> <span class="k">class</span> <span class="nc">DefaultXDistHarvester</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span></tt>
+            </div>
+            <div id="l393"
+               class="code sev- "><tt><i>393</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l394"
+               class="code sev- "><tt><i>394</i> <span class="sd">    A pytest plugin which stores results from xdist nodes and gathers everything in the final master worker session</span></tt>
+            </div>
+            <div id="l395"
+               class="code sev- "><tt><i>395</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l396"
+               class="code sev- "><tt><i>396</i>     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span></tt>
+            </div>
+            <div id="l397"
+               class="code sev- "><tt><i>397</i>         <span class="c1"># Folder in which temporary worker&#39;s results will be stored</span></tt>
+            </div>
+            <div id="l398"
+               class="code sev- "><tt><i>398</i>         <span class="bp">self</span><span class="o">.</span><span class="n">results_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;./.xdist_harvested/&#39;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l399"
+               class="code sev- "><tt><i>399</i> &nbsp;</tt>
+            </div>
+            <div id="l400"
+               class="code sev- "><tt><i>400</i>     <span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">trylast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></tt>
+            </div>
+            <div id="l401"
+               class="code sev- "><tt><i>401</i>     <span class="k">def</span> <span class="nf">pytest_harvest_xdist_init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></tt>
+            </div>
+            <div id="l402"
+               class="code sev- "><tt><i>402</i>         <span class="c1"># reset the recipient folder</span></tt>
+            </div>
+            <div id="l403"
+               class="code sev- "><tt><i>403</i>         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span></tt>
+            </div>
+            <div id="l404"
+               class="code sev- "><tt><i>404</i>             <span class="n">rmtree</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">))</span></tt>
+            </div>
+            <div id="l405"
+               class="code sev- "><tt><i>405</i>         <span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></tt>
+            </div>
+            <div id="l406"
+               class="code sev- "><tt><i>406</i>         <span class="k">return</span> <span class="kc">True</span></tt>
+            </div>
+            <div id="l407"
+               class="code sev- "><tt><i>407</i> &nbsp;</tt>
+            </div>
+            <div id="l408"
+               class="code sev- "><tt><i>408</i>     <span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">trylast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></tt>
+            </div>
+            <div id="l409"
+               class="code sev- "><tt><i>409</i>     <span class="k">def</span> <span class="nf">pytest_harvest_xdist_worker_dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">worker_id</span><span class="p">,</span> <span class="n">session_items</span><span class="p">,</span> <span class="n">fixture_store</span><span class="p">):</span></tt>
+            </div>
+            <div id="l410"
+               class="code sev- "><tt><i>410</i>         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span> <span class="o">/</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.pkl&#39;</span> <span class="o">%</span> <span class="n">worker_id</span><span class="p">)),</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span></tt>
+            </div>
+            <div id="l411"
+               class="code sev- "><tt><i>411</i>             <span class="k">try</span><span class="p">:</span></tt>
+            </div>
+            <div id="l412"
+               class="code sev- "><tt><i>412</i>                 <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">((</span><span class="n">session_items</span><span class="p">,</span> <span class="n">fixture_store</span><span class="p">),</span> <span class="n">f</span><span class="p">)</span></tt>
+            </div>
+            <div id="l413"
+               class="code sev- "><tt><i>413</i>             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span></tt>
+            </div>
+            <div id="l414"
+               class="code sev- "><tt><i>414</i>                 <span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Error while pickling worker </span><span class="si">%s</span><span class="s2">&#39;s harvested results: [</span><span class="si">%s</span><span class="s2">] </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">worker_id</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span></tt>
+            </div>
+            <div id="l415"
+               class="code sev- "><tt><i>415</i>         <span class="k">return</span> <span class="kc">True</span></tt>
+            </div>
+            <div id="l416"
+               class="code sev- "><tt><i>416</i> &nbsp;</tt>
+            </div>
+            <div id="l417"
+               class="code sev- "><tt><i>417</i>     <span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">trylast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></tt>
+            </div>
+            <div id="l418"
+               class="code sev- "><tt><i>418</i>     <span class="k">def</span> <span class="nf">pytest_harvest_xdist_load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></tt>
+            </div>
+            <div id="l419"
+               class="code sev- "><tt><i>419</i>         <span class="n">workers_saved_material</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span></tt>
+            </div>
+            <div id="l420"
+               class="code sev- "><tt><i>420</i>         <span class="k">for</span> <span class="n">pkl_file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.pkl&#39;</span><span class="p">):</span></tt>
+            </div>
+            <div id="l421"
+               class="code sev- "><tt><i>421</i>             <span class="n">wid</span> <span class="o">=</span> <span class="n">pkl_file</span><span class="o">.</span><span class="n">stem</span></tt>
+            </div>
+            <div id="l422"
+               class="code sev- "><tt><i>422</i>             <span class="k">with</span> <span class="n">pkl_file</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span></tt>
+            </div>
+            <div id="l423"
+               class="code sev-3  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-3">
+                        S301
+                     </span>
+                     Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue.</li>
+               
+               </ul><tt><i>423</i>                 <span class="n">workers_saved_material</span><span class="p">[</span><span class="n">wid</span><span class="p">]</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></tt>
+            </div>
+            <div id="l424"
+               class="code sev- "><tt><i>424</i>         <span class="k">return</span> <span class="n">workers_saved_material</span></tt>
+            </div>
+            <div id="l425"
+               class="code sev- "><tt><i>425</i> &nbsp;</tt>
+            </div>
+            <div id="l426"
+               class="code sev- "><tt><i>426</i>     <span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">trylast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></tt>
+            </div>
+            <div id="l427"
+               class="code sev- "><tt><i>427</i>     <span class="k">def</span> <span class="nf">pytest_harvest_xdist_cleanup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></tt>
+            </div>
+            <div id="l428"
+               class="code sev- "><tt><i>428</i>         <span class="c1"># delete all temporary pickle files</span></tt>
+            </div>
+            <div id="l429"
+               class="code sev- "><tt><i>429</i>         <span class="n">rmtree</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">))</span></tt>
+            </div>
+            <div id="l430"
+               class="code sev- "><tt><i>430</i>         <span class="k">return</span> <span class="kc">True</span></tt>
+            </div>
+            <div id="l431"
+               class="code sev- "><tt><i>431</i> &nbsp;</tt>
+            </div>
+            <div id="l432"
+               class="code sev- "><tt><i>432</i> &nbsp;</tt>
+            </div>
+            <div id="l433"
+               class="code sev- "><tt><i>433</i> <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">trylast</span></tt>
+            </div>
+            <div id="l434"
+               class="code sev- "><tt><i>434</i> <span class="k">def</span> <span class="nf">pytest_configure</span><span class="p">(</span><span class="n">config</span><span class="p">):</span></tt>
+            </div>
+            <div id="l435"
+               class="code sev- "><tt><i>435</i>     <span class="n">config</span><span class="o">.</span><span class="n">pluginmanager</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">DefaultXDistHarvester</span><span class="p">(</span><span class="n">config</span><span class="p">))</span></tt>
+            </div>
+            <div id="l436"
+               class="code sev- "><tt><i>436</i> &nbsp;</tt>
+            </div>
+            <div id="l437"
+               class="code sev- "><tt><i>437</i> &nbsp;</tt>
+            </div>
+            <div id="l438"
+               class="code sev- "><tt><i>438</i> <span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">tryfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></tt>
+            </div>
+            <div id="l439"
+               class="code sev- "><tt><i>439</i> <span class="k">def</span> <span class="nf">pytest_sessionstart</span><span class="p">(</span><span class="n">session</span><span class="p">):</span></tt>
+            </div>
+            <div id="l440"
+               class="code sev- "><tt><i>440</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot; This should run first as it creates the temporary folder when run on the xdist master.&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l441"
+               class="code sev- "><tt><i>441</i>     <span class="k">if</span> <span class="n">is_xdist_master</span><span class="p">(</span><span class="n">session</span><span class="p">):</span></tt>
+            </div>
+            <div id="l442"
+               class="code sev- "><tt><i>442</i>         <span class="c1"># perform cleanup</span></tt>
+            </div>
+            <div id="l443"
+               class="code sev- "><tt><i>443</i>         <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">hook</span><span class="o">.</span><span class="n">pytest_harvest_xdist_init</span><span class="p">()</span></tt>
+            </div>
+            <div id="l444"
+               class="code sev- "><tt><i>444</i> &nbsp;</tt>
+            </div>
+            <div id="l445"
+               class="code sev- "><tt><i>445</i>         <span class="c1"># mark the fixture store as to be reloaded</span></tt>
+            </div>
+            <div id="l446"
+               class="code sev- "><tt><i>446</i>         <span class="n">FIXTURE_STORE</span><span class="o">.</span><span class="n">disabled</span> <span class="o">=</span> <span class="kc">True</span></tt>
+            </div>
+            <div id="l447"
+               class="code sev- "><tt><i>447</i> &nbsp;</tt>
+            </div>
+            <div id="l448"
+               class="code sev- "><tt><i>448</i> &nbsp;</tt>
+            </div>
+            <div id="l449"
+               class="code sev- "><tt><i>449</i> <span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">trylast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></tt>
+            </div>
+            <div id="l450"
+               class="code sev- "><tt><i>450</i> <span class="k">def</span> <span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">):</span></tt>
+            </div>
+            <div id="l451"
+               class="code sev- "><tt><i>451</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot; This should run last as it deletes the persisted items when run on the xdist master.&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l452"
+               class="code sev- "><tt><i>452</i>     <span class="k">if</span> <span class="n">is_xdist_worker</span><span class="p">(</span><span class="n">session</span><span class="p">):</span></tt>
+            </div>
+            <div id="l453"
+               class="code sev- "><tt><i>453</i>         <span class="c1"># persist fixture store and report items in a pickle file with this id</span></tt>
+            </div>
+            <div id="l454"
+               class="code sev- "><tt><i>454</i>         <span class="n">wid</span> <span class="o">=</span> <span class="n">get_xdist_worker_id</span><span class="p">(</span><span class="n">session</span><span class="p">)</span></tt>
+            </div>
+            <div id="l455"
+               class="code sev- "><tt><i>455</i>         <span class="n">session_items</span> <span class="o">=</span> <span class="n">get_persistable_session_items</span><span class="p">(</span><span class="n">session</span><span class="p">)</span></tt>
+            </div>
+            <div id="l456"
+               class="code sev- "><tt><i>456</i>         <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">hook</span><span class="o">.</span><span class="n">pytest_harvest_xdist_worker_dump</span><span class="p">(</span><span class="n">worker_id</span><span class="o">=</span><span class="n">wid</span><span class="p">,</span> <span class="n">session_items</span><span class="o">=</span><span class="n">session_items</span><span class="p">,</span></tt>
+            </div>
+            <div id="l457"
+               class="code sev- "><tt><i>457</i>                                                              <span class="n">fixture_store</span><span class="o">=</span><span class="n">FIXTURE_STORE</span><span class="p">)</span></tt>
+            </div>
+            <div id="l458"
+               class="code sev- "><tt><i>458</i> &nbsp;</tt>
+            </div>
+            <div id="l459"
+               class="code sev- "><tt><i>459</i>     <span class="k">elif</span> <span class="n">is_xdist_master</span><span class="p">(</span><span class="n">session</span><span class="p">):</span></tt>
+            </div>
+            <div id="l460"
+               class="code sev- "><tt><i>460</i>         <span class="c1"># final master cleanup</span></tt>
+            </div>
+            <div id="l461"
+               class="code sev- "><tt><i>461</i>         <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">hook</span><span class="o">.</span><span class="n">pytest_harvest_xdist_cleanup</span><span class="p">()</span></tt>
+            </div>
+            <div id="l462"
+               class="code sev- "><tt><i>462</i> &nbsp;</tt>
+            </div>
+            <div id="l463"
+               class="code sev- "><tt><i>463</i>     <span class="k">else</span><span class="p">:</span></tt>
+            </div>
+            <div id="l464"
+               class="code sev- "><tt><i>464</i>         <span class="c1"># xdist not enabled - nothing to do</span></tt>
+            </div>
+            <div id="l465"
+               class="code sev- "><tt><i>465</i>         <span class="k">pass</span></tt>
+            </div>
+            <div id="l466"
+               class="code sev- "><tt><i>466</i> &nbsp;</tt>
+            </div>
+            <div id="l467"
+               class="code sev- "><tt><i>467</i> &nbsp;</tt>
+            </div>
+            <div id="l468"
+               class="code sev- "><tt><i>468</i> <span class="k">def</span> <span class="nf">possibly_restore_xdist_workers_structs</span><span class="p">(</span><span class="n">session</span><span class="p">):</span></tt>
+            </div>
+            <div id="l469"
+               class="code sev- "><tt><i>469</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l470"
+               class="code sev- "><tt><i>470</i> <span class="sd">    If this is the xdist master</span></tt>
+            </div>
+            <div id="l471"
+               class="code sev- "><tt><i>471</i> <span class="sd">    :param session:</span></tt>
+            </div>
+            <div id="l472"
+               class="code sev- "><tt><i>472</i> <span class="sd">    :return:</span></tt>
+            </div>
+            <div id="l473"
+               class="code sev- "><tt><i>473</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l474"
+               class="code sev- "><tt><i>474</i>     <span class="k">if</span> <span class="n">is_xdist_master</span><span class="p">(</span><span class="n">session</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">FIXTURE_STORE</span><span class="p">,</span> <span class="s1">&#39;disabled&#39;</span><span class="p">):</span></tt>
+            </div>
+            <div id="l475"
+               class="code sev- "><tt><i>475</i>         <span class="c1"># load saved session items and fixtures</span></tt>
+            </div>
+            <div id="l476"
+               class="code sev- "><tt><i>476</i>         <span class="n">workers_saved_material</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">hook</span><span class="o">.</span><span class="n">pytest_harvest_xdist_load</span><span class="p">()</span></tt>
+            </div>
+            <div id="l477"
+               class="code sev- "><tt><i>477</i> &nbsp;</tt>
+            </div>
+            <div id="l478"
+               class="code sev- "><tt><i>478</i>         <span class="c1"># restore them into the same variables used by pytest-harvest</span></tt>
+            </div>
+            <div id="l479"
+               class="code sev- "><tt><i>479</i>         <span class="nb">delattr</span><span class="p">(</span><span class="n">FIXTURE_STORE</span><span class="p">,</span> <span class="s1">&#39;disabled&#39;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l480"
+               class="code sev-3  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-3">
+                        S101
+                     </span>
+                     Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</li>
+               
+               </ul><tt><i>480</i>         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">FIXTURE_STORE</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>  <span class="c1"># make sure nothing was added in there in between</span></tt>
+            </div>
+            <div id="l481"
+               class="code sev- "><tt><i>481</i>         <span class="n">session</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="p">[]</span></tt>
+            </div>
+            <div id="l482"
+               class="code sev-3  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-3">
+                        B007
+                     </span>
+                     Loop control variable 'wid' not used within the loop body. If this is intended, start the name with an underscore.</li>
+               
+               </ul><tt><i>482</i>         <span class="k">for</span> <span class="n">wid</span><span class="p">,</span> <span class="p">(</span><span class="n">session_items</span><span class="p">,</span> <span class="n">store</span><span class="p">)</span> <span class="ow">in</span> <span class="n">workers_saved_material</span><span class="o">.</span><span class="n">items</span><span class="p">():</span></tt>
+            </div>
+            <div id="l483"
+               class="code sev- "><tt><i>483</i>             <span class="c1"># session items</span></tt>
+            </div>
+            <div id="l484"
+               class="code sev- "><tt><i>484</i>             <span class="n">session</span><span class="o">.</span><span class="n">items</span> <span class="o">+=</span> <span class="n">session_items</span></tt>
+            </div>
+            <div id="l485"
+               class="code sev- "><tt><i>485</i> &nbsp;</tt>
+            </div>
+            <div id="l486"
+               class="code sev- "><tt><i>486</i>             <span class="c1"># saved fixtures</span></tt>
+            </div>
+            <div id="l487"
+               class="code sev- "><tt><i>487</i>             <span class="k">for</span> <span class="n">fixture_name</span><span class="p">,</span> <span class="n">_saved_fixture_dct</span> <span class="ow">in</span> <span class="n">store</span><span class="o">.</span><span class="n">items</span><span class="p">():</span></tt>
+            </div>
+            <div id="l488"
+               class="code sev- "><tt><i>488</i>                 <span class="k">try</span><span class="p">:</span></tt>
+            </div>
+            <div id="l489"
+               class="code sev- "><tt><i>489</i>                     <span class="n">saved_fixture_dct</span> <span class="o">=</span> <span class="n">FIXTURE_STORE</span><span class="p">[</span><span class="n">fixture_name</span><span class="p">]</span></tt>
+            </div>
+            <div id="l490"
+               class="code sev- "><tt><i>490</i>                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span></tt>
+            </div>
+            <div id="l491"
+               class="code sev- "><tt><i>491</i>                     <span class="n">FIXTURE_STORE</span><span class="p">[</span><span class="n">fixture_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">_saved_fixture_dct</span></tt>
+            </div>
+            <div id="l492"
+               class="code sev- "><tt><i>492</i>                 <span class="k">else</span><span class="p">:</span></tt>
+            </div>
+            <div id="l493"
+               class="code sev-3  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-3">
+                        S101
+                     </span>
+                     Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</li>
+               
+               </ul><tt><i>493</i>                     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">saved_fixture_dct</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">_saved_fixture_dct</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span> <span class="o">==</span> <span class="mi">0</span></tt>
+            </div>
+            <div id="l494"
+               class="code sev- "><tt><i>494</i>                     <span class="n">saved_fixture_dct</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_saved_fixture_dct</span><span class="p">)</span></tt>
+            </div>
+            
+         </div>
+      </div>
+   </body>
+</html>

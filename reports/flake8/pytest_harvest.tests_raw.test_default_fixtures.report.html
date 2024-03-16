@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: pytest_harvest/tests_raw/test_default_fixtures.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="pytest_harvest.tests_raw.test_default_fixtures.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               pytest_harvest/tests_raw/test_default_fixtures.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="E127">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>E127:</strong> continuation line over-indented for visual indent
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="pytest_harvest.tests_raw.test_default_fixtures.source.html#l48">
+                  <tt><i>48</i>                                                     <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;test_synthesis_default_module_dct&#39;</span><span class="p">]</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="S101">
+               <span class="count sev-3">
+                  5
+               </span>
+               <strong>S101:</strong> Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="pytest_harvest.tests_raw.test_default_fixtures.source.html#l37">
+                  <tt><i>37</i>     <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">module_results_dct</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;test_foo[</span><span class="si">{i}</span><span class="s1">-</span><span class="si">{p}</span><span class="s1">]&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="pytest_harvest.tests_raw.test_default_fixtures.source.html#l45">
+                  <tt><i>45</i>     <span class="k">assert</span> <span class="n">module_results_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;test_id&#39;</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="pytest_harvest.tests_raw.test_default_fixtures.source.html#l46">
+                  <tt><i>46</i>     <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">module_results_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;test_foo[</span><span class="si">{i}</span><span class="s1">-</span><span class="si">{p}</span><span class="s1">]&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="pytest_harvest.tests_raw.test_default_fixtures.source.html#l56">
+                  <tt><i>56</i>     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">session_results_dct</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">items</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">HARVEST_PREFIX</span> <span class="o">+</span> <span class="s1">&#39;call&#39;</span><span class="p">)])</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="pytest_harvest.tests_raw.test_default_fixtures.source.html#l64">
+                  <tt><i>64</i>     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">session_results_df</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">items</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">HARVEST_PREFIX</span> <span class="o">+</span> <span class="s1">&#39;call&#39;</span><span class="p">)])</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="T001">
+               <span class="count sev-3">
+                  1
+               </span>
+               <strong>T001:</strong> print found.
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="pytest_harvest.tests_raw.test_default_fixtures.source.html#l30">
+                  <tt><i>30</i>     <span class="nb">print</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="n">a_number_str</span><span class="p">)</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

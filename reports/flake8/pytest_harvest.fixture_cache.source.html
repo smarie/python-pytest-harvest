@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>pytest_harvest/fixture_cache.py - flake8 annotated source</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <h1>
+            <a href="pytest_harvest.fixture_cache.report.html">
+               <img src="back.svg" alt="&#x2B05;">
+               pytest_harvest/fixture_cache.py source
+            </a>
+         </h1>
+
+         <div id="doc">
+            <div id="l1"
+               class="code sev- "><tt><i>1</i> <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span></tt>
+            </div>
+            <div id="l2"
+               class="code sev- "><tt><i>2</i> <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">isgeneratorfunction</span></tt>
+            </div>
+            <div id="l3"
+               class="code sev- "><tt><i>3</i> &nbsp;</tt>
+            </div>
+            <div id="l4"
+               class="code sev- "><tt><i>4</i> <span class="kn">from</span> <span class="nn">decopatch</span> <span class="kn">import</span> <span class="n">DECORATED</span><span class="p">,</span> <span class="n">function_decorator</span></tt>
+            </div>
+            <div id="l5"
+               class="code sev- "><tt><i>5</i> <span class="kn">from</span> <span class="nn">makefun</span> <span class="kn">import</span> <span class="n">wraps</span><span class="p">,</span> <span class="n">add_signature_parameters</span></tt>
+            </div>
+            <div id="l6"
+               class="code sev- "><tt><i>6</i> <span class="kn">from</span> <span class="nn">six</span> <span class="kn">import</span> <span class="n">string_types</span></tt>
+            </div>
+            <div id="l7"
+               class="code sev- "><tt><i>7</i> &nbsp;</tt>
+            </div>
+            <div id="l8"
+               class="code sev- "><tt><i>8</i> <span class="kn">from</span> <span class="nn">pytest_harvest.common</span> <span class="kn">import</span> <span class="n">get_scope</span></tt>
+            </div>
+            <div id="l9"
+               class="code sev- "><tt><i>9</i> &nbsp;</tt>
+            </div>
+            <div id="l10"
+               class="code sev- "><tt><i>10</i> <span class="k">try</span><span class="p">:</span>  <span class="c1"># python 3+</span></tt>
+            </div>
+            <div id="l11"
+               class="code sev- "><tt><i>11</i>     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Callable</span></tt>
+            </div>
+            <div id="l12"
+               class="code sev- "><tt><i>12</i> <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span></tt>
+            </div>
+            <div id="l13"
+               class="code sev- "><tt><i>13</i>     <span class="k">pass</span></tt>
+            </div>
+            <div id="l14"
+               class="code sev- "><tt><i>14</i> &nbsp;</tt>
+            </div>
+            <div id="l15"
+               class="code sev- "><tt><i>15</i> <span class="k">try</span><span class="p">:</span>  <span class="c1"># python 3.3+</span></tt>
+            </div>
+            <div id="l16"
+               class="code sev- "><tt><i>16</i>     <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">signature</span><span class="p">,</span> <span class="n">Parameter</span></tt>
+            </div>
+            <div id="l17"
+               class="code sev- "><tt><i>17</i> <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span></tt>
+            </div>
+            <div id="l18"
+               class="code sev- "><tt><i>18</i>     <span class="kn">from</span> <span class="nn">funcsigs</span> <span class="kn">import</span> <span class="n">signature</span><span class="p">,</span> <span class="n">Parameter</span></tt>
+            </div>
+            <div id="l19"
+               class="code sev- "><tt><i>19</i> &nbsp;</tt>
+            </div>
+            <div id="l20"
+               class="code sev- "><tt><i>20</i> &nbsp;</tt>
+            </div>
+            <div id="l21"
+               class="code sev- "><tt><i>21</i> <span class="nd">@function_decorator</span></tt>
+            </div>
+            <div id="l22"
+               class="code sev- "><tt><i>22</i> <span class="k">def</span> <span class="nf">saved_fixture</span><span class="p">(</span><span class="n">store</span><span class="o">=</span><span class="s1">&#39;fixture_store&#39;</span><span class="p">,</span>  <span class="c1"># type: Union[str, Dict[str, Any]]</span></tt>
+            </div>
+            <div id="l23"
+               class="code sev- "><tt><i>23</i>                   <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>               <span class="c1"># type: str</span></tt>
+            </div>
+            <div id="l24"
+               class="code sev- "><tt><i>24</i>                   <span class="n">views</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>             <span class="c1"># type: Dict[str, Callable[[Any], Any]]</span></tt>
+            </div>
+            <div id="l25"
+               class="code sev- "><tt><i>25</i>                   <span class="n">save_raw</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>          <span class="c1"># type: bool</span></tt>
+            </div>
+            <div id="l26"
+               class="code sev- "><tt><i>26</i>                   <span class="n">fixture_fun</span><span class="o">=</span><span class="n">DECORATED</span></tt>
+            </div>
+            <div id="l27"
+               class="code sev- "><tt><i>27</i>                   <span class="p">):</span></tt>
+            </div>
+            <div id="l28"
+               class="code sev- "><tt><i>28</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l29"
+               class="code sev- "><tt><i>29</i> <span class="sd">    Decorates a fixture so that it is saved in `store`. `store` can be a dict-like variable or a string</span></tt>
+            </div>
+            <div id="l30"
+               class="code sev- "><tt><i>30</i> <span class="sd">    representing a fixture name to a dict-like session-scoped fixture. By default it uses the global &#39;fixture_store&#39;</span></tt>
+            </div>
+            <div id="l31"
+               class="code sev- "><tt><i>31</i> <span class="sd">    fixture provided by this plugin.</span></tt>
+            </div>
+            <div id="l32"
+               class="code sev- "><tt><i>32</i> &nbsp;</tt>
+            </div>
+            <div id="l33"
+               class="code sev- "><tt><i>33</i> <span class="sd">    After executing all tests, `&lt;store&gt;` will contain a new item under key `&lt;key&gt;` (default is the name of the fixture).</span></tt>
+            </div>
+            <div id="l34"
+               class="code sev- "><tt><i>34</i> <span class="sd">    This item is a dictionary &lt;test_id&gt;: &lt;fixture_value&gt; for each test node where the fixture was setup.</span></tt>
+            </div>
+            <div id="l35"
+               class="code sev- "><tt><i>35</i> &nbsp;</tt>
+            </div>
+            <div id="l36"
+               class="code sev- "><tt><i>36</i> <span class="sd">    ```python</span></tt>
+            </div>
+            <div id="l37"
+               class="code sev- "><tt><i>37</i> <span class="sd">    import pytest</span></tt>
+            </div>
+            <div id="l38"
+               class="code sev- "><tt><i>38</i> <span class="sd">    from pytest_harvest import saved_fixture</span></tt>
+            </div>
+            <div id="l39"
+               class="code sev- "><tt><i>39</i> &nbsp;</tt>
+            </div>
+            <div id="l40"
+               class="code sev- "><tt><i>40</i> <span class="sd">    @pytest.fixture</span></tt>
+            </div>
+            <div id="l41"
+               class="code sev- "><tt><i>41</i> <span class="sd">    @saved_fixture</span></tt>
+            </div>
+            <div id="l42"
+               class="code sev- "><tt><i>42</i> <span class="sd">    def dummy():</span></tt>
+            </div>
+            <div id="l43"
+               class="code sev- "><tt><i>43</i> <span class="sd">        return 1</span></tt>
+            </div>
+            <div id="l44"
+               class="code sev- "><tt><i>44</i> &nbsp;</tt>
+            </div>
+            <div id="l45"
+               class="code sev- "><tt><i>45</i> <span class="sd">    def test_dummy(dummy):</span></tt>
+            </div>
+            <div id="l46"
+               class="code sev- "><tt><i>46</i> <span class="sd">        pass</span></tt>
+            </div>
+            <div id="l47"
+               class="code sev- "><tt><i>47</i> &nbsp;</tt>
+            </div>
+            <div id="l48"
+               class="code sev- "><tt><i>48</i> <span class="sd">    def test_synthesis(fixture_store):</span></tt>
+            </div>
+            <div id="l49"
+               class="code sev- "><tt><i>49</i> <span class="sd">        print(fixture_store[&#39;dummy&#39;])</span></tt>
+            </div>
+            <div id="l50"
+               class="code sev- "><tt><i>50</i> <span class="sd">    ```</span></tt>
+            </div>
+            <div id="l51"
+               class="code sev- "><tt><i>51</i> &nbsp;</tt>
+            </div>
+            <div id="l52"
+               class="code sev- "><tt><i>52</i> <span class="sd">    Note that for session-scoped and module-scoped fixtures, not all test ids will appear in the store - only those</span></tt>
+            </div>
+            <div id="l53"
+               class="code sev- "><tt><i>53</i> <span class="sd">    for which the fixture was (re)created.</span></tt>
+            </div>
+            <div id="l54"
+               class="code sev- "><tt><i>54</i> &nbsp;</tt>
+            </div>
+            <div id="l55"
+               class="code sev- "><tt><i>55</i> <span class="sd">    Users can save additional views created from the fixture instance by applying transforms (callable functions). To</span></tt>
+            </div>
+            <div id="l56"
+               class="code sev- "><tt><i>56</i> <span class="sd">    do this, users can provide a dictionary under the `views` argument, containing a `{&lt;key&gt;: &lt;procedure&gt;}` dict-like.</span></tt>
+            </div>
+            <div id="l57"
+               class="code sev- "><tt><i>57</i> <span class="sd">    For each entry, `&lt;procedure&gt;` will be applied on the fixture instance, and the result will be stored under `&lt;key&gt;`.</span></tt>
+            </div>
+            <div id="l58"
+               class="code sev- "><tt><i>58</i> <span class="sd">    `save_raw` controls whether the fixture instance should still be saved in this case (default: `True` if</span></tt>
+            </div>
+            <div id="l59"
+               class="code sev- "><tt><i>59</i> <span class="sd">    `views is None`, `False` otherwise).</span></tt>
+            </div>
+            <div id="l60"
+               class="code sev- "><tt><i>60</i> &nbsp;</tt>
+            </div>
+            <div id="l61"
+               class="code sev- "><tt><i>61</i> <span class="sd">    :param store: a dict-like object or a fixture name corresponding to a dict-like object. in this dictionary, a new</span></tt>
+            </div>
+            <div id="l62"
+               class="code sev- "><tt><i>62</i> <span class="sd">        entry will be added for the fixture. This entry will contain a dictionary &lt;test_id&gt;: &lt;fixture_value&gt; for each</span></tt>
+            </div>
+            <div id="l63"
+               class="code sev- "><tt><i>63</i> <span class="sd">        test node. By default fixtures are stored in the `fixture_store``fixture.</span></tt>
+            </div>
+            <div id="l64"
+               class="code sev- "><tt><i>64</i> <span class="sd">    :param key: the name associated with the stored fixture in the store. By default this is the fixture name.</span></tt>
+            </div>
+            <div id="l65"
+               class="code sev- "><tt><i>65</i> <span class="sd">    :param views: an optional dictionary that can be provided to store views created from the fixture, rather than (or</span></tt>
+            </div>
+            <div id="l66"
+               class="code sev- "><tt><i>66</i> <span class="sd">        in addition to, if `save_raw=True`) the fixture itself. The dict should contain a `{&lt;key&gt;: &lt;procedure&gt;}`</span></tt>
+            </div>
+            <div id="l67"
+               class="code sev- "><tt><i>67</i> <span class="sd">        dict-like. For each entry, `&lt;procedure&gt;` will be applied on the fixture instance, and the result will be stored</span></tt>
+            </div>
+            <div id="l68"
+               class="code sev- "><tt><i>68</i> <span class="sd">        under `&lt;key&gt;`.</span></tt>
+            </div>
+            <div id="l69"
+               class="code sev- "><tt><i>69</i> <span class="sd">    :param save_raw: controls whether the fixture instance should be saved. `None` (Default) is an automatic behaviour</span></tt>
+            </div>
+            <div id="l70"
+               class="code sev- "><tt><i>70</i> <span class="sd">        meaning &quot;`True` if `views is None`, `False` otherwise&quot;.</span></tt>
+            </div>
+            <div id="l71"
+               class="code sev- "><tt><i>71</i> <span class="sd">    :return: a fixture that will be stored</span></tt>
+            </div>
+            <div id="l72"
+               class="code sev- "><tt><i>72</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l73"
+               class="code sev- "><tt><i>73</i>     <span class="c1"># default: if views is None, we save the raw fixture. If user wants to save views, we do not save the raw</span></tt>
+            </div>
+            <div id="l74"
+               class="code sev- "><tt><i>74</i>     <span class="k">if</span> <span class="n">save_raw</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span></tt>
+            </div>
+            <div id="l75"
+               class="code sev- "><tt><i>75</i>         <span class="n">save_raw</span> <span class="o">=</span> <span class="n">views</span> <span class="ow">is</span> <span class="kc">None</span></tt>
+            </div>
+            <div id="l76"
+               class="code sev- "><tt><i>76</i> &nbsp;</tt>
+            </div>
+            <div id="l77"
+               class="code sev- "><tt><i>77</i>     <span class="c1"># Simply get the function name</span></tt>
+            </div>
+            <div id="l78"
+               class="code sev- "><tt><i>78</i>     <span class="n">fixture_name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">fixture_fun</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">(</span><span class="n">fixture_fun</span><span class="p">)</span></tt>
+            </div>
+            <div id="l79"
+               class="code sev- "><tt><i>79</i> &nbsp;</tt>
+            </div>
+            <div id="l80"
+               class="code sev- "><tt><i>80</i>     <span class="c1"># Name to use for storage</span></tt>
+            </div>
+            <div id="l81"
+               class="code sev- "><tt><i>81</i>     <span class="n">key</span> <span class="o">=</span> <span class="n">key</span> <span class="ow">or</span> <span class="n">fixture_name</span></tt>
+            </div>
+            <div id="l82"
+               class="code sev- "><tt><i>82</i> &nbsp;</tt>
+            </div>
+            <div id="l83"
+               class="code sev- "><tt><i>83</i>     <span class="c1"># is the store a fixture or an object ?</span></tt>
+            </div>
+            <div id="l84"
+               class="code sev- "><tt><i>84</i>     <span class="n">store_is_a_fixture</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="n">string_types</span><span class="p">)</span></tt>
+            </div>
+            <div id="l85"
+               class="code sev- "><tt><i>85</i> &nbsp;</tt>
+            </div>
+            <div id="l86"
+               class="code sev- "><tt><i>86</i>     <span class="c1"># if the store object is already available, we can ensure that it is initialized. Otherwise trust pytest for that</span></tt>
+            </div>
+            <div id="l87"
+               class="code sev- "><tt><i>87</i>     <span class="k">if</span> <span class="ow">not</span> <span class="n">store_is_a_fixture</span><span class="p">:</span></tt>
+            </div>
+            <div id="l88"
+               class="code sev- "><tt><i>88</i>         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">store</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span></tt>
+            </div>
+            <div id="l89"
+               class="code sev- "><tt><i>89</i>             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Key &#39;</span><span class="si">%s</span><span class="s2">&#39; already exists in store object. Please make sure that your store object is &quot;</span></tt>
+            </div>
+            <div id="l90"
+               class="code sev- "><tt><i>90</i>                              <span class="s2">&quot;properly initialized as an empty dict-like object, and/or provide a different custom &quot;</span></tt>
+            </div>
+            <div id="l91"
+               class="code sev- "><tt><i>91</i>                              <span class="s2">&quot;`name` if two stored fixtures share the same storage key name.&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l92"
+               class="code sev- "><tt><i>92</i> &nbsp;</tt>
+            </div>
+            <div id="l93"
+               class="code sev- "><tt><i>93</i>     <span class="c1"># Note: we can not init the storage[key] entry here because when storage is a fixture, it does not yet exist.</span></tt>
+            </div>
+            <div id="l94"
+               class="code sev- "><tt><i>94</i> &nbsp;</tt>
+            </div>
+            <div id="l95"
+               class="code sev- "><tt><i>95</i>     <span class="k">def</span> <span class="nf">_init_and_check</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">store</span><span class="p">):</span></tt>
+            </div>
+            <div id="l96"
+               class="code sev- "><tt><i>96</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;Performs a few checks and returns the key to use for saving (the node id)&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l97"
+               class="code sev- "><tt><i>97</i>         <span class="c1"># find the current node id depending on the scope</span></tt>
+            </div>
+            <div id="l98"
+               class="code sev- "><tt><i>98</i>         <span class="n">scope</span> <span class="o">=</span> <span class="n">get_scope</span><span class="p">(</span><span class="n">request</span><span class="p">)</span></tt>
+            </div>
+            <div id="l99"
+               class="code sev- "><tt><i>99</i>         <span class="k">if</span> <span class="n">scope</span> <span class="o">==</span> <span class="s1">&#39;function&#39;</span><span class="p">:</span></tt>
+            </div>
+            <div id="l100"
+               class="code sev- "><tt><i>100</i>             <span class="n">nodeid</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">nodeid</span></tt>
+            </div>
+            <div id="l101"
+               class="code sev- "><tt><i>101</i>         <span class="k">else</span><span class="p">:</span></tt>
+            </div>
+            <div id="l102"
+               class="code sev- "><tt><i>102</i>             <span class="c1"># session- or module-scope</span></tt>
+            </div>
+            <div id="l103"
+               class="code sev- "><tt><i>103</i>             <span class="c1"># raise Exception(&quot;The `@saved_fixture` decorator is only applicable to function-scope fixtures. `%s`&quot;</span></tt>
+            </div>
+            <div id="l104"
+               class="code sev- "><tt><i>104</i>             <span class="c1">#                 &quot; seems to have scope=&#39;%s&#39;. Consider removing `@saved_fixture` or changing &quot;</span></tt>
+            </div>
+            <div id="l105"
+               class="code sev- "><tt><i>105</i>             <span class="c1">#                 &quot;the scope to &#39;function&#39;.&quot; % (fixture_fun, scope))</span></tt>
+            </div>
+            <div id="l106"
+               class="code sev- "><tt><i>106</i>             <span class="n">nodeid</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">_pyfuncitem</span><span class="o">.</span><span class="n">nodeid</span></tt>
+            </div>
+            <div id="l107"
+               class="code sev- "><tt><i>107</i> &nbsp;</tt>
+            </div>
+            <div id="l108"
+               class="code sev- "><tt><i>108</i>         <span class="c1"># Init storage if needed</span></tt>
+            </div>
+            <div id="l109"
+               class="code sev- "><tt><i>109</i>         <span class="k">if</span> <span class="n">save_raw</span><span class="p">:</span></tt>
+            </div>
+            <div id="l110"
+               class="code sev- "><tt><i>110</i>             <span class="c1"># init</span></tt>
+            </div>
+            <div id="l111"
+               class="code sev- "><tt><i>111</i>             <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">store</span><span class="p">:</span></tt>
+            </div>
+            <div id="l112"
+               class="code sev- "><tt><i>112</i>                 <span class="n">store</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span></tt>
+            </div>
+            <div id="l113"
+               class="code sev- "><tt><i>113</i>             <span class="c1"># Check that the node id is unique</span></tt>
+            </div>
+            <div id="l114"
+               class="code sev- "><tt><i>114</i>             <span class="k">if</span> <span class="n">nodeid</span> <span class="ow">in</span> <span class="n">store</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span></tt>
+            </div>
+            <div id="l115"
+               class="code sev- "><tt><i>115</i>                 <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Internal Error - This fixture &#39;</span><span class="si">%s</span><span class="s2">&#39; was already &quot;</span></tt>
+            </div>
+            <div id="l116"
+               class="code sev- "><tt><i>116</i>                                <span class="s2">&quot;stored for test id &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">nodeid</span><span class="p">))</span></tt>
+            </div>
+            <div id="l117"
+               class="code sev- "><tt><i>117</i> &nbsp;</tt>
+            </div>
+            <div id="l118"
+               class="code sev- "><tt><i>118</i>         <span class="k">if</span> <span class="n">views</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span></tt>
+            </div>
+            <div id="l119"
+               class="code sev- "><tt><i>119</i>             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">views</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span></tt>
+            </div>
+            <div id="l120"
+               class="code sev- "><tt><i>120</i>                 <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">store</span><span class="p">:</span></tt>
+            </div>
+            <div id="l121"
+               class="code sev- "><tt><i>121</i>                     <span class="n">store</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span></tt>
+            </div>
+            <div id="l122"
+               class="code sev- "><tt><i>122</i>                 <span class="c1"># Check that the node id is unique</span></tt>
+            </div>
+            <div id="l123"
+               class="code sev- "><tt><i>123</i>                 <span class="k">if</span> <span class="n">nodeid</span> <span class="ow">in</span> <span class="n">store</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span></tt>
+            </div>
+            <div id="l124"
+               class="code sev- "><tt><i>124</i>                     <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Internal Error - This fixture view &#39;</span><span class="si">%s</span><span class="s2">&#39; was already &quot;</span></tt>
+            </div>
+            <div id="l125"
+               class="code sev- "><tt><i>125</i>                                    <span class="s2">&quot;stored for test id &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">nodeid</span><span class="p">))</span></tt>
+            </div>
+            <div id="l126"
+               class="code sev- "><tt><i>126</i> &nbsp;</tt>
+            </div>
+            <div id="l127"
+               class="code sev- "><tt><i>127</i>         <span class="k">return</span> <span class="n">nodeid</span></tt>
+            </div>
+            <div id="l128"
+               class="code sev- "><tt><i>128</i> &nbsp;</tt>
+            </div>
+            <div id="l129"
+               class="code sev- "><tt><i>129</i>     <span class="c1"># We will expose a new signature with additional arguments</span></tt>
+            </div>
+            <div id="l130"
+               class="code sev- "><tt><i>130</i>     <span class="n">orig_sig</span> <span class="o">=</span> <span class="n">signature</span><span class="p">(</span><span class="n">fixture_fun</span><span class="p">)</span></tt>
+            </div>
+            <div id="l131"
+               class="code sev- "><tt><i>131</i>     <span class="n">func_needs_request</span> <span class="o">=</span> <span class="s1">&#39;request&#39;</span> <span class="ow">in</span> <span class="n">orig_sig</span><span class="o">.</span><span class="n">parameters</span></tt>
+            </div>
+            <div id="l132"
+               class="code sev- "><tt><i>132</i>     <span class="n">new_args</span> <span class="o">=</span> <span class="p">((</span><span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;request&#39;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Parameter</span><span class="o">.</span><span class="n">POSITIONAL_OR_KEYWORD</span><span class="p">),)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">func_needs_request</span> <span class="k">else</span> <span class="p">())</span> \</tt>
+            </div>
+            <div id="l133"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E127
+                     </span>
+                     Continuation line over-indented for visual indent</li>
+               
+               </ul><tt><i>133</i>                <span class="o">+</span> <span class="p">((</span><span class="n">Parameter</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">Parameter</span><span class="o">.</span><span class="n">POSITIONAL_OR_KEYWORD</span><span class="p">),)</span> <span class="k">if</span> <span class="n">store_is_a_fixture</span> <span class="k">else</span> <span class="p">())</span></tt>
+            </div>
+            <div id="l134"
+               class="code sev- "><tt><i>134</i>     <span class="n">new_sig</span> <span class="o">=</span> <span class="n">add_signature_parameters</span><span class="p">(</span><span class="n">orig_sig</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="n">new_args</span><span class="p">)</span></tt>
+            </div>
+            <div id="l135"
+               class="code sev- "><tt><i>135</i> &nbsp;</tt>
+            </div>
+            <div id="l136"
+               class="code sev- "><tt><i>136</i>     <span class="c1"># Wrap the fixture in the correct mode (generator or not)</span></tt>
+            </div>
+            <div id="l137"
+               class="code sev- "><tt><i>137</i>     <span class="k">if</span> <span class="ow">not</span> <span class="n">isgeneratorfunction</span><span class="p">(</span><span class="n">fixture_fun</span><span class="p">):</span></tt>
+            </div>
+            <div id="l138"
+               class="code sev- "><tt><i>138</i>         <span class="nd">@wraps</span><span class="p">(</span><span class="n">fixture_fun</span><span class="p">,</span> <span class="n">new_sig</span><span class="o">=</span><span class="n">new_sig</span><span class="p">)</span></tt>
+            </div>
+            <div id="l139"
+               class="code sev- "><tt><i>139</i>         <span class="k">def</span> <span class="nf">stored_fixture_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></tt>
+            </div>
+            <div id="l140"
+               class="code sev- "><tt><i>140</i> <span class="w">            </span><span class="sd">&quot;&quot;&quot;Wraps a fixture so as to store it before it is returned&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l141"
+               class="code sev- "><tt><i>141</i>             <span class="c1"># get the actual store object</span></tt>
+            </div>
+            <div id="l142"
+               class="code sev- "><tt><i>142</i>             <span class="k">if</span> <span class="n">store_is_a_fixture</span><span class="p">:</span></tt>
+            </div>
+            <div id="l143"
+               class="code sev- "><tt><i>143</i>                 <span class="n">store_</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>  <span class="c1"># read and remove it</span></tt>
+            </div>
+            <div id="l144"
+               class="code sev- "><tt><i>144</i>             <span class="k">else</span><span class="p">:</span></tt>
+            </div>
+            <div id="l145"
+               class="code sev- "><tt><i>145</i>                 <span class="c1"># use the variable from outer scope (from `make_saved_fixture`)</span></tt>
+            </div>
+            <div id="l146"
+               class="code sev- "><tt><i>146</i>                 <span class="n">store_</span> <span class="o">=</span> <span class="n">store</span></tt>
+            </div>
+            <div id="l147"
+               class="code sev- "><tt><i>147</i>             <span class="n">request</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;request&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">func_needs_request</span> <span class="k">else</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;request&#39;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l148"
+               class="code sev- "><tt><i>148</i>             <span class="n">nodeid</span> <span class="o">=</span> <span class="n">_init_and_check</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">store_</span><span class="p">)</span></tt>
+            </div>
+            <div id="l149"
+               class="code sev- "><tt><i>149</i>             <span class="n">fixture_value</span> <span class="o">=</span> <span class="n">fixture_fun</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>                                        <span class="c1"># Get the fixture</span></tt>
+            </div>
+            <div id="l150"
+               class="code sev- "><tt><i>150</i>             <span class="n">_store_fixture_and_views</span><span class="p">(</span><span class="n">store_</span><span class="p">,</span> <span class="n">nodeid</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">fixture_value</span><span class="p">,</span> <span class="n">views</span><span class="p">,</span> <span class="n">save_raw</span><span class="p">)</span>  <span class="c1"># Store it</span></tt>
+            </div>
+            <div id="l151"
+               class="code sev- "><tt><i>151</i>             <span class="k">return</span> <span class="n">fixture_value</span>                                                      <span class="c1"># Return it</span></tt>
+            </div>
+            <div id="l152"
+               class="code sev- "><tt><i>152</i> &nbsp;</tt>
+            </div>
+            <div id="l153"
+               class="code sev- "><tt><i>153</i>     <span class="k">else</span><span class="p">:</span></tt>
+            </div>
+            <div id="l154"
+               class="code sev- "><tt><i>154</i>         <span class="nd">@wraps</span><span class="p">(</span><span class="n">fixture_fun</span><span class="p">,</span> <span class="n">new_sig</span><span class="o">=</span><span class="n">new_sig</span><span class="p">)</span></tt>
+            </div>
+            <div id="l155"
+               class="code sev- "><tt><i>155</i>         <span class="k">def</span> <span class="nf">stored_fixture_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></tt>
+            </div>
+            <div id="l156"
+               class="code sev- "><tt><i>156</i> <span class="w">            </span><span class="sd">&quot;&quot;&quot;Wraps a fixture so as to store it before it is returned (generator mode)&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l157"
+               class="code sev- "><tt><i>157</i>             <span class="c1"># get the actual store object</span></tt>
+            </div>
+            <div id="l158"
+               class="code sev- "><tt><i>158</i>             <span class="k">if</span> <span class="n">store_is_a_fixture</span><span class="p">:</span></tt>
+            </div>
+            <div id="l159"
+               class="code sev- "><tt><i>159</i>                 <span class="n">store_</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">store</span><span class="p">)</span></tt>
+            </div>
+            <div id="l160"
+               class="code sev- "><tt><i>160</i>             <span class="k">else</span><span class="p">:</span></tt>
+            </div>
+            <div id="l161"
+               class="code sev- "><tt><i>161</i>                 <span class="c1"># use the variable from outer scope (from `make_saved_fixture`)</span></tt>
+            </div>
+            <div id="l162"
+               class="code sev- "><tt><i>162</i>                 <span class="n">store_</span> <span class="o">=</span> <span class="n">store</span></tt>
+            </div>
+            <div id="l163"
+               class="code sev- "><tt><i>163</i>             <span class="n">request</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;request&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">func_needs_request</span> <span class="k">else</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;request&#39;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l164"
+               class="code sev- "><tt><i>164</i>             <span class="n">nodeid</span> <span class="o">=</span> <span class="n">_init_and_check</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">store_</span><span class="p">)</span></tt>
+            </div>
+            <div id="l165"
+               class="code sev- "><tt><i>165</i>             <span class="n">gen</span> <span class="o">=</span> <span class="n">fixture_fun</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></tt>
+            </div>
+            <div id="l166"
+               class="code sev- "><tt><i>166</i>             <span class="n">fixture_value</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>                                                <span class="c1"># Get the fixture</span></tt>
+            </div>
+            <div id="l167"
+               class="code sev- "><tt><i>167</i>             <span class="n">_store_fixture_and_views</span><span class="p">(</span><span class="n">store_</span><span class="p">,</span> <span class="n">nodeid</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">fixture_value</span><span class="p">,</span> <span class="n">views</span><span class="p">,</span> <span class="n">save_raw</span><span class="p">)</span>  <span class="c1"># Store it</span></tt>
+            </div>
+            <div id="l168"
+               class="code sev- "><tt><i>168</i>             <span class="k">yield</span> <span class="n">fixture_value</span>                                                      <span class="c1"># Return it</span></tt>
+            </div>
+            <div id="l169"
+               class="code sev- "><tt><i>169</i> &nbsp;</tt>
+            </div>
+            <div id="l170"
+               class="code sev- "><tt><i>170</i>             <span class="c1"># Make sure to terminate the underlying generator</span></tt>
+            </div>
+            <div id="l171"
+               class="code sev- "><tt><i>171</i>             <span class="k">try</span><span class="p">:</span></tt>
+            </div>
+            <div id="l172"
+               class="code sev- "><tt><i>172</i>                 <span class="nb">next</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span></tt>
+            </div>
+            <div id="l173"
+               class="code sev- "><tt><i>173</i>             <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span></tt>
+            </div>
+            <div id="l174"
+               class="code sev- "><tt><i>174</i>                 <span class="k">pass</span></tt>
+            </div>
+            <div id="l175"
+               class="code sev- "><tt><i>175</i> &nbsp;</tt>
+            </div>
+            <div id="l176"
+               class="code sev- "><tt><i>176</i>     <span class="k">return</span> <span class="n">stored_fixture_function</span></tt>
+            </div>
+            <div id="l177"
+               class="code sev- "><tt><i>177</i> &nbsp;</tt>
+            </div>
+            <div id="l178"
+               class="code sev- "><tt><i>178</i> &nbsp;</tt>
+            </div>
+            <div id="l179"
+               class="code sev- "><tt><i>179</i> <span class="k">def</span> <span class="nf">_store_fixture_and_views</span><span class="p">(</span><span class="n">store_</span><span class="p">,</span></tt>
+            </div>
+            <div id="l180"
+               class="code sev- "><tt><i>180</i>                              <span class="n">node_id</span><span class="p">,</span></tt>
+            </div>
+            <div id="l181"
+               class="code sev- "><tt><i>181</i>                              <span class="n">main_key</span><span class="p">,</span></tt>
+            </div>
+            <div id="l182"
+               class="code sev- "><tt><i>182</i>                              <span class="n">fixture_value</span><span class="p">,</span></tt>
+            </div>
+            <div id="l183"
+               class="code sev- "><tt><i>183</i>                              <span class="n">views</span><span class="p">,</span></tt>
+            </div>
+            <div id="l184"
+               class="code sev- "><tt><i>184</i>                              <span class="n">save_raw</span><span class="p">):</span></tt>
+            </div>
+            <div id="l185"
+               class="code sev- "><tt><i>185</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l186"
+               class="code sev- "><tt><i>186</i> &nbsp;</tt>
+            </div>
+            <div id="l187"
+               class="code sev- "><tt><i>187</i> <span class="sd">    :param store_:</span></tt>
+            </div>
+            <div id="l188"
+               class="code sev- "><tt><i>188</i> <span class="sd">    :param node_id:</span></tt>
+            </div>
+            <div id="l189"
+               class="code sev- "><tt><i>189</i> <span class="sd">    :param main_key:</span></tt>
+            </div>
+            <div id="l190"
+               class="code sev- "><tt><i>190</i> <span class="sd">    :param fixture_value:</span></tt>
+            </div>
+            <div id="l191"
+               class="code sev- "><tt><i>191</i> <span class="sd">    :param views:</span></tt>
+            </div>
+            <div id="l192"
+               class="code sev- "><tt><i>192</i> <span class="sd">    :param save_raw:</span></tt>
+            </div>
+            <div id="l193"
+               class="code sev- "><tt><i>193</i> <span class="sd">    :return:</span></tt>
+            </div>
+            <div id="l194"
+               class="code sev- "><tt><i>194</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l195"
+               class="code sev- "><tt><i>195</i>     <span class="n">fix_val</span> <span class="o">=</span> <span class="n">_get_underlying_fixture</span><span class="p">(</span><span class="n">fixture_value</span><span class="p">)</span></tt>
+            </div>
+            <div id="l196"
+               class="code sev- "><tt><i>196</i> &nbsp;</tt>
+            </div>
+            <div id="l197"
+               class="code sev- "><tt><i>197</i>     <span class="k">if</span> <span class="n">save_raw</span><span class="p">:</span></tt>
+            </div>
+            <div id="l198"
+               class="code sev- "><tt><i>198</i>         <span class="c1"># store the fixture value itself</span></tt>
+            </div>
+            <div id="l199"
+               class="code sev- "><tt><i>199</i>         <span class="n">store_</span><span class="p">[</span><span class="n">main_key</span><span class="p">][</span><span class="n">node_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">fix_val</span></tt>
+            </div>
+            <div id="l200"
+               class="code sev- "><tt><i>200</i> &nbsp;</tt>
+            </div>
+            <div id="l201"
+               class="code sev- "><tt><i>201</i>     <span class="k">if</span> <span class="n">views</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span></tt>
+            </div>
+            <div id="l202"
+               class="code sev- "><tt><i>202</i>         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">proc</span> <span class="ow">in</span> <span class="n">views</span><span class="o">.</span><span class="n">items</span><span class="p">():</span></tt>
+            </div>
+            <div id="l203"
+               class="code sev- "><tt><i>203</i>             <span class="c1"># store each view</span></tt>
+            </div>
+            <div id="l204"
+               class="code sev- "><tt><i>204</i>             <span class="n">store_</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">node_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">proc</span><span class="p">(</span><span class="n">fix_val</span><span class="p">)</span></tt>
+            </div>
+            <div id="l205"
+               class="code sev- "><tt><i>205</i> &nbsp;</tt>
+            </div>
+            <div id="l206"
+               class="code sev- "><tt><i>206</i> &nbsp;</tt>
+            </div>
+            <div id="l207"
+               class="code sev- "><tt><i>207</i> <span class="k">def</span> <span class="nf">_get_underlying_fixture</span><span class="p">(</span><span class="n">f</span><span class="p">):</span></tt>
+            </div>
+            <div id="l208"
+               class="code sev- "><tt><i>208</i>     <span class="k">try</span><span class="p">:</span></tt>
+            </div>
+            <div id="l209"
+               class="code sev- "><tt><i>209</i>         <span class="kn">from</span> <span class="nn">pytest_steps.steps_generator</span> <span class="kn">import</span> <span class="n">get_underlying_fixture</span></tt>
+            </div>
+            <div id="l210"
+               class="code sev- "><tt><i>210</i>         <span class="k">return</span> <span class="n">get_underlying_fixture</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></tt>
+            </div>
+            <div id="l211"
+               class="code sev- "><tt><i>211</i>     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span></tt>
+            </div>
+            <div id="l212"
+               class="code sev- "><tt><i>212</i>         <span class="k">return</span> <span class="n">f</span></tt>
+            </div>
+            
+         </div>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: pytest_harvest/results_session.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="pytest_harvest.results_session.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               pytest_harvest/results_session.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="E127">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>E127:</strong> continuation line over-indented for visual indent
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="pytest_harvest.results_session.source.html#l317">
+                  <tt><i>317</i>                <span class="ow">and</span> <span class="ow">not</span> <span class="n">dset</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">)]</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="pytest_harvest.results_session.source.html#l350">
+                  <tt><i>350</i>                <span class="ow">and</span> <span class="ow">not</span> <span class="n">dset</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">)]</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E402">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>E402:</strong> module level import not at top of file
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="pytest_harvest.results_session.source.html#l33">
+                  <tt><i>33</i> <span class="kn">from</span> <span class="nn">pytest_harvest.common</span> <span class="kn">import</span> <span class="n">HARVEST_PREFIX</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="pytest_harvest.results_session.source.html#l34">
+                  <tt><i>34</i> <span class="kn">from</span> <span class="nn">_pytest.doctest</span> <span class="kn">import</span> <span class="n">DoctestItem</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E117">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>E117:</strong> over-indented (comment)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="pytest_harvest.results_session.source.html#l534">
+                  <tt><i>534</i>                 <span class="c1"># if param_name in item.callspec.params: NO ! it would only return fixtures when they are *directly* parametrized</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E261">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>E261:</strong> at least two spaces before inline comment
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="pytest_harvest.results_session.source.html#l28">
+                  <tt><i>28</i> <span class="k">try</span><span class="p">:</span> <span class="c1"># python 3.5+</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E501">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>E501:</strong> line too long (129 > 120 characters)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="pytest_harvest.results_session.source.html#l534">
+                  <tt><i>534</i>                 <span class="c1"># if param_name in item.callspec.params: NO ! it would only return fixtures when they are *directly* parametrized</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>
