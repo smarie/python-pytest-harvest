@@ -97,12 +97,12 @@ ENVS = {
     (PY311, "pytest-latest"): {"coverage": True, "pkg_specs": {"pip": ">19", "pytest": ""}},
 }
 
-ENV_PARAMS = tuple((k[0], k[1], v["coverage"], v["pkg_specs"]) for k, v in ENVS.items())
-ENV_IDS = tuple(ENVS.keys())
+ENV_PARAMS = tuple((k[0], v["coverage"], v["pkg_specs"]) for k, v in ENVS.items())
+ENV_IDS = tuple(f"{k[0].replace('.', '-')}-env-{k[1]}" for k in ENVS)
 
 
 @nox.session
-@nox.parametrize("python,name,coverage,pkg_specs", ENV_PARAMS, ids=ENV_IDS)
+@nox.parametrize("python,coverage,pkg_specs", ENV_PARAMS, ids=ENV_IDS)
 def tests(session, coverage, pkg_specs):
     """Run the test suite, including test reports generation and coverage reports. """
 
