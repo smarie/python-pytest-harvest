@@ -1,12 +1,11 @@
 # META
 # {'passed': 2, 'failed': 0}
 # END META
-from __future__ import unicode_literals  # this is to make sure python 2 unicode string are ok
+
 import os
 import pytest
 
 from collections import OrderedDict
-from random import random
 
 from pytest_harvest import saved_fixture, get_fixture_value
 from pytest_harvest.common import yield_fixture
@@ -14,10 +13,10 @@ from pytest_harvest.common import yield_fixture
 
 # init
 this_file_name = os.path.split(__file__)[1]
-unique_numbers = [random(), random()]
+unique_numbers = [0.296, 0.457]
 
 
-@pytest.fixture(params=unique_numbers)
+@pytest.fixture(params=unique_numbers, scope='session')
 @saved_fixture('store')
 def my_fix(request):
     """Our saved fixture, that will be saved in the store fixture"""
@@ -40,6 +39,7 @@ def store(request):
     store = OrderedDict()
     yield store
 
+    # --------- TEARDOWN: CHECK THAT EVERYTHING IS OK -----------
     # check that this util works
     assert get_fixture_value(request, 'store') == store
 
