@@ -68,8 +68,8 @@ ENVS = {
     (PY39, "pytest7.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<8"}},
     (PY39, "pytest6.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<7"}},
     # python 3.8
-    (PY38, "pytest4.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<5"}},
-    (PY38, "pytest5.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<6", "pytest-asyncio": DONT_INSTALL}},
+    (PY38, "pytest4.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<5", "setuptools": "==71.0.0"}},
+    (PY38, "pytest5.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<6", "setuptools": "==71.0.0", "pytest-asyncio": DONT_INSTALL}},
     (PY38, "pytest6.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<7"}},
     (PY38, "pytest7.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<8"}},
     (PY38, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
@@ -152,7 +152,10 @@ def tests(session, coverage, pkg_specs):
         session.install(".", "--no-deps")
 
         # simple: pytest only
-        session.run("python", "-m", "pytest", "--cache-clear", "-v", "tests_raw/")
+        # print("\n\n****** Running tests : 1/2 RAW (for coverage) ******\n\n")
+        # session.run("python", "-m", "pytest", "--cache-clear", "-v", "tests_raw/",
+        #             success_codes=(0, 1))  # since some tests are purposedly failing we accept code 1
+        # print("\n\n****** Running tests : 2/2 RAW (for coverage) ******\n\n")
         session.run("python", "-m", "pytest", "--cache-clear", "-v", "tests/")
     else:
         # install self in "develop" mode so that coverage can be measured
