@@ -152,6 +152,7 @@ def tests(session, coverage, pkg_specs):
         session.install(".", "--no-deps")
 
         # simple: pytest only
+        session.run("python", "-m", "pytest", "--cache-clear", "-v", "tests_raw/")
         session.run("python", "-m", "pytest", "--cache-clear", "-v", "tests/")
     else:
         # install self in "develop" mode so that coverage can be measured
