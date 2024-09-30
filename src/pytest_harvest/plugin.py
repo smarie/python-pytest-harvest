@@ -1,4 +1,3 @@
-import pickle
 from collections import OrderedDict
 from logging import warning
 from shutil import rmtree
@@ -399,6 +398,14 @@ class DefaultXDistHarvester(object):
 
     @pytest.hookimpl(trylast=True)
     def pytest_harvest_xdist_init(self):
+        try:
+            import cloudpickle
+        except ImportError as e:
+            print("ERROR : `cloudpickle` must be installed for `pytest-harvest` to collect distributed results from "
+                  "`pytest-xdist` parallel workers. If you do not wish to install cloudpickle, please remove the '-n' "
+                  "option from the commandline to disable xdist parallelization.\n")
+            raise e
+
         # reset the recipient folder
         if self.results_path.exists():
             rmtree(str(self.results_path))
@@ -407,20 +414,24 @@ class DefaultXDistHarvester(object):
 
     @pytest.hookimpl(trylast=True)
     def pytest_harvest_xdist_worker_dump(self, worker_id, session_items, fixture_store):
+        import cloudpickle
+
         with open(str(self.results_path / ('%s.pkl' % worker_id)), 'wb') as f:
             try:
-                pickle.dump((session_items, fixture_store), f)
+                cloudpickle.dump((session_items, fixture_store), f)
             except Exception as e:
                 warning("Error while pickling worker %s's harvested results: [%s] %s", (worker_id, e.__class__, e))
         return True
 
     @pytest.hookimpl(trylast=True)
     def pytest_harvest_xdist_load(self):
+        import cloudpickle
+
         workers_saved_material = dict()
         for pkl_file in self.results_path.glob('*.pkl'):
             wid = pkl_file.stem
             with pkl_file.open('rb') as f:
-                workers_saved_material[wid] = pickle.load(f)
+                workers_saved_material[wid] = cloudpickle.load(f)
         return workers_saved_material
 
     @pytest.hookimpl(trylast=True)
