@@ -3,6 +3,7 @@ import logging
 from pathlib import Path
 import shutil
 import os
+import re
 
 from typing import Sequence, Dict, Union
 
@@ -103,7 +104,28 @@ def install_any(session,
     # use the provided versions dictionary to update the versions
     if versions_dct is None:
         versions_dct = dict()
-    pkgs = [pkg + versions_dct.get(pkg, "") for pkg in pkgs if versions_dct.get(pkg, "") != DONT_INSTALL]
+
+    _pkgs = pkgs
+    pkgs = []
+    for pkg in _pkgs:
+        # Find version specifiers if any
+        try:
+            separator = next(re.finditer(r"[>=<~!]", pkg)).start()
+            p_name, p_version = pkg[:separator], pkg[separator:]
+        except StopIteration:
+            p_name, p_version = pkg, ""
+
+        # Is there something to override them in our versions_dct ?
+        specifier_override = versions_dct.get(p_name, "")
+        if specifier_override == DONT_INSTALL:
+            print(f"NOT INSTALLING {p_name}{p_version} as described in the nox parametrization grid")
+            continue
+        if specifier_override:
+            print(f"OVERRIDING {p_name}{p_version} to {p_name}{specifier_override} as described in the nox parametrization grid")
+            p_version = specifier_override
+
+        # Store the definitive package name and version specifier
+        pkgs.append(f"{p_name}{p_version}")
 
     nox_logger.debug("\nAbout to install *%s* requirements: %s.\n "
                      "Conda pkgs are %s" % (phase_name, pkgs, use_conda_for))
