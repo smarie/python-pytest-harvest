@@ -6,14 +6,13 @@ import os
 import pytest
 
 from collections import OrderedDict
-from random import random
 
 from pytest_harvest import saved_fixture
 from pytest_harvest.common import yield_fixture
 
 # init
 this_file_name = os.path.split(__file__)[1]
-unique_numbers = [random(), random()]
+unique_numbers = [0.295, 0.456]
 
 
 # The store is a global variable in this test

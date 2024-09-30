@@ -50,7 +50,7 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
-pytest_harvest/_version.py
+src/pytest_harvest/_version.py
 
 # Translations
 *.mo

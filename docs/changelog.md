@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.10.6 - bugfixes and maintenance chores
+
+ - Refactored layout and CI. Fixed [#56](https://github.com/smarie/python-pytest-harvest/issues/56).
+
 ### 1.10.5 - pytest 8.1 compat
 
 PR [#70](https://github.com/smarie/python-pytest-harvest/pull/70) to ensure pytest 8.1 compatibility, including:
