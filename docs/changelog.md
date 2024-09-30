@@ -1,7 +1,9 @@
 # Changelog
 
-### 1.10.6 - bugfixes and maintenance chores
+### 1.10.6 - bugfix and maintenance
 
+ - Fixed EOFError during pytest session finish in some conditions, with `pytest-xdist plugin` and `-n` option 
+   activated. Fixed [#72](https://github.com/smarie/python-pytest-harvest/issues/72).
  - Refactored layout and CI. Fixed [#56](https://github.com/smarie/python-pytest-harvest/issues/56).
 
 ### 1.10.5 - pytest 8.1 compat
