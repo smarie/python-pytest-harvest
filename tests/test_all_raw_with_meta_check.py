@@ -62,4 +62,4 @@ addopts=--doctest-modules -v
             result.assert_outcomes(**asserts_dct)
         except Exception as e:
             print("Error while asserting that %s results in %s" % (test_to_run, str(asserts_dct)))
-            six.raise_from(e, e)
+            raise e from e

@@ -4,7 +4,6 @@ import pytest
 import sys
 from collections import OrderedDict, namedtuple
 from itertools import chain
-from six import string_types
 
 
 pytest81 = Version(pytest.__version__) >= Version("8.1.0")
@@ -190,7 +189,7 @@ def get_session_synthesis_dct(session_or_request,
     if flatten_more is not None:
         if isinstance(flatten_more, dict):
             flatten_more_prefixes_dct = flatten_more.items()
-        elif isinstance(flatten_more, string_types):
+        elif isinstance(flatten_more, str):
             # single name ?
             flatten_more_prefixes_dct = {flatten_more: ''}
         else:
@@ -546,7 +545,7 @@ def _get_filterset(filter):
     :param filter:
     :return:
     """
-    if isinstance(filter, string_types):
+    if isinstance(filter, str):
         filter = {filter}
     else:
         try:
