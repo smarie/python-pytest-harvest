@@ -3,26 +3,17 @@ from inspect import isgeneratorfunction
 
 from decopatch import DECORATED, function_decorator
 from makefun import wraps, add_signature_parameters
-from six import string_types
 
 from pytest_harvest.common import get_scope
-
-try:  # python 3+
-    from typing import Union, Any, Dict, Callable
-except ImportError:
-    pass
-
-try:  # python 3.3+
-    from inspect import signature, Parameter
-except ImportError:
-    from funcsigs import signature, Parameter
+from typing import Union, Any, Dict, Callable
+from inspect import signature, Parameter
 
 
 @function_decorator
-def saved_fixture(store='fixture_store',  # type: Union[str, Dict[str, Any]]
-                  key=None,               # type: str
-                  views=None,             # type: Dict[str, Callable[[Any], Any]]
-                  save_raw=None,          # type: bool
+def saved_fixture(store: Union[str, Dict[str, Any]] = 'fixture_store',
+                  key: str = None,
+                  views: Dict[str, Callable[[Any], Any]] = None,
+                  save_raw: bool = None,
                   fixture_fun=DECORATED
                   ):
     """
@@ -81,7 +72,7 @@ def saved_fixture(store='fixture_store',  # type: Union[str, Dict[str, Any]]
     key = key or fixture_name
 
     # is the store a fixture or an object ?
-    store_is_a_fixture = isinstance(store, string_types)
+    store_is_a_fixture = isinstance(store, str)
 
     # if the store object is already available, we can ensure that it is initialized. Otherwise trust pytest for that
     if not store_is_a_fixture:

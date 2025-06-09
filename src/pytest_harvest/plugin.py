@@ -3,17 +3,9 @@ from collections import OrderedDict
 from logging import warning
 from shutil import rmtree
 import pytest
-import six
 
-try:
-    from pathlib import Path
-except ImportError:
-    from pathlib2 import Path  # python 2
-
-try: # python 3.5+
-    from typing import Union, Iterable, Mapping, Any
-except ImportError:
-    pass
+from pathlib import Path
+from typing import Union, Iterable, Mapping, Any
 
 from pytest_harvest.common import HARVEST_PREFIX
 from pytest_harvest.results_bags import create_results_bag_fixture
@@ -239,8 +231,8 @@ def get_session_results_df(session_or_request,
     try:
         import pandas as pd  # pylint: disable=import-outside-toplevel
     except ImportError as e:
-        six.raise_from(Exception("There was an error importing `pandas` module. Fixture `session_results_df` and method"
-                                 "`get_session_results_df` can not be used in this session."), e)
+        raise Exception("There was an error importing `pandas` module. Fixture `session_results_df` and method"
+                                 "`get_session_results_df` can not be used in this session.") from e
 
     # in case of xdist, make sure persisted workers results have been reloaded
     possibly_restore_xdist_workers_structs(session_or_request)
@@ -309,9 +301,9 @@ def get_filtered_results_df(session,
     try:
         import pandas as pd  # pylint: disable=import-outside-toplevel
     except ImportError as e:
-        six.raise_from(Exception("There was an error importing `pandas` module. Fixture `session_results_df` and "
+        raise Exception("There was an error importing `pandas` module. Fixture `session_results_df` and "
                                  "methods `get_filtered_results_df` and `get_module_results_df` can not be used in this"
-                                 " session. "), e)
+                                 " session. ") from e
 
     # in case of xdist, make sure persisted workers results have been reloaded
     possibly_restore_xdist_workers_structs(session)
