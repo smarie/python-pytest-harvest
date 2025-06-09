@@ -35,7 +35,7 @@
                      </span>
                      'xdist.__version__ as xdist_version' imported but unused</li>
                
-               </ul><tt><i>4</i>     <span class="kn">from</span> <span class="nn">xdist</span> <span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">xdist_version</span></tt>
+               </ul><tt><i>4</i>     <span class="kn">from</span><span class="w"> </span><span class="nn">xdist</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">xdist_version</span></tt>
             </div>
             <div id="l5"
                class="code sev- "><tt><i>5</i> <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span></tt>
@@ -44,7 +44,7 @@
                class="code sev- "><tt><i>6</i>     <span class="c1"># no xdist installed - create a substitute API</span></tt>
             </div>
             <div id="l7"
-               class="code sev- "><tt><i>7</i>     <span class="k">def</span> <span class="nf">is_xdist_worker</span><span class="p">(</span><span class="n">session</span><span class="p">):</span></tt>
+               class="code sev- "><tt><i>7</i>     <span class="k">def</span><span class="w"> </span><span class="nf">is_xdist_worker</span><span class="p">(</span><span class="n">session</span><span class="p">):</span></tt>
             </div>
             <div id="l8"
                class="code sev- "><tt><i>8</i>         <span class="k">return</span> <span class="kc">False</span></tt>
@@ -53,7 +53,7 @@
                class="code sev- "><tt><i>9</i> &nbsp;</tt>
             </div>
             <div id="l10"
-               class="code sev- "><tt><i>10</i>     <span class="k">def</span> <span class="nf">is_xdist_master</span><span class="p">(</span><span class="n">session</span><span class="p">):</span></tt>
+               class="code sev- "><tt><i>10</i>     <span class="k">def</span><span class="w"> </span><span class="nf">is_xdist_master</span><span class="p">(</span><span class="n">session</span><span class="p">):</span></tt>
             </div>
             <div id="l11"
                class="code sev- "><tt><i>11</i>         <span class="k">return</span> <span class="kc">False</span></tt>
@@ -62,7 +62,7 @@
                class="code sev- "><tt><i>12</i> &nbsp;</tt>
             </div>
             <div id="l13"
-               class="code sev- "><tt><i>13</i>     <span class="k">def</span> <span class="nf">is_main_process</span><span class="p">(</span><span class="n">session</span><span class="p">):</span></tt>
+               class="code sev- "><tt><i>13</i>     <span class="k">def</span><span class="w"> </span><span class="nf">is_main_process</span><span class="p">(</span><span class="n">session</span><span class="p">):</span></tt>
             </div>
             <div id="l14"
                class="code sev- "><tt><i>14</i>         <span class="k">return</span> <span class="kc">True</span></tt>
@@ -71,7 +71,7 @@
                class="code sev- "><tt><i>15</i> &nbsp;</tt>
             </div>
             <div id="l16"
-               class="code sev- "><tt><i>16</i>     <span class="k">def</span> <span class="nf">get_xdist_worker_id</span><span class="p">(</span><span class="n">request_or_session</span><span class="p">):</span></tt>
+               class="code sev- "><tt><i>16</i>     <span class="k">def</span><span class="w"> </span><span class="nf">get_xdist_worker_id</span><span class="p">(</span><span class="n">request_or_session</span><span class="p">):</span></tt>
             </div>
             <div id="l17"
                class="code sev- "><tt><i>17</i>         <span class="k">return</span> <span class="s2">&quot;master&quot;</span>  <span class="c1"># for consistency with the original method</span></tt>
@@ -86,7 +86,7 @@
                class="code sev- "><tt><i>20</i>         <span class="c1"># our PR has been accepted in pytest-xdist so we can use these in latest versions</span></tt>
             </div>
             <div id="l21"
-               class="code sev- "><tt><i>21</i>         <span class="kn">from</span> <span class="nn">xdist</span> <span class="kn">import</span> <span class="n">is_xdist_worker</span><span class="p">,</span> <span class="n">is_xdist_master</span><span class="p">,</span> <span class="n">get_xdist_worker_id</span></tt>
+               class="code sev- "><tt><i>21</i>         <span class="kn">from</span><span class="w"> </span><span class="nn">xdist</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_xdist_worker</span><span class="p">,</span> <span class="n">is_xdist_master</span><span class="p">,</span> <span class="n">get_xdist_worker_id</span></tt>
             </div>
             <div id="l22"
                class="code sev- "><tt><i>22</i>     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span></tt>
@@ -98,7 +98,7 @@
                class="code sev- "><tt><i>24</i>         <span class="c1"># old xdist with no api</span></tt>
             </div>
             <div id="l25"
-               class="code sev- "><tt><i>25</i>         <span class="k">def</span> <span class="nf">is_xdist_worker</span><span class="p">(</span><span class="n">request_or_session</span><span class="p">):</span></tt>
+               class="code sev- "><tt><i>25</i>         <span class="k">def</span><span class="w"> </span><span class="nf">is_xdist_worker</span><span class="p">(</span><span class="n">request_or_session</span><span class="p">):</span></tt>
             </div>
             <div id="l26"
                class="code sev- "><tt><i>26</i> <span class="w">            </span><span class="sd">&quot;&quot;&quot;Return `True` if this is a xdist worker, `False` otherwise</span></tt>
@@ -122,7 +122,7 @@
                class="code sev- "><tt><i>32</i> &nbsp;</tt>
             </div>
             <div id="l33"
-               class="code sev- "><tt><i>33</i>         <span class="k">def</span> <span class="nf">is_xdist_master</span><span class="p">(</span><span class="n">request_or_session</span><span class="p">):</span></tt>
+               class="code sev- "><tt><i>33</i>         <span class="k">def</span><span class="w"> </span><span class="nf">is_xdist_master</span><span class="p">(</span><span class="n">request_or_session</span><span class="p">):</span></tt>
             </div>
             <div id="l34"
                class="code sev- "><tt><i>34</i> <span class="w">            </span><span class="sd">&quot;&quot;&quot;Return `True` if this is the xdist master, `False` otherwise</span></tt>
@@ -158,7 +158,7 @@
                class="code sev- "><tt><i>44</i> &nbsp;</tt>
             </div>
             <div id="l45"
-               class="code sev- "><tt><i>45</i>         <span class="k">def</span> <span class="nf">get_xdist_worker_id</span><span class="p">(</span><span class="n">request_or_session</span><span class="p">):</span></tt>
+               class="code sev- "><tt><i>45</i>         <span class="k">def</span><span class="w"> </span><span class="nf">get_xdist_worker_id</span><span class="p">(</span><span class="n">request_or_session</span><span class="p">):</span></tt>
             </div>
             <div id="l46"
                class="code sev- "><tt><i>46</i> <span class="w">            </span><span class="sd">&quot;&quot;&quot;Return the id of the current worker (&#39;gw0&#39;, &#39;gw1&#39;, etc) or None</span></tt>
@@ -212,7 +212,7 @@
                class="code sev- "><tt><i>62</i> &nbsp;</tt>
             </div>
             <div id="l63"
-               class="code sev- "><tt><i>63</i>     <span class="k">def</span> <span class="nf">is_main_process</span><span class="p">(</span><span class="n">session</span><span class="p">):</span></tt>
+               class="code sev- "><tt><i>63</i>     <span class="k">def</span><span class="w"> </span><span class="nf">is_main_process</span><span class="p">(</span><span class="n">session</span><span class="p">):</span></tt>
             </div>
             <div id="l64"
                class="code sev- "><tt><i>64</i>         <span class="k">return</span> <span class="ow">not</span> <span class="n">is_xdist_worker</span><span class="p">(</span><span class="n">session</span><span class="p">)</span></tt>
