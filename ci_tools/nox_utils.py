@@ -3,7 +3,6 @@ import logging
 from pathlib import Path
 import shutil
 import os
-import re
 
 from typing import Sequence, Dict, Union
 
@@ -13,8 +12,9 @@ import nox
 nox_logger = logging.getLogger("nox")
 
 
-PY27, PY35, PY36, PY37, PY38, PY39, PY310, PY311, PY312, PY313 = ("2.7", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10",
-                                                                "3.11", "3.12", "3.13")
+PY27, PY35, PY36, PY37, PY38, PY39, PY310, PY311, PY312, PY313, PY314 = (
+    "2.7", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14"
+)
 DONT_INSTALL = "dont_install"
 
 
@@ -104,28 +104,7 @@ def install_any(session,
     # use the provided versions dictionary to update the versions
     if versions_dct is None:
         versions_dct = dict()
-
-    _pkgs = pkgs
-    pkgs = []
-    for pkg in _pkgs:
-        # Find version specifiers if any
-        try:
-            separator = next(re.finditer(r"[>=<~!]", pkg)).start()
-            p_name, p_version = pkg[:separator], pkg[separator:]
-        except StopIteration:
-            p_name, p_version = pkg, ""
-
-        # Is there something to override them in our versions_dct ?
-        specifier_override = versions_dct.get(p_name, "")
-        if specifier_override == DONT_INSTALL:
-            print(f"NOT INSTALLING {p_name}{p_version} as described in the nox parametrization grid")
-            continue
-        if specifier_override:
-            print(f"OVERRIDING {p_name}{p_version} to {p_name}{specifier_override} as described in the nox parametrization grid")
-            p_version = specifier_override
-
-        # Store the definitive package name and version specifier
-        pkgs.append(f"{p_name}{p_version}")
+    pkgs = [pkg + versions_dct.get(pkg, "") for pkg in pkgs if versions_dct.get(pkg, "") != DONT_INSTALL]
 
     nox_logger.debug("\nAbout to install *%s* requirements: %s.\n "
                      "Conda pkgs are %s" % (phase_name, pkgs, use_conda_for))
