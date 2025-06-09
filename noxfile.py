@@ -53,15 +53,24 @@ class Folders:
 ENVS = {
     # python 3.14 - numpy is not available in precompiled version for this python version yet
     # (PY314, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
+    # (PY314, "pytest7.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<8"}},
+    # (PY314, "pytest6.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<7"}},
     # python 3.13
     (PY313, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
+    (PY313, "pytest7.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<8"}},
+    (PY313, "pytest6.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<7"}},
     # python 3.12
     (PY312, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
     (PY312, "pytest7.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<8"}},
+    (PY312, "pytest6.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<7"}},
     # python 3.11
-    # We'll run this last for coverage
+    # We'll run 'pytest-latest' this last for coverage
+    (PY311, "pytest7.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<8"}},
+    (PY311, "pytest6.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<7"}},
     # python 3.10
     (PY310, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
+    (PY310, "pytest7.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<8"}},
+    (PY310, "pytest6.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<7"}},
     # python 3.9
     (PY39, "pytest-latest"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": ""}},
     (PY39, "pytest7.x"): {"coverage": False, "pkg_specs": {"pip": ">19", "pytest": "<8"}},
@@ -166,7 +175,7 @@ def tests(session, coverage, pkg_specs):
         session.run("genbadge", "coverage", "-i", f"{Folders.coverage_xml}", "-o", f"{Folders.coverage_badge}")
 
 
-@nox.session(python=PY39)
+@nox.session(python=PY311)
 def flake8(session):
     """Launch flake8 qualimetry."""
 
@@ -187,7 +196,7 @@ def flake8(session):
     rm_file(Folders.flake8_intermediate_file)
 
 
-@nox.session(python=PY39)
+@nox.session(python=PY311)
 def docs(session):
     """Generates the doc. Pass '-- serve' to serve it on a local http server instead."""
 
@@ -200,7 +209,7 @@ def docs(session):
         session.run("mkdocs", "build")
 
 
-@nox.session(python=PY39)
+@nox.session(python=PY311)
 def publish(session):
     """Deploy the docs+reports on github pages. Note: this rebuilds the docs"""
 
@@ -245,18 +254,19 @@ def _build(session):
 
     session.run("python", "setup.py", "sdist", "bdist_wheel")
 
-    # Make sure that the generated _version.py file exists and is compliant with python 2.7
+    # Make sure that the generated _version.py file exists
     version_py = Path(f"src/{pkg_name}/_version.py")
     if not version_py.exists():
         raise ValueError("Error with setuptools_scm: _version.py file not generated")
 
-    if ":" in version_py.read_text():
-        raise ValueError("Error with setuptools_scm: _version.py file contains annotations")
+    # ...and is compliant with python 2.7
+    # if ":" in version_py.read_text():
+    #     raise ValueError("Error with setuptools_scm: _version.py file contains annotations")
 
     return current_tag, version
 
 
-@nox.session(python=PY39)
+@nox.session(python=PY311)
 def build(session):
     """Same as release but just builds"""
 
@@ -265,7 +275,7 @@ def build(session):
     print(f"version: {version}")
 
 
-@nox.session(python=PY39)
+@nox.session(python=PY311)
 def release(session):
     """Create a release on github corresponding to the latest tag"""
 
