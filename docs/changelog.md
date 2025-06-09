@@ -2,8 +2,8 @@
 
 ### 1.11.0 - dropped support for python < 3.9 and fixed - pytest 8.4.0 (in progress)
 
-- Dropped support for python <3.9 and added a proper github pages workflow (explicit). Fixed
-  [#79](https://github.com/smarie/python-pytest-harvest/issues/79)
+- Dropped support for python <3.9 and added a proper github pages workflow (explicit). Removed `six` from dependencies. 
+  Fixed [#79](https://github.com/smarie/python-pytest-harvest/issues/79)
 
 ### 1.10.6 - bugfixes and maintenance chores
 
