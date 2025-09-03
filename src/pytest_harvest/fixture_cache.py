@@ -101,19 +101,11 @@ def saved_fixture(store: Union[str, Dict[str, Any]] = 'fixture_store',
             # init
             if key not in store:
                 store[key] = OrderedDict()
-            # Check that the node id is unique
-            if nodeid in store[key]:
-                raise KeyError("Internal Error - This fixture '%s' was already "
-                               "stored for test id '%s'" % (key, nodeid))
 
         if views is not None:
             for k in views.keys():
                 if k not in store:
                     store[k] = OrderedDict()
-                # Check that the node id is unique
-                if nodeid in store[k]:
-                    raise KeyError("Internal Error - This fixture view '%s' was already "
-                                   "stored for test id '%s'" % (k, nodeid))
 
         return nodeid
 
