@@ -5,7 +5,8 @@
 - Dropped support for python <3.9 and added a proper github pages workflow (explicit). Removed `six` from 
   dependencies. Fixed [#79](https://github.com/smarie/python-pytest-harvest/issues/79)
 - Fixed EOFError during pytest session finish in some conditions, with `pytest-xdist plugin` and `-n` option 
-  activated. Fixed [#72](https://github.com/smarie/python-pytest-harvest/issues/72).
+  activated. This requires `cloudpickle` to be installed (it is not done by default). Fixed
+  [#72](https://github.com/smarie/python-pytest-harvest/issues/72).
  
 ### 1.10.6 - bugfixes and maintenance chores
 
