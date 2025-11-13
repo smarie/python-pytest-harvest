@@ -17,8 +17,8 @@ except ImportError:
     # -- Source mode --
     # use setuptools_scm to get the current version from src using git
     from setuptools_scm import get_version as _gv
-    from os import path as _path
-    __version__ = _gv(_path.join(_path.dirname(__file__), _path.pardir))
+    from pathlib import Path as _Path
+    __version__ = _gv(_Path(__file__).parent.parent.parent)
 
 __all__ = [
     '__version__',

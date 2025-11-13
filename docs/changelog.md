@@ -1,9 +1,14 @@
 # Changelog
 
-### 1.10.6 - bugfix and maintenance
+### 1.11.0 - dropped support for python < 3.9 and fixed - pytest 8.4.0 (in progress)
 
- - Fixed EOFError during pytest session finish in some conditions, with `pytest-xdist plugin` and `-n` option 
-   activated. Fixed [#72](https://github.com/smarie/python-pytest-harvest/issues/72).
+- Dropped support for python <3.9 and added a proper github pages workflow (explicit). Removed `six` from 
+  dependencies. Fixed [#79](https://github.com/smarie/python-pytest-harvest/issues/79)
+- Fixed EOFError during pytest session finish in some conditions, with `pytest-xdist plugin` and `-n` option 
+  activated. Fixed [#72](https://github.com/smarie/python-pytest-harvest/issues/72).
+ 
+### 1.10.6 - bugfixes and maintenance chores
+
  - Refactored layout and CI. Fixed [#56](https://github.com/smarie/python-pytest-harvest/issues/56).
 
 ### 1.10.5 - pytest 8.1 compat

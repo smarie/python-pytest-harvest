@@ -1,12 +1,4 @@
-from datetime import datetime
-
-import pytest
-from six import raise_from
-
-try:  # python 3+
-    from typing import Type, Set, Union, Any, Dict
-except ImportError:
-    pass
+from typing import Type, Union, Any, Dict
 
 from pytest_harvest.common import yield_fixture
 from pytest_harvest.fixture_cache import saved_fixture
@@ -25,19 +17,19 @@ class ResultsBag(dict):
         # try:  No exception can happen: key is always a string, and new entries are allowed in a dict
         self[key] = value
         # except KeyError as e:
-        #     raise_from(AttributeError(key), e)
+        #     raise AttributeError(key) from e
 
     def __getattr__(self, key):
         try:
             return self[key]
         except KeyError as e:
-            raise_from(AttributeError(key), e)
+            raise AttributeError(key) from e
 
     def __delattr__(self, key):
         try:
             del self[key]
         except KeyError as e:
-            raise_from(AttributeError(key), e)
+            raise AttributeError(key) from e
 
     # object base
     def __str__(self):
