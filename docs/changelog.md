@@ -1,6 +1,11 @@
 # Changelog
 
-### 1.11.0 - dropped support for python < 3.9 and fixed - pytest 8.4.0 (in progress)
+### 1.11.1 - fixed xdist pickling error logging (in progress)
+
+- Fixed a `TypeError` raised when an error occurs while pickling the xdist worker results.
+  PR [#85](https://github.com/smarie/python-pytest-harvest/pull/85) by [@Jonas1312](https://github.com/Jonas1312).
+
+### 1.11.0 - dropped support for python < 3.9 and fixed - pytest 8.4.0
 
 - Dropped support for python <3.9 and added a proper github pages workflow (explicit). Removed `six` from dependencies. 
   Fixed [#79](https://github.com/smarie/python-pytest-harvest/issues/79)
