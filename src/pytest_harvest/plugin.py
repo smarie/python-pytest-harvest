@@ -403,7 +403,7 @@ class DefaultXDistHarvester(object):
             try:
                 pickle.dump((session_items, fixture_store), f)
             except Exception as e:
-                warning("Error while pickling worker %s's harvested results: [%s] %s", (worker_id, e.__class__, e))
+                warning("Error while pickling worker %s's harvested results: [%s] %s", worker_id, e.__class__, e)
         return True
 
     @pytest.hookimpl(trylast=True)
